@@ -1,0 +1,72 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "A95BD2D78A8867EDB087EC3295FC6324BBFD6D71",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "92AF87893551AD3F2DEE78BEF3E924B9C5659E09" : 9223372036854775807,
+    "F607A624BDF2624F7609EF66C123E17132AFE18F" : 9223372036854775807,
+    "956D2B21DD155C49504BB67697A67F7C5351A353" : 9223372036854775807,
+    "5441F5A06973B7C5DCFB2F409C92105EFA8EF303" : 9223372036854775807,
+    "892A392662EFD968ECAC00BEDD3BE4AF0F19F413" : 9223372036854775807,
+    "A95BD2D78A8867EDB087EC3295FC6324BBFD6D71" : 9223372036854775807,
+    "85E996FB125657C20E42A299A76F925867A7A6E4" : 9223372036854775807,
+    "D591987028BFCE350CA11D7DA7F1AE9C4373C207" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3B620D4F-2D5A-42E5-BC8C-D00BEB2961A1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "92AF87893551AD3F2DEE78BEF3E924B9C5659E09" : "LicensePlist\/.build\/checkouts\/HeliumLogger.git--751651610598965649\/",
+    "F607A624BDF2624F7609EF66C123E17132AFE18F" : "LicensePlist\/.build\/checkouts\/APIKit.git--5867995916541647569\/",
+    "956D2B21DD155C49504BB67697A67F7C5351A353" : "LicensePlist\/.build\/checkouts\/Result.git-8684547452332391156\/",
+    "5441F5A06973B7C5DCFB2F409C92105EFA8EF303" : "LicensePlist\/.build\/checkouts\/Commander.git-1040763989236346507\/",
+    "892A392662EFD968ECAC00BEDD3BE4AF0F19F413" : "LicensePlist\/.build\/checkouts\/Himotoki.git-9171745471410878028\/",
+    "A95BD2D78A8867EDB087EC3295FC6324BBFD6D71" : "LicensePlist\/",
+    "85E996FB125657C20E42A299A76F925867A7A6E4" : "LicensePlist\/.build\/checkouts\/LoggerAPI.git--6449715459278086880\/",
+    "D591987028BFCE350CA11D7DA7F1AE9C4373C207" : "LicensePlist\/.build\/checkouts\/Spectre.git--7655155069707042687\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LicensePlist",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LicensePlist.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/Commander.git-1040763989236346507",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5441F5A06973B7C5DCFB2F409C92105EFA8EF303"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/LoggerAPI.git--6449715459278086880",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "85E996FB125657C20E42A299A76F925867A7A6E4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/Himotoki.git-9171745471410878028",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "892A392662EFD968ECAC00BEDD3BE4AF0F19F413"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/HeliumLogger.git--751651610598965649",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "92AF87893551AD3F2DEE78BEF3E924B9C5659E09"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/Result.git-8684547452332391156",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "956D2B21DD155C49504BB67697A67F7C5351A353"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:mono0926\/LicensePlist.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A95BD2D78A8867EDB087EC3295FC6324BBFD6D71"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/Spectre.git--7655155069707042687",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D591987028BFCE350CA11D7DA7F1AE9C4373C207"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/APIKit.git--5867995916541647569",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F607A624BDF2624F7609EF66C123E17132AFE18F"
+    }
+  ]
+}
