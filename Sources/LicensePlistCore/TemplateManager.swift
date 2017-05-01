@@ -8,32 +8,48 @@ class TemplateManager {
 
     private init() {}
     static let shared = TemplateManager()
-    private var _license: String?
-    private var _licenseList: String?
-    private var _licenseListItem: String?
+    private var _license: Template?
+    private var _licenseList: Template?
+    private var _licenseListItem: Template?
 
-    var license: String {
+    var license: Template {
         if let r = _license {
             return r
         }
-        let r = try! String(contentsOf: type(of: self).licensePath)
+        let r = (try! String(contentsOf: type(of: self).licensePath)).template
         _license = r
         return r
     }
-    var licenseList: String {
+    var licenseList: Template {
         if let r = _licenseList {
             return r
         }
-        let r = try! String(contentsOf: type(of: self).licenseListPath)
+        let r = (try! String(contentsOf: type(of: self).licenseListPath)).template
         _licenseList = r
         return r
     }
-    var licenseListItem: String {
+    var licenseListItem: Template {
         if let r = _licenseListItem {
             return r
         }
-        let r = try! String(contentsOf: type(of: self).licenseListItemPath)
+        let r = (try! String(contentsOf: type(of: self).licenseListItemPath)).template
         _licenseListItem = r
         return r
     }
+}
+
+struct Template {
+    let content: String
+    init(content: String) {
+        self.content = content
+    }
+    func applied(_ data: Dictionary<String, String>) -> String {
+        return data.reduce(content) { sum, e in
+            return sum.replacingOccurrences(of: "{{.\(e.key)}}", with: e.value)
+        }
+    }
+}
+
+extension String {
+    var template: Template { return Template(content: self) }
 }
