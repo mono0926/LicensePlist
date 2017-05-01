@@ -1,0 +1,4 @@
+module RxCocoaRuntime {
+    umbrella header "/Users/mono/Git/Lib/LicensePlist/.build/checkouts/RxSwift.git--7783842673982808572/Sources/RxCocoaRuntime/include/RxCocoaRuntime.h"
+    export *
+}

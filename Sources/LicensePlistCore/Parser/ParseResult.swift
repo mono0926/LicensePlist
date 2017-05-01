@@ -1,6 +1,6 @@
 import Result
 
-enum LibraryName {
+public enum LibraryName {
     case
     gitHub(owner: String, repo: String),
     name(String)
@@ -43,7 +43,7 @@ extension LibraryName: Equatable {
 }
 
 extension LibraryName: Hashable {
-    var hashValue: Int {
+    public var hashValue: Int {
         return self.repoName.hash
     }
 

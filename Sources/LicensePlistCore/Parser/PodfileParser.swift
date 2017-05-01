@@ -1,6 +1,6 @@
 import Foundation
 
-protocol PodfileParserProtocol {
+public protocol PodfileParserProtocol {
     func parse(content: String) -> [LibraryName]
 }
 
@@ -19,7 +19,9 @@ class PodfileParser: PodfileParserProtocol {
                 assert(false, "maybe invalid regular expression to: \(nsContent.substring(with: match.range))")
                 return nil
             }
-            return LibraryName.name(nsContent.substring(with: match.rangeAt(1)))
+            let name = nsContent.substring(with: match.rangeAt(1)).components(separatedBy: "/").first
+            assert(name != nil)
+            return LibraryName.name(name ?? "")
             }
             .flatMap { $0 }
         let librarySet = Set(libraries)

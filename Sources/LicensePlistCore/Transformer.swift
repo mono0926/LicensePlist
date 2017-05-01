@@ -1,6 +1,6 @@
 import Foundation
 
-protocol TransformerProtocol {
+public protocol TransformerProtocol {
     func normalize(_ source: [LibraryName]...) -> [LibraryName]
 }
 

@@ -19,6 +19,8 @@ let package = Package(
         .Package(url: "git@github.com:ishkawa/APIKit.git",
                  majorVersion: 3),
         .Package(url: "git@github.com:IBM-Swift/HeliumLogger.git",
-                 majorVersion: 1)
+                 majorVersion: 1),
+        .Package(url: "git@github.com:ReactiveX/RxSwift.git",
+                 majorVersion: 3)
     ]
 )

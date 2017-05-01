@@ -69,7 +69,7 @@ class PodfileParserTests: XCTestCase {
         let results = target.parse(content: "pod 'Firebase/Core'")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        XCTAssertEqual(result, LibraryName.name("Firebase/Core"))
+        XCTAssertEqual(result, LibraryName.name("Firebase"))
     }
 
     func testParse_double_quotes() {

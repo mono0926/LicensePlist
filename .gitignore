@@ -63,3 +63,8 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
+
+github_token.txt
+Cartfile
+Podfile
+*LicensePlist.Output

@@ -23,6 +23,18 @@ struct RepoRequests {
             return try decodeValue(object)
         }
     }
+
+    struct Get: GitHubRequest {
+        let owner: String
+        let repo: String
+
+        var method: HTTPMethod { return .get }
+        var path: String { return "repos/\(owner)/\(repo)" }
+
+        func response(from object: Any, urlResponse: HTTPURLResponse) throws -> RepositoryResponse {
+            return try decodeValue(object)
+        }
+    }
 }
 
 struct LicenseResponse {

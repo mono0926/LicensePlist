@@ -1,6 +1,6 @@
 import Foundation
 
-protocol CartfileParserProtocol {
+public protocol CartfileParserProtocol {
     func parse(content: String) -> [LibraryName]
 }
 
