@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_104"
+               BlueprintIdentifier = "OBJ_110"
                BuildableName = "Spectre.framework"
                BlueprintName = "Spectre"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_118"
+               BlueprintIdentifier = "OBJ_124"
                BuildableName = "Commander.framework"
                BlueprintName = "Commander"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_135"
+               BlueprintIdentifier = "OBJ_141"
                BuildableName = "Himotoki.framework"
                BlueprintName = "Himotoki"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_152"
+               BlueprintIdentifier = "OBJ_158"
                BuildableName = "Result.framework"
                BlueprintName = "Result"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -70,7 +70,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_160"
+               BlueprintIdentifier = "OBJ_166"
                BuildableName = "APIKit.framework"
                BlueprintName = "APIKit"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -84,7 +84,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_190"
+               BlueprintIdentifier = "OBJ_196"
                BuildableName = "LoggerAPI.framework"
                BlueprintName = "LoggerAPI"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -98,7 +98,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_197"
+               BlueprintIdentifier = "OBJ_203"
                BuildableName = "HeliumLogger.framework"
                BlueprintName = "HeliumLogger"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -112,7 +112,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_207"
+               BlueprintIdentifier = "OBJ_213"
                BuildableName = "LicensePlist"
                BlueprintName = "LicensePlist"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -126,7 +126,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_230"
+               BlueprintIdentifier = "OBJ_236"
                BuildableName = "LicensePlistCore.framework"
                BlueprintName = "LicensePlistCore"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -144,7 +144,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_256"
+               BlueprintIdentifier = "OBJ_266"
                BuildableName = "LicensePlistTests.xctest"
                BlueprintName = "LicensePlistTests"
                ReferencedContainer = "container:LicensePlist.xcodeproj">
@@ -167,7 +167,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_104"
+            BlueprintIdentifier = "OBJ_110"
             BuildableName = "Spectre.framework"
             BlueprintName = "Spectre"
             ReferencedContainer = "container:LicensePlist.xcodeproj">

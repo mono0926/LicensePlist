@@ -7,13 +7,12 @@ extension Session: ExtensionCompatible {}
 extension Extension where Base: Session {
     func sendSync<T: Request>(_ request: T) -> Result<T.Response, SessionTaskError> {
         var result: Result<T.Response, SessionTaskError>!
-        var isRunning = true
-        let runLoop = RunLoop.current
-        base.send(request) { _result in
+        let semaphor = DispatchSemaphore(value: 0)
+        self.base.send(request, callbackQueue: .sessionQueue) { _result in
             result = _result
-            isRunning = false
+            semaphor.signal()
         }
-        while isRunning && runLoop.run(mode: .defaultRunLoopMode, before: Date(timeIntervalSinceNow: 0.1)) {}
+        semaphor.wait()
         return result
     }
 }
