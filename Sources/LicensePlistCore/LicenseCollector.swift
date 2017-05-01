@@ -19,11 +19,11 @@ class LicenseCollector: LicenseCollectorProtocol {
             return Session.shared.rx.response(RepoRequests.License(owner: owner, repo: name))
                 .flatMap { response in
                     response.downloadUrl.downloadContent()
-                }
-                .map {
-                    return License(library: library,
-                                   licenseUrl: URL(string: "http://qiita.com/mono0926/items/973752b69c881e00c507")!,
-                                   license: $0)
+                        .map {
+                            return License(library: library,
+                                           url: response.downloadUrl,
+                                           license: $0)
+                        }
                 }
                 .catchError { error in
                     let handleError = { () -> Observable<License> in
