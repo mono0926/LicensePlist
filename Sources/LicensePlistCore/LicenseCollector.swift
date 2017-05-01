@@ -21,8 +21,8 @@ class LicenseCollector: LicenseCollectorProtocol {
                     response.downloadUrl.downloadContent()
                         .map {
                             return License(library: library,
-                                           url: response.downloadUrl,
-                                           license: $0)
+                                           license: response,
+                                           body: $0)
                         }
                 }
                 .catchError { error in

@@ -28,6 +28,6 @@ extension Library: Hashable {
 
 public struct License {
     let library: Library
-    let url: URL
-    let license: String
+    let license: LicenseResponse
+    let body: String
 }

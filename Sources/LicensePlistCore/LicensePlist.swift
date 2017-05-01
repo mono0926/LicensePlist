@@ -66,7 +66,7 @@ public final class LicensePlist {
         let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
         write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix)LisenseList.plist"))
         licenses.forEach { license in
-            let plist = tm.license.applied(["Body": license.license])
+            let plist = tm.license.applied(["Body": license.body])
             write(content: plist, to: outputRoot.appendingPathComponent("\(prefix)\(license.library.name).plist"))
         }
         Log.info("End")

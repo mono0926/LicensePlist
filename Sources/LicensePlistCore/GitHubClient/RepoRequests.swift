@@ -39,10 +39,22 @@ struct RepoRequests {
 
 struct LicenseResponse {
     let downloadUrl: URL
+    let kind: LicenseKindResponse
 }
 
 extension LicenseResponse: Decodable {
     static func decode(_ e: Extractor) throws -> LicenseResponse {
-        return try LicenseResponse(downloadUrl: URL(string: e.value("download_url"))!)
+        return try LicenseResponse(downloadUrl: URL(string: e.value("download_url"))!, kind: e.value("license"))
+    }
+}
+
+struct LicenseKindResponse {
+    let name: String
+    let spdxId: String?
+}
+
+extension LicenseKindResponse: Decodable {
+    static func decode(_ e: Extractor) throws -> LicenseKindResponse {
+        return try LicenseKindResponse(name: e.value("name"), spdxId: e.valueOptional("spdx_id"))
     }
 }
