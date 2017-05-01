@@ -6,10 +6,10 @@ import RxSwift
 
 class LicenseCollectorTests: XCTestCase {
     private let target = LicenseCollector()
-    private let github1 = LibraryName.gitHub(owner: "mono0926", repo: "NativePopup")
-    private let githubForked = LibraryName.gitHub(owner: "gram30", repo: "ios_sdk")
-    private let githubInvalid = LibraryName.gitHub(owner: "invalid", repo: "abcde")
-    private let name1 = LibraryName.name("RxSwift")
+    private let github1 = Library(source: .cartfile, name: "NativePopup", owner: "mono0926")
+    private let githubForked = Library(source: .cartfile, name: "ios_sdk", owner: "gram30")
+    private let githubInvalid = Library(source: .cartfile, name: "abcde", owner: "invalid")
+    private let name1 = Library(source: .podfile, name: "RxSwift", owner: nil)
 
     override class func setUp() {
         super.setUp()
@@ -20,14 +20,14 @@ class LicenseCollectorTests: XCTestCase {
         let results = target.collect(with: github1).result()
         XCTAssertEqual(results.count, 1)
         let result = results.first!
-        XCTAssertEqual(result.name, github1.repoName)
+        XCTAssertEqual(result.library.name, github1.name)
         XCTAssertTrue(result.license.hasPrefix("MIT License"))
     }
     func testCollect_forked() {
         let results = target.collect(with: githubForked).result()
         XCTAssertEqual(results.count, 1)
         let result = results.first!
-        XCTAssertEqual(result.name, githubForked.repoName)
+        XCTAssertEqual(result.library.name, githubForked.name)
         XCTAssertTrue(result.license.hasPrefix("Copyright (c)"))
     }
     func testCollect_invalid() {
@@ -38,10 +38,10 @@ class LicenseCollectorTests: XCTestCase {
         let results = target.collect(with: [github1, name1]).result()
         XCTAssertEqual(results.count, 2)
         let result1 = results[0]
-        XCTAssertEqual(result1.name, github1.repoName)
+        XCTAssertEqual(result1.library.name, github1.name)
         XCTAssertTrue(result1.license.hasPrefix("MIT License"))
         let result2 = results[1]
-        XCTAssertEqual(result2.name, name1.repoName)
+        XCTAssertEqual(result2.library.name, name1.name)
         XCTAssertTrue(result2.license.hasPrefix("**The MIT License**"))
     }
 }

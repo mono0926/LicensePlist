@@ -1,51 +1,33 @@
-import Result
+import Foundation
 
-public enum LibraryName {
-    case
-    gitHub(owner: String, repo: String),
-    name(String)
-
-    var repoName: String {
-        switch self {
-        case .gitHub(_, let repo): return repo
-        case .name(let name): return name
-        }
+public struct Library {
+    enum Source: Int {
+        case
+        podfile,
+        cartfile
     }
 
-    var owner: String? {
-        switch self {
-        case .gitHub(let owner, _): return owner
-        case .name: return nil
-        }
+    var priority: Int { return source.rawValue }
+
+    let source: Source
+    let name: String
+    var owner: String?
+}
+
+extension Library: Equatable {
+    public static func ==(lhs: Library, rhs: Library) -> Bool {
+        return lhs.name == rhs.name && lhs.source == rhs.source && lhs.owner == rhs.owner
     }
 }
 
-extension LibraryName: Equatable {
-
-    public static func ==(lhs: LibraryName, rhs: LibraryName) -> Bool {
-        switch lhs {
-        case .gitHub(let owner_l, let repo_l):
-            switch rhs {
-            case .gitHub(let owner_r, let repo_r):
-                return owner_l == owner_r && repo_l == repo_r
-            case .name:
-                return false
-            }
-        case .name(let name_l):
-            switch rhs {
-            case .gitHub:
-                return false
-            case .name(let name_r):
-                return name_l == name_r
-            }
-        }
-    }
-}
-
-extension LibraryName: Hashable {
+extension Library: Hashable {
     public var hashValue: Int {
-        return self.repoName.hash
+        return 17 + name.hash
     }
+}
 
-
+public struct License {
+    let library: Library
+    let licenseUrl: URL
+    let license: String
 }

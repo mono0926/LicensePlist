@@ -4,10 +4,10 @@ import XCTest
 
 class TransformerTests: XCTestCase {
     private var target = Transformer()
-    private let github1 = LibraryName.gitHub(owner: "OwnerA", repo: "RepoA")
-    private let github2 = LibraryName.gitHub(owner: "OwnerA", repo: "RepoB")
-    private let github3 = LibraryName.gitHub(owner: "OwnerB", repo: "RepoA")
-    private let name1 = LibraryName.name("RepoA")
+    private let github1 = Library(source: .cartfile, name: "RepoA", owner: "OwnerA")
+    private let github2 = Library(source: .cartfile, name: "RepoB", owner: "OwnerA")
+    private let github3 = Library(source: .cartfile, name: "RepoA", owner: "OwnerB")
+    private let name1 = Library(source: .podfile, name: "RepoA", owner: nil)
 
     func testNormalize_empty() {
         XCTAssertEqual(target.normalize([]), [])

@@ -25,8 +25,8 @@ public final class LicensePlist {
 
         GitHubAuthorizatoin.shared.token = gitHubToken
 
-        var carthageLibraries = [LibraryName]()
-        var podLibraries = [LibraryName]()
+        var carthageLibraries = [Library]()
+        var podLibraries = [Library]()
 
         let cartfileContent = try! String(contentsOf: cartfilePath ?? URL(fileURLWithPath: "Cartfile"),
                                           encoding: encoding)
@@ -42,7 +42,8 @@ public final class LicensePlist {
         let tm = TemplateManager.shared
         let prefix = "com.mono0926.LicensePlist."
         let licensListItems = licenses.map { license in
-            return tm.licenseListItem.applied(["Title": license.name, "FileName": "\(prefix)\(license.name)"])
+            return tm.licenseListItem.applied(["Title": license.library.name,
+                                               "FileName": "\(prefix)\(license.library.name)"])
         }
 
         let outputRoot: URL
@@ -66,12 +67,12 @@ public final class LicensePlist {
         write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix)LisenseList.plist"))
         licenses.forEach { license in
             let plist = tm.license.applied(["Body": license.license])
-            write(content: plist, to: outputRoot.appendingPathComponent("\(prefix)\(license.name).plist"))
+            write(content: plist, to: outputRoot.appendingPathComponent("\(prefix)\(license.library.name).plist"))
         }
         Log.info("End")
         Log.info("----------Result-----------")
         Log.info("# Missing license:")
-        let missing = Set(libraries.map { $0.repoName }).subtracting(Set(licenses.map { $0.name }))
+        let missing = Set(libraries.map { $0.name }).subtracting(Set(licenses.map { $0.library.name }))
         if missing.isEmpty {
             Log.info("None🎉")
         }  else {
