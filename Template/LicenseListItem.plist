@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
 <dict>
 	<key>Type</key>
 	<string>PSChildPaneSpecifier</string>
 	<key>Title</key>
-	<string>{{.Title}}</string>
+	<string>{{.Name}}</string>
 	<key>File</key>
-	<string>{{.FileName}}</string>
+	<string>{{.Name}}</string>
 </dict>
-</plist>
