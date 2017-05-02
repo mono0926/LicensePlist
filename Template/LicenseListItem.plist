@@ -2,7 +2,7 @@
 	<key>Type</key>
 	<string>PSChildPaneSpecifier</string>
 	<key>Title</key>
-	<string>{{.Name}}</string>
+	<string>{{.Title}}</string>
 	<key>File</key>
-	<string>{{.Name}}</string>
+	<string>{{.FileName}}</string>
 </dict>
