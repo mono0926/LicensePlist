@@ -347,7 +347,6 @@
 		OBJ_830 /* LicenseCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* LicenseCollector.swift */; };
 		OBJ_831 /* LicensePlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* LicensePlist.swift */; };
 		OBJ_832 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Logger.swift */; };
-		OBJ_833 /* RxSwift.extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* RxSwift.extension.swift */; };
 		OBJ_834 /* TemplateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* TemplateManager.swift */; };
 		OBJ_835 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Transformer.swift */; };
 		OBJ_836 /* GitHubRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* GitHubRequest.swift */; };
@@ -370,7 +369,6 @@
 		OBJ_870 /* GtiHubClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* GtiHubClientTests.swift */; };
 		OBJ_871 /* LicenseCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* LicenseCollectorTests.swift */; };
 		OBJ_872 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ParserTests.swift */; };
-		OBJ_873 /* RxSwift.extension.Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* RxSwift.extension.Tests.swift */; };
 		OBJ_874 /* TemplateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* TemplateManagerTests.swift */; };
 		OBJ_875 /* TestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* TestUtil.swift */; };
 		OBJ_876 /* TransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* TransformerTests.swift */; };
@@ -758,7 +756,6 @@
 		OBJ_157 /* PublishSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishSubject.swift; sourceTree = "<group>"; };
 		OBJ_158 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		OBJ_159 /* Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
-		OBJ_16 /* RxSwift.extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.extension.swift; sourceTree = "<group>"; };
 		OBJ_160 /* Reactive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reactive.swift; sourceTree = "<group>"; };
 		OBJ_161 /* RecursiveLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecursiveLock.swift; sourceTree = "<group>"; };
 		OBJ_162 /* RecursiveScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecursiveScheduler.swift; sourceTree = "<group>"; };
@@ -923,7 +920,6 @@
 		OBJ_313 /* HeliumStreamLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeliumStreamLogger.swift; sourceTree = "<group>"; };
 		OBJ_316 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		OBJ_319 /* CallbackQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackQueue.swift; sourceTree = "<group>"; };
-		OBJ_32 /* RxSwift.extension.Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.extension.Tests.swift; sourceTree = "<group>"; };
 		OBJ_320 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		OBJ_321 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		OBJ_322 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -1206,7 +1202,6 @@
 				OBJ_13 /* LicenseCollector.swift */,
 				OBJ_14 /* LicensePlist.swift */,
 				OBJ_15 /* Logger.swift */,
-				OBJ_16 /* RxSwift.extension.swift */,
 				OBJ_17 /* TemplateManager.swift */,
 				OBJ_18 /* Transformer.swift */,
 				OBJ_19 /* GitHubClient */,
@@ -1349,7 +1344,6 @@
 				OBJ_29 /* GtiHubClientTests.swift */,
 				OBJ_30 /* LicenseCollectorTests.swift */,
 				OBJ_31 /* ParserTests.swift */,
-				OBJ_32 /* RxSwift.extension.Tests.swift */,
 				OBJ_33 /* TemplateManagerTests.swift */,
 				OBJ_34 /* TestUtil.swift */,
 				OBJ_35 /* TransformerTests.swift */,
@@ -2557,7 +2551,6 @@
 				OBJ_830 /* LicenseCollector.swift in Sources */,
 				OBJ_831 /* LicensePlist.swift in Sources */,
 				OBJ_832 /* Logger.swift in Sources */,
-				OBJ_833 /* RxSwift.extension.swift in Sources */,
 				OBJ_834 /* TemplateManager.swift in Sources */,
 				OBJ_835 /* Transformer.swift in Sources */,
 				OBJ_836 /* GitHubRequest.swift in Sources */,
@@ -2576,7 +2569,6 @@
 				OBJ_870 /* GtiHubClientTests.swift in Sources */,
 				OBJ_871 /* LicenseCollectorTests.swift in Sources */,
 				OBJ_872 /* ParserTests.swift in Sources */,
-				OBJ_873 /* RxSwift.extension.Tests.swift in Sources */,
 				OBJ_874 /* TemplateManagerTests.swift in Sources */,
 				OBJ_875 /* TestUtil.swift in Sources */,
 				OBJ_876 /* TransformerTests.swift in Sources */,

@@ -21,15 +21,14 @@ extension Extension where Base: Session {
 extension Session: ReactiveCompatible {}
 
 public extension Reactive where Base: Session {
-    public func response<T: Request>(_ request: T) -> Observable<T.Response> {
-        return Observable.create { [weak base] observer in
+    public func response<T: Request>(_ request: T) -> Single<T.Response> {
+        return Single.create { [weak base] observer in
             let task = base?.send(request) { result in
                 switch result {
                 case .success(let response):
-                    observer.on(.next(response))
-                    observer.on(.completed)
+                    observer(.success(response))
                 case .failure(let error):
-                    observer.onError(error)
+                    observer(.error(error))
                 }
             }
             return Disposables.create {
@@ -40,15 +39,14 @@ public extension Reactive where Base: Session {
 }
 
 public extension URL {
-    public func downloadContent() -> Observable<String> {
-        return Observable.create { observer in
+    public func downloadContent() -> Single<String> {
+        return Single.create { observer in
             DispatchQueue.global(qos: .userInteractive).async {
                 do {
                     let result = try String(contentsOf: self)
-                    observer.on(.next(result))
-                    observer.on(.completed)
+                    observer(.success(result))
                 } catch let e {
-                    observer.on(.error(e))
+                    observer(.error(e))
                 }
             }
             return Disposables.create()

@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 import APIKit
 import RxSwift
+import RxBlocking
 @testable import LicensePlistCore
 
 class GitHubClientTests: XCTestCase {
@@ -36,9 +37,9 @@ class GitHubClientTests: XCTestCase {
     func testLicense_multiple() {
         let request1 = RepoRequests.License(owner: "mono0926", repo: "NativePopup")
         let request2 = RepoRequests.License(owner: "ReactiveX", repo: "RxSwift")
-        let o1 = Session.shared.rx.response(request1)
-        let o2 = Session.shared.rx.response(request2)
-        let result = Observable.merge([o1, o2]).result()
+        let o1 = Session.shared.rx.response(request1).asObservable()
+        let o2 = Session.shared.rx.response(request2).asObservable()
+        let result = try! Observable.merge([o1, o2]).toBlocking().toArray()
         XCTAssertEqual(result.count, 2)
         XCTAssertEqual(result[0].downloadUrl,
                        URL(string: "https://raw.githubusercontent.com/mono0926/NativePopup/master/LICENSE")!)

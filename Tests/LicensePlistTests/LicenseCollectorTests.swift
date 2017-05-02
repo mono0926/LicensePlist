@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 import APIKit
 import RxSwift
+import RxBlocking
 @testable import LicensePlistCore
 
 class LicenseCollectorTests: XCTestCase {
@@ -17,9 +18,7 @@ class LicenseCollectorTests: XCTestCase {
     }
 
     func testCollect_github1() {
-        let results = target.collect(with: github1).result()
-        XCTAssertEqual(results.count, 1)
-        let result = results.first!
+        let result = try! target.collect(with: github1).toBlocking().single()!
         XCTAssertEqual(result.library.name, github1.name)
         XCTAssertTrue(result.body.hasPrefix("MIT License"))
         XCTAssertEqual(result.license.downloadUrl, URL(string: "https://raw.githubusercontent.com/mono0926/NativePopup/master/LICENSE"))
@@ -27,20 +26,18 @@ class LicenseCollectorTests: XCTestCase {
     }
 
     func testCollect_forked() {
-        let results = target.collect(with: githubForked).result()
-        XCTAssertEqual(results.count, 1)
-        let result = results.first!
+        let result = try! target.collect(with: githubForked).toBlocking().single()!
         XCTAssertEqual(result.library.name, githubForked.name)
         XCTAssertTrue(result.body.hasPrefix("Copyright (c)"))
         XCTAssertEqual(result.license.downloadUrl, URL(string: "https://raw.githubusercontent.com/adjust/ios_sdk/master/MIT-LICENSE"))
         XCTAssertEqual(result.license.kind.spdxId, "MIT")
     }
     func testCollect_invalid() {
-        let results = target.collect(with: githubInvalid).result()
-        XCTAssertTrue(results.isEmpty)
+        let result = try! target.collect(with: githubInvalid).toBlocking().first()
+        XCTAssertNil(result)
     }
     func testCollect_multiple() {
-        let results = target.collect(with: [github1, name1]).result()
+        let results = try! target.collect(with: [github1, name1]).toBlocking().toArray()
         XCTAssertEqual(results.count, 2)
         let result1 = results[0]
         XCTAssertEqual(result1.library.name, github1.name)

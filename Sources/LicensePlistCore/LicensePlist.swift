@@ -1,5 +1,6 @@
 import Foundation
 import LoggerAPI
+import RxBlocking
 
 public final class LicensePlist {
     let encoding = String.Encoding.utf8
@@ -38,7 +39,7 @@ public final class LicensePlist {
 
         let libraries = transformer.normalize(carthageLibraries, podLibraries)
         Log.info("License collect start")
-        let licenses = licenseCollector.collect(with: libraries).result()
+        let licenses = try! licenseCollector.collect(with: libraries).toBlocking().toArray()
         let tm = TemplateManager.shared
         let prefix = "com.mono0926.LicensePlist."
         let licensListItems = licenses.map { license in
