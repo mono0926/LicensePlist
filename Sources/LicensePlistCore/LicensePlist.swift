@@ -29,13 +29,32 @@ public final class LicensePlist {
         var carthageLibraries = [Library]()
         var podLibraries = [Library]()
 
-        let cartfileContent = try! String(contentsOf: cartfilePath ?? URL(fileURLWithPath: "Cartfile"),
-                                          encoding: encoding)
-        carthageLibraries = carthageParser.parse(content: cartfileContent)
+        let cartfileName = "Cartfile"
+        if let cartfilePath = cartfilePath, cartfilePath.lastPathComponent != cartfileName {
+            fatalError("Invalid Cartfile name: \(cartfilePath.lastPathComponent)")
+        }
+        let cartfilePath = cartfilePath ?? URL(fileURLWithPath: cartfileName)
+        let cartfileContent = { () -> String? in
+            if let content = read(path: cartfilePath.appendingPathExtension("resolved")) {
+                return content
+            }
+            return read(path: cartfilePath)
+        }()
+        if let cartfileContent = cartfileContent {
+            carthageLibraries = carthageParser.parse(content: cartfileContent)
+        }
 
-        let podfileContent = try! String(contentsOf: podfilePath ?? URL(fileURLWithPath: "Podfile"),
-                                         encoding: encoding)
-        podLibraries = podfileParser.parse(content: podfileContent)
+        let podfileName = "Podfile"
+        if let podfilePath = podfilePath, podfilePath.lastPathComponent != podfileName {
+            fatalError("Invalid Podfile name: \(podfilePath.lastPathComponent)")
+        }
+        let podfilePath = podfilePath ?? URL(fileURLWithPath: podfileName)
+
+        if let content = read(path: podfilePath.appendingPathExtension("lock")) {
+            podLibraries = podfileParser.parse(content: content, kind: .lock)
+        } else if let content = read(path: podfilePath) {
+            podLibraries = podfileParser.parse(content: content, kind: .source)
+        }
 
         let libraries = transformer.normalize(carthageLibraries, podLibraries)
         Log.info("License collect start")
@@ -83,5 +102,14 @@ public final class LicensePlist {
 
     private func write(content: String, to path: URL) {
         try! content.write(to: path, atomically: false, encoding: encoding)
+    }
+
+    private func read(path: URL) -> String? {
+        do {
+            return try String(contentsOf: path, encoding: encoding)
+        } catch let e {
+            Log.info(String(describing: e))
+            return nil
+        }
     }
 }
