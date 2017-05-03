@@ -10,9 +10,15 @@
 
 # Install LicensePlist
 
-- **From Source**: Clone the master branch of the repository, then run `make install`.
+## From Source
+
+Clone the master branch of the repository, then run `make install`.
+
+```sh
+$ git clone https://github.com/mono0926/LicensePlist.git
+$ make install
+```
+
 - **Homebrew**: Not supported yet.
 - **Download from [Releases](https://github.com/mono0926/LicensePlist/releases)**: Not supported yet.
     - Dynamic Link Library problem.
-
-TODO:
