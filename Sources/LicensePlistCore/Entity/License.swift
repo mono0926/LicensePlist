@@ -28,11 +28,3 @@ public struct CocoaPodsLicense: License {
     public let library: CocoaPods
     public let body: String
 }
-
-//extension CarthageLicense: LicenseInfo {
-//    public var name: String { return library.name }
-//}
-//
-//extension CocoaPodsLicense: LicenseInfo {
-//    public var name: String { return library.name }
-//}
