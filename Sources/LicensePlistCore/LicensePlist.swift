@@ -49,6 +49,7 @@ public final class LicensePlist {
         Log.info("# Missing license:")
         guard let carthageLibraries = carthageLibraries else {
             assert(false)
+            return
         }
         let missing = Set(carthageLibraries.map { $0.name }).subtracting(Set(licenses.map { $0.name }))
         if missing.isEmpty {
