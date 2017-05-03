@@ -30,7 +30,6 @@ class CartfileParserTests: XCTestCase {
         XCTAssertEqual(result, Carthage(name: "ios-license-generator", owner: "mono0926"))
     }
 
-
     func testParse_multiple() {
         let results = Carthage.parse("github \"mono0926/NativePopup\"\ngithub \"ReactiveX/RxSwift\"")
         XCTAssertTrue(results.count == 2)
