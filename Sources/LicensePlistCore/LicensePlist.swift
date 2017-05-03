@@ -29,10 +29,11 @@ public final class LicensePlist {
         let carthageLicenses = try! Observable.merge(carthageLibraries.map { CarthageLicense.collect($0).asObservable() }).toBlocking().toArray()
         let tm = TemplateManager.shared
         let prefix = "com.mono0926.LicensePlist."
-        let licensListItems = carthageLicenses.map { license in
-            return tm.licenseListItem.applied(["Title": license.library.name,
-                                               "FileName": "\(prefix)\(license.library.name)"])
-        }
+        let licenseNames = carthageLicenses.map { $0.library.name } + cocoaPodsLicenses.map { $0.library.name }
+        let licensListItems = licenseNames.map {
+            return tm.licenseListItem.applied(["Title": $0,
+                                               "FileName": "\(prefix)\($0)"])
+            }
 
         // TODO: refactor
         let outputRoot: URL
@@ -116,8 +117,8 @@ public final class LicensePlist {
                 return isDirectory.boolValue
             }
             .map { f in
-            (try! fm.contentsOfDirectory(at: f, includingPropertiesForKeys: nil, options: []))
-                .filter { $0.lastPathComponent.hasSuffix("-acknowledgements.plist") }
+                (try! fm.contentsOfDirectory(at: f, includingPropertiesForKeys: nil, options: []))
+                    .filter { $0.lastPathComponent.hasSuffix("-acknowledgements.plist") }
             }.flatMap { $0 }
         urls.forEach { Log.info("Pod acknowledgements found: \($0.lastPathComponent)") }
         return urls.map { read(path: $0) }.flatMap { $0 }
