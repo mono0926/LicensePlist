@@ -108,6 +108,10 @@ public final class LicensePlist {
         }
         let path = (path ?? URL(fileURLWithPath: podsDirectoryName)).appendingPathComponent("Target Support Files")
         let fm = FileManager.default
+        if !fm.fileExists(atPath: path.path) {
+            Log.warning("not found: \(path)")
+            return []
+        }
         let urls = (try! fm.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: []))
             .filter {
                 var isDirectory: ObjCBool = false
