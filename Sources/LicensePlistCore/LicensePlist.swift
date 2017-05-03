@@ -16,23 +16,13 @@ public final class LicensePlist {
 
         GitHubAuthorizatoin.shared.token = gitHubToken
 
-        Log.info("Pods License parse start")
-        let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
-        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }
+        let (licenses, _carthages, _) = collectLicenseInfos(cartfilePath: cartfilePath, podsPath: podsPath)
 
-        Log.info("Carthage License collect start")
-
-        var carthageLibraries = [Carthage]()
-        if let cartfileContent = readCartfile(path: cartfilePath) {
-            carthageLibraries = Carthage.parse(cartfileContent)
-        }
-        let carthageLicenses = try! Observable.merge(carthageLibraries.map { CarthageLicense.collect($0).asObservable() }).toBlocking().toArray()
         let tm = TemplateManager.shared
         let prefix = "com.mono0926.LicensePlist"
-        let licenseNames = Set(carthageLicenses.map { $0.library.name } + cocoaPodsLicenses.map { $0.library.name })
-        let licensListItems = licenseNames.sorted { $0 < $1 }.map {
-            return tm.licenseListItem.applied(["Title": $0,
-                                               "FileName": "\(prefix)/\($0)"])
+        let licensListItems = licenses.map {
+            return tm.licenseListItem.applied(["Title": $0.name,
+                                               "FileName": "\(prefix)/\($0.name)"])
             }
 
         // TODO: refactor
@@ -55,26 +45,44 @@ public final class LicensePlist {
         let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
         write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix).LisenseList.plist"))
 
-        let bodies = cocoaPodsLicenses.map { ($0.library.name, $0.body) } + carthageLicenses.map { ($0.library.name, $0.body) }
-            .reduce([String: String]()) { sum, e in
-                var sum = sum
-                sum[e.0] = e.1
-                return sum
-        }
-        bodies.forEach {
-            write(content: tm.license.applied(["Body": $0.value]),
-                  to: plistPath.appendingPathComponent("\($0.key).plist"))
+
+        licenses.forEach {
+            write(content: tm.license.applied(["Body": $0.body]),
+                  to: plistPath.appendingPathComponent("\($0.name).plist"))
         }
 
         Log.info("End")
         Log.info("----------Result-----------")
         Log.info("# Missing license:")
-        let missing = Set(carthageLibraries.map { $0.name }).subtracting(Set(carthageLicenses.map { $0.library.name }))
+        let missing = Set(_carthages.map { $0.name }).subtracting(Set(licenses.map { $0.name }))
         if missing.isEmpty {
             Log.info("None🎉")
         }  else {
             Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
         }
+    }
+
+    private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?) -> ([LicenseInfo], [CarthageLicense], [CocoaPodsLicense]) {
+        Log.info("Pods License parse start")
+        let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
+        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }
+
+        Log.info("Carthage License collect start")
+
+        var carthageLibraries = [Carthage]()
+        if let cartfileContent = readCartfile(path: cartfilePath) {
+            carthageLibraries = Carthage.parse(cartfileContent)
+        }
+        let carthageLicenses = try! Observable.merge(carthageLibraries.map { CarthageLicense.collect($0).asObservable() }).toBlocking().toArray()
+
+        let all = Array(((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
+            .reduce([String: LicenseInfo]()) { sum, e in
+                var sum = sum
+                sum[e.name] = e
+                return sum
+            }.values
+            .sorted { $0.name < $1.name })
+        return (all, carthageLicenses, cocoaPodsLicenses)
     }
 
     private func write(content: String, to path: URL) {
