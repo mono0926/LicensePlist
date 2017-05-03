@@ -86,7 +86,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL?) {
                                            "FileName": "\(prefix)/\($0.name)"])
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
-    write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix).LisenseList.plist"))
+    write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix).plist"))
 
 
     licenses.forEach {
