@@ -103,7 +103,7 @@ private func read(path: URL) -> String? {
     do {
         return try String(contentsOf: path, encoding: encoding)
     } catch let e {
-        Log.info(String(describing: e))
+        Log.warning(String(describing: e))
         return nil
     }
 }
