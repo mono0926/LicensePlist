@@ -1,54 +1,9 @@
 disabled_rules:
   - identifier_name
   - force_try
-  # - force_cast
-  # - function_parameter_count
-  # - nesting
-  # - large_tuple
-  # - trailing_whitespace
-  # - function_parameter_count
-opt_in_rules: # some rules are only opt-in
-  # - empty_count
-  # - missing_docs
-  # Find all the available rules by running:
-  # swiftlint rules
-# included: # paths to include during linting. `--path` is ignored if present.
-#   - Source
+
 included:
   - Sources
   - Tests
 
 line_length: 140
-# type_body_length:
-#   - 1000 # warning
-# function_body_length:
-#   - 100 # warning
-# # or they can set both explicitly
-# file_length:
-#   warning: 1000
-#   error: 1200
-# # naming rules can set warnings/errors for min_length and max_length
-# # additionally they can set excluded names
-# type_name:
-#   min_length: 4 # only warning
-#   max_length: # warning and error
-#     warning: 40
-#     error: 50
-#   excluded:
-#     - LT
-#     - Use
-#     - Get
-#     - Ban
-#     - Tag
-#     - Row
-#     - __
-#     - ex
-#     - JB
-#     - Me
-#     - Ok
-# cyclomatic_complexity: 50
-# # function_parameter_count:
-# #   warning: 10
-# #   error: 50
-
-# reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit
