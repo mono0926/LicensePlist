@@ -6,7 +6,7 @@ protocol GitHubRequest: Request {}
 class GitHubAuthorizatoin {
     private init() {}
     static let shared = GitHubAuthorizatoin()
-    var token: String? = nil
+    var token: String?
 }
 
 extension GitHubRequest {

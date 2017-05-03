@@ -32,7 +32,8 @@ public final class LicensePlist {
         if let cartfileContent = readCartfile(path: cartfilePath) {
             carthageLibraries = GitHub.parse(cartfileContent)
         }
-        let carthageLicenses = try! Observable.merge(carthageLibraries.map { GitHubLicense.collect($0).asObservable() }).toBlocking().toArray()
+        let carthageLicenses = try! Observable.merge(carthageLibraries.map { GitHubLicense.collect($0).asObservable() })
+            .toBlocking().toArray()
         self.githubLibraries = carthageLibraries
 
         return Array(((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
@@ -54,7 +55,7 @@ public final class LicensePlist {
         let missing = Set(carthageLibraries.map { $0.name }).subtracting(Set(licenses.map { $0.name }))
         if missing.isEmpty {
             Log.info("None🎉")
-        }  else {
+        } else {
             Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
         }
     }
@@ -87,7 +88,6 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL?) {
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
     write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix).plist"))
-
 
     licenses.forEach {
         write(content: tm.license.applied(["Body": $0.body]),

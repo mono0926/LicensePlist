@@ -43,7 +43,7 @@ struct Template {
     init(content: String) {
         self.content = content
     }
-    func applied(_ data: Dictionary<String, String>) -> String {
+    func applied(_ data: [String: String]) -> String {
         return data.reduce(content) { sum, e in
             return sum.replacingOccurrences(of: "{{.\(e.key)}}", with: e.value)
         }

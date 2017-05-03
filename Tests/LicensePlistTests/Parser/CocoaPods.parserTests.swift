@@ -10,7 +10,8 @@ class CocoaPodsParserTests: XCTestCase {
     }
 
     func testParse() {
-        let content = try! String(contentsOf: URL(string: "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/acknowledgements.plist")!)
+        let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/acknowledgements.plist"
+        let content = try! String(contentsOf: URL(string: path)!)
         let results = CocoaPodsLicense.parse(content)
         XCTAssertFalse(results.isEmpty)
         XCTAssertEqual(results.count, 11)

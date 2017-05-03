@@ -12,7 +12,7 @@ extension CocoaPodsLicense: Parser {
                         sum[e.0] = e.1
                         return sum
                 }
-                if let title = dict["Title"], let license = dict["FooterText"], let _ = dict["License"] {
+                if let title = dict["Title"], let license = dict["FooterText"], dict["License"] != nil {
                     return CocoaPodsLicense(library: CocoaPods(name: title), body: license)
                 }
                 return nil

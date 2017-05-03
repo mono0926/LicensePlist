@@ -2,7 +2,6 @@ import LoggerAPI
 import RxSwift
 import APIKit
 
-
 extension GitHubLicense: Collector {
     public static func collect(_ library: GitHub) -> Maybe<GitHubLicense> {
         let owner = library.owner

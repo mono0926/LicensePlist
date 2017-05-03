@@ -9,7 +9,7 @@ public struct GitHub: Library {
 }
 
 extension GitHub {
-    public static func ==(lhs: GitHub, rhs: GitHub) -> Bool {
+    public static func==(lhs: GitHub, rhs: GitHub) -> Bool {
         return lhs.name == rhs.name && lhs.owner == rhs.owner
     }
 }
