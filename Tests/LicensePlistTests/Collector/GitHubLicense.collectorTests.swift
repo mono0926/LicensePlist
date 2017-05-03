@@ -5,7 +5,7 @@ import RxSwift
 import RxBlocking
 @testable import LicensePlistCore
 
-class CarthageCollectorTests: XCTestCase {
+class GitHubLicense.collectorTests: XCTestCase {
 
     override class func setUp() {
         super.setUp()

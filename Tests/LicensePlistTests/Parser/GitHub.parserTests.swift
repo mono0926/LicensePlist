@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import LicensePlistCore
 
-class CartfileParserTests: XCTestCase {
+classGitHubParserTests: XCTestCase {
 
     func testParse_empty() {
         let results = GitHub.parse("(　´･‿･｀)")

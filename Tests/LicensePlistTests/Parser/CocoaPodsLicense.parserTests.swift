@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import LicensePlistCore
 //
-class CocoaPodsParserTests: XCTestCase {
+class CocoaPodsLicenseParserTests: XCTestCase {
 
     func testParse_empty() {
         let results = CocoaPodsLicense.parse("(　´･‿･｀)")
