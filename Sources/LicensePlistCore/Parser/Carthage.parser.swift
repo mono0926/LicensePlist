@@ -2,7 +2,8 @@ import Foundation
 
 extension Carthage: Parser {
     public static func parse(_ content: String) -> [Carthage] {
-        let regex = try! NSRegularExpression(pattern: "github \"(\\w+)/(\\w+)\"", options: [])
+        let pattern = "[\\w\\.\\-]+"
+        let regex = try! NSRegularExpression(pattern: "github \"(\(pattern))/(\(pattern))\"", options: [])
         let nsContent = content as NSString
         let matches = regex.matches(in: content, options: [], range: NSRange(location: 0, length: nsContent.length))
         return matches.map { match -> Carthage? in
