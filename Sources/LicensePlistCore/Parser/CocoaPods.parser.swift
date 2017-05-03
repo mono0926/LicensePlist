@@ -25,9 +25,11 @@ extension CocoaPodsLicense: Parser {
                     }
                     if i == titleIndex {
                         title = text
+                        return
                     }
                     if i == licenseIndex {
                         license = text
+                        return
                     }
                 }
                 if let title = title, let license = license, isLicense {
