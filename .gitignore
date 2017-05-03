@@ -66,5 +66,5 @@ fastlane/test_output
 
 github_token.txt
 Cartfile*
-Podfile*
+Pods
 *LicensePlist.Output

@@ -12,6 +12,7 @@
     "892A392662EFD968ECAC00BEDD3BE4AF0F19F413" : 9223372036854775807,
     "A95BD2D78A8867EDB087EC3295FC6324BBFD6D71" : 9223372036854775807,
     "85E996FB125657C20E42A299A76F925867A7A6E4" : 9223372036854775807,
+    "EB2210CFD48672E403BED699D5D7F01B844069CF" : 9223372036854775807,
     "D591987028BFCE350CA11D7DA7F1AE9C4373C207" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3B620D4F-2D5A-42E5-BC8C-D00BEB2961A1",
@@ -24,6 +25,7 @@
     "892A392662EFD968ECAC00BEDD3BE4AF0F19F413" : "LicensePlist\/.build\/checkouts\/Himotoki.git-9171745471410878028\/",
     "A95BD2D78A8867EDB087EC3295FC6324BBFD6D71" : "LicensePlist\/",
     "85E996FB125657C20E42A299A76F925867A7A6E4" : "LicensePlist\/.build\/checkouts\/LoggerAPI.git--6449715459278086880\/",
+    "EB2210CFD48672E403BED699D5D7F01B844069CF" : "LicensePlist\/.build\/checkouts\/SWXMLHash.git--4447522225536909962\/",
     "D591987028BFCE350CA11D7DA7F1AE9C4373C207" : "LicensePlist\/.build\/checkouts\/Spectre.git--7655155069707042687\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "LicensePlist",
@@ -69,6 +71,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/Spectre.git--7655155069707042687",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D591987028BFCE350CA11D7DA7F1AE9C4373C207"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/SWXMLHash.git--4447522225536909962",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EB2210CFD48672E403BED699D5D7F01B844069CF"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/APIKit.git--5867995916541647569",
