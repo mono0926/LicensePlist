@@ -10,7 +10,8 @@
 
 # Install LicensePlist
 
+- **Download the executable binary**: https://github.com/mono0926/LicensePlist/releases
 - **From Source**: If you’d like to run the latest development version (which may be highly unstable or incompatible), simply clone the master branch of the repository, then run `make install`. Or you can also install via one-liner: `curl -LO https://github.com/mono0926/LicensePlist/raw/master/install.sh && chmod +x install.sh && ./install.sh` without cloning manually.
-- **HomeBrew**: TBD
+- **Homebrew**: TBD
 
 TODO:
