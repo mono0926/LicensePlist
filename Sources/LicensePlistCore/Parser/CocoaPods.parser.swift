@@ -2,7 +2,8 @@ import Foundation
 import SWXMLHash
 
 extension CocoaPodsLicense: Parser {
-    public static func parse(_ content: String) -> [CocoaPodsLicense] {let xml = SWXMLHash.config { _ in }.parse(content)
+    public static func parse(_ content: String) -> [CocoaPodsLicense] {
+        let xml = SWXMLHash.config { _ in }.parse(content)
         return xml["plist"]["dict"]["array"].children
             .map { e in
                 var title: String?
