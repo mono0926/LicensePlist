@@ -9,6 +9,6 @@ public protocol Library: Hashable, Equatable {
 
 extension Library {
     public var hashValue: Int {
-        return 17 + name.hash
+        return name.hash
     }
 }
