@@ -19,7 +19,7 @@ lint:
 	swiftlint
  
 clean:
-	swift build --clean
+	swift package clean
 	
 install: build
 	cp -f .build/release/LicensePlist /usr/local/bin/license-plist
