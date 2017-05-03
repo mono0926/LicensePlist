@@ -20,6 +20,9 @@ lint:
  
 clean:
 	swift package clean
+
+xcode:
+	swift package generate-xcodeproj
 	
 install: build
 	cp -f .build/release/LicensePlist /usr/local/bin/license-plist
