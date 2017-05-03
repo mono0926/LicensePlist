@@ -8,9 +8,9 @@
 `LicensePlist` generates iOS license plists for `Settings.bundle`.
 `Carthage` and `CocoaPods` are supported.
 
-# Install LicensePlist
+## Install LicensePlist
 
-## From Source
+### From Source
 
 Clone the master branch of the repository, then run `make install`.
 
