@@ -68,3 +68,5 @@ github_token.txt
 Cartfile*
 Pods
 *LicensePlist.Output
+!Cartfile*.swift
+!Pods*.swift
