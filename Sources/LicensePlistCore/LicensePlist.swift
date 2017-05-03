@@ -5,7 +5,7 @@ import RxSwift
 
 private let encoding = String.Encoding.utf8
 public final class LicensePlist {
-    private var carthageLibraries: [Carthage]?
+    private var githubLibraries: [GitHub]?
     public init() {
         Logger.configure()
     }
@@ -28,12 +28,12 @@ public final class LicensePlist {
 
         Log.info("Carthage License collect start")
 
-        var carthageLibraries = [Carthage]()
+        var carthageLibraries = [GitHub]()
         if let cartfileContent = readCartfile(path: cartfilePath) {
-            carthageLibraries = Carthage.parse(cartfileContent)
+            carthageLibraries = GitHub.parse(cartfileContent)
         }
-        let carthageLicenses = try! Observable.merge(carthageLibraries.map { CarthageLicense.collect($0).asObservable() }).toBlocking().toArray()
-        self.carthageLibraries = carthageLibraries
+        let carthageLicenses = try! Observable.merge(carthageLibraries.map { GitHubLicense.collect($0).asObservable() }).toBlocking().toArray()
+        self.githubLibraries = carthageLibraries
 
         return Array(((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
             .reduce([String: LicenseInfo]()) { sum, e in
@@ -47,7 +47,7 @@ public final class LicensePlist {
     private func reportMissings(licenses: [LicenseInfo]) {
         Log.info("----------Result-----------")
         Log.info("# Missing license:")
-        guard let carthageLibraries = carthageLibraries else {
+        guard let carthageLibraries = githubLibraries else {
             assert(false)
             return
         }

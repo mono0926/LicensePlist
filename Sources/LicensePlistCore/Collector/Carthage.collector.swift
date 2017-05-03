@@ -3,8 +3,8 @@ import RxSwift
 import APIKit
 
 
-extension CarthageLicense: Collector {
-    public static func collect(_ library: Carthage) -> Maybe<CarthageLicense> {
+extension GitHubLicense: Collector {
+    public static func collect(_ library: GitHub) -> Maybe<GitHubLicense> {
         let owner = library.owner
         let name = library.name
         Log.info("license download start(owner: \(owner), name: \(name))")
@@ -12,13 +12,13 @@ extension CarthageLicense: Collector {
             .flatMap { response in
                 response.downloadUrl.downloadContent()
                     .map {
-                        return CarthageLicense(library: library,
+                        return GitHubLicense(library: library,
                                                body: $0,
                                                githubResponse: response)
                 }
             }
             .asObservable().asMaybe()
-            .catchError { error -> Maybe<CarthageLicense> in
+            .catchError { error -> Maybe<GitHubLicense> in
                 if !self.isSessionTask404(error) {
                     assert(false, String(describing: error))
                     return Maybe.error(error)
@@ -26,7 +26,7 @@ extension CarthageLicense: Collector {
                 Log.warning("404 error, license download failed(owner: \(owner), name: \(name)), so finding parent...")
                 return Session.shared.rx.response(RepoRequests.Get(owner: owner, repo: name))
                     .asObservable().asMaybe()
-                    .flatMap { response -> Maybe<CarthageLicense> in
+                    .flatMap { response -> Maybe<GitHubLicense> in
                         if let parent = response.parent {
                             var library = library
                             library.owner = parent.owner.login

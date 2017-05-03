@@ -1,19 +1,19 @@
 import Foundation
 
-extension Carthage: Parser {
-    public static func parse(_ content: String) -> [Carthage] {
+extension GitHub: Parser {
+    public static func parse(_ content: String) -> [GitHub] {
         let pattern = "[\\w\\.\\-]+"
         let regex = try! NSRegularExpression(pattern: "github \"(\(pattern))/(\(pattern))\"", options: [])
         let nsContent = content as NSString
         let matches = regex.matches(in: content, options: [], range: NSRange(location: 0, length: nsContent.length))
-        return matches.map { match -> Carthage? in
+        return matches.map { match -> GitHub? in
             let numberOfRanges = match.numberOfRanges
             guard numberOfRanges == 3 else {
                 assert(false, "maybe invalid regular expression to: \(nsContent.substring(with: match.range))")
                 return nil
             }
-            return Carthage(name: nsContent.substring(with: match.rangeAt(2)),
-                            owner: nsContent.substring(with: match.rangeAt(1)))
+            return GitHub(name: nsContent.substring(with: match.rangeAt(2)),
+                          owner: nsContent.substring(with: match.rangeAt(1)))
             }
             .flatMap { $0 }
     }

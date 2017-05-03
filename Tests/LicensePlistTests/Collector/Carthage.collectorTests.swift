@@ -13,8 +13,8 @@ class CarthageCollectorTests: XCTestCase {
     }
 
     func testCollect() {
-        let carthage = Carthage(name: "NativePopup", owner: "mono0926")
-        let license = try! CarthageLicense.collect(carthage).toBlocking().single()!
+        let carthage = GitHub(name: "NativePopup", owner: "mono0926")
+        let license = try! GitHubLicense.collect(carthage).toBlocking().single()!
         XCTAssertEqual(license.library, carthage)
         XCTAssertTrue(license.body.hasPrefix("MIT License"))
         XCTAssertEqual(license.githubResponse.downloadUrl, URL(string: "https://raw.githubusercontent.com/mono0926/NativePopup/master/LICENSE"))
@@ -22,8 +22,8 @@ class CarthageCollectorTests: XCTestCase {
     }
 
     func testCollect_forked() {
-        let carthage = Carthage(name: "ios_sdk", owner: "gram30")
-        let license = try! CarthageLicense.collect(carthage).toBlocking().single()!
+        let carthage = GitHub(name: "ios_sdk", owner: "gram30")
+        let license = try! GitHubLicense.collect(carthage).toBlocking().single()!
         var forked = carthage
         forked.owner = "adjust"
         XCTAssertEqual(license.library, forked)
@@ -32,8 +32,8 @@ class CarthageCollectorTests: XCTestCase {
         XCTAssertEqual(license.githubResponse.kind.spdxId, "MIT")
     }
     func testCollect_invalid() {
-        let carthage = Carthage(name: "abcde", owner: "invalid")
-        let license = try? CarthageLicense.collect(carthage).toBlocking().first()
+        let carthage = GitHub(name: "abcde", owner: "invalid")
+        let license = try? GitHubLicense.collect(carthage).toBlocking().first()
         XCTAssertTrue(license == nil)
     }
 }

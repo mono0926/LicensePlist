@@ -18,8 +18,8 @@ extension License {
     public var name: String { return library.name }
 }
 
-public struct CarthageLicense: License {
-    public let library: Carthage
+public struct GitHubLicense: License {
+    public let library: GitHub
     public let body: String
     let githubResponse: LicenseResponse
 }
