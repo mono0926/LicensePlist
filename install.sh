@@ -6,4 +6,4 @@ git pull
 make install
 cd -
 rm -rf LicensePlist
-echo "installed at $(which license-plist)🎉"
+echo "installed at $(which license-plist) 🎉"
