@@ -28,11 +28,11 @@ public final class LicensePlist {
         }
         let carthageLicenses = try! Observable.merge(carthageLibraries.map { CarthageLicense.collect($0).asObservable() }).toBlocking().toArray()
         let tm = TemplateManager.shared
-        let prefix = "com.mono0926.LicensePlist."
-        let licenseNames = carthageLicenses.map { $0.library.name } + cocoaPodsLicenses.map { $0.library.name }
-        let licensListItems = licenseNames.map {
+        let prefix = "com.mono0926.LicensePlist"
+        let licenseNames = Set(carthageLicenses.map { $0.library.name } + cocoaPodsLicenses.map { $0.library.name })
+        let licensListItems = licenseNames.sorted { $0 < $1 }.map {
             return tm.licenseListItem.applied(["Title": $0,
-                                               "FileName": "\(prefix)\($0)"])
+                                               "FileName": "\(prefix)/\($0)"])
             }
 
         // TODO: refactor
@@ -44,28 +44,26 @@ public final class LicensePlist {
         }
 
         let fm = FileManager.default
-        if fm.fileExists(atPath: outputRoot.path) {
-            Log.info("Directory existed: \(outputRoot)")
-            (try! fm.contentsOfDirectory(at: outputRoot, includingPropertiesForKeys: nil, options: []))
-                .filter { $0.lastPathComponent.hasPrefix(prefix) }
-                .forEach { try! fm.removeItem(at: $0) }
-            Log.info("Deleted exiting plist starting with \(prefix)")
-        } else {
-            try! fm.createDirectory(at: outputRoot, withIntermediateDirectories: false, attributes: nil)
-            Log.info("Directory created: \(outputRoot)")
+        let plistPath = outputRoot.appendingPathComponent(prefix)
+        if fm.fileExists(atPath: plistPath.path) {
+            try! fm.removeItem(at: plistPath)
+            Log.info("Deleted exiting plist within \(prefix)")
         }
+        try! fm.createDirectory(at: plistPath, withIntermediateDirectories: true, attributes: nil)
+        Log.info("Directory created: \(outputRoot)")
 
         let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
-        write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix)LisenseList.plist"))
+        write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix).LisenseList.plist"))
 
-        cocoaPodsLicenses.forEach { license in
-            write(content: tm.license.applied(["Body": license.body]),
-                  to: outputRoot.appendingPathComponent("\(prefix)\(license.library.name).plist"))
+        let bodies = cocoaPodsLicenses.map { ($0.library.name, $0.body) } + carthageLicenses.map { ($0.library.name, $0.body) }
+            .reduce([String: String]()) { sum, e in
+                var sum = sum
+                sum[e.0] = e.1
+                return sum
         }
-
-        carthageLicenses.forEach { license in
-            write(content: tm.license.applied(["Body": license.body]),
-                  to: outputRoot.appendingPathComponent("\(prefix)\(license.library.name).plist"))
+        bodies.forEach {
+            write(content: tm.license.applied(["Body": $0.value]),
+                  to: plistPath.appendingPathComponent("\($0.key).plist"))
         }
 
         Log.info("End")
