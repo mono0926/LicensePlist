@@ -41,7 +41,7 @@ public final class LicensePlist {
                 sum[e.name] = e
                 return sum
             }.values
-            .sorted { $0.name < $1.name })
+            .sorted { $0.name.lowercased() < $1.name.lowercased() })
     }
 
     private func reportMissings(licenses: [LicenseInfo]) {
