@@ -10,9 +10,9 @@
 
 # Install LicensePlist
 
-- **From Source**: If you’d like to run the latest development version (which may be highly unstable or incompatible), simply clone the master branch of the repository, then run `make install`.
-- **Homebrew**: TBD
-- **Download from [Releases](https://github.com/mono0926/LicensePlist/releases)**: TBD
+- **From Source**: Clone the master branch of the repository, then run `make install`.
+- **Homebrew**: Not supported yet.
+- **Download from [Releases](https://github.com/mono0926/LicensePlist/releases)**: Not supported yet.
     - Dynamic Link Library problem.
 
 TODO:
