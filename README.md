@@ -39,7 +39,7 @@ curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh
 
 1. On the directory same as `Cartfile` or `Pods`, simply execute `license-plist`.
 2. `com.mono0926.LicensePlist.Output` directory will be generated.
-3. Move it to your app's `Settings.bundle`.
+3. Move the files in the output directory into your app's `Settings.bundle`.
     - [Settings.bundle's sample is here](https://github.com/mono0926/LicensePlist/raw/master/Settings.bundle.zip)
     - The point is to [specify `com.mono0926.LicensePlist` as license list file on your `Root.plist`](https://github.com/mono0926/LicensePlist/blob/master/Settings.bundle/Root.plist#L19).
 
