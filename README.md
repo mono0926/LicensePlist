@@ -95,3 +95,16 @@ You can see options by `license-plist --help`.
 - `LicensePlist` saves latest libraries, so if there are no libraries change, iterrupt.
     - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Build Phases Script`** 🎉
 - You can run all the way anyway, by using `--force` flag.
+
+### Integrate into build
+
+Add `Run Script` to `Build - Pre-actions`:
+
+```sh
+if [ "${CONFIGURATION}" = "Debug" ]; then
+cd $PROJECT_DIR
+/usr/local/bin/license-plist --output-path YOUR_APP_ROOT_DIR/Settings.bundle
+fi
+```
+
+![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/pre_build_action.png)
