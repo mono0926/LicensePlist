@@ -7,6 +7,7 @@
     "92AF87893551AD3F2DEE78BEF3E924B9C5659E09" : 9223372036854775807,
     "F607A624BDF2624F7609EF66C123E17132AFE18F" : 9223372036854775807,
     "956D2B21DD155C49504BB67697A67F7C5351A353" : 9223372036854775807,
+    "E111B14063EC98ABE518A93E1C4498F4167C2DEE" : 9223372036854775807,
     "5441F5A06973B7C5DCFB2F409C92105EFA8EF303" : 9223372036854775807,
     "8B123162C394A0A0A138779108E4C59DD771865A" : 9223372036854775807,
     "892A392662EFD968ECAC00BEDD3BE4AF0F19F413" : 9223372036854775807,
@@ -20,6 +21,7 @@
     "92AF87893551AD3F2DEE78BEF3E924B9C5659E09" : "LicensePlist\/.build\/checkouts\/HeliumLogger.git--751651610598965649\/",
     "F607A624BDF2624F7609EF66C123E17132AFE18F" : "LicensePlist\/.build\/checkouts\/APIKit.git--5867995916541647569\/",
     "956D2B21DD155C49504BB67697A67F7C5351A353" : "LicensePlist\/.build\/checkouts\/Result.git-8684547452332391156\/",
+    "E111B14063EC98ABE518A93E1C4498F4167C2DEE" : "LicensePlist\/.build\/checkouts\/YamlSwift.git--3159976709968518229\/",
     "5441F5A06973B7C5DCFB2F409C92105EFA8EF303" : "LicensePlist\/.build\/checkouts\/Commander.git-1040763989236346507\/",
     "8B123162C394A0A0A138779108E4C59DD771865A" : "LicensePlist\/.build\/checkouts\/RxSwift.git--7783842673982808572\/",
     "892A392662EFD968ECAC00BEDD3BE4AF0F19F413" : "LicensePlist\/.build\/checkouts\/Himotoki.git-9171745471410878028\/",
@@ -71,6 +73,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/Spectre.git--7655155069707042687",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D591987028BFCE350CA11D7DA7F1AE9C4373C207"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/YamlSwift.git--3159976709968518229",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E111B14063EC98ABE518A93E1C4498F4167C2DEE"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Users\/mono\/Git\/Lib\/LicensePlist\/.build\/repositories\/SWXMLHash.git--4447522225536909962",
