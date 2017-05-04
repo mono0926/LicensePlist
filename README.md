@@ -26,7 +26,7 @@ $ make install
 Or you can also install by one-liner.
 
 ```sh
- `curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh`
+curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh
 ```
 
 - **Homebrew**: Not supported yet.
