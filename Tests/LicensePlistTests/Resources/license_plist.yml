@@ -1,0 +1,8 @@
+# Specify GitHub's library manually.
+github:
+  - mono0926/NativePopup
+
+# Specify libraries to be excluded.
+exclude:
+  - RxSwift
+  - ios-license-generator
