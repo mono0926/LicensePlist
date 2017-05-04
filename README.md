@@ -72,7 +72,7 @@ You can see options by `license-plist --help`.
 #### `--output-path`
 
 - Default: `com.mono0926.LicensePlist.Output`
-- Recommended: `--output-path YOUR_PROJECT_DIR/Settings.bundle`
+- Recommended: `--output-path YOUR_PRODUCT_DIR/Settings.bundle`
 
 
 #### `--github-token`
