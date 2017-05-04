@@ -34,8 +34,6 @@ curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh
 ```
 
 - **Homebrew**: Not supported yet.
-- **Download from [Releases](https://github.com/mono0926/LicensePlist/releases)**: Not supported yet.
-    - Dynamic Link Library problem.
 
 ## Usage
 
