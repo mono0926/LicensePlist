@@ -1,7 +1,9 @@
 import Foundation
 import LoggerAPI
 
+let prefix = "com.mono0926.LicensePlist"
 private let encoding = String.Encoding.utf8
+private var runWhenFinished: (() -> ())!
 public final class LicensePlist {
     private var githubLibraries: [GitHub]?
     public init() {
@@ -11,17 +13,32 @@ public final class LicensePlist {
                         cartfilePath: URL? = nil,
                         podsPath: URL? = nil,
                         gitHubToken: String? = nil,
-                        configPath: URL? = nil) {
+                        configPath: URL? = nil,
+                        force: Bool = false) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = gitHubToken
+
+        let outputRoot: URL
+        if let outputPath = outputPath {
+            outputRoot = outputPath
+        } else {
+            outputRoot = URL(fileURLWithPath: ".").appendingPathComponent("\(prefix).Output")
+        }
+
         let config = loadConfig(configPath: configPath)
-        let licenses = collectLicenseInfos(cartfilePath: cartfilePath, podsPath: podsPath, config: config)
-        outputPlist(licenses: licenses, outputPath: outputPath)
+
+        let licenses = collectLicenseInfos(cartfilePath: cartfilePath,
+                                           podsPath: podsPath,
+                                           config: config,
+                                           outputRoot: outputRoot,
+                                           force: force)
+        outputPlist(licenses: licenses, outputRoot: outputRoot)
         Log.info("End")
         reportMissings(licenses: licenses)
+        runWhenFinished()
     }
 
-    private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?, config: Config?) -> [LicenseInfo] {
+    private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?, config: Config?, outputRoot: URL, force: Bool) -> [LicenseInfo] {
         Log.info("Pods License parse start")
         let excludes = config?.excludes ?? []
 
@@ -48,6 +65,17 @@ public final class LicensePlist {
             }
             return true
         }
+
+        let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) }).joined(separator: "\n\n")
+        let savePath = outputRoot.appendingPathComponent(".license_plist")
+        if let previous = read(path: savePath), previous == contents, !force {
+            Log.warning("Completed because no diff. You can execute force by `--force` flag.")
+            exit(0)
+        }
+        runWhenFinished = {
+            try! contents.write(to: savePath, atomically: true, encoding: encoding)
+        }
+
         let queue = OperationQueue()
         let carthageOperations = gitHubLibraries.map { GitHubLicense.collect($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
@@ -87,17 +115,9 @@ private func loadConfig(configPath: URL?) -> Config? {
     return nil
 }
 
-private func outputPlist(licenses: [LicenseInfo], outputPath: URL?) {
+private func outputPlist(licenses: [LicenseInfo], outputRoot: URL) {
 
     let tm = TemplateManager.shared
-    let prefix = "com.mono0926.LicensePlist"
-
-    let outputRoot: URL
-    if let outputPath = outputPath {
-        outputRoot = outputPath
-    } else {
-        outputRoot = URL(fileURLWithPath: ".").appendingPathComponent("\(prefix).Output")
-    }
 
     let fm = FileManager.default
     let plistPath = outputRoot.appendingPathComponent(prefix)

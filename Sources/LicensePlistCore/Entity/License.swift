@@ -27,3 +27,7 @@ public struct CocoaPodsLicense: License {
     public let library: CocoaPods
     public let body: String
 }
+
+extension CocoaPodsLicense: CustomStringConvertible {
+    public var description: String { return "name: \(library.name)\nbody: \(String(body.characters.prefix(20)))…" }
+}
