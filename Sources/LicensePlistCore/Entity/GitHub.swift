@@ -12,3 +12,7 @@ extension GitHub {
         return lhs.name == rhs.name && lhs.owner == rhs.owner
     }
 }
+
+extension GitHub: CustomStringConvertible {
+    public var description: String { return "name: \(name), owner: \(owner)" }
+}

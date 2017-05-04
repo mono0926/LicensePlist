@@ -136,231 +136,231 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FEEA36AF1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D11EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_149;
 			remoteInfo = Spectre;
 		};
-		FEEA36B01EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D21EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_197;
 			remoteInfo = Result;
 		};
-		FEEA36B11EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D31EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_235;
 			remoteInfo = LoggerAPI;
 		};
-		FEEA36B21EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D41EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_149;
 			remoteInfo = Spectre;
 		};
-		FEEA36B31EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D51EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_163;
 			remoteInfo = Commander;
 		};
-		FEEA36B41EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D61EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_180;
 			remoteInfo = Himotoki;
 		};
-		FEEA36B51EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D71EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_197;
 			remoteInfo = Result;
 		};
-		FEEA36B61EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D81EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_205;
 			remoteInfo = APIKit;
 		};
-		FEEA36B71EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36D91EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_235;
 			remoteInfo = LoggerAPI;
 		};
-		FEEA36B81EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36DA1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_242;
 			remoteInfo = HeliumLogger;
 		};
-		FEEA36B91EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36DB1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_252;
 			remoteInfo = SWXMLHash;
 		};
-		FEEA36BA1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36DC1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_260;
 			remoteInfo = Yaml;
 		};
-		FEEA36BB1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36DD1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_299;
 			remoteInfo = LicensePlistCore;
 		};
-		FEEA36BC1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36DE1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_149;
 			remoteInfo = Spectre;
 		};
-		FEEA36BD1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36DF1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_163;
 			remoteInfo = Commander;
 		};
-		FEEA36BE1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E01EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_180;
 			remoteInfo = Himotoki;
 		};
-		FEEA36BF1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E11EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_197;
 			remoteInfo = Result;
 		};
-		FEEA36C01EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E21EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_205;
 			remoteInfo = APIKit;
 		};
-		FEEA36C11EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E31EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_235;
 			remoteInfo = LoggerAPI;
 		};
-		FEEA36C21EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E41EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_242;
 			remoteInfo = HeliumLogger;
 		};
-		FEEA36C31EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E51EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_252;
 			remoteInfo = SWXMLHash;
 		};
-		FEEA36C41EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E61EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_260;
 			remoteInfo = Yaml;
 		};
-		FEEA36C51EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E71EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_149;
 			remoteInfo = Spectre;
 		};
-		FEEA36C61EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E81EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_163;
 			remoteInfo = Commander;
 		};
-		FEEA36C71EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36E91EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_180;
 			remoteInfo = Himotoki;
 		};
-		FEEA36C81EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36EA1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_197;
 			remoteInfo = Result;
 		};
-		FEEA36C91EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36EB1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_205;
 			remoteInfo = APIKit;
 		};
-		FEEA36CA1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36EC1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_235;
 			remoteInfo = LoggerAPI;
 		};
-		FEEA36CB1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36ED1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_242;
 			remoteInfo = HeliumLogger;
 		};
-		FEEA36CC1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36EE1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_252;
 			remoteInfo = SWXMLHash;
 		};
-		FEEA36CD1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36EF1EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_260;
 			remoteInfo = Yaml;
 		};
-		FEEA36CE1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36F01EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_299;
 			remoteInfo = LicensePlistCore;
 		};
-		FEEA36CF1EBAFF50003A1413 /* PBXContainerItemProxy */ = {
+		FEEA36F11EBB0888003A1413 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -1444,167 +1444,167 @@
 		OBJ_179 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_149 /* Spectre */;
-			targetProxy = FEEA36AF1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D11EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_234 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_197 /* Result */;
-			targetProxy = FEEA36B01EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D21EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_251 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_235 /* LoggerAPI */;
-			targetProxy = FEEA36B11EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D31EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_289 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_149 /* Spectre */;
-			targetProxy = FEEA36B21EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D41EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_290 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_163 /* Commander */;
-			targetProxy = FEEA36B31EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D51EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_291 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_180 /* Himotoki */;
-			targetProxy = FEEA36B41EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D61EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_197 /* Result */;
-			targetProxy = FEEA36B51EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D71EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_293 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_205 /* APIKit */;
-			targetProxy = FEEA36B61EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D81EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_294 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_235 /* LoggerAPI */;
-			targetProxy = FEEA36B71EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36D91EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_295 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_242 /* HeliumLogger */;
-			targetProxy = FEEA36B81EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36DA1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_296 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_252 /* SWXMLHash */;
-			targetProxy = FEEA36B91EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36DB1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_297 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_260 /* Yaml */;
-			targetProxy = FEEA36BA1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36DC1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_298 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_299 /* LicensePlistCore */;
-			targetProxy = FEEA36BB1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36DD1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_335 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_149 /* Spectre */;
-			targetProxy = FEEA36BC1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36DE1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_336 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_163 /* Commander */;
-			targetProxy = FEEA36BD1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36DF1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_337 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_180 /* Himotoki */;
-			targetProxy = FEEA36BE1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E01EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_338 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_197 /* Result */;
-			targetProxy = FEEA36BF1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E11EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_339 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_205 /* APIKit */;
-			targetProxy = FEEA36C01EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E21EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_340 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_235 /* LoggerAPI */;
-			targetProxy = FEEA36C11EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E31EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_341 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_242 /* HeliumLogger */;
-			targetProxy = FEEA36C21EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E41EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_342 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_252 /* SWXMLHash */;
-			targetProxy = FEEA36C31EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E51EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_260 /* Yaml */;
-			targetProxy = FEEA36C41EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E61EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_369 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_149 /* Spectre */;
-			targetProxy = FEEA36C51EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E71EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_370 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_163 /* Commander */;
-			targetProxy = FEEA36C61EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E81EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_371 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_180 /* Himotoki */;
-			targetProxy = FEEA36C71EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36E91EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_372 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_197 /* Result */;
-			targetProxy = FEEA36C81EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36EA1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_373 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_205 /* APIKit */;
-			targetProxy = FEEA36C91EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36EB1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_374 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_235 /* LoggerAPI */;
-			targetProxy = FEEA36CA1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36EC1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_375 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_242 /* HeliumLogger */;
-			targetProxy = FEEA36CB1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36ED1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_376 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_252 /* SWXMLHash */;
-			targetProxy = FEEA36CC1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36EE1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_377 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_260 /* Yaml */;
-			targetProxy = FEEA36CD1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36EF1EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_378 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_299 /* LicensePlistCore */;
-			targetProxy = FEEA36CE1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36F01EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 		OBJ_379 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_272 /* LicensePlist */;
-			targetProxy = FEEA36CF1EBAFF50003A1413 /* PBXContainerItemProxy */;
+			targetProxy = FEEA36F11EBB0888003A1413 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
