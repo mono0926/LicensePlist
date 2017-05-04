@@ -57,27 +57,27 @@ You can see options by `license-plist --help`.
 
 - Default: `ROOT/Pods`
 
-### `--output-path`
+#### `--output-path`
 
 - Default: `ROOT/com.mono0926.LicensePlist.Output`
 - Recommended: `--output-path YOUR_PROJECT_DIR/Settings.bundle`
 
 
-### `--github-token`
+#### `--github-token`
 
 - Default: None.
 - `LicensePlist` uses GitHub API, so sometimes API limit error occures, so by using github-token you can avoid it.
 - [You can generate token here](https://github.com/settings/tokens/new)
     - `repo` scope is needed.
 
-### `config-path`
+#### `config-path`
 
 - Default: `ROOT/license_plist.yml`
 - You can specify GitHub libraries(introduced by hand) and excluded libraries
     - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)
 
 
-### `--force`
+#### `--force`
 
 - Default: false
 - `LicensePlist` saves latest libraries, so if there are no libraries change, iterrupt.
