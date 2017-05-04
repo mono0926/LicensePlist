@@ -10,6 +10,10 @@
 
 ## Install LicensePlist
 
+### [Download the executable binary](https://github.com/mono0926/LicensePlist/releases)
+
+Download from [releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
+
 ### From Source
 
 Clone the master branch of the repository, then run `make install`.
@@ -17,6 +21,12 @@ Clone the master branch of the repository, then run `make install`.
 ```sh
 $ git clone https://github.com/mono0926/LicensePlist.git
 $ make install
+```
+
+Or you can also install by one-liner.
+
+```sh
+ `curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh`
 ```
 
 - **Homebrew**: Not supported yet.
