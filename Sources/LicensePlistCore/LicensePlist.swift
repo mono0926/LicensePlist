@@ -36,6 +36,7 @@ public final class LicensePlist {
         Log.info("End")
         reportMissings(licenses: licenses)
         runWhenFinished()
+        shell("open", outputRoot.path)
     }
 
     private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?, config: Config?, outputRoot: URL, force: Bool) -> [LicenseInfo] {
