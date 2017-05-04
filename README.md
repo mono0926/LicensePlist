@@ -82,7 +82,7 @@ You can see options by `license-plist --help`.
 - [You can generate token here](https://github.com/settings/tokens/new)
     - `repo` scope is needed.
 
-#### `config-path`
+#### `--config-path`
 
 - Default: `ROOT/license_plist.yml`
 - You can specify GitHub libraries(introduced by hand) and excluded libraries
