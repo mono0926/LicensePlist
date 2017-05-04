@@ -1,8 +1,6 @@
 import Foundation
 import XCTest
 import APIKit
-import RxSwift
-import RxBlocking
 @testable import LicensePlistCore
 
 class GitHubLicenseCollectorTests: XCTestCase {
@@ -14,7 +12,7 @@ class GitHubLicenseCollectorTests: XCTestCase {
 
     func testCollect() {
         let carthage = GitHub(name: "NativePopup", owner: "mono0926")
-        let license = try! GitHubLicense.collect(carthage).toBlocking().single()!
+        let license = GitHubLicense.collect(carthage).blocking().result!.value!
         XCTAssertEqual(license.library, carthage)
         XCTAssertTrue(license.body.hasPrefix("MIT License"))
         XCTAssertEqual(license.githubResponse.downloadUrl,
@@ -24,7 +22,7 @@ class GitHubLicenseCollectorTests: XCTestCase {
 
     func testCollect_forked() {
         let carthage = GitHub(name: "ios_sdk", owner: "gram30")
-        let license = try! GitHubLicense.collect(carthage).toBlocking().single()!
+        let license = GitHubLicense.collect(carthage).blocking().result!.value!
         var forked = carthage
         forked.owner = "adjust"
         XCTAssertEqual(license.library, forked)
@@ -35,7 +33,7 @@ class GitHubLicenseCollectorTests: XCTestCase {
     }
     func testCollect_invalid() {
         let carthage = GitHub(name: "abcde", owner: "invalid")
-        let license = try? GitHubLicense.collect(carthage).toBlocking().first()
+        let license = GitHubLicense.collect(carthage).result
         XCTAssertTrue(license == nil)
     }
 }

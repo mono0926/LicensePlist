@@ -1,7 +1,6 @@
 import Foundation
 import APIKit
 import Result
-import RxSwift
 
 extension Session: ExtensionCompatible {}
 
@@ -16,24 +15,9 @@ extension Extension where Base: Session {
         semaphor.wait()
         return result
     }
-}
-
-extension Session: ReactiveCompatible {}
-
-public extension Reactive where Base: Session {
-    public func response<T: Request>(_ request: T) -> Single<T.Response> {
-        return Single.create { [weak base] observer in
-            let task = base?.send(request) { result in
-                switch result {
-                case .success(let response):
-                    observer(.success(response))
-                case .failure(let error):
-                    observer(.error(error))
-                }
-            }
-            return Disposables.create {
-                task?.cancel()
-            }
+    func send<T: Request>(_ request: T) -> ResultOperation<T.Response, SessionTaskError> {
+        return ResultOperation<T.Response, SessionTaskError> { _ in
+            return self.sendSync(request)
         }
     }
 }

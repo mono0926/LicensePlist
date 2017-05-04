@@ -1,7 +1,5 @@
 import Foundation
 import LoggerAPI
-import RxBlocking
-import RxSwift
 
 private let encoding = String.Encoding.utf8
 public final class LicensePlist {
@@ -32,8 +30,10 @@ public final class LicensePlist {
         if let cartfileContent = readCartfile(path: cartfilePath) {
             carthageLibraries = GitHub.parse(cartfileContent)
         }
-        let carthageLicenses = try! Observable.merge(carthageLibraries.map { GitHubLicense.collect($0).asObservable() })
-            .toBlocking().toArray()
+        let queue = OperationQueue()
+        let carthageOperations = carthageLibraries.map { GitHubLicense.collect($0) }
+        queue.addOperations(carthageOperations, waitUntilFinished: true)
+        let carthageLicenses = carthageOperations.map { $0.result?.value }.flatMap { $0 }
         self.githubLibraries = carthageLibraries
 
         return Array(((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))

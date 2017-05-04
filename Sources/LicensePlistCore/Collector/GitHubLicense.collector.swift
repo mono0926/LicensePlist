@@ -1,40 +1,42 @@
 import LoggerAPI
-import RxSwift
 import APIKit
+import Result
+import Foundation
 
 extension GitHubLicense: Collector {
-    public static func collect(_ library: GitHub) -> Maybe<GitHubLicense> {
+    public static func collect(_ library: GitHub) -> ResultOperation<GitHubLicense, CollectorError> {
         let owner = library.owner
         let name = library.name
         Log.info("license download start(owner: \(owner), name: \(name))")
-        return Session.shared.rx.response(RepoRequests.License(owner: owner, repo: name))
-            .flatMap { response in
-                response.downloadUrl.downloadContent()
-                    .map {
-                        return GitHubLicense(library: library,
-                                               body: $0,
-                                               githubResponse: response)
-                }
-            }
-            .asObservable().asMaybe()
-            .catchError { error -> Maybe<GitHubLicense> in
+        return ResultOperation<GitHubLicense, CollectorError> { _ in
+            let result = Session.shared.lp.sendSync(RepoRequests.License(owner: owner, repo: name))
+            switch result {
+            case .failure(let error):
                 if !self.isSessionTask404(error) {
                     assert(false, String(describing: error))
-                    return Maybe.error(error)
+                    return Result(error: CollectorError.unexpected(error))
                 }
                 Log.warning("404 error, license download failed(owner: \(owner), name: \(name)), so finding parent...")
-                return Session.shared.rx.response(RepoRequests.Get(owner: owner, repo: name))
-                    .asObservable().asMaybe()
-                    .flatMap { response -> Maybe<GitHubLicense> in
-                        if let parent = response.parent {
-                            var library = library
-                            library.owner = parent.owner.login
-                            return collect(library)
-                        } else {
-                            Log.warning("\(name)'s original and parent's license not found on GitHub")
-                            return Maybe.empty()
-                        }
+                let result = Session.shared.lp.sendSync(RepoRequests.Get(owner: owner, repo: name))
+                switch result {
+                case .failure(let error):
+                    return Result(error: CollectorError.unexpected(error))
+                case .success(let response):
+                    if let parent = response.parent {
+                        var library = library
+                        library.owner = parent.owner.login
+                        return collect(library).blocking().result
+                    } else {
+                        Log.warning("\(name)'s original and parent's license not found on GitHub")
+                        return nil
+                    }
                 }
+            case .success(let response):
+                let license = GitHubLicense(library: library,
+                                                 body: response.downloadUrl.downloadContent().blocking().result!.value!,
+                                                 githubResponse: response)
+                return Result.init(value: license)
+            }
         }
     }
 
