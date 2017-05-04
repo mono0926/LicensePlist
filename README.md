@@ -8,9 +8,9 @@
 `LicensePlist` generates iOS license plists for `Settings.bundle`.
 `Carthage`, `CocoaPods` and the libraries specified by yaml file(example: [license_plist.yml](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)) are supported.
 
-App Setting Root | License List
---- | ---
-![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/root.png) | ![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/list.png)
+App Setting Root | License List | License Detail
+--- | --- | ---
+![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/root.png) | ![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/list.png) | ![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/detail.png)
 
 ## Installation
 
