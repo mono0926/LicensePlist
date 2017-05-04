@@ -54,7 +54,7 @@ public final class LicensePlist {
         Log.info("Carthage License collect start")
 
         var gitHubLibraries: [GitHub] = config?.githubs ?? []
-        gitHubLibraries.forEach { Log.warning("\($0.name) is loaded from config yaml.") }
+        gitHubLibraries.forEach { Log.warning("\($0.name) was loaded from config yaml.") }
         if let cartfileContent = readCartfile(path: cartfilePath) {
             gitHubLibraries += GitHub.parse(cartfileContent)
         }
