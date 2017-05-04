@@ -12,8 +12,14 @@ extension GitHubLicense: Collector {
             let result = Session.shared.lp.sendSync(RepoRequests.License(owner: owner, repo: name))
             switch result {
             case .failure(let error):
-                if !self.isSessionTask404(error) {
+                let statusCode = self.statusCode(from: error)
+                if statusCode != 404 {
                     assert(false, String(describing: error))
+                    if statusCode == 403 {
+                        Log.warning("Failed to download \(name).\nYou can try `--github-token YOUR_REPO_SCOPE_TOKEN` option")
+                    } else {
+                        Log.warning("Failed to download \(name).\nError: \(error)")
+                    }
                     return Result(error: CollectorError.unexpected(error))
                 }
                 Log.warning("404 error, license download failed(owner: \(owner), name: \(name)), so finding parent...")
@@ -40,15 +46,20 @@ extension GitHubLicense: Collector {
         }
     }
 
-    private static func isSessionTask404(_ error: Error) -> Bool {
+    private static func statusCode(from error: Error) -> Int? {
         guard let taskError = error as? SessionTaskError else {
-            return false
+            return nil
         }
         switch taskError {
         case .responseError(let error):
-            return String(describing: error) == "unacceptableStatusCode(404)"
+            if let error = error as? ResponseError {
+                if case .unacceptableStatusCode(let code) = error {
+                    return code
+                }
+            }
+            return nil
         default:
-            return false
+            return nil
         }
     }
 }
