@@ -16,12 +16,10 @@ public class ResultOperation<T, E: Error>: Operation {
         }
         result = closure(self)
     }
-    func blocking() -> Self {
-        if isFinished {
-            return self
+    func resultSync() -> ResultType {
+        if !isFinished {
+            OperationQueue().addOperations([self], waitUntilFinished: true)
         }
-        let queue = OperationQueue()
-        queue.addOperations([self], waitUntilFinished: true)
-        return self
+        return result!
     }
 }

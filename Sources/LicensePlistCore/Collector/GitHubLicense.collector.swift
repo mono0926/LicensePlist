@@ -31,7 +31,7 @@ extension GitHubLicense: Collector {
                     if let parent = response.parent {
                         var library = library
                         library.owner = parent.owner.login
-                        return collect(library).blocking().result!
+                        return collect(library).resultSync()
                     } else {
                         Log.warning("\(name)'s original and parent's license not found on GitHub")
                         return Result(error: .notFound("\(name)'s original and parent's"))
@@ -39,7 +39,7 @@ extension GitHubLicense: Collector {
                 }
             case .success(let response):
                 let license = GitHubLicense(library: library,
-                                                 body: response.downloadUrl.downloadContent().blocking().result!.value!,
+                                                 body: response.downloadUrl.downloadContent().resultSync().value!,
                                                  githubResponse: response)
                 return Result.init(value: license)
             }

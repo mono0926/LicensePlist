@@ -10,6 +10,6 @@ class ResultOperatoinTests: XCTestCase {
         let operation = ResultOperation<String, NSError> { operation in
             return Result(value: "hello")
         }
-        XCTAssertEqual(operation.blocking().result!.value!, "hello")
+        XCTAssertEqual(operation.resultSync().value!, "hello")
     }
 }
