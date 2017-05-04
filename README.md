@@ -72,7 +72,7 @@ You can see options by `license-plist --help`.
 
 ### `config-path`
 
-- Default: None.
+- Default: `ROOT/license_plist.yml`
 - You can specify GitHub libraries(introduced by hand) and excluded libraries
     - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)
 
