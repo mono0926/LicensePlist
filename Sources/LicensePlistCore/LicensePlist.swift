@@ -60,7 +60,7 @@ public final class LicensePlist {
         }
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) }).joined(separator: "\n\n")
-        let savePath = outputPath.appendingPathComponent(".license_plist")
+        let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
