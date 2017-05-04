@@ -10,31 +10,49 @@ public final class LicensePlist {
     public func process(outputPath: URL? = nil,
                         cartfilePath: URL? = nil,
                         podsPath: URL? = nil,
-                        gitHubToken: String? = nil) {
+                        gitHubToken: String? = nil,
+                        configPath: URL? = nil) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = gitHubToken
-        let licenses = collectLicenseInfos(cartfilePath: cartfilePath, podsPath: podsPath)
+        let config = loadConfig(configPath: configPath)
+        let licenses = collectLicenseInfos(cartfilePath: cartfilePath, podsPath: podsPath, config: config)
         outputPlist(licenses: licenses, outputPath: outputPath)
         Log.info("End")
         reportMissings(licenses: licenses)
     }
 
-    private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?) -> [LicenseInfo] {
+    private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?, config: Config?) -> [LicenseInfo] {
         Log.info("Pods License parse start")
+        let excludes = config?.excludes ?? []
+
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
-        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }
+        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }.filter { cocoapods in
+            if excludes.contains(cocoapods.name) {
+                Log.warning("CocoaPods \(cocoapods.name) was excluded according to config yaml.")
+                return false
+            }
+            return true
+        }
 
         Log.info("Carthage License collect start")
 
-        var carthageLibraries = [GitHub]()
+        var gitHubLibraries: [GitHub] = config?.githubs ?? []
+        gitHubLibraries.forEach { Log.warning("\($0.name) is loaded from config yaml.") }
         if let cartfileContent = readCartfile(path: cartfilePath) {
-            carthageLibraries = GitHub.parse(cartfileContent)
+            gitHubLibraries += GitHub.parse(cartfileContent)
+        }
+        gitHubLibraries = gitHubLibraries.filter { github in
+            if excludes.contains(github.name) {
+                Log.warning("Carthage \(github.name) was excluded according to config yaml.")
+                return false
+            }
+            return true
         }
         let queue = OperationQueue()
-        let carthageOperations = carthageLibraries.map { GitHubLicense.collect($0) }
+        let carthageOperations = gitHubLibraries.map { GitHubLicense.collect($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
         let carthageLicenses = carthageOperations.map { $0.result?.value }.flatMap { $0 }
-        self.githubLibraries = carthageLibraries
+        self.githubLibraries = gitHubLibraries
 
         return Array(((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
             .reduce([String: LicenseInfo]()) { sum, e in
@@ -59,6 +77,14 @@ public final class LicensePlist {
             Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
         }
     }
+}
+
+private func loadConfig(configPath: URL?) -> Config? {
+    let configPath = configPath ?? URL(string: "license_plist.yml")
+    if let configPath = configPath, let yaml = read(path: configPath) {
+        return ConfigLoader.shared.load(yaml: yaml)
+    }
+    return nil
 }
 
 private func outputPlist(licenses: [LicenseInfo], outputPath: URL?) {
@@ -100,6 +126,11 @@ private func write(content: String, to path: URL) {
 }
 
 private func read(path: URL) -> String? {
+    let fm = FileManager.default
+    if !fm.fileExists(atPath: path.path) {
+        Log.warning("not found: \(path)")
+        return nil
+    }
     do {
         return try String(contentsOf: path, encoding: encoding)
     } catch let e {
