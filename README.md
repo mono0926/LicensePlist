@@ -101,9 +101,9 @@ You can see options by `license-plist --help`.
 Add `Run Script` to `Build - Pre-actions`:
 
 ```sh
-if [ "${CONFIGURATION}" = "Debug" ]; then
-cd $PROJECT_DIR
-/usr/local/bin/license-plist --output-path YOUR_APP_ROOT_DIR/Settings.bundle
+if [ $CONFIGURATION = "Debug" ]; then
+cd $SRCROOT
+/usr/local/bin/license-plist --output-path $PRODUCT_NAME/Settings.bundle
 fi
 ```
 
