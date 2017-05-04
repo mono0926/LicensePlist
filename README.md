@@ -63,15 +63,15 @@ You can see options by `license-plist --help`.
 
 #### `--cartfile-path`
 
-- Default: `ROOT/Cartfile`
+- Default: `Cartfile`
 
 #### `--pods-path`
 
-- Default: `ROOT/Pods`
+- Default: `Pods`
 
 #### `--output-path`
 
-- Default: `ROOT/com.mono0926.LicensePlist.Output`
+- Default: `com.mono0926.LicensePlist.Output`
 - Recommended: `--output-path YOUR_PROJECT_DIR/Settings.bundle`
 
 
@@ -84,7 +84,7 @@ You can see options by `license-plist --help`.
 
 #### `--config-path`
 
-- Default: `ROOT/license_plist.yml`
+- Default: `license_plist.yml`
 - You can specify GitHub libraries(introduced by hand) and excluded libraries
     - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)
 
