@@ -3,7 +3,8 @@ import LoggerAPI
 
 public enum CollectorError: Error {
     case
-    unexpected(Error)
+    unexpected(Error),
+    notFound(String)
 }
 
 public protocol Collector: License {

@@ -5,8 +5,8 @@ import LoggerAPI
 public class ResultOperation<T, E: Error>: Operation {
     typealias ResultType = Result<T, E>
     var result: ResultType?
-    let closure: ((ResultOperation) -> ResultType?)
-    init(_ closure: @escaping ((ResultOperation) -> ResultType?)) {
+    let closure: ((ResultOperation) -> ResultType)
+    init(_ closure: @escaping ((ResultOperation) -> ResultType)) {
         self.closure = closure
     }
     public override func main() {

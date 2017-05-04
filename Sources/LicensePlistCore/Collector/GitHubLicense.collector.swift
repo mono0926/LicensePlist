@@ -25,10 +25,10 @@ extension GitHubLicense: Collector {
                     if let parent = response.parent {
                         var library = library
                         library.owner = parent.owner.login
-                        return collect(library).blocking().result
+                        return collect(library).blocking().result!
                     } else {
                         Log.warning("\(name)'s original and parent's license not found on GitHub")
-                        return nil
+                        return Result(error: .notFound("\(name)'s original and parent's"))
                     }
                 }
             case .success(let response):
