@@ -51,15 +51,15 @@ You can see options by `license-plist --help`.
 
 #### `--cartfile-path`
 
-- Default: Root path.
+- Default: `ROOT/Cartfile`
 
 #### `--pods-path`
 
-- Default: Root path.
+- Default: `ROOT/Pods`
 
 ### `--output-path`
 
-- Default: `com.mono0926.LicensePlist.Output`
+- Default: `ROOT/com.mono0926.LicensePlist.Output`
 - Recommended: `--output-path YOUR_PROJECT_DIR/Settings.bundle`
 
 
