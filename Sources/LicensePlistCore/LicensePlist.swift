@@ -1,7 +1,6 @@
 import Foundation
 import LoggerAPI
 
-let prefix = "com.mono0926.LicensePlist"
 private let encoding = String.Encoding.utf8
 private var runWhenFinished: (() -> ())!
 public final class LicensePlist {
@@ -9,37 +8,30 @@ public final class LicensePlist {
     public init() {
         Logger.configure()
     }
-    public func process(outputPath: URL? = nil,
-                        cartfilePath: URL? = nil,
-                        podsPath: URL? = nil,
-                        gitHubToken: String? = nil,
-                        configPath: URL? = nil,
-                        force: Bool = false) {
+    public func process(outputPath: URL,
+                        cartfilePath: URL,
+                        podsPath: URL,
+                        gitHubToken: String?,
+                        configPath: URL,
+                        force: Bool) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = gitHubToken
-
-        let outputRoot: URL
-        if let outputPath = outputPath {
-            outputRoot = outputPath
-        } else {
-            outputRoot = URL(fileURLWithPath: ".").appendingPathComponent("\(prefix).Output")
-        }
 
         let config = loadConfig(configPath: configPath)
 
         let licenses = collectLicenseInfos(cartfilePath: cartfilePath,
                                            podsPath: podsPath,
                                            config: config,
-                                           outputRoot: outputRoot,
+                                           outputPath: outputPath,
                                            force: force)
-        outputPlist(licenses: licenses, outputRoot: outputRoot)
+        outputPlist(licenses: licenses, outputPath: outputPath)
         Log.info("End")
         reportMissings(licenses: licenses)
         runWhenFinished()
-        shell("open", outputRoot.path)
+        shell("open", outputPath.path)
     }
 
-    private func collectLicenseInfos(cartfilePath: URL?, podsPath: URL?, config: Config?, outputRoot: URL, force: Bool) -> [LicenseInfo] {
+    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config?, outputPath: URL, force: Bool) -> [LicenseInfo] {
         Log.info("Pods License parse start")
         let excludes = config?.excludes ?? []
 
@@ -68,7 +60,7 @@ public final class LicensePlist {
         }
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) }).joined(separator: "\n\n")
-        let savePath = outputRoot.appendingPathComponent(".license_plist")
+        let savePath = outputPath.appendingPathComponent(".license_plist")
         if let previous = read(path: savePath), previous == contents, !force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
@@ -108,33 +100,32 @@ public final class LicensePlist {
     }
 }
 
-private func loadConfig(configPath: URL?) -> Config? {
-    let configPath = configPath ?? URL(string: "license_plist.yml")
-    if let configPath = configPath, let yaml = read(path: configPath) {
+private func loadConfig(configPath: URL) -> Config? {
+    if let yaml = read(path: configPath) {
         return ConfigLoader.shared.load(yaml: yaml)
     }
     return nil
 }
 
-private func outputPlist(licenses: [LicenseInfo], outputRoot: URL) {
+private func outputPlist(licenses: [LicenseInfo], outputPath: URL) {
 
     let tm = TemplateManager.shared
 
     let fm = FileManager.default
-    let plistPath = outputRoot.appendingPathComponent(prefix)
+    let plistPath = outputPath.appendingPathComponent(Consts.prefix)
     if fm.fileExists(atPath: plistPath.path) {
         try! fm.removeItem(at: plistPath)
-        Log.info("Deleted exiting plist within \(prefix)")
+        Log.info("Deleted exiting plist within \(Consts.prefix)")
     }
     try! fm.createDirectory(at: plistPath, withIntermediateDirectories: true, attributes: nil)
-    Log.info("Directory created: \(outputRoot)")
+    Log.info("Directory created: \(outputPath)")
 
     let licensListItems = licenses.map {
         return tm.licenseListItem.applied(["Title": $0.name,
-                                           "FileName": "\(prefix)/\($0.name)"])
+                                           "FileName": "\(Consts.prefix)/\($0.name)"])
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
-    write(content: licenseListPlist, to: outputRoot.appendingPathComponent("\(prefix).plist"))
+    write(content: licenseListPlist, to: outputPath.appendingPathComponent("\(Consts.prefix).plist"))
 
     licenses.forEach {
         write(content: tm.license.applied(["Body": $0.body]),
@@ -160,23 +151,20 @@ private func read(path: URL) -> String? {
     }
 }
 
-private func readCartfile(path: URL?) -> String? {
-    let cartfileName = "Cartfile"
-    if let path = path, path.lastPathComponent != cartfileName {
+private func readCartfile(path: URL) -> String? {
+    if path.lastPathComponent != Consts.cartfileName {
         fatalError("Invalid Cartfile name: \(path.lastPathComponent)")
     }
-    let path = path ?? URL(fileURLWithPath: cartfileName)
     if let content = read(path: path.appendingPathExtension("resolved")) {
         return content
     }
     return read(path: path)
 }
-private func readPodsAcknowledgements(path: URL?) -> [String] {
-    let podsDirectoryName = "Pods"
-    if let path = path, path.lastPathComponent != podsDirectoryName {
+private func readPodsAcknowledgements(path: URL) -> [String] {
+    if path.lastPathComponent != Consts.podsDirectoryName {
         fatalError("Invalid Pods name: \(path.lastPathComponent)")
     }
-    let path = (path ?? URL(fileURLWithPath: podsDirectoryName)).appendingPathComponent("Target Support Files")
+    let path = path.appendingPathComponent("Target Support Files")
     let fm = FileManager.default
     if !fm.fileExists(atPath: path.path) {
         Log.warning("not found: \(path)")
