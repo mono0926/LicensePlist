@@ -10,9 +10,9 @@
 
 ## Install LicensePlist
 
-### [Download the executable binary](https://github.com/mono0926/LicensePlist/releases)
+### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
-Download from [releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
+Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
 
 ### From Source
 
