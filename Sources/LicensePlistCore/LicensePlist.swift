@@ -70,7 +70,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL?) {
     if let outputPath = outputPath {
         outputRoot = outputPath
     } else {
-        outputRoot = URL(fileURLWithPath: ".").appendingPathComponent("\(prefix)Output")
+        outputRoot = URL(fileURLWithPath: ".").appendingPathComponent("\(prefix).Output")
     }
 
     let fm = FileManager.default
