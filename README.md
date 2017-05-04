@@ -43,6 +43,20 @@ curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh
     - [Settings.bundle's sample is here](https://github.com/mono0926/LicensePlist/raw/master/Settings.bundle.zip)
     - The point is to [specify `com.mono0926.LicensePlist` as license list file on your `Root.plist`](https://github.com/mono0926/LicensePlist/blob/master/Settings.bundle/Root.plist#L19).
 
+```
+Settings.bundle
+├── Root.plist
+├── com.mono0926.LicensePlist
+│   ├── APIKit.plist
+│   ├── Alamofire.plist
+│   └── EditDistance.plist
+├── com.mono0926.LicensePlist.plist
+├── en.lproj
+│   └── Root.strings
+└── ja.lproj
+    └── Root.strings
+```
+
 ### Options
 
 You can see options by `license-plist --help`.
