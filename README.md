@@ -93,7 +93,7 @@ You can see options by `license-plist --help`.
 
 - Default: false
 - `LicensePlist` saves latest libraries, so if there are no libraries change, iterrupt.
-    - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Build Phases Script`** 🎉
+    - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Build - Pre-actions` every time** 🎉
 - You can run all the way anyway, by using `--force` flag.
 
 ### Integrate into build
