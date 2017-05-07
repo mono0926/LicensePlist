@@ -20,8 +20,6 @@ let package = Package(
                  majorVersion: 3),
         .Package(url: "git@github.com:IBM-Swift/HeliumLogger.git",
                  majorVersion: 1),
-        .Package(url: "git@github.com:drmohundro/SWXMLHash.git",
-                 majorVersion: 3),
         .Package(url: "git@github.com:behrang/YamlSwift.git", 
                  majorVersion: 3)
     ]
