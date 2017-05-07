@@ -7,7 +7,7 @@ import Result
 class ResultOperatoinTests: XCTestCase {
 
     func testBlocking() {
-        let operation = ResultOperation<String, NSError> { operation in
+        let operation = ResultOperation<String, NSError> { _ in
             return Result(value: "hello")
         }
         XCTAssertEqual(operation.resultSync().value!, "hello")

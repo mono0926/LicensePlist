@@ -2,7 +2,7 @@ import Foundation
 import LoggerAPI
 
 private let encoding = String.Encoding.utf8
-private var runWhenFinished: (() -> ())!
+private var runWhenFinished: (() -> Void)!
 public final class LicensePlist {
     private var githubLibraries: [GitHub]?
     public init() {
@@ -59,7 +59,8 @@ public final class LicensePlist {
             return true
         }
 
-        let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) }).joined(separator: "\n\n")
+        let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) })
+            .joined(separator: "\n\n")
         let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
