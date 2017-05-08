@@ -6,4 +6,4 @@ github:
 exclude:
   - RxSwift
   - ios-license-generator
-  - /^Core.*$/ # Support regix sandwiched by `/`
+  - /^Core.*$/ # Support regex sandwiched by `/`
