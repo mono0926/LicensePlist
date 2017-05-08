@@ -421,9 +421,6 @@
 		OBJ_48 /* GitHubLicense.collectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubLicense.collectorTests.swift; sourceTree = "<group>"; };
 		OBJ_50 /* CocoaPodsLicense.parserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoaPodsLicense.parserTests.swift; sourceTree = "<group>"; };
 		OBJ_51 /* GitHub.parserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHub.parserTests.swift; sourceTree = "<group>"; };
-		OBJ_52 /* com.mono0926.LicensePlist.Output */ = {isa = PBXFileReference; lastKnownFileType = folder; path = com.mono0926.LicensePlist.Output; sourceTree = SOURCE_ROOT; };
-		OBJ_53 /* hoge */ = {isa = PBXFileReference; lastKnownFileType = folder; path = hoge; sourceTree = SOURCE_ROOT; };
-		OBJ_54 /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = SOURCE_ROOT; };
 		OBJ_55 /* Screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Screenshots; sourceTree = SOURCE_ROOT; };
 		OBJ_56 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = SOURCE_ROOT; };
 		OBJ_57 /* Template */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Template; sourceTree = SOURCE_ROOT; };
@@ -779,22 +776,18 @@
 			path = Parser;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_39 /* Tests */,
-				OBJ_52 /* com.mono0926.LicensePlist.Output */,
-				OBJ_53 /* hoge */,
-				OBJ_54 /* Pods */,
 				OBJ_55 /* Screenshots */,
 				OBJ_56 /* Settings.bundle */,
 				OBJ_57 /* Template */,
 				OBJ_58 /* Dependencies */,
 				OBJ_138 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_58 /* Dependencies */ = {
@@ -1180,7 +1173,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_138 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
