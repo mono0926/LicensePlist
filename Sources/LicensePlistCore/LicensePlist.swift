@@ -35,7 +35,9 @@ public final class LicensePlist {
         Log.info("Pods License parse start")
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
-        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }
+        let cocoaPodsLicenses = podsAcknowledgements
+            .map { CocoaPodsLicense.parse($0) }
+            .flatMap { $0 }
             .filterExcluded(config: config)
 
         Log.info("Carthage License collect start")
