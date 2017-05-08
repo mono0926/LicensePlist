@@ -2,7 +2,7 @@ import Foundation
 import APIKit
 import LoggerAPI
 
-public protocol Library: Hashable, Equatable {
+public protocol Library: Hashable, Equatable, HasName {
     var name: String { get }
 }
 
