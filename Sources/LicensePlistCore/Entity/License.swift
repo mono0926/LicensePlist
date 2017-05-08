@@ -2,7 +2,7 @@ import Foundation
 import APIKit
 import LoggerAPI
 
-public protocol LicenseInfo {
+public protocol LicenseInfo: HasName {
     var name: String { get }
     var body: String { get }
 }

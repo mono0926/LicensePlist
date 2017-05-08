@@ -3,6 +3,10 @@ import Foundation
 struct Config {
     let githubs: [GitHub]
     let excludes: [String]
+
+    func excluded(name: String) -> Bool {
+        return excludes.contains(name)
+    }
 }
 
 extension Config: Equatable {

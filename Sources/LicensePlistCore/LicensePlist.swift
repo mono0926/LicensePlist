@@ -33,16 +33,10 @@ public final class LicensePlist {
 
     private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config?, outputPath: URL, force: Bool) -> [LicenseInfo] {
         Log.info("Pods License parse start")
-        let excludes = config?.excludes ?? []
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
-        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }.filter { cocoapods in
-            if excludes.contains(cocoapods.name) {
-                Log.warning("CocoaPods \(cocoapods.name) was excluded according to config yaml.")
-                return false
-            }
-            return true
-        }
+        let cocoaPodsLicenses = podsAcknowledgements.map { CocoaPodsLicense.parse($0) }.flatMap { $0 }
+            .filterExcluded(config: config)
 
         Log.info("Carthage License collect start")
 
@@ -51,13 +45,7 @@ public final class LicensePlist {
         if let cartfileContent = readCartfile(path: cartfilePath) {
             gitHubLibraries += GitHub.parse(cartfileContent)
         }
-        gitHubLibraries = gitHubLibraries.filter { github in
-            if excludes.contains(github.name) {
-                Log.warning("Carthage \(github.name) was excluded according to config yaml.")
-                return false
-            }
-            return true
-        }
+        gitHubLibraries = gitHubLibraries.filterExcluded(config: config)
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) })
             .joined(separator: "\n\n")
