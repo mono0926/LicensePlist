@@ -11,7 +11,7 @@ extension Array where Element: HasName {
             guard let config = config else { return true }
             let result = !config.excluded(name: name)
             if !result {
-                Log.warning("\(type(of: self))'s \(name) was excluded according to config yaml.")
+                Log.warning("\(type(of: Element.self))'s \(name) was excluded according to config yaml.")
             }
             return result
         }
