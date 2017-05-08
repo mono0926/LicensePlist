@@ -10,7 +10,7 @@ class ConfigTests: XCTestCase {
         XCTAssertFalse(target.excluded(name: "lib2"))
     }
 
-    func testExcluded_isRegex() {
+    func testExtractRegex() {
         XCTAssertEqual(Config.extractRegex("/^Core.*$/"), "^Core.*$")
         XCTAssertNil(Config.extractRegex("/^Core.*$/a"))
     }
