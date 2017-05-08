@@ -108,3 +108,10 @@ fi
 ```
 
 ![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/pre_build_action.png)
+
+
+## Q&A
+
+### How to generate Xcode project?
+
+Execute `swift package generate-xcodeproj` or `make xcode`.
