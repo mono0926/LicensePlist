@@ -6,7 +6,7 @@
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
 `LicensePlist` generates iOS license plists for `Settings.bundle`.
-`Carthage`, `CocoaPods` and the libraries specified by yaml file(example: [license_plist.yml](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)) are supported.
+`Carthage`, `CocoaPods` and the libraries specified by YAML file(example: [license_plist.yml](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)) are supported.
 
 App Setting Root | License List | License Detail
 --- | --- | ---
