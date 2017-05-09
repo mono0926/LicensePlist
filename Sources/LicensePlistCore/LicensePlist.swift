@@ -45,7 +45,9 @@ public final class LicensePlist {
         var gitHubLibraries = GitHub.parse(readCartfile(path: cartfilePath) ?? "")
         gitHubLibraries = config.apply(githubs: gitHubLibraries)
 
-        let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) })
+        let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
+            gitHubLibraries.map { String(describing: $0) } +
+            config.renames.map { "\($0.key):\($0.value)" })
             .joined(separator: "\n\n")
         let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
