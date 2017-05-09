@@ -55,8 +55,8 @@ struct Config {
         self.githubs.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
         return filterExcluded((self.githubs + githubs))
     }
-    func rename(licenses: [LicenseInfo]) -> [LicenseInfo] {
-        return licenses.map { name in
+    func rename<T>(_ names: [T]) -> [T] where T: HasChangeableName {
+        return names.map { name in
             if let to = renames[name.name] {
                 var name = name
                 name.name = to
