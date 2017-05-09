@@ -2,30 +2,42 @@ import Foundation
 import APIKit
 import LoggerAPI
 
-public protocol LicenseInfo: HasName {
-    var name: String { get }
+public protocol LicenseInfo: HasChangeableName {
     var body: String { get }
 }
 
 public protocol License: LicenseInfo {
     associatedtype LibraryType: Library
-    var library: LibraryType { get }
+    var library: LibraryType { get set }
     var body: String { get }
 }
 
 extension License {
-    public var name: String { return library.name }
+    public var name: String {
+        set { library.name = newValue }
+        get { return library.name }
+    }
 }
 
-public struct GitHubLicense: License {
-    public let library: GitHub
+public struct GitHubLicense: License, Equatable {
+    public var library: GitHub
     public let body: String
     let githubResponse: LicenseResponse
+
+    public static func==(lhs: GitHubLicense, rhs: GitHubLicense) -> Bool {
+        return lhs.library == rhs.library &&
+        lhs.body == rhs.body
+    }
 }
 
-public struct CocoaPodsLicense: License {
-    public let library: CocoaPods
+public struct CocoaPodsLicense: License, Equatable {
+    public var library: CocoaPods
     public let body: String
+
+    public static func==(lhs: CocoaPodsLicense, rhs: CocoaPodsLicense) -> Bool {
+        return lhs.library == rhs.library &&
+            lhs.body == rhs.body
+    }
 }
 
 extension CocoaPodsLicense: CustomStringConvertible {

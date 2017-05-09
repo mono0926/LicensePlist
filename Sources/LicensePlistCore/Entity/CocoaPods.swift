@@ -3,7 +3,7 @@ import APIKit
 import LoggerAPI
 
 public struct CocoaPods: Library {
-    public let name: String
+    public var name: String
 }
 
 extension CocoaPods {

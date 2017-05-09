@@ -2,8 +2,7 @@ import Foundation
 import APIKit
 import LoggerAPI
 
-public protocol Library: Hashable, Equatable, HasName {
-    var name: String { get }
+public protocol Library: Hashable, Equatable, HasChangeableName {
 }
 
 extension Library {
