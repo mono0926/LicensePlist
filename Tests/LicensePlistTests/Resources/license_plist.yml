@@ -7,3 +7,6 @@ exclude:
   - RxSwift
   - ios-license-generator
   - /^Core.*$/ # Support regex sandwiched by `/`
+
+rename:
+  - LicensePlist: License Plist # Rename LicensePlist to "License Plist"
