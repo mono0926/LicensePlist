@@ -41,7 +41,7 @@ extension GitHubLicense: Collector {
                 let license = GitHubLicense(library: library,
                                                  body: response.downloadUrl.downloadContent().resultSync().value!,
                                                  githubResponse: response)
-                return Result.init(value: license)
+                return Result(value: license)
             }
         }
     }

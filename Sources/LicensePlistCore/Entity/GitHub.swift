@@ -3,7 +3,7 @@ import APIKit
 import LoggerAPI
 
 public struct GitHub: Library {
-    public let name: String
+    public var name: String
     var owner: String
 }
 

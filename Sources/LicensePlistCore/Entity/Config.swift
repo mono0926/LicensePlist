@@ -4,6 +4,7 @@ import LoggerAPI
 struct Config {
     let githubs: [GitHub]
     let excludes: [String]
+    let renames: [String: String]
 
     func excluded(name: String) -> Bool {
         if excludes.contains(name) {
@@ -39,10 +40,37 @@ struct Config {
         }
         return nsText.substring(with: match.rangeAt(1))
     }
+
+    func filterExcluded<T>(_ names: [T]) -> [T] where T: HasName {
+        return names.filter {
+            let name = $0.name
+            let result = !excluded(name: name)
+            if !result {
+                Log.warning("\(type(of: $0.self))'s \(name) was excluded according to config YAML.")
+            }
+            return result
+        }
+    }
+    func apply(githubs: [GitHub]) -> [GitHub] {
+        self.githubs.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
+        return filterExcluded((self.githubs + githubs))
+    }
+    func rename(licenses: [LicenseInfo]) -> [LicenseInfo] {
+        return licenses.map { name in
+            if let to = renames[name.name] {
+                var name = name
+                name.name = to
+                return name
+            }
+            return name
+        }
+    }
 }
 
 extension Config: Equatable {
     public static func==(lhs: Config, rhs: Config) -> Bool {
-        return lhs.githubs == rhs.githubs && lhs.excludes == rhs.excludes
+        return lhs.githubs == rhs.githubs &&
+            lhs.excludes == rhs.excludes &&
+            lhs.renames == rhs.renames
     }
 }

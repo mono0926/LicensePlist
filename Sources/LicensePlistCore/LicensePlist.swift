@@ -31,25 +31,23 @@ public final class LicensePlist {
         shell("open", outputPath.path)
     }
 
-    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config?, outputPath: URL, force: Bool) -> [LicenseInfo] {
+    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config, outputPath: URL, force: Bool) -> [LicenseInfo] {
         Log.info("Pods License parse start")
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
-        let cocoaPodsLicenses = podsAcknowledgements
+        var cocoaPodsLicenses = podsAcknowledgements
             .map { CocoaPodsLicense.parse($0) }
             .flatMap { $0 }
-            .filterExcluded(config: config)
+        cocoaPodsLicenses = config.filterExcluded(cocoaPodsLicenses)
 
         Log.info("Carthage License collect start")
 
-        var gitHubLibraries: [GitHub] = config?.githubs ?? []
-        gitHubLibraries.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
-        if let cartfileContent = readCartfile(path: cartfilePath) {
-            gitHubLibraries += GitHub.parse(cartfileContent)
-        }
-        gitHubLibraries = gitHubLibraries.filterExcluded(config: config)
+        var gitHubLibraries = GitHub.parse(readCartfile(path: cartfilePath) ?? "")
+        gitHubLibraries = config.apply(githubs: gitHubLibraries)
 
-        let contents = (cocoaPodsLicenses.map { String(describing: $0) } + gitHubLibraries.map { String(describing: $0) })
+        let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
+            gitHubLibraries.map { String(describing: $0) } +
+            config.renames.map { "\($0.key):\($0.value)" })
             .joined(separator: "\n\n")
         let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
@@ -66,13 +64,14 @@ public final class LicensePlist {
         let carthageLicenses = carthageOperations.map { $0.result?.value }.flatMap { $0 }
         self.githubLibraries = gitHubLibraries
 
-        return Array(((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
+        let licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
             .reduce([String: LicenseInfo]()) { sum, e in
                 var sum = sum
                 sum[e.name] = e
                 return sum
             }.values
-            .sorted { $0.name.lowercased() < $1.name.lowercased() })
+            .sorted { $0.name.lowercased() < $1.name.lowercased() }
+        return config.rename(licenses: licenses)
     }
 
     private func reportMissings(licenses: [LicenseInfo]) {
@@ -91,11 +90,11 @@ public final class LicensePlist {
     }
 }
 
-private func loadConfig(configPath: URL) -> Config? {
+private func loadConfig(configPath: URL) -> Config {
     if let yaml = read(path: configPath) {
         return ConfigLoader.shared.load(yaml: yaml)
     }
-    return nil
+    return Config(githubs: [], excludes: [], renames: [:])
 }
 
 private func outputPlist(licenses: [LicenseInfo], outputPath: URL) {

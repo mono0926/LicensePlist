@@ -1,6 +1,7 @@
 disabled_rules:
   - identifier_name
   - force_try
+  - force_cast
   - function_parameter_count
 
 included:
