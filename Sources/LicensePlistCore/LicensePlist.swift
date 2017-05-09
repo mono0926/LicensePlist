@@ -38,7 +38,7 @@ public final class LicensePlist {
         var cocoaPodsLicenses = podsAcknowledgements
             .map { CocoaPodsLicense.parse($0) }
             .flatMap { $0 }
-        cocoaPodsLicenses = config.filterExcluded(cocoaPodsLicenses)
+        cocoaPodsLicenses = config.rename(config.filterExcluded(cocoaPodsLicenses))
 
         Log.info("Carthage License collect start")
 
@@ -61,17 +61,16 @@ public final class LicensePlist {
         let queue = OperationQueue()
         let carthageOperations = gitHubLibraries.map { GitHubLicense.collect($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
-        let carthageLicenses = carthageOperations.map { $0.result?.value }.flatMap { $0 }
-        self.githubLibraries = gitHubLibraries
+        let carthageLicenses = config.rename(carthageOperations.map { $0.result?.value }.flatMap { $0 })
+        self.githubLibraries = config.rename(gitHubLibraries)
 
-        let licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
+        return ((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
             .reduce([String: LicenseInfo]()) { sum, e in
                 var sum = sum
                 sum[e.name] = e
                 return sum
             }.values
             .sorted { $0.name.lowercased() < $1.name.lowercased() }
-        return config.rename(licenses: licenses)
     }
 
     private func reportMissings(licenses: [LicenseInfo]) {
