@@ -5,7 +5,7 @@ import XCTest
 class ConfigTests: XCTestCase {
 
     func testExcluded() {
-        let target = Config(githubs: [], excludes: ["lib1"])
+        let target = Config(githubs: [], excludes: ["lib1"], renames: [:])
         XCTAssertTrue(target.excluded(name: "lib1"))
         XCTAssertFalse(target.excluded(name: "lib2"))
     }
@@ -16,7 +16,7 @@ class ConfigTests: XCTestCase {
     }
 
     func testExcluded_regex() {
-        let target = Config(githubs: [], excludes: ["/^lib.*$/"])
+        let target = Config(githubs: [], excludes: ["/^lib.*$/"], renames: [:])
         XCTAssertTrue(target.excluded(name: "lib1"))
         XCTAssertTrue(target.excluded(name: "lib2"))
         XCTAssertFalse(target.excluded(name: "hello"))

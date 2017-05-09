@@ -5,7 +5,7 @@ import XCTest
 class HasNameTests: XCTestCase {
 
     func testfilterExcluded() {
-        let config = Config(githubs: [], excludes: ["lib2"])
+        let config = Config(githubs: [], excludes: ["lib2"], renames: [:])
         let shouldBeIncluded = GitHub.init(name: "lib1", owner: "o1")
         let result = [shouldBeIncluded, GitHub.init(name: "lib2", owner: "o2")]
         .filterExcluded(config: config)
