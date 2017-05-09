@@ -40,6 +40,21 @@ struct Config {
         }
         return nsText.substring(with: match.rangeAt(1))
     }
+
+    func apply<T>(names: [T]) -> [T] where T: HasName {
+        return names.filter {
+            let name = $0.name
+            let result = !excluded(name: name)
+            if !result {
+                Log.warning("\(type(of: $0.self))'s \(name) was excluded according to config YAML.")
+            }
+            return result
+        }
+    }
+    func apply(githubs: [GitHub]) -> [GitHub] {
+        self.githubs.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
+        return apply(names: (self.githubs + githubs))
+    }
 }
 
 extension Config: Equatable {
