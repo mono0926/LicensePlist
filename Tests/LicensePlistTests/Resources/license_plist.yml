@@ -8,5 +8,6 @@ exclude:
   - ios-license-generator
   - /^Core.*$/ # Support regex sandwiched by `/`
 
+# Specify libraries' names to be renamed.
 rename:
   LicensePlist: License Plist # Rename LicensePlist to "License Plist"
