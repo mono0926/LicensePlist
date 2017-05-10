@@ -41,7 +41,7 @@ struct Config {
         return nsText.substring(with: match.rangeAt(1))
     }
 
-    func filterExcluded<T>(_ names: [T]) -> [T] where T: HasName {
+    func filterExcluded<T: HasName>(_ names: [T]) -> [T] {
         return names.filter {
             let name = $0.name
             let result = !excluded(name: name)
@@ -55,7 +55,7 @@ struct Config {
         self.githubs.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
         return filterExcluded((self.githubs + githubs))
     }
-    func rename<T>(_ names: [T]) -> [T] where T: HasChangeableName {
+    func rename<T: HasChangeableName>(_ names: [T]) -> [T] {
         return names.map { name in
             if let to = renames[name.name] {
                 var name = name
