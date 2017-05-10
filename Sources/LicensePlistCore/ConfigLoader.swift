@@ -25,6 +25,6 @@ class ConfigLoader {
             sum[from] = to
             return sum
             } ?? [:]
-        return Config(githubs: gitHubList + githubsVersion, excludes: excludes, renames: renames)
+        return Config(githubs: githubsVersion + gitHubList, excludes: excludes, renames: renames)
     }
 }
