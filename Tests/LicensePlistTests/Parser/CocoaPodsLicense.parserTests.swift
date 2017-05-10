@@ -16,10 +16,12 @@ class CocoaPodsLicenseParserTests: XCTestCase {
         XCTAssertFalse(results.isEmpty)
         XCTAssertEqual(results.count, 11)
         let licenseFirst = results.first!
-        XCTAssertEqual(licenseFirst.library, CocoaPods(name: "Firebase"))
+        // TODO:
+        XCTAssertEqual(licenseFirst.library, CocoaPods(name: "Firebase", version: ""))
         XCTAssertEqual(licenseFirst.body, "Copyright 2017 Google")
         let licenseLast = results.last!
-        XCTAssertEqual(licenseLast.library, CocoaPods(name: "Protobuf"))
+        // TODO:
+        XCTAssertEqual(licenseLast.library, CocoaPods(name: "Protobuf", version: ""))
         XCTAssertTrue(licenseLast.body.hasPrefix("This license applies to all parts of Protocol Buffers except the following:"))
     }
 }

@@ -4,6 +4,7 @@ import LoggerAPI
 
 public struct CocoaPods: Library {
     public var name: String
+    public let version: String?
 }
 
 extension CocoaPods {

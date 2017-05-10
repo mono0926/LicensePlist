@@ -15,8 +15,10 @@ extension GitHub: Parser {
                 assert(false, "maybe invalid regular expression to: \(nsContent.substring(with: match.range))")
                 return nil
             }
+            // TODO
             return GitHub(name: nsContent.substring(with: match.rangeAt(2)),
-                          owner: nsContent.substring(with: match.rangeAt(1)))
+                          owner: nsContent.substring(with: match.rangeAt(1))
+                , version: "")
             }
             .flatMap { $0 }
     }

@@ -5,6 +5,7 @@ import LoggerAPI
 public struct GitHub: Library {
     public var name: String
     var owner: String
+    public let version: String?
 }
 
 extension GitHub {

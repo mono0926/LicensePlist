@@ -24,21 +24,28 @@ class ConfigTests: XCTestCase {
 
     func testApply_filterExcluded() {
         let config = Config(githubs: [], excludes: ["lib2"], renames: [:])
-        let shouldBeIncluded = GitHub.init(name: "lib1", owner: "o1")
-        let result = config.filterExcluded([shouldBeIncluded, GitHub(name: "lib2", owner: "o2")])
+        // TODO:
+        let shouldBeIncluded = GitHub.init(name: "lib1", owner: "o1", version: "")
+        // TODO:
+        // TODO:
+        let result = config.filterExcluded([shouldBeIncluded, GitHub(name: "lib2", owner: "o2", version: "")])
         XCTAssertEqual(result, [shouldBeIncluded])
     }
 
     func testApply_githubs() {
-        let github1 = GitHub(name: "github1", owner: "g1")
+        // TODO:
+        let github1 = GitHub(name: "github1", owner: "g1", version: "")
         let config = Config(githubs: [github1], excludes: ["lib2"], renames: [:])
-        let shouldBeIncluded = GitHub(name: "lib1", owner: "o1")
-        let result = config.apply(githubs: [shouldBeIncluded, GitHub(name: "lib2", owner: "o2")])
+        // TODO:
+        let shouldBeIncluded = GitHub(name: "lib1", owner: "o1", version: "")
+        // TODO:
+        let result = config.apply(githubs: [shouldBeIncluded, GitHub(name: "lib2", owner: "o2", version: "")])
         XCTAssertEqual(result, [github1, shouldBeIncluded])
     }
 
     func testApply_rename() {
-        var cocoapod1 = CocoaPodsLicense(library: CocoaPods(name: "lib1"), body: "body")
+        // TODO:
+        var cocoapod1 = CocoaPodsLicense(library: CocoaPods(name: "lib1", version: ""), body: "body")
         let config = Config(githubs: [], excludes: [], renames: ["lib1": "lib1_renamed"])
         let result = config.rename([cocoapod1])
 

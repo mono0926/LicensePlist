@@ -3,6 +3,7 @@ import APIKit
 import LoggerAPI
 
 public protocol Library: Hashable, Equatable, HasChangeableName {
+    var version: String? { get }
 }
 
 extension Library {
