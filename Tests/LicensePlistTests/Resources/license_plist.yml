@@ -1,6 +1,10 @@
+# You can validate the YAML config file at http://yaml-online-parser.appspot.com
+
 # Specify GitHub's library manually.
 github:
   - mono0926/NativePopup
+  - mono0926/LicensePlist:
+      version: 1.2.0
 
 # Specify libraries to be excluded.
 exclude:
