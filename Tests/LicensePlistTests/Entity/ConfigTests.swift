@@ -40,7 +40,7 @@ class ConfigTests: XCTestCase {
     func testApply_rename() {
         var cocoapod1 = CocoaPodsLicense(library: CocoaPods(name: "lib1"), body: "body")
         let config = Config(githubs: [], excludes: [], renames: ["lib1": "lib1_renamed"])
-        let result = config.rename(licenses: [cocoapod1]) as! [CocoaPodsLicense]
+        let result = config.rename([cocoapod1])
 
         cocoapod1.name = "lib1_renamed"
         XCTAssertEqual(result, [cocoapod1])
