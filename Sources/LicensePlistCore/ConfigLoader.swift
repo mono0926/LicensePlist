@@ -7,7 +7,7 @@ class ConfigLoader {
 
     func load(yaml: String) -> Config {
         let value = try! Yaml.load(yaml)
-        let githubs = value["github"].array?.map { $0.string! } ?? []
+        let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
         let gitHubList = githubs.map { GitHub.parse($0, mark: "", quotes: "") }.flatMap { $0 }
         let excludes = value["exclude"].array?.map { $0.string! } ?? []
         let renames = value["rename"].dictionary?.reduce([String: String]()) { sum, e in
