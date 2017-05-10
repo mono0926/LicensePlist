@@ -14,7 +14,7 @@ class GitHubParserTests: XCTestCase {
         XCTAssertTrue(results.count == 1)
         let result = results.first
         // TODO:
-        XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: ""))
+        XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: nil))
     }
 
     func testParse_one_dot() {
@@ -22,7 +22,7 @@ class GitHubParserTests: XCTestCase {
         XCTAssertTrue(results.count == 1)
         let result = results.first
         // TODO:
-        XCTAssertEqual(result, GitHub(name: "SQLite.swift", owner: "tephencelis", version: ""))
+        XCTAssertEqual(result, GitHub(name: "SQLite.swift", owner: "tephencelis", version: nil))
     }
 
     func testParse_one_hyphen() {
@@ -30,7 +30,7 @@ class GitHubParserTests: XCTestCase {
         XCTAssertTrue(results.count == 1)
         let result = results.first
         // TODO:
-        XCTAssertEqual(result, GitHub(name: "ios-license-generator", owner: "mono0926", version: ""))
+        XCTAssertEqual(result, GitHub(name: "ios-license-generator", owner: "mono0926", version: nil))
     }
 
     func testParse_multiple() {
@@ -38,8 +38,16 @@ class GitHubParserTests: XCTestCase {
         XCTAssertTrue(results.count == 2)
         let result1 = results[0]
         // TODO:
-        XCTAssertEqual(result1, GitHub(name: "NativePopup", owner: "mono0926", version: ""))
+        XCTAssertEqual(result1, GitHub(name: "NativePopup", owner: "mono0926", version: nil))
         let result2 = results[1]
-        XCTAssertEqual(result2, GitHub(name: "RxSwift", owner: "ReactiveX", version: ""))
+        XCTAssertEqual(result2, GitHub(name: "RxSwift", owner: "ReactiveX", version: nil))
+    }
+
+    func testParse_one_versoin() {
+        let results = GitHub.parse("github \"mono0926/NativePopup\" \"1.8.4\"")
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        // TODO:
+        XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "1.8.4"))
     }
 }

@@ -10,10 +10,10 @@ public struct GitHub: Library {
 
 extension GitHub {
     public static func==(lhs: GitHub, rhs: GitHub) -> Bool {
-        return lhs.name == rhs.name && lhs.owner == rhs.owner
+        return lhs.name == rhs.name && lhs.owner == rhs.owner && lhs.version == rhs.version
     }
 }
 
 extension GitHub: CustomStringConvertible {
-    public var description: String { return "name: \(name), owner: \(owner)" }
+    public var description: String { return "name: \(name), owner: \(owner), version: \(version ?? "")" }
 }

@@ -12,7 +12,7 @@ extension CocoaPodsLicense: Parser {
             return try AcknowledgementsPlist.decodeValue(plist).preferenceSpecifiers
                 .filter { $0.isLicense }
                 // TODO
-                .map { CocoaPodsLicense(library: CocoaPods(name: $0.title, version: ""), body: $0.footerText) }
+                .map { CocoaPodsLicense(library: CocoaPods(name: $0.title, version: nil), body: $0.footerText) }
         } catch let e {
             Log.error(String(describing: e))
             return []

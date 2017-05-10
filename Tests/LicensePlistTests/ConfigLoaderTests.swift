@@ -11,7 +11,7 @@ class ConfigLoaderTests: XCTestCase {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/license_plist.yml"
         XCTAssertEqual(target.load(yaml: URL(string: path)!.downloadContent().resultSync().value!),
                        // TODO:
-                       Config(githubs: [GitHub(name: "NativePopup", owner: "mono0926", version: "")],
+                       Config(githubs: [GitHub(name: "NativePopup", owner: "mono0926", version: nil)],
                               excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
                               renames: ["LicensePlist": "License Plist"]))
     }
