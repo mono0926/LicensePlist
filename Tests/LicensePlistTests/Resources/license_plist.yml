@@ -2,10 +2,11 @@
 
 # Specify GitHub's library manually.
 github:
-  - mono0926/NativePopup
   - owner: mono0926
     name: LicensePlist
     version: 1.2.0
+  # Depricated(Will be removed at Version 2. Use above.)
+  - mono0926/NativePopup
 
 # Specify libraries to be excluded.
 exclude:
