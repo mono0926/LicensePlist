@@ -1,6 +1,6 @@
 import Foundation
 
-extension GitHub: Parser {
+extension GitHub {
     public static func parse(_ content: String) -> [GitHub] {
         return parse(content, mark: "github ")
     }

@@ -2,7 +2,7 @@ import Foundation
 import Himotoki
 import LoggerAPI
 
-extension CocoaPodsLicense: Parser {
+extension CocoaPodsLicense {
     public static func parse(_ content: String) -> [CocoaPodsLicense] {
         do {
             let plist = try PropertyListSerialization.propertyList(from: content.data(using: String.Encoding.utf8)!,
