@@ -24,7 +24,8 @@ public final class LicensePlist {
                                            podsPath: podsPath,
                                            config: config,
                                            outputPath: outputPath,
-                                           force: force)
+                                           force: force,
+                                           version: version)
         outputPlist(licenses: licenses, outputPath: outputPath, version: version)
         Log.info("End")
         reportMissings(licenses: licenses)
@@ -32,7 +33,7 @@ public final class LicensePlist {
         shell("open", outputPath.path)
     }
 
-    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config, outputPath: URL, force: Bool) -> [LicenseInfo] {
+    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config, outputPath: URL, force: Bool, version: Bool) -> [LicenseInfo] {
         Log.info("Pods License parse start")
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
@@ -51,7 +52,7 @@ public final class LicensePlist {
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
             gitHubLibraries.map { String(describing: $0) } +
             config.renames.map { "\($0.key):\($0.value)" } +
-            ["LicensePlist Version: \(Consts.version)"])
+            ["LicensePlist Version: \(Consts.version)", "add-version-numbers: \(version)"])
             .joined(separator: "\n\n")
         let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
