@@ -13,7 +13,8 @@ public final class LicensePlist {
                         podsPath: URL,
                         gitHubToken: String?,
                         configPath: URL,
-                        force: Bool) {
+                        force: Bool,
+                        version: Bool) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = gitHubToken
 
@@ -24,7 +25,7 @@ public final class LicensePlist {
                                            config: config,
                                            outputPath: outputPath,
                                            force: force)
-        outputPlist(licenses: licenses, outputPath: outputPath)
+        outputPlist(licenses: licenses, outputPath: outputPath, version: version)
         Log.info("End")
         reportMissings(licenses: licenses)
         runWhenFinished()
@@ -35,8 +36,10 @@ public final class LicensePlist {
         Log.info("Pods License parse start")
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
+        let path = podsPath.appendingPathComponent("Manifest.lock")
+        let podsVersionInfo = VersionInfo.parse(podsManifest: read(path: path) ?? "")
         var cocoaPodsLicenses = podsAcknowledgements
-            .map { CocoaPodsLicense.parse($0) }
+            .map { CocoaPodsLicense.parse($0, versionInfo: podsVersionInfo) }
             .flatMap { $0 }
         cocoaPodsLicenses = config.rename(config.filterExcluded(cocoaPodsLicenses))
 
@@ -96,7 +99,7 @@ private func loadConfig(configPath: URL) -> Config {
     return Config(githubs: [], excludes: [], renames: [:])
 }
 
-private func outputPlist(licenses: [LicenseInfo], outputPath: URL) {
+private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool) {
 
     let tm = TemplateManager.shared
 
@@ -110,7 +113,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL) {
     Log.info("Directory created: \(outputPath)")
 
     let licensListItems = licenses.map {
-        return tm.licenseListItem.applied(["Title": $0.name,
+        return tm.licenseListItem.applied(["Title": $0.name(withVersion: version),
                                            "FileName": "\(Consts.prefix)/\($0.name)"])
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
@@ -149,6 +152,7 @@ private func readCartfile(path: URL) -> String? {
     }
     return read(path: path)
 }
+
 private func readPodsAcknowledgements(path: URL) -> [String] {
     if path.lastPathComponent != Consts.podsDirectoryName {
         fatalError("Invalid Pods name: \(path.lastPathComponent)")

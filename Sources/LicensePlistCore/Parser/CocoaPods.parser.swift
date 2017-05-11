@@ -2,8 +2,8 @@ import Foundation
 import Himotoki
 import LoggerAPI
 
-extension CocoaPodsLicense: Parser {
-    public static func parse(_ content: String) -> [CocoaPodsLicense] {
+extension CocoaPodsLicense {
+    public static func parse(_ content: String, versionInfo: VersionInfo) -> [CocoaPodsLicense] {
         do {
             let plist = try PropertyListSerialization.propertyList(from: content.data(using: String.Encoding.utf8)!,
                                                                     options: [],
@@ -11,7 +11,10 @@ extension CocoaPodsLicense: Parser {
 
             return try AcknowledgementsPlist.decodeValue(plist).preferenceSpecifiers
                 .filter { $0.isLicense }
-                .map { CocoaPodsLicense(library: CocoaPods(name: $0.title), body: $0.footerText) }
+                .map {
+                    CocoaPodsLicense(library: CocoaPods(name: $0.title, version: versionInfo.version(name: $0.title)),
+                                     body: $0.footerText)
+            }
         } catch let e {
             Log.error(String(describing: e))
             return []

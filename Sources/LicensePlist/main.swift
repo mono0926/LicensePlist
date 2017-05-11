@@ -7,14 +7,16 @@ let main = command(Option("cartfile-path", Consts.cartfileName),
                    Option("output-path", Consts.outputPath),
                    Option("github-token", ""),
                    Option("config-path", Consts.configPath),
-                   Flag("force")) { cartfile, podsPath, output, gitHubToken, configPath, force in
+                   Flag("force"),
+                   Flag("add-version-numbers")) { cartfile, podsPath, output, gitHubToken, configPath, force, version in
                     let tool = LicensePlist()
                     tool.process(outputPath: URL(fileURLWithPath: output),
                                  cartfilePath: URL(fileURLWithPath: cartfile),
                                  podsPath: URL(fileURLWithPath: podsPath),
                                  gitHubToken: gitHubToken.isEmpty ? nil : gitHubToken,
                                  configPath: URL(fileURLWithPath: configPath),
-                                 force: force)
+                                 force: force,
+                                 version: version)
 }
 
 main.run()
