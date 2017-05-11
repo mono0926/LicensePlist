@@ -50,7 +50,8 @@ public final class LicensePlist {
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
             gitHubLibraries.map { String(describing: $0) } +
-            config.renames.map { "\($0.key):\($0.value)" })
+            config.renames.map { "\($0.key):\($0.value)" } +
+            ["LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
@@ -120,7 +121,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool
     write(content: licenseListPlist, to: outputPath.appendingPathComponent("\(Consts.prefix).plist"))
 
     licenses.forEach {
-        write(content: tm.license.applied(["Body": $0.body]),
+        write(content: tm.license.applied(["Body": $0.bodyEscaped]),
               to: plistPath.appendingPathComponent("\($0.name).plist"))
     }
 }

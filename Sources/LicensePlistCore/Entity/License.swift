@@ -5,6 +5,7 @@ import LoggerAPI
 public protocol LicenseInfo: HasChangeableName {
     var body: String { get }
     var version: String? { get }
+    var bodyEscaped: String { get }
 }
 
 public protocol License: LicenseInfo {
@@ -28,6 +29,14 @@ extension License {
         get { return library.name }
     }
     public var version: String? { return library.version }
+    public var bodyEscaped: String {
+        return body
+            .replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#x27;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+    }
 }
 
 public struct GitHubLicense: License, Equatable {
