@@ -5,7 +5,7 @@ extension VersionInfo {
         let nsPodManifest = podsManifest as NSString
         let regex = try! NSRegularExpression(pattern: "- (.*) \\(([0-9.]*)\\)", options: [])
         let dict = regex.matches(in: podsManifest, options: [], range: NSRange(location: 0, length: nsPodManifest.length))
-            .reduce([String:String]()) { sum, match in
+            .reduce([String: String]()) { sum, match in
                 let numberOfRanges = match.numberOfRanges
                 guard numberOfRanges == 3 else {
                     assert(false, "maybe invalid regular expression to: \(nsPodManifest.substring(with: match.range))")

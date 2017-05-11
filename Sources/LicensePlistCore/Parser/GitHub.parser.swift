@@ -33,8 +33,7 @@ extension GitHub {
                 return version
             }()
             return GitHub(name: nsContent.substring(with: match.rangeAt(2)),
-                          owner: nsContent.substring(with: match.rangeAt(1))
-                , version: version)
+                          owner: nsContent.substring(with: match.rangeAt(1)), version: version)
             }
             .flatMap { $0 }
     }

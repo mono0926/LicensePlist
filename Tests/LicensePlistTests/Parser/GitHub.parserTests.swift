@@ -13,7 +13,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"mono0926/NativePopup\"")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        // TODO:
         XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: nil))
     }
 
@@ -21,7 +20,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"tephencelis/SQLite.swift\"")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        // TODO:
         XCTAssertEqual(result, GitHub(name: "SQLite.swift", owner: "tephencelis", version: nil))
     }
 
@@ -29,7 +27,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"mono0926/ios-license-generator\"")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        // TODO:
         XCTAssertEqual(result, GitHub(name: "ios-license-generator", owner: "mono0926", version: nil))
     }
 
@@ -37,7 +34,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"mono0926/NativePopup\"\ngithub \"ReactiveX/RxSwift\"")
         XCTAssertTrue(results.count == 2)
         let result1 = results[0]
-        // TODO:
         XCTAssertEqual(result1, GitHub(name: "NativePopup", owner: "mono0926", version: nil))
         let result2 = results[1]
         XCTAssertEqual(result2, GitHub(name: "RxSwift", owner: "ReactiveX", version: nil))
@@ -47,7 +43,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"mono0926/NativePopup\" \"1.8.4\"")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        // TODO:
         XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "1.8.4"))
     }
 
@@ -55,7 +50,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"mono0926/NativePopup\" \"v1.8.4\"")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        // TODO:
         XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "v1.8.4"))
     }
 
@@ -63,7 +57,6 @@ class GitHubParserTests: XCTestCase {
         let results = GitHub.parse("github \"mono0926/NativePopup\" \"e64dcc63d4720f04eec8700b31ecaee188b6483a\"")
         XCTAssertTrue(results.count == 1)
         let result = results.first
-        // TODO:
         XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "e64dcc6"))
     }
 }
