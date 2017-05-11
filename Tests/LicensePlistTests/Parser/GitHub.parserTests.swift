@@ -50,4 +50,20 @@ class GitHubParserTests: XCTestCase {
         // TODO:
         XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "1.8.4"))
     }
+
+    func testParse_one_versoin_v() {
+        let results = GitHub.parse("github \"mono0926/NativePopup\" \"v1.8.4\"")
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        // TODO:
+        XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "v1.8.4"))
+    }
+
+    func testParse_one_hash() {
+        let results = GitHub.parse("github \"mono0926/NativePopup\" \"e64dcc63d4720f04eec8700b31ecaee188b6483a\"")
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        // TODO:
+        XCTAssertEqual(result, GitHub(name: "NativePopup", owner: "mono0926", version: "e64dcc6"))
+    }
 }

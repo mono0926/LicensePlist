@@ -23,9 +23,18 @@ extension GitHub: Parser {
                 assert(false, "maybe invalid regular expression to: \(nsContent.substring(with: match.range))")
                 return nil
             }
+            let version = { () -> String? in
+                guard version else { return nil }
+                let version = nsContent.substring(with: match.rangeAt(3))
+                let pattern = try! NSRegularExpression(pattern: "\\w{40}", options: [])
+                if !pattern.matches(in: version, options: [], range: NSRange(location: 0, length: (version as NSString).length)).isEmpty {
+                    return String(version.characters.prefix(7))
+                }
+                return version
+            }()
             return GitHub(name: nsContent.substring(with: match.rangeAt(2)),
                           owner: nsContent.substring(with: match.rangeAt(1))
-                , version: version ? nsContent.substring(with: match.rangeAt(3)) : nil)
+                , version: version)
             }
             .flatMap { $0 }
     }
