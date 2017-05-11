@@ -1,4 +1,4 @@
-struct VersionInfo: Equatable {
+public struct VersionInfo: Equatable {
     var dictionary: [String: String] = [:]
 
     func version(name: String) -> String? {

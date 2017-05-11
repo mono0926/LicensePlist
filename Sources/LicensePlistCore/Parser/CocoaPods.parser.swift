@@ -3,7 +3,7 @@ import Himotoki
 import LoggerAPI
 
 extension CocoaPodsLicense {
-    public static func parse(_ content: String) -> [CocoaPodsLicense] {
+    public static func parse(_ content: String, versionInfo: VersionInfo) -> [CocoaPodsLicense] {
         do {
             let plist = try PropertyListSerialization.propertyList(from: content.data(using: String.Encoding.utf8)!,
                                                                     options: [],
@@ -11,8 +11,7 @@ extension CocoaPodsLicense {
 
             return try AcknowledgementsPlist.decodeValue(plist).preferenceSpecifiers
                 .filter { $0.isLicense }
-                // TODO
-                .map { CocoaPodsLicense(library: CocoaPods(name: $0.title, version: nil), body: $0.footerText) }
+                .map { CocoaPodsLicense(library: CocoaPods(name: $0.title, version: versionInfo.version(name: $0.title)), body: $0.footerText) }
         } catch let e {
             Log.error(String(describing: e))
             return []

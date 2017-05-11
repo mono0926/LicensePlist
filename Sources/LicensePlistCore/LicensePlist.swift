@@ -35,8 +35,10 @@ public final class LicensePlist {
         Log.info("Pods License parse start")
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
+        let path = podsPath.appendingPathComponent("Manifest.lock")
+        let podsVersionInfo = VersionInfo.parse(podsManifest: read(path: path) ?? "")
         var cocoaPodsLicenses = podsAcknowledgements
-            .map { CocoaPodsLicense.parse($0) }
+            .map { CocoaPodsLicense.parse($0, versionInfo: podsVersionInfo) }
             .flatMap { $0 }
         cocoaPodsLicenses = config.rename(config.filterExcluded(cocoaPodsLicenses))
 
@@ -149,6 +151,7 @@ private func readCartfile(path: URL) -> String? {
     }
     return read(path: path)
 }
+
 private func readPodsAcknowledgements(path: URL) -> [String] {
     if path.lastPathComponent != Consts.podsDirectoryName {
         fatalError("Invalid Pods name: \(path.lastPathComponent)")
