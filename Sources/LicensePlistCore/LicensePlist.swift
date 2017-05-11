@@ -13,7 +13,8 @@ public final class LicensePlist {
                         podsPath: URL,
                         gitHubToken: String?,
                         configPath: URL,
-                        force: Bool) {
+                        force: Bool,
+                        version: Bool) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = gitHubToken
 
@@ -24,7 +25,7 @@ public final class LicensePlist {
                                            config: config,
                                            outputPath: outputPath,
                                            force: force)
-        outputPlist(licenses: licenses, outputPath: outputPath)
+        outputPlist(licenses: licenses, outputPath: outputPath, version: version)
         Log.info("End")
         reportMissings(licenses: licenses)
         runWhenFinished()
@@ -98,7 +99,7 @@ private func loadConfig(configPath: URL) -> Config {
     return Config(githubs: [], excludes: [], renames: [:])
 }
 
-private func outputPlist(licenses: [LicenseInfo], outputPath: URL) {
+private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool) {
 
     let tm = TemplateManager.shared
 
@@ -112,7 +113,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL) {
     Log.info("Directory created: \(outputPath)")
 
     let licensListItems = licenses.map {
-        return tm.licenseListItem.applied(["Title": $0.name,
+        return tm.licenseListItem.applied(["Title": $0.name(withVersion: version),
                                            "FileName": "\(Consts.prefix)/\($0.name)"])
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])

@@ -4,6 +4,7 @@ import LoggerAPI
 
 public protocol LicenseInfo: HasChangeableName {
     var body: String { get }
+    var version: String? { get }
 }
 
 public protocol License: LicenseInfo {
@@ -12,11 +13,21 @@ public protocol License: LicenseInfo {
     var body: String { get }
 }
 
+extension LicenseInfo {
+    public func name(withVersion: Bool) -> String {
+        if let version = version, withVersion {
+            return "\(name) (\(version))"
+        }
+        return name
+    }
+}
+
 extension License {
     public var name: String {
         set { library.name = newValue }
         get { return library.name }
     }
+    public var version: String? { return library.version }
 }
 
 public struct GitHubLicense: License, Equatable {
