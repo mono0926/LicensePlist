@@ -50,7 +50,8 @@ public final class LicensePlist {
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
             gitHubLibraries.map { String(describing: $0) } +
-            config.renames.map { "\($0.key):\($0.value)" })
+            config.renames.map { "\($0.key):\($0.value)" } +
+            ["LicensePlistVersion: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
         if let previous = read(path: savePath), previous == contents, !force {
