@@ -120,7 +120,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool
     write(content: licenseListPlist, to: outputPath.appendingPathComponent("\(Consts.prefix).plist"))
 
     licenses.forEach {
-        write(content: tm.license.applied(["Body": $0.body]),
+        write(content: tm.license.applied(["Body": $0.bodyEscaped]),
               to: plistPath.appendingPathComponent("\($0.name).plist"))
     }
 }
