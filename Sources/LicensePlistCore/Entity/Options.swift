@@ -7,10 +7,10 @@ public struct Options {
     public let gitHubToken: String?
     public let config: Config
     public init(outputPath: URL,
-        cartfilePath: URL,
-        podsPath: URL,
-        gitHubToken: String?,
-        config: Config) {
+                cartfilePath: URL,
+                podsPath: URL,
+                gitHubToken: String?,
+                config: Config) {
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
         self.podsPath = podsPath
