@@ -12,15 +12,15 @@ let package = Package(
         Target(name: "LicensePlistCore")
     ],
     dependencies: [
-        .Package(url: "git@github.com:kylef/Commander.git",
+        .Package(url: "https://github.com/kylef/Commander.git",
                  majorVersion: 0),
-        .Package(url: "git@github.com:ikesyo/Himotoki.git",
+        .Package(url: "https://github.com/ikesyo/Himotoki.git",
                  majorVersion: 3),
-        .Package(url: "git@github.com:ishkawa/APIKit.git",
+        .Package(url: "https://github.com/ishkawa/APIKit.git",
                  majorVersion: 3),
-        .Package(url: "git@github.com:IBM-Swift/HeliumLogger.git",
+        .Package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
                  majorVersion: 1),
-        .Package(url: "git@github.com:behrang/YamlSwift.git", 
+        .Package(url: "https://github.com/behrang/YamlSwift.git", 
                  majorVersion: 3)
     ]
 )
