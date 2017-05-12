@@ -14,13 +14,12 @@ struct SearchRequests {
     private init() {}
 
     struct Repositories: GitHubRequest {
-        let query: String
-        var method: HTTPMethod { return .get }
-        var path: String { return "search/repositories" }
-        var parameters: Any? { return ["q": query] }
-
-        func response(from object: Any, urlResponse: HTTPURLResponse) throws -> RepositoriesResponse {
-            return try decodeValue(object)
+        let method = HTTPMethod.get
+        let path = "search/repositories"
+        let parameters: Any?
+        typealias Response = RepositoriesResponse
+        init(query: String) {
+            parameters = ["q": query]
         }
     }
 }

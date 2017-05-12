@@ -1,13 +1,27 @@
 import Foundation
-import Himotoki
 import LoggerAPI
+import Himotoki
+
+public struct CocoaPodsLicense: License, Equatable {
+    public var library: CocoaPods
+    public let body: String
+
+    public static func==(lhs: CocoaPodsLicense, rhs: CocoaPodsLicense) -> Bool {
+        return lhs.library == rhs.library &&
+            lhs.body == rhs.body
+    }
+}
+
+extension CocoaPodsLicense: CustomStringConvertible {
+    public var description: String { return "name: \(library.name)\nbody: \(String(body.characters.prefix(20)))…" }
+}
 
 extension CocoaPodsLicense {
-    public static func parse(_ content: String, versionInfo: VersionInfo) -> [CocoaPodsLicense] {
+    public static func load(_ content: String, versionInfo: VersionInfo) -> [CocoaPodsLicense] {
         do {
             let plist = try PropertyListSerialization.propertyList(from: content.data(using: String.Encoding.utf8)!,
-                                                                    options: [],
-                                                                    format: nil)
+                                                                   options: [],
+                                                                   format: nil)
 
             return try AcknowledgementsPlist.decodeValue(plist).preferenceSpecifiers
                 .filter { $0.isLicense }
@@ -22,7 +36,7 @@ extension CocoaPodsLicense {
     }
 }
 
-struct AcknowledgementsPlist {
+private struct AcknowledgementsPlist {
     let preferenceSpecifiers: [PreferenceSpecifier]
 }
 
@@ -32,7 +46,7 @@ extension AcknowledgementsPlist: Decodable {
     }
 }
 
-struct PreferenceSpecifier {
+private struct PreferenceSpecifier {
     let footerText: String
     let title: String
     let type: String

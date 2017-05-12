@@ -1,10 +1,44 @@
 import Foundation
 import LoggerAPI
+import Yaml
 
-struct Config {
+public struct Config {
     let githubs: [GitHub]
     let excludes: [String]
     let renames: [String: String]
+    public var force = false
+    public var addVersionNumbers = false
+
+    public static let empty = Config(githubs: [], excludes: [], renames: [:])
+
+    public init(yaml: String) {
+        let value = try! Yaml.load(yaml)
+        let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
+        let gitHubList = githubs.map { GitHub.load($0, mark: "", quotes: "") }.flatMap { $0 }
+        let githubsVersion: [GitHub] = value["github"].array?.map {
+            guard let dictionary = $0.dictionary else {
+                return nil
+            }
+            guard let owner = dictionary["owner"]?.string, let name = dictionary["name"]?.string else {
+                return nil
+            }
+            return GitHub(name: name, owner: owner, version: dictionary["version"]?.string)
+            }.flatMap { $0 } ?? []
+        let excludes = value["exclude"].array?.map { $0.string! } ?? []
+        let renames = value["rename"].dictionary?.reduce([String: String]()) { sum, e in
+            guard let from = e.key.string, let to = e.value.string else { return sum }
+            var sum = sum
+            sum[from] = to
+            return sum
+            } ?? [:]
+        self = Config(githubs: githubsVersion + gitHubList, excludes: excludes, renames: renames)
+    }
+
+    init(githubs: [GitHub], excludes: [String], renames: [String: String]) {
+        self.githubs = githubs
+        self.excludes = excludes
+        self.renames = renames
+    }
 
     func excluded(name: String) -> Bool {
         if excludes.contains(name) {
