@@ -96,6 +96,12 @@ You can see options by `license-plist --help`.
     - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Build - Pre-actions` every time** 🎉
 - You can run all the way anyway, by using `--force` flag.
 
+#### `--add-version-numbers`
+
+- Default: false
+- When the library name is `SomeLibrary`, by adding `--add-version-numbers` flag, the name will be changed to `SomeLibrary (X.Y.Z)`.
+    - `X.Y.Z` is parsed from CocoaPods and Cartfile information, and GitHub libraries specified at [Config YAML](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml) also support this flag.
+
 ### Integrate into build
 
 Add `Run Script` to `Build - Pre-actions`:
