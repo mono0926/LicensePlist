@@ -4,9 +4,11 @@ import LoggerAPI
 private var runWhenFinished: (() -> Void)!
 public final class LicensePlist {
     private var githubLibraries: [GitHub]?
+
     public init() {
         Logger.configure()
     }
+
     public func process(options: Options) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = options.gitHubToken
@@ -27,7 +29,7 @@ public final class LicensePlist {
         let path = options.podsPath.appendingPathComponent("Manifest.lock")
         let podsVersionInfo = VersionInfo.parse(podsManifest: IOUtil.read(path: path) ?? "")
         var cocoaPodsLicenses = podsAcknowledgements
-            .map { CocoaPodsLicense.parse($0, versionInfo: podsVersionInfo) }
+            .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo) }
             .flatMap { $0 }
         cocoaPodsLicenses = config.rename(config.filterExcluded(cocoaPodsLicenses))
 

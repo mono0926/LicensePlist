@@ -1,6 +1,7 @@
 import Foundation
 import APIKit
 import LoggerAPI
+import Himotoki
 
 public struct CocoaPods: Library {
     public var name: String
