@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 @testable import LicensePlistCore
-//
+
 class CocoaPodsTests: XCTestCase {
 
     func testParse_empty() {

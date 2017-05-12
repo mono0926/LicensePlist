@@ -35,7 +35,7 @@ public final class LicensePlist {
 
         Log.info("Carthage License collect start")
 
-        var gitHubLibraries = GitHub.parse(readCartfile(path: options.cartfilePath) ?? "")
+        var gitHubLibraries = GitHub.load(readCartfile(path: options.cartfilePath) ?? "")
         gitHubLibraries = config.apply(githubs: gitHubLibraries)
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +

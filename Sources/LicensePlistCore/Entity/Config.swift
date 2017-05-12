@@ -14,7 +14,7 @@ public struct Config {
     public init(yaml: String) {
         let value = try! Yaml.load(yaml)
         let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
-        let gitHubList = githubs.map { GitHub.parse($0, mark: "", quotes: "") }.flatMap { $0 }
+        let gitHubList = githubs.map { GitHub.load($0, mark: "", quotes: "") }.flatMap { $0 }
         let githubsVersion: [GitHub] = value["github"].array?.map {
             guard let dictionary = $0.dictionary else {
                 return nil
