@@ -2,12 +2,16 @@ import Foundation
 import LoggerAPI
 import Yaml
 
-struct Config {
+public struct Config {
     let githubs: [GitHub]
     let excludes: [String]
     let renames: [String: String]
+    public var force = false
+    public var addVersionNumbers = false
 
-    init(yaml: String) {
+    public static let empty = Config(githubs: [], excludes: [], renames: [:])
+
+    public init(yaml: String) {
         let value = try! Yaml.load(yaml)
         let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
         let gitHubList = githubs.map { GitHub.parse($0, mark: "", quotes: "") }.flatMap { $0 }

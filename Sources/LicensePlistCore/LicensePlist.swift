@@ -1,44 +1,31 @@
 import Foundation
 import LoggerAPI
 
-private let encoding = String.Encoding.utf8
 private var runWhenFinished: (() -> Void)!
 public final class LicensePlist {
     private var githubLibraries: [GitHub]?
     public init() {
         Logger.configure()
     }
-    public func process(outputPath: URL,
-                        cartfilePath: URL,
-                        podsPath: URL,
-                        gitHubToken: String?,
-                        configPath: URL,
-                        force: Bool,
-                        version: Bool) {
+    public func process(options: Options) {
         Log.info("Start")
-        GitHubAuthorizatoin.shared.token = gitHubToken
+        GitHubAuthorizatoin.shared.token = options.gitHubToken
 
-        let config = loadConfig(configPath: configPath)
-
-        let licenses = collectLicenseInfos(cartfilePath: cartfilePath,
-                                           podsPath: podsPath,
-                                           config: config,
-                                           outputPath: outputPath,
-                                           force: force,
-                                           version: version)
-        outputPlist(licenses: licenses, outputPath: outputPath, version: version)
+        let licenses = collectLicenseInfos(options: options)
+        outputPlist(licenses: licenses, options: options)
         Log.info("End")
         reportMissings(licenses: licenses)
         runWhenFinished()
-        shell("open", outputPath.path)
+        shell("open", options.outputPath.path)
     }
 
-    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config, outputPath: URL, force: Bool, version: Bool) -> [LicenseInfo] {
+    private func collectLicenseInfos(options: Options) -> [LicenseInfo] {
         Log.info("Pods License parse start")
+        let config = options.config
 
-        let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
-        let path = podsPath.appendingPathComponent("Manifest.lock")
-        let podsVersionInfo = VersionInfo.parse(podsManifest: read(path: path) ?? "")
+        let podsAcknowledgements = readPodsAcknowledgements(path: options.podsPath)
+        let path = options.podsPath.appendingPathComponent("Manifest.lock")
+        let podsVersionInfo = VersionInfo.parse(podsManifest: IOUtil.read(path: path) ?? "")
         var cocoaPodsLicenses = podsAcknowledgements
             .map { CocoaPodsLicense.parse($0, versionInfo: podsVersionInfo) }
             .flatMap { $0 }
@@ -46,21 +33,21 @@ public final class LicensePlist {
 
         Log.info("Carthage License collect start")
 
-        var gitHubLibraries = GitHub.parse(readCartfile(path: cartfilePath) ?? "")
+        var gitHubLibraries = GitHub.parse(readCartfile(path: options.cartfilePath) ?? "")
         gitHubLibraries = config.apply(githubs: gitHubLibraries)
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
             gitHubLibraries.map { String(describing: $0) } +
             config.renames.map { "\($0.key):\($0.value)" } +
-            ["add-version-numbers: \(version)", "LicensePlist Version: \(Consts.version)"])
+            ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
-        let savePath = outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
-        if let previous = read(path: savePath), previous == contents, !force {
+        let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
+        if let previous = IOUtil.read(path: savePath), previous == contents, !options.config.force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
         }
         runWhenFinished = {
-            try! contents.write(to: savePath, atomically: true, encoding: encoding)
+            try! contents.write(to: savePath, atomically: true, encoding: Consts.encoding)
         }
 
         let queue = OperationQueue()
@@ -94,17 +81,11 @@ public final class LicensePlist {
     }
 }
 
-private func loadConfig(configPath: URL) -> Config {
-    if let yaml = read(path: configPath) {
-        return Config(yaml: yaml)
-    }
-    return Config(githubs: [], excludes: [], renames: [:])
-}
-
-private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool) {
+private func outputPlist(licenses: [LicenseInfo], options: Options) {
 
     let tm = TemplateManager.shared
 
+    let outputPath = options.outputPath
     let fm = FileManager.default
     let plistPath = outputPath.appendingPathComponent(Consts.prefix)
     if fm.fileExists(atPath: plistPath.path) {
@@ -115,7 +96,7 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool
     Log.info("Directory created: \(outputPath)")
 
     let licensListItems = licenses.map {
-        return tm.licenseListItem.applied(["Title": $0.name(withVersion: version),
+        return tm.licenseListItem.applied(["Title": $0.name(withVersion: options.config.addVersionNumbers),
                                            "FileName": "\(Consts.prefix)/\($0.name)"])
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
@@ -128,31 +109,17 @@ private func outputPlist(licenses: [LicenseInfo], outputPath: URL, version: Bool
 }
 
 private func write(content: String, to path: URL) {
-    try! content.write(to: path, atomically: false, encoding: encoding)
-}
-
-private func read(path: URL) -> String? {
-    let fm = FileManager.default
-    if !fm.fileExists(atPath: path.path) {
-        Log.warning("not found: \(path)")
-        return nil
-    }
-    do {
-        return try String(contentsOf: path, encoding: encoding)
-    } catch let e {
-        Log.warning(String(describing: e))
-        return nil
-    }
+    try! content.write(to: path, atomically: false, encoding: Consts.encoding)
 }
 
 private func readCartfile(path: URL) -> String? {
     if path.lastPathComponent != Consts.cartfileName {
         fatalError("Invalid Cartfile name: \(path.lastPathComponent)")
     }
-    if let content = read(path: path.appendingPathExtension("resolved")) {
+    if let content = IOUtil.read(path: path.appendingPathExtension("resolved")) {
         return content
     }
-    return read(path: path)
+    return IOUtil.read(path: path)
 }
 
 private func readPodsAcknowledgements(path: URL) -> [String] {
@@ -176,5 +143,5 @@ private func readPodsAcknowledgements(path: URL) -> [String] {
                 .filter { $0.lastPathComponent.hasSuffix("-acknowledgements.plist") }
         }.flatMap { $0 }
     urls.forEach { Log.info("Pod acknowledgements found: \($0.lastPathComponent)") }
-    return urls.map { read(path: $0) }.flatMap { $0 }
+    return urls.map { IOUtil.read(path: $0) }.flatMap { $0 }
 }
