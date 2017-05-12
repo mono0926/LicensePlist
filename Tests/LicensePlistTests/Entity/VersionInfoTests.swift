@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 @testable import LicensePlistCore
-//
+
 class VersionInfoTests: XCTestCase {
 
     func testInit_empty() {
