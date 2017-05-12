@@ -27,7 +27,7 @@ public final class LicensePlist {
 
         let podsAcknowledgements = readPodsAcknowledgements(path: options.podsPath)
         let path = options.podsPath.appendingPathComponent("Manifest.lock")
-        let podsVersionInfo = VersionInfo.parse(podsManifest: IOUtil.read(path: path) ?? "")
+        let podsVersionInfo = VersionInfo(podsManifest: IOUtil.read(path: path) ?? "")
         var cocoaPodsLicenses = podsAcknowledgements
             .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo) }
             .flatMap { $0 }
