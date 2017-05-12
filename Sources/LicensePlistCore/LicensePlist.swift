@@ -96,7 +96,7 @@ public final class LicensePlist {
 
 private func loadConfig(configPath: URL) -> Config {
     if let yaml = read(path: configPath) {
-        return ConfigLoader.shared.load(yaml: yaml)
+        return Config(yaml: yaml)
     }
     return Config(githubs: [], excludes: [], renames: [:])
 }

@@ -4,6 +4,18 @@ import XCTest
 
 class ConfigTests: XCTestCase {
 
+    func testInit_empty_yaml() {
+        XCTAssertEqual(Config(yaml: ""), Config(githubs: [], excludes: [], renames: [:]))
+    }
+    func testInit_sample() {
+        let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/license_plist.yml"
+        XCTAssertEqual(Config(yaml: URL(string: path)!.downloadContent().resultSync().value!),
+                       Config(githubs: [GitHub(name: "LicensePlist", owner: "mono0926", version: "1.2.0"),
+                                        GitHub(name: "NativePopup", owner: "mono0926", version: nil)],
+                              excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
+                              renames: ["LicensePlist": "License Plist"]))
+    }
+
     func testExcluded() {
         let target = Config(githubs: [], excludes: ["lib1"], renames: [:])
         XCTAssertTrue(target.excluded(name: "lib1"))
