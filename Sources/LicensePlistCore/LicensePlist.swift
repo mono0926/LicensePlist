@@ -53,7 +53,7 @@ public final class LicensePlist {
         }
 
         let queue = OperationQueue()
-        let carthageOperations = gitHubLibraries.map { GitHubLicense.collect($0) }
+        let carthageOperations = gitHubLibraries.map { GitHubLicense.download($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
         let carthageLicenses = config.rename(carthageOperations.map { $0.result?.value }.flatMap { $0 })
         self.githubLibraries = config.rename(gitHubLibraries)
