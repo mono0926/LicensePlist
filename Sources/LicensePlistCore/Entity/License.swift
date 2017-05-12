@@ -23,6 +23,12 @@ extension LicenseInfo {
     }
 }
 
+private let escapeInfo = [("&", "&amp;"),
+                          ("\"", "&quot;"),
+                          ("'", "&#x27;"),
+                          (">", "&gt;"),
+                          ("<", "&lt;")]
+
 extension License {
     public var name: String {
         set { library.name = newValue }
@@ -30,12 +36,14 @@ extension License {
     }
     public var version: String? { return library.version }
     public var bodyEscaped: String {
-        return body
-            .replacingOccurrences(of: "&", with: "&amp;")
-            .replacingOccurrences(of: "\"", with: "&quot;")
-            .replacingOccurrences(of: "'", with: "&#x27;")
-            .replacingOccurrences(of: ">", with: "&gt;")
-            .replacingOccurrences(of: "<", with: "&lt;")
+        for info in escapeInfo {
+            if body.contains(info.1) {
+                return body
+            }
+        }
+        return escapeInfo.reduce(body) { sum, e in
+            return sum.replacingOccurrences(of: e.0, with: e.1)
+        }
     }
 }
 

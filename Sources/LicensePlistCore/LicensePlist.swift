@@ -33,7 +33,12 @@ public final class LicensePlist {
         shell("open", outputPath.path)
     }
 
-    private func collectLicenseInfos(cartfilePath: URL, podsPath: URL, config: Config, outputPath: URL, force: Bool, version: Bool) -> [LicenseInfo] {
+    private func collectLicenseInfos(cartfilePath: URL,
+                                     podsPath: URL,
+                                     config: Config,
+                                     outputPath: URL,
+                                     force: Bool,
+                                     version: Bool) -> [LicenseInfo] {
         Log.info("Pods License parse start")
 
         let podsAcknowledgements = readPodsAcknowledgements(path: podsPath)
