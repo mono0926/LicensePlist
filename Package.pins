@@ -4,25 +4,25 @@
     {
       "package": "APIKit",
       "reason": null,
-      "repositoryURL": "git@github.com:ishkawa/APIKit.git",
+      "repositoryURL": "https://github.com/ishkawa/APIKit.git",
       "version": "3.1.2"
     },
     {
       "package": "Commander",
       "reason": null,
-      "repositoryURL": "git@github.com:kylef/Commander.git",
+      "repositoryURL": "https://github.com/kylef/Commander.git",
       "version": "0.6.1"
     },
     {
       "package": "HeliumLogger",
       "reason": null,
-      "repositoryURL": "git@github.com:IBM-Swift/HeliumLogger.git",
+      "repositoryURL": "https://github.com/IBM-Swift/HeliumLogger.git",
       "version": "1.7.0"
     },
     {
       "package": "Himotoki",
       "reason": null,
-      "repositoryURL": "git@github.com:ikesyo/Himotoki.git",
+      "repositoryURL": "https://github.com/ikesyo/Himotoki.git",
       "version": "3.0.1"
     },
     {
@@ -46,7 +46,7 @@
     {
       "package": "Yaml",
       "reason": null,
-      "repositoryURL": "git@github.com:behrang/YamlSwift.git",
+      "repositoryURL": "https://github.com/behrang/YamlSwift.git",
       "version": "3.4.0"
     }
   ],
