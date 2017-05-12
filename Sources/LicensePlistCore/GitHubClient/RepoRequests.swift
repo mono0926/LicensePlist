@@ -14,25 +14,20 @@ struct RepoRequests {
     private init() {}
 
     struct License: GitHubRequest {
-        let owner: String
-        let repo: String
         var method: HTTPMethod { return .get }
-        var path: String { return "repos/\(owner)/\(repo)/license" }
-
-        func response(from object: Any, urlResponse: HTTPURLResponse) throws -> LicenseResponse {
-            return try decodeValue(object)
+        let path: String
+        typealias Response = LicenseResponse
+        init(owner: String, repo: String) {
+            self.path = "repos/\(owner)/\(repo)/license"
         }
     }
 
     struct Get: GitHubRequest {
-        let owner: String
-        let repo: String
-
-        var method: HTTPMethod { return .get }
-        var path: String { return "repos/\(owner)/\(repo)" }
-
-        func response(from object: Any, urlResponse: HTTPURLResponse) throws -> RepositoryResponse {
-            return try decodeValue(object)
+        var method = HTTPMethod.get
+        let path: String
+        typealias Response = RepositoryResponse
+        init(owner: String, repo: String) {
+            path = "repos/\(owner)/\(repo)"
         }
     }
 }

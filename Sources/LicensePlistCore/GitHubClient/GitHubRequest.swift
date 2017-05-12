@@ -1,5 +1,6 @@
 import APIKit
 import Foundation
+import Himotoki
 
 protocol GitHubRequest: Request {}
 
@@ -17,5 +18,11 @@ extension GitHubRequest {
             header["Authorization"] = "Token \(token)"
         }
         return header
+    }
+}
+
+extension GitHubRequest where Response: Decodable {
+    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
+        return try decodeValue(object)
     }
 }
