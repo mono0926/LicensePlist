@@ -1,6 +1,4 @@
-![LicensePlist Logo](https://github.com/mono0926/LicensePlist/raw/master/Design/Export/LicensePlist.png)
-
-# LicensePlist
+<img src="Design/Export/LicensePlist.png" width="200" height="200" alt="LicensePlist Logo"> LicensePlist
 
 ![platforms](https://img.shields.io/badge/platforms-iOS-333333.svg)
 [![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/mono0926/NativePopup/master/LICENSE)
@@ -12,7 +10,7 @@
 
 App Setting Root | License List | License Detail
 --- | --- | ---
-![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/root.png) | ![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/list.png) | ![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/detail.png)
+![](Screenshots/root.png) | ![](Screenshots/list.png) | ![](Screenshots/detail.png)
 
 ## Installation
 
@@ -32,7 +30,7 @@ $ make install
 Or you can also install by one-liner.
 
 ```sh
-curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh
+curl -fsSL install.sh | sh
 ```
 
 - **Homebrew**: Not supported yet.
@@ -42,7 +40,7 @@ curl -fsSL https://github.com/mono0926/LicensePlist/raw/master/install.sh | sh
 1. On the directory same as `Cartfile` or `Pods`, simply execute `license-plist`.
 2. `com.mono0926.LicensePlist.Output` directory will be generated.
 3. Move the files in the output directory into your app's `Settings.bundle`.
-    - [Settings.bundle's sample is here](https://github.com/mono0926/LicensePlist/raw/master/Settings.bundle.zip)
+    - [Settings.bundle's sample is here](Settings.bundle.zip)
     - The point is to [specify `com.mono0926.LicensePlist` as license list file on your `Root.plist`](https://github.com/mono0926/LicensePlist/blob/master/Settings.bundle/Root.plist#L19).
 
 ```
@@ -115,7 +113,7 @@ cd $SRCROOT
 fi
 ```
 
-![](https://github.com/mono0926/LicensePlist/raw/master/Screenshots/pre_build_action.png)
+![](Screenshots/pre_build_action.png)
 
 
 ## Q&A
