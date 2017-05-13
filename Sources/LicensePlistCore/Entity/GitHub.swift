@@ -3,33 +3,43 @@ import APIKit
 import LoggerAPI
 
 public struct GitHub: Library {
-    public var name: String
+    public let name: String
+    public let nameSpecified: String?
     var owner: String
     public let version: String?
 }
 
 extension GitHub {
     public static func==(lhs: GitHub, rhs: GitHub) -> Bool {
-        return lhs.name == rhs.name && lhs.owner == rhs.owner && lhs.version == rhs.version
+        return lhs.name == rhs.name &&
+            lhs.nameSpecified == rhs.nameSpecified &&
+            lhs.owner == rhs.owner &&
+            lhs.version == rhs.version
     }
 }
 
 extension GitHub: CustomStringConvertible {
-    public var description: String { return "name: \(name), owner: \(owner), version: \(version ?? "")" }
+    public var description: String {
+        return "name: \(name), nameSpecified: \(nameSpecified ?? ""), owner: \(owner), version: \(version ?? "")"
+    }
 }
 
 extension GitHub {
-    public static func load(_ content: String) -> [GitHub] {
-        return load(content, mark: "github ")
+    public static func load(_ content: String, renames: [String: String] = [:]) -> [GitHub] {
+        return load(content, renames: renames, mark: "github ")
     }
-    public static func load(_ content: String, mark: String, quotes: String = "\"") -> [GitHub] {
-        let r = load(content, mark: mark, quotes: quotes, version: true)
+    public static func load(_ content: String, renames: [String: String], mark: String, quotes: String = "\"") -> [GitHub] {
+        let r = load(content, renames: renames, mark: mark, quotes: quotes, version: true)
         if !r.isEmpty {
             return r
         }
-        return load(content, mark: mark, quotes: quotes, version: false)
+        return load(content, renames: renames, mark: mark, quotes: quotes, version: false)
     }
-    public static func load(_ content: String, mark: String, quotes: String = "\"", version: Bool = false) -> [GitHub] {
+    public static func load(_ content: String,
+                            renames: [String: String],
+                            mark: String,
+                            quotes: String = "\"",
+                            version: Bool = false) -> [GitHub] {
         let pattern = "[\\w\\.\\-]+"
         let regexString = "\(mark)\(quotes)(\(pattern))/(\(pattern))\(quotes)" + (version ? " \(quotes)([\\w\\.\\-]+)\(quotes)" : "")
         let regex = try! NSRegularExpression(pattern: regexString, options: [])
@@ -50,8 +60,11 @@ extension GitHub {
                 }
                 return version
             }()
-            return GitHub(name: nsContent.substring(with: match.rangeAt(2)),
-                          owner: nsContent.substring(with: match.rangeAt(1)), version: version)
+            let name = nsContent.substring(with: match.rangeAt(2))
+            return GitHub(name: name,
+                          nameSpecified: renames[name],
+                          owner: nsContent.substring(with: match.rangeAt(1)),
+                          version: version)
             }
             .flatMap { $0 }
     }

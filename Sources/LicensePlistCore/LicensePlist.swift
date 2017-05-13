@@ -2,7 +2,6 @@ import Foundation
 import LoggerAPI
 
 public final class LicensePlist {
-    // TODO: to info, test, split
 
     public init() {
         Logger.configure()

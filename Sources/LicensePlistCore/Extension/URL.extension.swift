@@ -99,9 +99,9 @@ extension Bool: HasDefaultValue {
 }
 
 extension Array: HasDefaultValue {
-    static var `default`: Array<Element> { return [] }
+    static var `default`: [Element] { return [] }
 }
 
 extension Optional: HasDefaultValue {
-    static var `default`: Optional<Wrapped> { return nil }
+    static var `default`: Wrapped? { return nil }
 }

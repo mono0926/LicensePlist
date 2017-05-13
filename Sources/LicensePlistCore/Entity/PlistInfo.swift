@@ -21,17 +21,16 @@ struct PlistInfo {
         let path = options.podsPath.appendingPathComponent("Manifest.lock")
         let podsVersionInfo = VersionInfo(podsManifest: path.lp.read() ?? "")
         let licenses = acknowledgements
-            .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo) }
+            .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo, config: options.config) }
             .flatMap { $0 }
         let config = options.config
-        cocoaPodsLicenses = config.rename(config.filterExcluded(licenses))
+        cocoaPodsLicenses = config.filterExcluded(licenses)
     }
 
     mutating func loadGitHubLibraries(cartfile: String?) {
         Log.info("Carthage License collect start")
-        githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? ""))
+        githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? "", renames: options.config.renames))
     }
-
 
     mutating func compareWithLatestSummary() {
         guard let cocoaPodsLicenses = cocoaPodsLicenses, let githubLibraries = githubLibraries else { preconditionFailure() }
@@ -40,7 +39,6 @@ struct PlistInfo {
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
             githubLibraries.map { String(describing: $0) } +
-            config.renames.map { "\($0.key):\($0.value)" } +
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
@@ -55,15 +53,10 @@ struct PlistInfo {
     mutating func downloadGitHubLicenses() {
         guard let githubLibraries = githubLibraries else { preconditionFailure() }
 
-        let config = options.config
-
         let queue = OperationQueue()
         let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
-        // TODO: renameが複雑
-        self.githubLibraries = config.rename(githubLibraries)
-
-        githubLicenses = config.rename(carthageOperations.map { $0.result?.value }.flatMap { $0 })
+        githubLicenses = carthageOperations.map { $0.result?.value }.flatMap { $0 }
     }
 
     mutating func collectLicenseInfos() {
