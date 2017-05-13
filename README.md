@@ -1,3 +1,5 @@
+![LicensePlist Logo](https://github.com/mono0926/LicensePlist/raw/master/Design/Export/LicensePlist.png)
+
 # LicensePlist
 
 ![platforms](https://img.shields.io/badge/platforms-iOS-333333.svg)
