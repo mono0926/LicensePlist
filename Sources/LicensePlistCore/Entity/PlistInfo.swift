@@ -18,8 +18,8 @@ struct PlistInfo {
         guard cocoaPodsLicenses == nil else { preconditionFailure() }
         Log.info("Pods License parse start")
 
-        let path = options.podsPath.appendingPathComponent("Manifest.lock")
-        let podsVersionInfo = VersionInfo(podsManifest: path.lp.read() ?? "")
+        let versionPath = options.podsPath.appendingPathComponent("Manifest.lock")
+        let podsVersionInfo = VersionInfo(podsManifest: versionPath.lp.read() ?? "")
         let licenses = acknowledgements
             .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo, config: options.config) }
             .flatMap { $0 }
