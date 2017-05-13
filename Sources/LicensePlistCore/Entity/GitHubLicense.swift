@@ -56,7 +56,7 @@ extension GitHubLicense {
                 }
             case .success(let response):
                 let license = GitHubLicense(library: library,
-                                            body: response.downloadUrl.lp.downloadContent().resultSync().value!,
+                                            body: response.downloadUrl.lp.download().resultSync().value!,
                                             githubResponse: response)
                 return Result(value: license)
             }

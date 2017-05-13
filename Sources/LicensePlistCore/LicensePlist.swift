@@ -1,8 +1,10 @@
 import Foundation
 import LoggerAPI
 
+// TODO:
 private var runWhenFinished: (() -> Void)!
 public final class LicensePlist {
+    // TODO: to info, test, split
     private var githubLibraries: [GitHub]?
 
     public init() {
@@ -27,7 +29,7 @@ public final class LicensePlist {
 
         let podsAcknowledgements = readPodsAcknowledgements(path: options.podsPath)
         let path = options.podsPath.appendingPathComponent("Manifest.lock")
-        let podsVersionInfo = VersionInfo(podsManifest: IOUtil.read(path: path) ?? "")
+        let podsVersionInfo = VersionInfo(podsManifest: path.lp.read() ?? "")
         var cocoaPodsLicenses = podsAcknowledgements
             .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo) }
             .flatMap { $0 }
@@ -44,7 +46,7 @@ public final class LicensePlist {
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
-        if let previous = IOUtil.read(path: savePath), previous == contents, !options.config.force {
+        if let previous = savePath.lp.read(), previous == contents, !options.config.force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
         }
@@ -88,13 +90,11 @@ private func outputPlist(licenses: [LicenseInfo], options: Options) {
     let tm = TemplateManager.shared
 
     let outputPath = options.outputPath
-    let fm = FileManager.default
     let plistPath = outputPath.appendingPathComponent(Consts.prefix)
-    if fm.fileExists(atPath: plistPath.path) {
-        try! fm.removeItem(at: plistPath)
+    if plistPath.lp.deleteIfExits() {
         Log.info("Deleted exiting plist within \(Consts.prefix)")
     }
-    try! fm.createDirectory(at: plistPath, withIntermediateDirectories: true, attributes: nil)
+    plistPath.lp.createDirectory()
     Log.info("Directory created: \(outputPath)")
 
     let licensListItems = licenses.map {
@@ -102,26 +102,22 @@ private func outputPlist(licenses: [LicenseInfo], options: Options) {
                                            "FileName": "\(Consts.prefix)/\($0.name)"])
     }
     let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
-    write(content: licenseListPlist, to: outputPath.appendingPathComponent("\(Consts.prefix).plist"))
+    outputPath.appendingPathComponent("\(Consts.prefix).plist").lp.write(content: licenseListPlist)
 
     licenses.forEach {
-        write(content: tm.license.applied(["Body": $0.bodyEscaped]),
-              to: plistPath.appendingPathComponent("\($0.name).plist"))
+        plistPath.appendingPathComponent("\($0.name).plist")
+            .lp.write(content: tm.license.applied(["Body": $0.bodyEscaped]))
     }
-}
-
-private func write(content: String, to path: URL) {
-    try! content.write(to: path, atomically: false, encoding: Consts.encoding)
 }
 
 private func readCartfile(path: URL) -> String? {
     if path.lastPathComponent != Consts.cartfileName {
         fatalError("Invalid Cartfile name: \(path.lastPathComponent)")
     }
-    if let content = IOUtil.read(path: path.appendingPathExtension("resolved")) {
+    if let content = path.appendingPathExtension("resolved").lp.read() {
         return content
     }
-    return IOUtil.read(path: path)
+    return path.lp.read()
 }
 
 private func readPodsAcknowledgements(path: URL) -> [String] {
@@ -129,21 +125,16 @@ private func readPodsAcknowledgements(path: URL) -> [String] {
         fatalError("Invalid Pods name: \(path.lastPathComponent)")
     }
     let path = path.appendingPathComponent("Target Support Files")
-    let fm = FileManager.default
-    if !fm.fileExists(atPath: path.path) {
+    if !path.lp.isExists {
         Log.warning("not found: \(path)")
         return []
     }
-    let urls = (try! fm.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: []))
-        .filter {
-            var isDirectory: ObjCBool = false
-            fm.fileExists(atPath: $0.path, isDirectory: &isDirectory)
-            return isDirectory.boolValue
-        }
+    let urls = path.lp.listDir()
+        .filter { $0.lp.isDirectory }
         .map { f in
-            (try! fm.contentsOfDirectory(at: f, includingPropertiesForKeys: nil, options: []))
+            f.lp.listDir()
                 .filter { $0.lastPathComponent.hasSuffix("-acknowledgements.plist") }
         }.flatMap { $0 }
     urls.forEach { Log.info("Pod acknowledgements found: \($0.lastPathComponent)") }
-    return urls.map { IOUtil.read(path: $0) }.flatMap { $0 }
+    return urls.map { $0.lp.read() }.flatMap { $0 }
 }

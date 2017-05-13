@@ -9,7 +9,7 @@ class ConfigTests: XCTestCase {
     }
     func testInit_sample() {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/license_plist.yml"
-        XCTAssertEqual(Config(yaml: URL(string: path)!.downloadContent().resultSync().value!),
+        XCTAssertEqual(Config(yaml: URL(string: path)!.lp.download().resultSync().value!),
                        Config(githubs: [GitHub(name: "LicensePlist", owner: "mono0926", version: "1.2.0"),
                                         GitHub(name: "NativePopup", owner: "mono0926", version: nil)],
                               excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
