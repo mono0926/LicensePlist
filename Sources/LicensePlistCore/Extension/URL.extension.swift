@@ -1,15 +1,107 @@
 import Foundation
+import LoggerAPI
 import Result
 
-public extension URL {
-    public func downloadContent() -> ResultOperation<String, NSError> {
+extension URL: ExtensionCompatible {}
+
+extension Extension where Base == URL {
+    func download() -> ResultOperation<String, NSError> {
         let operation =  ResultOperation<String, NSError> { _ in
             do {
-                return Result(value: try String(contentsOf: self))
+                return Result(value: try String(contentsOf: self.base))
             } catch let e {
                 return Result(error: e as NSError)
             }
         }
         return operation
     }
+}
+
+private let fm = FileManager.default
+extension Extension where Base == URL {
+
+    public var isExists: Bool { return fm.fileExists(atPath: base.path) }
+
+    public var isDirectory: Bool {
+        var result: ObjCBool = false
+        fm.fileExists(atPath: base.path, isDirectory: &result)
+        return result.boolValue
+    }
+
+    public func read() -> String? {
+        if !isExists {
+            Log.warning("Not found: \(base).")
+            return nil
+        }
+        return getResultOrDefault {
+            try String(contentsOf: base, encoding: Consts.encoding)
+        }
+    }
+
+    public func write(content: String) {
+        return run {
+            try content.write(to: base, atomically: false, encoding: Consts.encoding)
+        }
+    }
+
+    public func deleteIfExits() -> Bool {
+        if !isExists {
+            return false
+        }
+        return getResultOrDefault {
+            try fm.removeItem(at: base)
+            return true
+        }
+    }
+
+    public func createDirectory(withIntermediateDirectories: Bool = true) {
+        return run {
+            try fm.createDirectory(at: base,
+                                   withIntermediateDirectories: withIntermediateDirectories,
+                                   attributes: nil)
+        }
+    }
+
+    public func listDir() -> [URL] {
+        return getResultOrDefault {
+            try fm.contentsOfDirectory(at: base, includingPropertiesForKeys: nil, options: [])
+        }
+    }
+
+    private func getResultOrDefault<T: HasDefaultValue>(closure: () throws -> T) -> T {
+        do {
+            return try closure()
+        } catch let e {
+            handle(error: e)
+            return T.default
+        }
+    }
+    private func run(closure: () throws -> Void) {
+        do {
+            try closure()
+        } catch let e {
+            handle(error: e)
+        }
+    }
+    private func handle(error: Error) {
+        let message = String(describing: error)
+        assertionFailure(message)
+        Log.error(message)
+    }
+}
+
+protocol HasDefaultValue {
+    static var `default`: Self { get }
+}
+
+extension Bool: HasDefaultValue {
+    static var `default`: Bool { return false }
+}
+
+extension Array: HasDefaultValue {
+    static var `default`: Array<Element> { return [] }
+}
+
+extension Optional: HasDefaultValue {
+    static var `default`: Optional<Wrapped> { return nil }
 }

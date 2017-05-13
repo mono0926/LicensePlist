@@ -3,7 +3,7 @@ import LicensePlistCore
 import Commander
 
 private func loadConfig(configPath: URL) -> Config {
-    if let yaml = IOUtil.read(path: configPath) {
+    if let yaml = configPath.lp.read() {
         return Config(yaml: yaml)
     }
     return Config.empty
