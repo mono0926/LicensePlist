@@ -3,7 +3,7 @@ import APIKit
 import Result
 
 public struct GitHubLicense: License, Equatable {
-    public var library: GitHub
+    public let library: GitHub
     public let body: String
     let githubResponse: LicenseResponse
 
