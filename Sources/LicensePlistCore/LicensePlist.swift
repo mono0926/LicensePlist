@@ -1,11 +1,8 @@
 import Foundation
 import LoggerAPI
 
-// TODO:
-private var runWhenFinished: (() -> Void)!
 public final class LicensePlist {
     // TODO: to info, test, split
-    private var githubLibraries: [GitHub]?
 
     public init() {
         Logger.configure()
@@ -14,99 +11,17 @@ public final class LicensePlist {
     public func process(options: Options) {
         Log.info("Start")
         GitHubAuthorizatoin.shared.token = options.gitHubToken
-
-        let licenses = collectLicenseInfos(options: options)
-        outputPlist(licenses: licenses, options: options)
+        var info = PlistInfo(options: options)
+        info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
+        info.loadGitHubLibraries(cartfile: readCartfile(path: options.cartfilePath))
+        info.compareWithLatestSummary()
+        info.downloadGitHubLicenses()
+        info.collectLicenseInfos()
+        info.outputPlist()
         Log.info("End")
-        reportMissings(licenses: licenses)
-        runWhenFinished()
-        shell("open", options.outputPath.path)
-    }
-
-    private func collectLicenseInfos(options: Options) -> [LicenseInfo] {
-        Log.info("Pods License parse start")
-        let config = options.config
-
-        let podsAcknowledgements = readPodsAcknowledgements(path: options.podsPath)
-        let path = options.podsPath.appendingPathComponent("Manifest.lock")
-        let podsVersionInfo = VersionInfo(podsManifest: path.lp.read() ?? "")
-        var cocoaPodsLicenses = podsAcknowledgements
-            .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo) }
-            .flatMap { $0 }
-        cocoaPodsLicenses = config.rename(config.filterExcluded(cocoaPodsLicenses))
-
-        Log.info("Carthage License collect start")
-
-        var gitHubLibraries = GitHub.load(readCartfile(path: options.cartfilePath) ?? "")
-        gitHubLibraries = config.apply(githubs: gitHubLibraries)
-
-        let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
-            gitHubLibraries.map { String(describing: $0) } +
-            config.renames.map { "\($0.key):\($0.value)" } +
-            ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
-            .joined(separator: "\n\n")
-        let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
-        if let previous = savePath.lp.read(), previous == contents, !options.config.force {
-            Log.warning("Completed because no diff. You can execute force by `--force` flag.")
-            exit(0)
-        }
-        runWhenFinished = {
-            try! contents.write(to: savePath, atomically: true, encoding: Consts.encoding)
-        }
-
-        let queue = OperationQueue()
-        let carthageOperations = gitHubLibraries.map { GitHubLicense.download($0) }
-        queue.addOperations(carthageOperations, waitUntilFinished: true)
-        let carthageLicenses = config.rename(carthageOperations.map { $0.result?.value }.flatMap { $0 })
-        self.githubLibraries = config.rename(gitHubLibraries)
-
-        return ((cocoaPodsLicenses as [LicenseInfo]) + (carthageLicenses as [LicenseInfo]))
-            .reduce([String: LicenseInfo]()) { sum, e in
-                var sum = sum
-                sum[e.name] = e
-                return sum
-            }.values
-            .sorted { $0.name.lowercased() < $1.name.lowercased() }
-    }
-
-    private func reportMissings(licenses: [LicenseInfo]) {
-        Log.info("----------Result-----------")
-        Log.info("# Missing license:")
-        guard let carthageLibraries = githubLibraries else {
-            assert(false)
-            return
-        }
-        let missing = Set(carthageLibraries.map { $0.name }).subtracting(Set(licenses.map { $0.name }))
-        if missing.isEmpty {
-            Log.info("None🎉")
-        } else {
-            Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
-        }
-    }
-}
-
-private func outputPlist(licenses: [LicenseInfo], options: Options) {
-
-    let tm = TemplateManager.shared
-
-    let outputPath = options.outputPath
-    let plistPath = outputPath.appendingPathComponent(Consts.prefix)
-    if plistPath.lp.deleteIfExits() {
-        Log.info("Deleted exiting plist within \(Consts.prefix)")
-    }
-    plistPath.lp.createDirectory()
-    Log.info("Directory created: \(outputPath)")
-
-    let licensListItems = licenses.map {
-        return tm.licenseListItem.applied(["Title": $0.name(withVersion: options.config.addVersionNumbers),
-                                           "FileName": "\(Consts.prefix)/\($0.name)"])
-    }
-    let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
-    outputPath.appendingPathComponent("\(Consts.prefix).plist").lp.write(content: licenseListPlist)
-
-    licenses.forEach {
-        plistPath.appendingPathComponent("\($0.name).plist")
-            .lp.write(content: tm.license.applied(["Body": $0.bodyEscaped]))
+        info.reportMissings()
+        info.finish()
+        Shell.open(options.outputPath.path)
     }
 }
 
