@@ -14,6 +14,19 @@ App Setting Root | License List | License Detail
 
 ## Installation
 
+### Homebrew (Recommended)
+
+```sh
+$ brew install mono0926/license-plist/license-plist
+```
+
+Or 
+
+```sh
+$ brew tap mono0926/license-plist
+$ brew install license-plist
+```
+
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
