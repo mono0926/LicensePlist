@@ -3,7 +3,7 @@ import LoggerAPI
 import Himotoki
 
 public struct CocoaPodsLicense: License, Equatable {
-    public var library: CocoaPods
+    public let library: CocoaPods
     public let body: String
 
     public static func==(lhs: CocoaPodsLicense, rhs: CocoaPodsLicense) -> Bool {
@@ -13,11 +13,13 @@ public struct CocoaPodsLicense: License, Equatable {
 }
 
 extension CocoaPodsLicense: CustomStringConvertible {
-    public var description: String { return "name: \(library.name)\nbody: \(String(body.characters.prefix(20)))…" }
+    public var description: String {
+        return "name: \(library.name), nameSpecified: \(nameSpecified ?? "")\nbody: \(String(body.characters.prefix(20)))…"
+    }
 }
 
 extension CocoaPodsLicense {
-    public static func load(_ content: String, versionInfo: VersionInfo) -> [CocoaPodsLicense] {
+    public static func load(_ content: String, versionInfo: VersionInfo, config: Config) -> [CocoaPodsLicense] {
         do {
             let plist = try PropertyListSerialization.propertyList(from: content.data(using: String.Encoding.utf8)!,
                                                                    options: [],
@@ -26,8 +28,11 @@ extension CocoaPodsLicense {
             return try AcknowledgementsPlist.decodeValue(plist).preferenceSpecifiers
                 .filter { $0.isLicense }
                 .map {
-                    CocoaPodsLicense(library: CocoaPods(name: $0.title, version: versionInfo.version(name: $0.title)),
-                                     body: $0.footerText)
+                    let name = $0.title
+                    return CocoaPodsLicense(library: CocoaPods(name: name,
+                                                               nameSpecified: config.renames[name],
+                                                               version: versionInfo.version(name: $0.title)),
+                                            body: $0.footerText)
             }
         } catch let e {
             Log.error(String(describing: e))

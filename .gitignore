@@ -14,3 +14,4 @@ Pods
 *LicensePlist.Output
 !Cartfile*.swift
 !Pods*.swift
+test_result_dir

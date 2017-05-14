@@ -1,0 +1,161 @@
+import Foundation
+import XCTest
+@testable import LicensePlistCore
+
+class PlistInfoTests: XCTestCase {
+
+    override class func setUp() {
+        super.setUp()
+        TestUtil.setGitHubToken()
+    }
+
+    private let options = Options(outputPath: URL(fileURLWithPath: "test_result_dir"),
+                                  cartfilePath: URL(fileURLWithPath: "test_result_dir"),
+                                  podsPath: URL(fileURLWithPath: "test_result_dir"),
+                                  gitHubToken: nil,
+                                  config: Config(githubs: [GitHub(name: "facebook-ios-sdk",
+                                                                  nameSpecified: nil,
+                                                                  owner: "facebook",
+                                                                  version: "sdk-version-4.21.0"),
+                                                           GitHub(name: "exclude",
+                                                                  nameSpecified: nil,
+                                                                  owner: "owner",
+                                                                  version: nil)],
+                                                 excludes: ["exclude"],
+                                                 renames: ["Himotoki": "Himotoki2"]))
+
+    func testLoadCocoaPodsLicense() {
+        var target = PlistInfo(options: options)
+        XCTAssertNil(target.cocoaPodsLicenses)
+        let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/acknowledgements.plist"
+        let content = try! String(contentsOf: URL(string: path)!)
+        target.loadCocoaPodsLicense(acknowledgements: [content])
+        let licenses = target.cocoaPodsLicenses!
+        XCTAssertEqual(licenses.count, 11)
+        let licenseFirst = licenses.first!
+        XCTAssertEqual(licenseFirst.library, CocoaPods(name: "Firebase", nameSpecified: nil, version: nil))
+        XCTAssertEqual(licenseFirst.body, "Copyright 2017 Google")
+    }
+
+    func testLoadCocoaPodsLicense_empty() {
+        var target = PlistInfo(options: options)
+        XCTAssertNil(target.cocoaPodsLicenses)
+        target.loadCocoaPodsLicense(acknowledgements: [])
+        XCTAssertEqual(target.cocoaPodsLicenses!, [])
+    }
+
+    func testLoadGitHubLibraries() {
+        var target = PlistInfo(options: options)
+        XCTAssertNil(target.githubLibraries)
+        target.loadGitHubLibraries(cartfile: "github \"ikesyo/Himotoki\" \"3.0.1\"")
+        let libraries = target.githubLibraries!
+        XCTAssertEqual(libraries.count, 2)
+        let lib1 = libraries[0]
+        XCTAssertEqual(lib1, GitHub(name: "facebook-ios-sdk", nameSpecified: nil, owner: "facebook", version: "sdk-version-4.21.0"))
+        let lib2 = libraries[1]
+        XCTAssertEqual(lib2, GitHub(name: "Himotoki", nameSpecified: "Himotoki2", owner: "ikesyo", version: "3.0.1"))
+    }
+
+    func testLoadGitHubLibraries_empty() {
+        var target = PlistInfo(options: options)
+        XCTAssertNil(target.githubLibraries)
+        target.loadGitHubLibraries(cartfile: nil)
+        let libraries = target.githubLibraries!
+        XCTAssertEqual(libraries.count, 1)
+        let lib1 = libraries[0]
+        XCTAssertEqual(lib1, GitHub(name: "facebook-ios-sdk", nameSpecified: nil, owner: "facebook", version: "sdk-version-4.21.0"))
+    }
+
+    func testCompareWithLatestSummary() {
+        var target = PlistInfo(options: options)
+        target.cocoaPodsLicenses = []
+        target.githubLibraries = []
+
+        XCTAssertNil(target.summary)
+        XCTAssertNil(target.summaryPath)
+        target.compareWithLatestSummary()
+
+        XCTAssertEqual(target.summary,
+                       "add-version-numbers: false\n\nLicensePlist Version: 1.3.2")
+        XCTAssertNotNil(target.summaryPath)
+    }
+
+    func testDownloadGitHubLicenses() {
+        var target = PlistInfo(options: options)
+        let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
+        target.githubLibraries = [github]
+
+        XCTAssertNil(target.githubLicenses)
+        target.downloadGitHubLicenses()
+        XCTAssertEqual(target.githubLicenses!.count, 1)
+        let license = target.githubLicenses!.first!
+
+        XCTAssertEqual(license.library, github)
+        XCTAssertNotNil(license.body)
+        XCTAssertNotNil(license.githubResponse)
+    }
+
+    func testCollectLicenseInfos() {
+        var target = PlistInfo(options: options)
+        let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
+        let githubLicense = GitHubLicense(library: github,
+                                          body: "body",
+                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                                                          kind: LicenseKindResponse(name: "name",
+                                                                                                    spdxId: nil)))
+        target.cocoaPodsLicenses = []
+        target.githubLicenses = [githubLicense]
+
+        XCTAssertNil(target.licenses)
+        target.collectLicenseInfos()
+        let licenses = target.licenses!
+        XCTAssertEqual(licenses.count, 1)
+        let license = licenses.first!
+        XCTAssertEqual(license.name, "LicensePlist")
+    }
+
+    // MEMO: No result assertions
+    func testOutputPlist() {
+        var target = PlistInfo(options: options)
+        let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
+        let githubLicense = GitHubLicense(library: github,
+                                          body: "body",
+                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                                                          kind: LicenseKindResponse(name: "name",
+                                                                                                    spdxId: nil)))
+        target.licenses = [githubLicense]
+        target.outputPlist()
+    }
+
+    func testReportMissings() {
+        var target = PlistInfo(options: options)
+        let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
+        let githubLicense = GitHubLicense(library: github,
+                                          body: "body",
+                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                                                          kind: LicenseKindResponse(name: "name",
+                                                                                                    spdxId: nil)))
+        target.githubLibraries = [github]
+        target.licenses = [githubLicense]
+        target.reportMissings()
+    }
+
+    func testFinish() {
+        var target = PlistInfo(options: options)
+        let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
+        let githubLicense = GitHubLicense(library: github,
+                                          body: "body",
+                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                                                          kind: LicenseKindResponse(name: "name",
+                                                                                                    spdxId: nil)))
+        target.githubLibraries = [github]
+        target.githubLicenses = [githubLicense]
+        let podsLicense = CocoaPodsLicense(library: CocoaPods(name: "", nameSpecified: nil, version: nil), body: "body")
+        target.cocoaPodsLicenses = [podsLicense]
+        target.licenses = [githubLicense, podsLicense]
+        target.summary = ""
+        target.summaryPath = URL(fileURLWithPath: "")
+
+        target.finish()
+    }
+}
