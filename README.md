@@ -51,8 +51,6 @@ $ git clone https://github.com/mono0926/LicensePlist.git
 $ make install
 ```
 
-- **Homebrew**: Not supported yet.
-
 ## Usage
 
 1. On the directory same as `Cartfile` or `Pods`, simply execute `license-plist`.
