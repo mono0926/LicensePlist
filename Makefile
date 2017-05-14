@@ -17,4 +17,4 @@ xcode:
 	swift package generate-xcodeproj
 	
 install: build
-	cp -f "$(TEMPORARY_FOLDER)/LicensePlist" "$(PREFIX)/license-plist"
+	cp -f "$(TEMPORARY_FOLDER)/LicensePlist" "$(PREFIX)/bin/license-plist"
