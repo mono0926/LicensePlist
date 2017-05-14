@@ -34,7 +34,7 @@ Download from [Releases](https://github.com/mono0926/LicensePlist/releases), the
 Or by using this command, you can also download the latest executable binary.
 
 ```sh
-curl "https://api.github.com/repos/mono0926/LicensePlist/releases" \
+$ curl "https://api.github.com/repos/mono0926/LicensePlist/releases" \
      | jq -r '.[0].assets_url' \
      | xargs -n1 curl \
      | jq -r '.[0].browser_download_url' \
