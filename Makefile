@@ -14,4 +14,4 @@ xcode:
 	swift package generate-xcodeproj
 	
 install: build
-	cp -f .build/release/LicensePlist /usr/local/bin/license-plist
+	cp -f .build/release/LicensePlist /usr/local/bin/
