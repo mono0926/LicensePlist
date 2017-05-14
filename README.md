@@ -51,12 +51,6 @@ $ git clone https://github.com/mono0926/LicensePlist.git
 $ make install
 ```
 
-Or you can also install by one-liner.
-
-```sh
-curl -fsSL install.sh | sh
-```
-
 - **Homebrew**: Not supported yet.
 
 ## Usage
