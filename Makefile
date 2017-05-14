@@ -1,3 +1,6 @@
+TEMPORARY_FOLDER?=.build/release
+PREFIX?=/usr/local
+
 build:
 	swift build -c release -Xswiftc -static-stdlib
  
@@ -14,4 +17,4 @@ xcode:
 	swift package generate-xcodeproj
 	
 install: build
-	cp -f .build/release/LicensePlist /usr/local/bin/license-plist
+	cp -f "$(TEMPORARY_FOLDER)/LicensePlist" "$(PREFIX)/license-plist"
