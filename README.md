@@ -18,6 +18,17 @@ App Setting Root | License List | License Detail
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
 
+Or by using this command, you can also download the latest executable binary.
+
+```sh
+curl "https://api.github.com/repos/mono0926/LicensePlist/releases" \
+     | jq -r '.[0].assets_url' \
+     | xargs -n1 curl \
+     | jq -r '.[0].browser_download_url' \
+     | xargs -n1 curl -LOk \
+ && unzip license-plist.zip
+```
+
 ### From Source
 
 Clone the master branch of the repository, then run `make install`.
