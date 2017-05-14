@@ -1,4 +1,3 @@
-TEMPORARY_FOLDER?=.build/release
 PREFIX?=/usr/local
 
 build:
@@ -18,4 +17,4 @@ xcode:
 	
 install: build
 	mkdir -p "$(PREFIX)/bin"
-	cp -f "$(TEMPORARY_FOLDER)/LicensePlist" "$(PREFIX)/bin/license-plist"
+	cp -f ".build/release/LicensePlist" "$(PREFIX)/bin/license-plist"
