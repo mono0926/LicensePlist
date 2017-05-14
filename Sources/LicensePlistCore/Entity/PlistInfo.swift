@@ -111,10 +111,14 @@ struct PlistInfo {
     }
 
     func finish() {
-        precondition(cocoaPodsLicenses != nil && githubLibraries != nil && githubLicenses != nil)
+        precondition(cocoaPodsLicenses != nil && githubLibraries != nil && githubLicenses != nil && licenses != nil)
         guard let summary = summary, let summaryPath = summaryPath else {
             fatalError("summary should be set")
         }
-        try! summary.write(to: summaryPath, atomically: true, encoding: Consts.encoding)
+        do {
+            try summary.write(to: summaryPath, atomically: true, encoding: Consts.encoding)
+        } catch let e {
+            Log.error("Failed to save summary. Error: \(String(describing: e))")
+        }
     }
 }
