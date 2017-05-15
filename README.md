@@ -103,7 +103,7 @@ You can see options by `license-plist --help`.
 #### `--force`
 
 - Default: false
-- `LicensePlist` saves latest libraries, so if there are no libraries change, iterrupt.
+- `LicensePlist` saves latest result summary, so if there are no changes, the program iterrupts.
     - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Build - Pre-actions` every time** 🎉
 - You can run all the way anyway, by using `--force` flag.
 
