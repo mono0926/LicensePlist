@@ -134,3 +134,9 @@ fi
 ### How to generate Xcode project?
 
 Execute `swift package generate-xcodeproj` or `make xcode`.
+
+---
+
+## Related Articles
+
+- [Swift Package Manager(SwiftPM)で作ったコマンドラインツールをHomebrewに登録する方法 - Qiita](http://qiita.com/mono0926/items/c32c008384df40bf4e41)
