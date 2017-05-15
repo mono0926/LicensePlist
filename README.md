@@ -1,4 +1,4 @@
-<img src="Design/Export/LicensePlist.png" width="200" height="200" alt="LicensePlist Logo"> LicensePlist
+<img src="LicensePlist.png" width="200" height="200" alt="LicensePlist Logo"> LicensePlist
 ======================================
 
 ![platforms](https://img.shields.io/badge/platforms-iOS-333333.svg)
