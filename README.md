@@ -94,7 +94,7 @@ You can see options by `license-plist --help`.
 #### `--github-token`
 
 - Default: None.
-- `LicensePlist` uses GitHub API, so sometimes API limit error occures, so by using github-token you can avoid it.
+- `LicensePlist` uses GitHub API, so sometimes API limit error occures. You can avoid it by using github-token .
 - [You can generate token here](https://github.com/settings/tokens/new)
     - `repo` scope is needed.
 
