@@ -30,10 +30,13 @@ struct LicensePlistHolder {
         return (root: root, items: items)
     }
     func write(to rootPath: URL, itemsPath: URL) {
-        // TODO: エラー
-        try! root.write(to: rootPath)
-        items.forEach {
-            try! $0.1.write(to: itemsPath.appendingPathComponent("\($0.0.name).plist"))
+        do {
+            try root.write(to: rootPath)
+            try items.forEach {
+                try $0.1.write(to: itemsPath.appendingPathComponent("\($0.0.name).plist"))
+            }
+        } catch let e {
+            Log.error("Failed to write to (rootPath: \(rootPath), itemsPath: \(itemsPath)).\nerror: \(e)")
         }
 
     }
