@@ -1,8 +1,0 @@
-<dict>
-	<key>Type</key>
-	<string>PSChildPaneSpecifier</string>
-	<key>Title</key>
-	<string>{{.Title}}</string>
-	<key>File</key>
-	<string>{{.FileName}}</string>
-</dict>

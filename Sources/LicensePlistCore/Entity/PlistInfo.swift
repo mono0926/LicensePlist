@@ -73,28 +73,16 @@ struct PlistInfo {
 
     func outputPlist() {
         guard let licenses = licenses else { preconditionFailure() }
-
-        let tm = TemplateManager.shared
-
         let outputPath = options.outputPath
-        let plistPath = outputPath.appendingPathComponent(Consts.prefix)
-        if plistPath.lp.deleteIfExits() {
+        let itemsPath = outputPath.appendingPathComponent(Consts.prefix)
+        if itemsPath.lp.deleteIfExits() {
             Log.info("Deleted exiting plist within \(Consts.prefix)")
         }
-        plistPath.lp.createDirectory()
+        itemsPath.lp.createDirectory()
         Log.info("Directory created: \(outputPath)")
 
-        let licensListItems = licenses.map {
-            return tm.licenseListItem.applied(["Title": $0.name(withVersion: options.config.addVersionNumbers),
-                                               "FileName": "\(Consts.prefix)/\($0.name)"])
-        }
-        let licenseListPlist = tm.licenseList.applied(["Item": licensListItems.joined(separator: "\n")])
-        outputPath.appendingPathComponent("\(Consts.prefix).plist").lp.write(content: licenseListPlist)
-
-        licenses.forEach {
-            plistPath.appendingPathComponent("\($0.name).plist")
-                .lp.write(content: tm.license.applied(["Body": $0.bodyEscaped]))
-        }
+        let holder = LicensePlistHolder.load(licenses: licenses, config: options.config)
+        holder.write(to: outputPath.appendingPathComponent("\(Consts.prefix).plist"), itemsPath: itemsPath)
     }
 
     func reportMissings() {
