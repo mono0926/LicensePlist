@@ -13,7 +13,7 @@ struct LicensePlistHolder {
         let root = try! PropertyListSerialization.data(fromPropertyList: ["PreferenceSpecifiers": rootItems],
                                                        format: .xml,
                                                        options: 0)
-        let items: [(LicenseInfo,Data)] = licenses.map { license in
+        let items: [(LicenseInfo, Data)] = licenses.map { license in
             let item = ["PreferenceSpecifiers": [["Type": "PSGroupSpecifier", "FooterText": license.body]]]
             let value = try! PropertyListSerialization.data(fromPropertyList: item, format: .xml, options: 0)
             return (license, value)
