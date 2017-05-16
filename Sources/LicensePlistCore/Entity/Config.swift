@@ -22,6 +22,10 @@ public struct Config {
             } ?? [:]
         let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
         let gitHubList = githubs.map { GitHub.load($0, renames: renames, mark: "", quotes: "") }.flatMap { $0 }
+        gitHubList.forEach {
+            Log.warning("\($0.name) is specified by the depricated format. It will be removed at Version 2." +
+                "See: https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml .")
+        }
         let githubsVersion: [GitHub] = value["github"].array?.map {
             guard let dictionary = $0.dictionary else {
                 return nil
