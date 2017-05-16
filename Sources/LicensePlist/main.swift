@@ -1,6 +1,7 @@
 import Foundation
 import LicensePlistCore
 import Commander
+import LoggerAPI
 
 private func loadConfig(configPath: URL) -> Config {
     if let yaml = configPath.lp.read() {
@@ -16,7 +17,7 @@ let main = command(Option("cartfile-path", Consts.cartfileName),
                    Option("config-path", Consts.configPath),
                    Flag("force"),
                    Flag("add-version-numbers")) { cartfile, podsPath, output, gitHubToken, configPath, force, version in
-
+                    Logger.configure()
                     var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
                     config.force = force
                     config.addVersionNumbers = version

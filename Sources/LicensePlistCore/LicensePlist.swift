@@ -3,9 +3,7 @@ import LoggerAPI
 
 public final class LicensePlist {
 
-    public init() {
-        Logger.configure()
-    }
+    public init() {}
 
     public func process(options: Options) {
         Log.info("Start")
