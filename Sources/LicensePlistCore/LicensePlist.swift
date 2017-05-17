@@ -18,7 +18,9 @@ public final class LicensePlist {
         Log.info("End")
         info.reportMissings()
         info.finish()
-        Shell.open(options.outputPath.path)
+        if !options.config.suppressOpeningDirectory {
+            Shell.open(options.outputPath.path)
+        }
     }
 }
 
