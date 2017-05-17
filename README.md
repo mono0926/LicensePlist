@@ -115,6 +115,11 @@ You can see options by `license-plist --help`.
 
 <img src="https://cloud.githubusercontent.com/assets/1255062/25931869/f15d2df2-3649-11e7-8c7d-bb37d11adca0.png" width="320" height="568" alt="License list with versions">
 
+#### `--suppress-opening-directory`
+
+- Default: false
+- Only when the files are created or updated, the terminal or the finder opens. By adding `--suppress-opening-directory` flag, this behavior is suppressed.
+
 ### Integrate into build
 
 Add `Run Script` to `Build - Pre-actions`:
