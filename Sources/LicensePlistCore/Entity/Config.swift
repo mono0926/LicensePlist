@@ -8,6 +8,7 @@ public struct Config {
     let renames: [String: String]
     public var force = false
     public var addVersionNumbers = false
+    public var suppressOpeningDirectory = false
 
     public static let empty = Config(githubs: [], excludes: [], renames: [:])
 
