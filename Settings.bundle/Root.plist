@@ -14,7 +14,7 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
-			<string>License</string>
+			<string>Licenses</string>
 			<key>File</key>
 			<string>com.mono0926.LicensePlist</string>
 		</dict>
