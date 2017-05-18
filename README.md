@@ -34,7 +34,7 @@ Download from [Releases](https://github.com/mono0926/LicensePlist/releases), the
 Or you can also download the latest binary and install it by one-liner.
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/install.sh | sh
+$ curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/install.sh | sh
 ```
 
 ### From Source
