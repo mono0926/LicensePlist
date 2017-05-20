@@ -17,14 +17,13 @@ let main = command(Option("cartfile-path", Consts.cartfileName),
                    Option("config-path", Consts.configPath),
                    Flag("force"),
                    Flag("add-version-numbers"),
-                   Flag("suppress-opening-directory")) {
-                    cartfile, podsPath, output, gitHubToken, configPath, force, version, suppressOpeningDirectory in
+                   Flag("suppress-opening-directory")) { cartfile, podsPath, output, gitHubToken, configPath, force, version, suppressOpen in
 
                     Logger.configure()
                     var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
                     config.force = force
                     config.addVersionNumbers = version
-                    config.suppressOpeningDirectory = suppressOpeningDirectory
+                    config.suppressOpeningDirectory = suppressOpen
                     let options = Options(outputPath: URL(fileURLWithPath: output),
                                           cartfilePath: URL(fileURLWithPath: cartfile),
                                           podsPath: URL(fileURLWithPath: podsPath),
