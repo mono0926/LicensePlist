@@ -33,13 +33,22 @@ struct RepoRequests {
 }
 
 struct LicenseResponse {
-    let downloadUrl: URL
+    let content: String
+    let contentDecoded: String
+    let encoding: String
     let kind: LicenseKindResponse
 }
 
 extension LicenseResponse: Decodable {
     static func decode(_ e: Extractor) throws -> LicenseResponse {
-        return try LicenseResponse(downloadUrl: URL(string: e.value("download_url"))!, kind: e.value("license"))
+        let content: String = try e.value("content")
+        let encofing: String = try e.value("encoding")
+        assert(encofing == "base64")
+        let contentDecoded = String(data: Data(base64Encoded: content, options: [.ignoreUnknownCharacters])!, encoding: .utf8)!
+        return try LicenseResponse(content: content,
+                                   contentDecoded: contentDecoded,
+                                   encoding: encofing,
+                                   kind: e.value("license"))
     }
 }
 
