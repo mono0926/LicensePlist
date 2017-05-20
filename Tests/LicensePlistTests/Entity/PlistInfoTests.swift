@@ -100,7 +100,9 @@ class PlistInfoTests: XCTestCase {
         let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
-                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                          githubResponse: LicenseResponse(content: "",
+                                                                          contentDecoded: "",
+                                                                          encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
         target.cocoaPodsLicenses = []
@@ -120,7 +122,9 @@ class PlistInfoTests: XCTestCase {
         let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
-                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                          githubResponse: LicenseResponse(content: "",
+                                                                          contentDecoded: "",
+                                                                          encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
         target.licenses = [githubLicense]
@@ -132,7 +136,9 @@ class PlistInfoTests: XCTestCase {
         let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
-                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                          githubResponse: LicenseResponse(content: "",
+                                                                          contentDecoded: "",
+                                                                          encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
         target.githubLibraries = [github]
@@ -145,7 +151,9 @@ class PlistInfoTests: XCTestCase {
         let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
-                                          githubResponse: LicenseResponse(downloadUrl: URL(fileURLWithPath: ""),
+                                          githubResponse: LicenseResponse(content: "",
+                                                                          contentDecoded: "",
+                                                                          encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
         target.githubLibraries = [github]

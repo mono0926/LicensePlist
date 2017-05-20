@@ -13,9 +13,7 @@ class RepoRequestsTests: XCTestCase {
         let result = Session.shared.lp.sendSync(request)
         switch result {
         case .success(let response):
-            XCTAssertEqual(
-                response.downloadUrl,
-                URL(string: "https://raw.githubusercontent.com/mono0926/NativePopup/master/LICENSE")!)
+            XCTAssertTrue(response.contentDecoded.hasPrefix("MIT License"))
         case .failure(let error):
             XCTFail(String(describing: error))
         }
@@ -41,9 +39,7 @@ class RepoRequestsTests: XCTestCase {
         queue.addOperations([o1, o2], waitUntilFinished: true)
         let result = [o1.result!.value!, o2.result!.value!]
         XCTAssertEqual(result.count, 2)
-        XCTAssertEqual(result[0].downloadUrl,
-                       URL(string: "https://raw.githubusercontent.com/mono0926/NativePopup/master/LICENSE")!)
-        XCTAssertEqual(result[1].downloadUrl,
-                       URL(string: "https://raw.githubusercontent.com/ReactiveX/RxSwift/master/LICENSE.md")!)
+        XCTAssertTrue(result[0].contentDecoded.hasPrefix("MIT License"))
+        XCTAssertTrue(result[1].contentDecoded.hasPrefix("**The MIT License**"))
     }
 }
