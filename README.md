@@ -113,7 +113,7 @@ You can see options by `license-plist --help`.
 - When the library name is `SomeLibrary`, by adding `--add-version-numbers` flag, the name will be changed to `SomeLibrary (X.Y.Z)`.
     - `X.Y.Z` is parsed from CocoaPods and Cartfile information, and GitHub libraries specified at [Config YAML](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml) also support this flag.
 
-<img src="https://cloud.githubusercontent.com/assets/1255062/25931869/f15d2df2-3649-11e7-8c7d-bb37d11adca0.png" width="320" height="568" alt="License list with versions">
+<img src="Screenshots/list_version.png" width="320" height="568" alt="License list with versions">
 
 #### `--suppress-opening-directory`
 
