@@ -8,6 +8,8 @@
 
 `LicensePlist` is a command-line tool that automatically generates a Plist of all your dependencies, including files added manually(specified by [YAML config file](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)) or using `Carthage` or `CocoaPods`. All these licenses then show up in the Settings app.
 
+![Flow](Screenshots/flow.png)
+
 ![Demo](https://github.com/mono0926/Resource/raw/master/LicensePlist/LicensePlist.gif)
 
 App Setting Root | License List | License Detail
