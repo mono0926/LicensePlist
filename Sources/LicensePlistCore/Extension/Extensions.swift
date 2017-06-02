@@ -1,24 +1,24 @@
 import Foundation
 
-public struct Extension<Base> {
+public struct LicensePlistExtension<Base> {
     let base: Base
     init (_ base: Base) {
         self.base = base
     }
 }
 
-public protocol ExtensionCompatible {
+public protocol LicensePlistCompatible {
     associatedtype Compatible
-    static var lp: Extension<Compatible>.Type { get }
-    var lp: Extension<Compatible> { get }
+    static var lp: LicensePlistExtension<Compatible>.Type { get }
+    var lp: LicensePlistExtension<Compatible> { get }
 }
 
-extension ExtensionCompatible {
-    public static var lp: Extension<Self>.Type {
-        return Extension<Self>.self
+extension LicensePlistCompatible {
+    public static var lp: LicensePlistExtension<Self>.Type {
+        return LicensePlistExtension<Self>.self
     }
 
-    public var lp: Extension<Self> {
-        return Extension(self)
+    public var lp: LicensePlistExtension<Self> {
+        return LicensePlistExtension(self)
     }
 }

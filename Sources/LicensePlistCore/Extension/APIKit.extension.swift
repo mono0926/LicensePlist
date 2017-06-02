@@ -2,9 +2,9 @@ import Foundation
 import APIKit
 import Result
 
-extension Session: ExtensionCompatible {}
+extension Session: LicensePlistCompatible {}
 
-extension Extension where Base: Session {
+extension LicensePlistExtension where Base: Session {
     func sendSync<T: Request>(_ request: T) -> Result<T.Response, SessionTaskError> {
         var result: Result<T.Response, SessionTaskError>!
         let semaphor = DispatchSemaphore(value: 0)

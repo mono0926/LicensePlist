@@ -2,9 +2,9 @@ import Foundation
 import LoggerAPI
 import Result
 
-extension URL: ExtensionCompatible {}
+extension URL: LicensePlistCompatible {}
 
-extension Extension where Base == URL {
+extension LicensePlistExtension where Base == URL {
     func download() -> ResultOperation<String, NSError> {
         let operation =  ResultOperation<String, NSError> { _ in
             do {
@@ -18,7 +18,7 @@ extension Extension where Base == URL {
 }
 
 private let fm = FileManager.default
-extension Extension where Base == URL {
+extension LicensePlistExtension where Base == URL {
 
     public var isExists: Bool { return fm.fileExists(atPath: base.path) }
 
