@@ -41,7 +41,7 @@ curl -i -X PUT $formula_url \
 }"
 
 brew upgrade $lib_name
-zip $lib_name.zip /usr/local/bin/$lib_name
+zip -j $lib_name.zip /usr/local/bin/$lib_name
 
 github-release release \
     --user mono0926 \
