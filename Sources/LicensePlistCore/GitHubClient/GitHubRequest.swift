@@ -4,9 +4,9 @@ import Himotoki
 
 protocol GitHubRequest: Request {}
 
-class GitHubAuthorizatoin {
+class GitHubAuthorization {
     private init() {}
-    static let shared = GitHubAuthorizatoin()
+    static let shared = GitHubAuthorization()
     var token: String?
 }
 
@@ -14,7 +14,7 @@ extension GitHubRequest {
     var baseURL: URL { return URL(string: "https://api.github.com/")! }
     var headerFields: [String : String] {
         var header = ["Accept": "application/vnd.github.drax-preview+json"]
-        if let token = GitHubAuthorizatoin.shared.token {
+        if let token = GitHubAuthorization.shared.token {
             header["Authorization"] = "Token \(token)"
         }
         return header
