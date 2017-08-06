@@ -7,7 +7,7 @@ public final class LicensePlist {
 
     public func process(options: Options) {
         Log.info("Start")
-        GitHubAuthorizatoin.shared.token = options.gitHubToken
+        GitHubAuthorization.shared.token = options.gitHubToken
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
         info.loadGitHubLibraries(cartfile: readCartfile(path: options.cartfilePath))
