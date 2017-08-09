@@ -39,7 +39,7 @@ struct LicenseResponse {
     let kind: LicenseKindResponse
 }
 
-extension LicenseResponse: Decodable {
+extension LicenseResponse: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> LicenseResponse {
         let content: String = try e.value("content")
         let encofing: String = try e.value("encoding")
@@ -57,7 +57,7 @@ struct LicenseKindResponse {
     let spdxId: String?
 }
 
-extension LicenseKindResponse: Decodable {
+extension LicenseKindResponse: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> LicenseKindResponse {
         return try LicenseKindResponse(name: e.value("name"), spdxId: e.valueOptional("spdx_id"))
     }
