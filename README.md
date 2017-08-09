@@ -138,7 +138,6 @@ fi
 
 ![](Screenshots/pre_build_action.png)
 
-
 ## Q&A
 
 ### How to generate Xcode project?
