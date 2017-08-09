@@ -28,7 +28,7 @@ struct RepositoriesResponse {
     let items: [RepositoryResponse]
 }
 
-extension RepositoriesResponse: Decodable {
+extension RepositoriesResponse: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> RepositoriesResponse {
         return try RepositoriesResponse(items: e.array("items"))
     }
@@ -48,7 +48,7 @@ final class RepositoryResponse {
     }
 }
 
-extension RepositoryResponse: Decodable {
+extension RepositoryResponse: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> RepositoryResponse {
         return try RepositoryResponse(owner: e.value("owner"),
                                       name: e.value("name"),
@@ -61,7 +61,7 @@ struct RepositoryOwnerResponse {
     let login: String
 }
 
-extension RepositoryOwnerResponse: Decodable {
+extension RepositoryOwnerResponse: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> RepositoryOwnerResponse {
         return try RepositoryOwnerResponse(login: e.value("login"))
     }

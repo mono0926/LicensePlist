@@ -45,7 +45,7 @@ private struct AcknowledgementsPlist {
     let preferenceSpecifiers: [PreferenceSpecifier]
 }
 
-extension AcknowledgementsPlist: Decodable {
+extension AcknowledgementsPlist: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> AcknowledgementsPlist {
         return try AcknowledgementsPlist(preferenceSpecifiers: e.array("PreferenceSpecifiers"))
     }
@@ -59,7 +59,7 @@ private struct PreferenceSpecifier {
     var isLicense: Bool { return license != nil }
 }
 
-extension PreferenceSpecifier: Decodable {
+extension PreferenceSpecifier: Himotoki.Decodable {
     static func decode(_ e: Extractor) throws -> PreferenceSpecifier {
         return try PreferenceSpecifier(footerText: e.value("FooterText"),
                                        title: e.value("Title"),
