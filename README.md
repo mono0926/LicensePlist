@@ -149,7 +149,7 @@ Alternatively, if you've installed LicensePlist via CocoaPods the script should 
 ```sh
 if [ $CONFIGURATION = "Debug" ]; then
 cd $SRCROOT
-${PODS_ROOT}/LicensePlist/portable_licenseplist --output-path $PRODUCT_NAME/Settings.bundle
+${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle
 fi
 ```
 

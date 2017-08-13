@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
-  s.name            = 'LicensePlist'
-  s.version         = 'LATEST_RELEASE_VERSION_NUMBER'
-  s.summary         = 'A license list generator of all your dependencies for iOS applications'
-  s.homepage        = 'https://github.com/mono0926/LicensePlist'
-  s.license         = { :type => 'MIT', :file => 'LICENSE' }
-  s.author          = 'Masayuki Ono'
-  s.source          = { :http => '#{s.homepage}/releases/download/#{s.version}/portable_licenseplist.zip' }
+  s.name        = 'LicensePlist'
+  s.version     = 'LATEST_RELEASE_VERSION_NUMBER'
+  s.summary     = 'A license list generator of all your dependencies for iOS applications'
+  s.homepage    = 'https://github.com/mono0926/LicensePlist'
+  s.license     = { :type => 'MIT', :file => 'LICENSE' }
+  s.author      = 'Masayuki Ono'
+  s.source      = { :http => '#{s.homepage}/releases/download/#{s.version}/portable_licenseplist.zip' }
 end
