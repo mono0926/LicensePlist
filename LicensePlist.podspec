@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = 'LicensePlist'
-  s.version     = 'LATEST_RELEASE_VERSION_NUMBER'
+  s.version     = '1.6.0'
   s.summary     = 'A license list generator of all your dependencies for iOS applications'
   s.homepage    = 'https://github.com/simorgh3196/LicensePlist'
   s.license     = { :type => 'MIT', :file => 'LICENSE' }
