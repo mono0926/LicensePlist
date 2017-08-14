@@ -25,7 +25,13 @@ App Setting Root | License List | License Detail
 $ brew install mono0926/license-plist/license-plist
 ```
 
-Or 
+### Cocoapods
+
+```
+pod 'LicensePlist'
+```
+
+Or
 
 ```sh
 $ brew tap mono0926/license-plist
@@ -137,6 +143,15 @@ fi
 ```
 
 ![](Screenshots/pre_build_action.png)
+
+Alternatively, if you've installed LicensePlist via CocoaPods the script should look like this:
+
+```sh
+if [ $CONFIGURATION = "Debug" ]; then
+cd $SRCROOT
+${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle
+fi
+```
 
 ## Q&A
 

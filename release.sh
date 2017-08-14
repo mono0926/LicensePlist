@@ -55,4 +55,19 @@ github-release upload \
     --name "$lib_name.zip" \
     --file $lib_name.zip
 
-rm $lib_name.zip 
+rm $lib_name.zip
+
+make portable_zip
+portable_zip_name="portable_licenseplist.zip"
+github-release upload \
+    --user mono0926 \
+    --repo LicensePlist \
+    --tag $tag \
+    --name "$portable_zip_name" \
+    --file $portable_zip_name
+rm $portable_zip_name
+
+podspec_name="LicencePlist.podspec"
+cat "$podspec_name.tmp" | sed s/LATEST_RELEASE_VERSION_NUMBER/$tag/ > "$podspec_name"
+pod trunk push $podspec_name
+rm $podspec_name
