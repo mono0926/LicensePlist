@@ -21,6 +21,7 @@ class PlistInfoTests: XCTestCase {
                                                                   nameSpecified: nil,
                                                                   owner: "owner",
                                                                   version: nil)],
+                                                 manuals: [],
                                                  excludes: ["exclude"],
                                                  renames: ["Himotoki": "Himotoki2"]))
 
@@ -69,6 +70,7 @@ class PlistInfoTests: XCTestCase {
     func testCompareWithLatestSummary() {
         var target = PlistInfo(options: options)
         target.cocoaPodsLicenses = []
+        target.manualLicenses = []
         target.githubLibraries = []
 
         XCTAssertNil(target.summary)
@@ -106,13 +108,17 @@ class PlistInfoTests: XCTestCase {
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
         target.cocoaPodsLicenses = []
+        let manual = Manual(name: "FooBar", source: "https://foo.bar", nameSpecified: nil, version: nil)
+        let manualLicense = ManualLicense(library: manual,
+                                          body: "body")
+        target.manualLicenses = [manualLicense]
         target.githubLicenses = [githubLicense]
 
         XCTAssertNil(target.licenses)
         target.collectLicenseInfos()
         let licenses = target.licenses!
-        XCTAssertEqual(licenses.count, 1)
-        let license = licenses.first!
+        XCTAssertEqual(licenses.count, 2)
+        let license = licenses.last!
         XCTAssertEqual(license.name, "LicensePlist")
     }
 
@@ -160,6 +166,8 @@ class PlistInfoTests: XCTestCase {
         target.githubLicenses = [githubLicense]
         let podsLicense = CocoaPodsLicense(library: CocoaPods(name: "", nameSpecified: nil, version: nil), body: "body")
         target.cocoaPodsLicenses = [podsLicense]
+        let manualLicense = ManualLicense(library: Manual(name: "", source: nil, nameSpecified: nil, version: nil), body: "body")
+        target.manualLicenses = [manualLicense]
         target.licenses = [githubLicense, podsLicense]
         target.summary = ""
         target.summaryPath = URL(fileURLWithPath: "")

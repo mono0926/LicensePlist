@@ -14,7 +14,7 @@ class CocoaPodsTests: XCTestCase {
         let content = try! String(contentsOf: URL(string: path)!)
         let results = CocoaPodsLicense.load(content,
                                             versionInfo: VersionInfo(dictionary: ["Firebase": "1.2.3"]),
-                                            config: Config(githubs: [], excludes: [], renames: ["Firebase": "Firebase2"]))
+                                            config: Config(githubs: [], manuals: [], excludes: [], renames: ["Firebase": "Firebase2"]))
         XCTAssertFalse(results.isEmpty)
         XCTAssertEqual(results.count, 11)
         let licenseFirst = results.first!
