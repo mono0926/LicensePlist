@@ -43,7 +43,7 @@ class ConfigTests: XCTestCase {
     }
 
     func testApply_githubs() {
-        let github1 = GitHub(name: "github1",  nameSpecified: nil, owner: "g1", version: nil)
+        let github1 = GitHub(name: "github1", nameSpecified: nil, owner: "g1", version: nil)
         let config = Config(githubs: [github1], manuals: [], excludes: ["lib2"], renames: [:])
         let shouldBeIncluded = GitHub(name: "lib1", nameSpecified: nil, owner: "o1", version: nil)
         let result = config.apply(githubs: [shouldBeIncluded, GitHub(name: "lib2", nameSpecified: nil, owner: "o2", version: nil)])

@@ -42,7 +42,7 @@ public struct Config {
                           owner: owner,
                           version: dictionary["version"]?.string)
             }.flatMap { $0 } ?? []
-        self = Config(githubs: githubsVersion + gitHubList, manuals: manualList,  excludes: excludes, renames: renames)
+        self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames)
     }
 
     init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String]) {
