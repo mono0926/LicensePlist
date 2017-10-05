@@ -45,16 +45,12 @@ extension Manual {
                 switch valuePair.key.string ?? "" {
                 case "source":
                     source = valuePair.value.string ?? ""
-                    break
                 case "name":
                     name = valuePair.value.string ?? ""
-                    break
                 case "version":
                     version = valuePair.value.string ?? ""
-                    break
                 case "body":
                     body = valuePair.value.string ?? ""
-                    break
                 default:
                     Log.warning("Tried to parse an unknown YAML key")
                 }
