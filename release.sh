@@ -40,7 +40,7 @@ curl -i -X PUT $formula_url \
   \"message\":\"$commit_message\"
 }"
 
-brew upgrade $lib_name
+brew upgrade $lib_name --no-sandbox
 zip -j $lib_name.zip /usr/local/bin/$lib_name
 
 github-release release \
