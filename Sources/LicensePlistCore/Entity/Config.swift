@@ -4,13 +4,14 @@ import Yaml
 
 public struct Config {
     let githubs: [GitHub]
+    let manuals: [Manual]
     let excludes: [String]
     let renames: [String: String]
     public var force = false
     public var addVersionNumbers = false
     public var suppressOpeningDirectory = false
 
-    public static let empty = Config(githubs: [], excludes: [], renames: [:])
+    public static let empty = Config(githubs: [], manuals: [], excludes: [], renames: [:])
 
     public init(yaml: String) {
         let value = try! Yaml.load(yaml)
@@ -21,6 +22,8 @@ public struct Config {
             sum[from] = to
             return sum
             } ?? [:]
+        let manuals = value["manual"].array ?? []
+        let manualList = Manual.load(manuals, renames: renames)
         let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
         let gitHubList = githubs.map { GitHub.load($0, renames: renames, mark: "", quotes: "") }.flatMap { $0 }
         gitHubList.forEach {
@@ -39,11 +42,12 @@ public struct Config {
                           owner: owner,
                           version: dictionary["version"]?.string)
             }.flatMap { $0 } ?? []
-        self = Config(githubs: githubsVersion + gitHubList, excludes: excludes, renames: renames)
+        self = Config(githubs: githubsVersion + gitHubList, manuals: manualList,  excludes: excludes, renames: renames)
     }
 
-    init(githubs: [GitHub], excludes: [String], renames: [String: String]) {
+    init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String]) {
         self.githubs = githubs
+        self.manuals = manuals
         self.excludes = excludes
         self.renames = renames
     }
@@ -93,15 +97,21 @@ public struct Config {
             return result
         }
     }
+
     func apply(githubs: [GitHub]) -> [GitHub] {
         self.githubs.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
         return filterExcluded((self.githubs + githubs))
+    }
+
+    func applyManual(manuals: [Manual]) -> [Manual] {
+        return filterExcluded((self.manuals + manuals))
     }
 }
 
 extension Config: Equatable {
     public static func==(lhs: Config, rhs: Config) -> Bool {
         return lhs.githubs == rhs.githubs &&
+            lhs.manuals == rhs.manuals &&
             lhs.excludes == rhs.excludes &&
             lhs.renames == rhs.renames
     }

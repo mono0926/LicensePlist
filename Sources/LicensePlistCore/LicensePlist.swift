@@ -11,6 +11,7 @@ public final class LicensePlist {
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
         info.loadGitHubLibraries(cartfile: readCartfile(path: options.cartfilePath))
+        info.loadManualLibraries()
         info.compareWithLatestSummary()
         info.downloadGitHubLicenses()
         info.collectLicenseInfos()

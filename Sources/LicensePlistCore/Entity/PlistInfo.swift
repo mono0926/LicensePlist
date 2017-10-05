@@ -4,6 +4,7 @@ import LoggerAPI
 struct PlistInfo {
     let options: Options
     var cocoaPodsLicenses: [CocoaPodsLicense]?
+    var manualLicenses: [ManualLicense]?
     var githubLibraries: [GitHub]?
     var githubLicenses: [GitHubLicense]?
     var summary: String?
@@ -32,13 +33,21 @@ struct PlistInfo {
         githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? "", renames: options.config.renames))
     }
 
+    mutating func loadManualLibraries() {
+        Log.info("Manual License start")
+        manualLicenses = ManualLicense.load(options.config.manuals)
+    }
+
     mutating func compareWithLatestSummary() {
-        guard let cocoaPodsLicenses = cocoaPodsLicenses, let githubLibraries = githubLibraries else { preconditionFailure() }
+        guard let cocoaPodsLicenses = cocoaPodsLicenses,
+            let githubLibraries = githubLibraries,
+            let manualLicenses = manualLicenses else { preconditionFailure() }
 
         let config = options.config
 
         let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
             githubLibraries.map { String(describing: $0) } +
+            manualLicenses.map { String(describing: $0) } +
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
@@ -60,9 +69,11 @@ struct PlistInfo {
     }
 
     mutating func collectLicenseInfos() {
-        guard let cocoaPodsLicenses = cocoaPodsLicenses, let githubLicenses = githubLicenses else { preconditionFailure() }
+        guard let cocoaPodsLicenses = cocoaPodsLicenses,
+            let githubLicenses = githubLicenses,
+            let manualLicenses = manualLicenses else { preconditionFailure() }
 
-        licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (githubLicenses as [LicenseInfo]))
+        licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (githubLicenses as [LicenseInfo]) + (manualLicenses as [LicenseInfo]))
             .reduce([String: LicenseInfo]()) { sum, e in
                 var sum = sum
                 sum[e.name] = e
@@ -92,7 +103,7 @@ struct PlistInfo {
         Log.info("# Missing license:")
         let missing = Set(githubLibraries.map { $0.name }).subtracting(Set(licenses.map { $0.name }))
         if missing.isEmpty {
-            Log.info("None🎉")
+            Log.info("None 🎉")
         } else {
             Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
         }
