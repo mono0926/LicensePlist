@@ -12,7 +12,10 @@ class ConfigTests: XCTestCase {
         XCTAssertEqual(Config(yaml: URL(string: path)!.lp.download().resultSync().value!),
                        Config(githubs: [GitHub(name: "LicensePlist", nameSpecified: "License Plist", owner: "mono0926", version: "1.2.0"),
                                         GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: nil)],
-                              manuals: [Manual(name: "WebRTC", source: "https://webrtc.googlesource.com/src", nameSpecified: "Web RTC", version: "M61")],
+                              manuals: [Manual(name: "WebRTC",
+                                               source: "https://webrtc.googlesource.com/src",
+                                               nameSpecified: "Web RTC",
+                                               version: "M61")],
                               excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
                               renames: ["LicensePlist": "License Plist", "WebRTC": "Web RTC"]))
     }
