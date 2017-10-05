@@ -12,7 +12,7 @@ class GitHubAuthorization {
 
 extension GitHubRequest {
     var baseURL: URL { return URL(string: "https://api.github.com/")! }
-    var headerFields: [String : String] {
+    var headerFields: [String: String] {
         var header = ["Accept": "application/vnd.github.drax-preview+json"]
         if let token = GitHubAuthorization.shared.token {
             header["Authorization"] = "Token \(token)"

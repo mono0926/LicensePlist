@@ -12,7 +12,12 @@ public struct ManualLicense: License, Equatable {
 
 extension ManualLicense: CustomStringConvertible {
     public var description: String {
-        return "name: \(library.name), nameSpecified: \(library.nameSpecified ?? ""), version: \(library.version ?? "")\nbody: \(String(body.characters.prefix(20)))…"
+        return [["name: \(library.name)",
+            "nameSpecified: \(library.nameSpecified ?? "")",
+            "version: \(library.version ?? "")"]
+        .joined(separator: ", "),
+                "body: \(String(body.characters.prefix(20)))…"]
+        .joined(separator: "\n")
     }
 }
 
