@@ -17,25 +17,25 @@
       "package": "HeliumLogger",
       "reason": null,
       "repositoryURL": "https://github.com/IBM-Swift/HeliumLogger.git",
-      "version": "1.7.0"
+      "version": "1.7.1"
     },
     {
       "package": "Himotoki",
       "reason": null,
       "repositoryURL": "https://github.com/ikesyo/Himotoki.git",
-      "version": "3.0.1"
+      "version": "3.1.0"
     },
     {
       "package": "LoggerAPI",
       "reason": null,
       "repositoryURL": "https://github.com/IBM-Swift/LoggerAPI.git",
-      "version": "1.7.0"
+      "version": "1.7.1"
     },
     {
       "package": "Result",
       "reason": null,
       "repositoryURL": "https://github.com/antitypical/Result.git",
-      "version": "3.2.1"
+      "version": "3.2.4"
     },
     {
       "package": "Spectre",
