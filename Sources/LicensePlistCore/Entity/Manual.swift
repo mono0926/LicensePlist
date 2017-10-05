@@ -22,7 +22,8 @@ extension Manual {
     public static func==(lhs: Manual, rhs: Manual) -> Bool {
         return lhs.name == rhs.name &&
             lhs.nameSpecified == rhs.nameSpecified &&
-            lhs.version == rhs.version
+            lhs.version == rhs.version &&
+        lhs.source == rhs.source
     }
 }
 
@@ -37,26 +38,24 @@ extension Manual {
                             renames: [String: String]) -> [Manual] {
         return raw.map { (manualEntry) -> Manual in
             var name = ""
-            var body = ""
-            var source = ""
-            var rename = ""
-            var version = ""
+            var body: String?
+            var source: String?
+            var version: String?
             for valuePair in manualEntry.dictionary ?? [:] {
                 switch valuePair.key.string ?? "" {
                 case "source":
-                    source = valuePair.value.string ?? ""
+                    source = valuePair.value.string
                 case "name":
                     name = valuePair.value.string ?? ""
                 case "version":
-                    version = valuePair.value.string ?? ""
+                    version = valuePair.value.string
                 case "body":
-                    body = valuePair.value.string ?? ""
+                    body = valuePair.value.string
                 default:
                     Log.warning("Tried to parse an unknown YAML key")
                 }
             }
-            rename = renames[name] ?? ""
-            let manual = Manual(name: name, source: source, nameSpecified: rename, version: version)
+            let manual = Manual(name: name, source: source, nameSpecified: renames[name], version: version)
             manual.body = body  // This is so that we do not have to store a body at all ( for testing purposes mostly )
             return manual
         }

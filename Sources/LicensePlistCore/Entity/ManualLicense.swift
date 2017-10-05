@@ -6,7 +6,8 @@ public struct ManualLicense: License, Equatable {
     public let body: String
 
     public static func==(lhs: ManualLicense, rhs: ManualLicense) -> Bool {
-        return lhs.library == rhs.library
+        return lhs.library == rhs.library &&
+        lhs.body == rhs.body
     }
 }
 
