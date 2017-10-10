@@ -34,7 +34,7 @@ $ brew install license-plist
 
 #### ⚠️ For High Sierra
 
-If you installed High Sierra Beta/GM Candidate, you should add `--no-sandbox` flag.
+If you installed High Sierra, you should add `--no-sandbox` flag.
 
 ```sh
 $ brew install mono0926/license-plist/license-plist --no-sandbox
