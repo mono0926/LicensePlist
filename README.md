@@ -32,7 +32,7 @@ $ brew tap mono0926/license-plist
 $ brew install license-plist
 ```
 
-#### ⚠️ For High Sierra Beta/GM Candidate
+#### ⚠️ For High Sierra
 
 If you installed High Sierra Beta/GM Candidate, you should add `--no-sandbox` flag.
 
