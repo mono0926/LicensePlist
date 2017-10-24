@@ -117,7 +117,7 @@ You can see options by `license-plist --help`.
 
 - Default: false
 - `LicensePlist` saves latest result summary, so if there are no changes, the program iterrupts.
-    - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Build - Pre-actions` every time** 🎉
+    - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Run Script Phase` every time** 🎉
 - You can run all the way anyway, by using `--force` flag.
 
 #### `--add-version-numbers`
@@ -135,16 +135,16 @@ You can see options by `license-plist --help`.
 
 ### Integrate into build
 
-Add `Run Script` to `Build - Pre-actions`:
+Add a `Run Script Phase` to `Build Phases`:
 
 ```sh
 if [ $CONFIGURATION = "Debug" ]; then
 cd $SRCROOT
-/usr/local/bin/license-plist --output-path $PRODUCT_NAME/Settings.bundle
+/usr/local/bin/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN
 fi
 ```
 
-![](Screenshots/pre_build_action.png)
+![Run Script Phase](Screenshots/run_script_phase.png)
 
 ## Q&A
 
