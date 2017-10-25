@@ -139,7 +139,6 @@ Add a `Run Script Phase` to `Build Phases`:
 
 ```sh
 if [ $CONFIGURATION = "Debug" ]; then
-cd $SRCROOT
 /usr/local/bin/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN
 fi
 ```
