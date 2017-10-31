@@ -32,14 +32,6 @@ $ brew tap mono0926/license-plist
 $ brew install license-plist
 ```
 
-#### ⚠️ For High Sierra
-
-If you installed High Sierra, you should add `--no-sandbox` flag.
-
-```sh
-$ brew install mono0926/license-plist/license-plist --no-sandbox
-```
-
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
