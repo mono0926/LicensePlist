@@ -5,5 +5,5 @@ Pod::Spec.new do |s|
   s.homepage    = 'https://github.com/mono0926/LicensePlist'
   s.license     = { :type => 'MIT', :file => 'LICENSE' }
   s.author      = 'Masayuki Ono'
-  s.source      = { :http => '#{s.homepage}/releases/download/#{s.version}/portable_licenseplist.zip' }
+  s.source      = { :http => "#{s.homepage}/releases/download/#{s.version}/portable_licenseplist.zip" }
 end
