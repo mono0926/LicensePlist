@@ -68,7 +68,7 @@ github-release upload \
     --file $portable_zip_name
 rm $portable_zip_name
 
-podspec_name="LicencePlist.podspec"
+podspec_name="LicensePlist.podspec"
 cat "$podspec_name.tmp" | sed s/LATEST_RELEASE_VERSION_NUMBER/$tag/ > "$podspec_name"
 pod trunk push $podspec_name
 rm $podspec_name
