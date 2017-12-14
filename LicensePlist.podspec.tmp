@@ -6,4 +6,6 @@ Pod::Spec.new do |s|
   s.license     = { :type => 'MIT', :file => 'LICENSE' }
   s.author      = 'Masayuki Ono'
   s.source      = { :http => "#{s.homepage}/releases/download/#{s.version}/portable_licenseplist.zip" }
+  s.preserve_paths = '*'
+  s.exclude_files  = '**/file.zip'
 end
