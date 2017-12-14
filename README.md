@@ -32,6 +32,12 @@ $ brew tap mono0926/license-plist
 $ brew install license-plist
 ```
 
+### Cocoapods (Also recommened)
+
+```
+pod 'LicensePlist'
+```
+
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
@@ -136,6 +142,14 @@ fi
 ```
 
 ![Run Script Phase](Screenshots/run_script_phase.png)
+
+Alternatively, if you've installed LicensePlist via CocoaPods the script should look like this:
+
+```sh
+if [ $CONFIGURATION = "Debug" ]; then
+${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN
+fi
+```
 
 ## Q&A
 
