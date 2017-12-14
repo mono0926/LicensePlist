@@ -57,7 +57,6 @@ github-release upload \
 
 rm $lib_name.zip
 
-<< COMMENTOUT
 make portable_zip
 portable_zip_name="portable_licenseplist.zip"
 github-release upload \
