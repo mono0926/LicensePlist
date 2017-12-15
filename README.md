@@ -32,7 +32,7 @@ $ brew tap mono0926/license-plist
 $ brew install license-plist
 ```
 
-### Cocoapods (Also recommened)
+### CocoaPods (Also recommened)
 
 ```
 pod 'LicensePlist'
