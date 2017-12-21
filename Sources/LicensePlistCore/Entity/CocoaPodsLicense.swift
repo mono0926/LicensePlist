@@ -14,7 +14,7 @@ public struct CocoaPodsLicense: License, Equatable {
 
 extension CocoaPodsLicense: CustomStringConvertible {
     public var description: String {
-        return "name: \(library.name), nameSpecified: \(nameSpecified ?? "")\nbody: \(String(body.characters.prefix(20)))…"
+        return "name: \(library.name), nameSpecified: \(nameSpecified ?? "")\nbody: \(String(body.characters.prefix(20)))…\nversion: \(version ?? "")"
     }
 }
 
