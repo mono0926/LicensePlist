@@ -163,3 +163,14 @@ Execute `swift package generate-xcodeproj` or `make xcode`.
 
 - [LicensePlist というiOSアプリ利用ライブラリのライセンス一覧生成するツールを作りました – Swift・iOSコラム – Medium](https://medium.com/swift-column/license-plist-c0363a008c67)
 - [Swift Package Manager(SwiftPM)で作ったコマンドラインツールをHomebrewに登録する方法 - Qiita](http://qiita.com/mono0926/items/c32c008384df40bf4e41)
+
+
+---
+
+## 寄付(Donation)
+
+I'm welcome donation if you'd like LicnsePlist🤗
+
+- [Amazonギフト券- Eメールタイプ](https://www.amazon.co.jp/exec/obidos/ASIN/B004N3APGO/mono0926-22/)
+    - メールアドレス: mono0926@gmail.com
+- [ほしい物リスト](https://www.amazon.co.jp/gp/registry/wishlist/3P51MRDW2WBN6/ref=nav_wishlist_lists_1)
