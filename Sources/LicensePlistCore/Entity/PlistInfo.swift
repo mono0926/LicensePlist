@@ -45,9 +45,9 @@ struct PlistInfo {
 
         let config = options.config
 
-        let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
-            githubLibraries.map { String(describing: $0) } +
-            manualLicenses.map { String(describing: $0) } +
+        let contents = (cocoaPodsLicenses.sorted().map { String(describing: $0) } +
+            githubLibraries.sorted().map { String(describing: $0) } +
+            manualLicenses.sorted().map { String(describing: $0) } +
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
