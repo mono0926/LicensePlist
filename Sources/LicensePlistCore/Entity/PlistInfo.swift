@@ -25,17 +25,17 @@ struct PlistInfo {
             .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo, config: options.config) }
             .flatMap { $0 }
         let config = options.config
-        cocoaPodsLicenses = config.filterExcluded(licenses)
+        cocoaPodsLicenses = config.filterExcluded(licenses).sorted()
     }
 
     mutating func loadGitHubLibraries(cartfile: String?) {
         Log.info("Carthage License collect start")
-        githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? "", renames: options.config.renames))
+        githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? "", renames: options.config.renames)).sorted()
     }
 
     mutating func loadManualLibraries() {
         Log.info("Manual License start")
-        manualLicenses = ManualLicense.load(options.config.manuals)
+        manualLicenses = ManualLicense.load(options.config.manuals).sorted()
     }
 
     mutating func compareWithLatestSummary() {
@@ -45,9 +45,9 @@ struct PlistInfo {
 
         let config = options.config
 
-        let contents = (cocoaPodsLicenses.sorted().map { String(describing: $0) } +
-            githubLibraries.sorted().map { String(describing: $0) } +
-            manualLicenses.sorted().map { String(describing: $0) } +
+        let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
+            githubLibraries.map { String(describing: $0) } +
+            manualLicenses.map { String(describing: $0) } +
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
         let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
