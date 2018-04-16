@@ -169,7 +169,7 @@ Execute `swift package generate-xcodeproj` or `make xcode`.
 
 ## 寄付(Donation)
 
-I'm welcome donation if you like LicnsePlist🤗
+Donations are welcome if you like LicensePlist🤗
 
 - [Amazonギフト券- Eメールタイプ](https://www.amazon.co.jp/exec/obidos/ASIN/B004N3APGO/mono0926-22/)
   - メールアドレス: mono0926@gmail.com
