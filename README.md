@@ -171,6 +171,7 @@ Execute `swift package generate-xcodeproj` or `make xcode`.
 
 Donations are welcome if you like LicensePlist🤗
 
+- [mono is creating LicensePlist | Patreon](https://www.patreon.com/licenseplist)
 - [Amazonギフト券- Eメールタイプ](https://www.amazon.co.jp/exec/obidos/ASIN/B004N3APGO/mono0926-22/)
   - メールアドレス: mono0926@gmail.com
 - [ほしい物リスト](https://www.amazon.co.jp/gp/registry/wishlist/3P51MRDW2WBN6/ref=nav_wishlist_lists_1)
