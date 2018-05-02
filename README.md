@@ -114,7 +114,7 @@ You can see options by `license-plist --help`.
 #### `--force`
 
 - Default: false
-- `LicensePlist` saves latest result summary, so if there are no changes, the program iterrupts.
+- `LicensePlist` saves latest result summary, so if there are no changes, the program interrupts.
     - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Run Script Phase` every time** 🎉
 - You can run all the way anyway, by using `--force` flag.
 
