@@ -179,6 +179,6 @@ Donations are welcome if you like LicensePlist🤗
 - [ほしい物リスト](https://www.amazon.co.jp/gp/registry/wishlist/3P51MRDW2WBN6/ref=nav_wishlist_lists_1)
 
 
-### Send Mo by [ウォレットアプリ Kyash](https://kyash.co/)
+### Send Money by [ウォレットアプリ Kyash](https://kyash.co/)
 
 ![Kyash](Screenshots/kyash.jpeg)
