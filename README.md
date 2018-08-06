@@ -177,3 +177,8 @@ Donations are welcome if you like LicensePlist🤗
 - [Amazonギフト券- Eメールタイプ](https://www.amazon.co.jp/exec/obidos/ASIN/B004N3APGO/mono0926-22/)
   - メールアドレス: mono0926@gmail.com
 - [ほしい物リスト](https://www.amazon.co.jp/gp/registry/wishlist/3P51MRDW2WBN6/ref=nav_wishlist_lists_1)
+
+
+### Send Moeny by [ウォレットアプリ Kyash](https://kyash.co/)
+
+![Kyash](Screenshots/kyash.jpeg)
