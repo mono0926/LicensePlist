@@ -19,12 +19,10 @@ class GitHubLicenseTests: XCTestCase {
     }
 
     func testCollect_forked() {
-        let carthage = GitHub(name: "ios_sdk", nameSpecified: nil, owner: "gram30", version: nil)
+        let carthage = GitHub(name: "vapor", nameSpecified: nil, owner: "mono0926", version: nil)
         let license = GitHubLicense.download(carthage).resultSync().value!
-        var forked = carthage
-        forked.owner = "adjust"
-        XCTAssertEqual(license.library, forked)
-        XCTAssertTrue(license.body.hasPrefix("Copyright (c)"))
+        XCTAssertEqual(license.library, carthage)
+        XCTAssertTrue(license.body.hasPrefix("The MIT License (MIT)"))
         XCTAssertEqual(license.githubResponse.kind.spdxId, "MIT")
     }
     func testCollect_invalid() {
