@@ -17,7 +17,7 @@ extension ManualLicense: CustomStringConvertible {
             "nameSpecified: \(library.nameSpecified ?? "")",
             "version: \(library.version ?? "")"]
         .joined(separator: ", "),
-                "body: \(String(body.characters.prefix(20)))…"]
+                "body: \(String(body.prefix(20)))…"]
         .joined(separator: "\n")
     }
 }

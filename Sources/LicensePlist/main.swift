@@ -10,11 +10,11 @@ private func loadConfig(configPath: URL) -> Config {
     return Config.empty
 }
 
-let main = command(Option("cartfile-path", Consts.cartfileName),
-                   Option("pods-path", Consts.podsDirectoryName),
-                   Option("output-path", Consts.outputPath),
-                   Option("github-token", ""),
-                   Option("config-path", Consts.configPath),
+let main = command(Option("cartfile-path", default: Consts.cartfileName),
+                   Option("pods-path", default:  Consts.podsDirectoryName),
+                   Option("output-path", default: Consts.outputPath),
+                   Option("github-token", default: ""),
+                   Option("config-path", default: Consts.configPath),
                    Flag("force"),
                    Flag("add-version-numbers"),
                    Flag("suppress-opening-directory")) { cartfile, podsPath, output, gitHubToken, configPath, force, version, suppressOpen in

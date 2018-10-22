@@ -56,7 +56,7 @@ extension GitHub {
                 let version = nsContent.substring(with: match.rangeAt(3))
                 let pattern = try! NSRegularExpression(pattern: "\\w{40}", options: [])
                 if !pattern.matches(in: version, options: [], range: NSRange(location: 0, length: (version as NSString).length)).isEmpty {
-                    return String(version.characters.prefix(7))
+                    return String(version.prefix(7))
                 }
                 return version
             }()
