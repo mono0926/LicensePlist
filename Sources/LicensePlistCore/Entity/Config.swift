@@ -13,7 +13,7 @@ public struct Config {
 
     public static let empty = Config(githubs: [], manuals: [], excludes: [], renames: [:])
 
-    public init(yaml: String) {
+    public init(yaml: String, configBasePath: URL) {
         let value = try! Yaml.load(yaml)
         let excludes = value["exclude"].array?.map { $0.string! } ?? []
         let renames = value["rename"].dictionary?.reduce([String: String]()) { sum, e in
@@ -23,7 +23,7 @@ public struct Config {
             return sum
             } ?? [:]
         let manuals = value["manual"].array ?? []
-        let manualList = Manual.load(manuals, renames: renames)
+        let manualList = Manual.load(manuals, renames: renames, configBasePath: configBasePath)
         let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
         let gitHubList = githubs.map { GitHub.load($0, renames: renames, mark: "", quotes: "") }.flatMap { $0 }
         gitHubList.forEach {
