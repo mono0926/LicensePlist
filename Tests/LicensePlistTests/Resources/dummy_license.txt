@@ -1,0 +1,4 @@
+A LICENSE for Testing
+
+This text file is used for testing manual configuration.
+The file is specified with "file" key in the manual section.

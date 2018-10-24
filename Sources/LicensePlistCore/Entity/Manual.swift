@@ -35,7 +35,7 @@ extension Manual: CustomStringConvertible {
 
 extension Manual {
     public static func load(_ raw: [Yaml],
-                            renames: [String: String]) -> [Manual] {
+                            renames: [String: String], configBasePath: URL) -> [Manual] {
         return raw.map { (manualEntry) -> Manual in
             var name = ""
             var body: String?
@@ -51,6 +51,9 @@ extension Manual {
                     version = valuePair.value.string
                 case "body":
                     body = valuePair.value.string
+                case "file":
+                    let url = configBasePath.appendingPathComponent(valuePair.value.string!)
+                    body = try! String(contentsOf: url)
                 default:
                     Log.warning("Tried to parse an unknown YAML key")
                 }

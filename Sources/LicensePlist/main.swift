@@ -5,7 +5,7 @@ import LoggerAPI
 
 private func loadConfig(configPath: URL) -> Config {
     if let yaml = configPath.lp.read() {
-        return Config(yaml: yaml)
+        return Config(yaml: yaml, configBasePath: configPath.deletingLastPathComponent())
     }
     return Config.empty
 }
