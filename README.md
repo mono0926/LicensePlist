@@ -34,6 +34,11 @@ $ brew tap mono0926/license-plist
 $ brew install license-plist
 ```
 
+### Mint (Also Recommended)
+```sh
+$ mint run mono0926/LicensePlist
+```
+
 ### CocoaPods (Also recommened)
 
 ```
