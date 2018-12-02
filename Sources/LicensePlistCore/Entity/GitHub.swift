@@ -53,19 +53,19 @@ extension GitHub {
             }
             let version = { () -> String? in
                 guard version else { return nil }
-                let version = nsContent.substring(with: match.rangeAt(3))
+                let version = nsContent.substring(with: match.range(at: 3))
                 let pattern = try! NSRegularExpression(pattern: "\\w{40}", options: [])
                 if !pattern.matches(in: version, options: [], range: NSRange(location: 0, length: (version as NSString).length)).isEmpty {
                     return String(version.prefix(7))
                 }
                 return version
             }()
-            let name = nsContent.substring(with: match.rangeAt(2))
+            let name = nsContent.substring(with: match.range(at: 2))
             return GitHub(name: name,
                           nameSpecified: renames[name],
-                          owner: nsContent.substring(with: match.rangeAt(1)),
+                          owner: nsContent.substring(with: match.range(at: 1)),
                           version: version)
             }
-            .flatMap { $0 }
+            .compactMap { $0 }
     }
 }

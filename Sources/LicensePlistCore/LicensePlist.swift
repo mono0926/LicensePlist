@@ -51,5 +51,5 @@ private func readPodsAcknowledgements(path: URL) -> [String] {
                 .filter { $0.lastPathComponent.hasSuffix("-acknowledgements.plist") }
         }.flatMap { $0 }
     urls.forEach { Log.info("Pod acknowledgements found: \($0.lastPathComponent)") }
-    return urls.map { $0.lp.read() }.flatMap { $0 }
+    return urls.map { $0.lp.read() }.compactMap { $0 }
 }
