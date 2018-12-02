@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Himotoki
 import APIKit
 
 struct RepoRequests {
@@ -32,33 +31,24 @@ struct RepoRequests {
     }
 }
 
-struct LicenseResponse {
+struct LicenseResponse: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case content = "content"
+        case encoding = "encoding"
+        case kind = "license"
+    }
+    
     let content: String
-    let contentDecoded: String
     let encoding: String
     let kind: LicenseKindResponse
-}
-
-extension LicenseResponse: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> LicenseResponse {
-        let content: String = try e.value("content")
-        let encofing: String = try e.value("encoding")
-        assert(encofing == "base64")
-        let contentDecoded = String(data: Data(base64Encoded: content, options: [.ignoreUnknownCharacters])!, encoding: .utf8)!
-        return try LicenseResponse(content: content,
-                                   contentDecoded: contentDecoded,
-                                   encoding: encofing,
-                                   kind: e.value("license"))
+    
+    var contentDecoded: String {
+        assert(encoding == "base64")
+        return String(data: Data(base64Encoded: content, options: [.ignoreUnknownCharacters])!, encoding: .utf8)!
     }
 }
 
-struct LicenseKindResponse {
+struct LicenseKindResponse: Decodable {
     let name: String
     let spdxId: String?
-}
-
-extension LicenseKindResponse: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> LicenseKindResponse {
-        return try LicenseKindResponse(name: e.value("name"), spdxId: e.valueOptional("spdx_id"))
-    }
 }

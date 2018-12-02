@@ -1,6 +1,5 @@
 import Foundation
 import LoggerAPI
-import Himotoki
 
 public struct CocoaPodsLicense: License, Equatable {
     public let library: CocoaPods
@@ -21,11 +20,10 @@ extension CocoaPodsLicense: CustomStringConvertible {
 extension CocoaPodsLicense {
     public static func load(_ content: String, versionInfo: VersionInfo, config: Config) -> [CocoaPodsLicense] {
         do {
-            let plist = try PropertyListSerialization.propertyList(from: content.data(using: String.Encoding.utf8)!,
-                                                                   options: [],
-                                                                   format: nil)
+            let plistData = content.data(using: .utf8)!
+            let plistDecoder = PropertyListDecoder()
 
-            return try AcknowledgementsPlist.decodeValue(plist).preferenceSpecifiers
+            return try plistDecoder.decode(AcknowledgementsPlist.self, from: plistData).preferenceSpecifiers
                 .filter { $0.isLicense }
                 .map {
                     let name = $0.title
@@ -41,29 +39,24 @@ extension CocoaPodsLicense {
     }
 }
 
-private struct AcknowledgementsPlist {
+private struct AcknowledgementsPlist: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case preferenceSpecifiers = "PreferenceSpecifiers"
+    }
     let preferenceSpecifiers: [PreferenceSpecifier]
 }
 
-extension AcknowledgementsPlist: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> AcknowledgementsPlist {
-        return try AcknowledgementsPlist(preferenceSpecifiers: e.array("PreferenceSpecifiers"))
+private struct PreferenceSpecifier: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case footerText = "FooterText"
+        case title = "Title"
+        case type = "Type"
+        case license = "License"
     }
-}
-
-private struct PreferenceSpecifier {
+    
     let footerText: String
     let title: String
     let type: String
     let license: String?
     var isLicense: Bool { return license != nil }
-}
-
-extension PreferenceSpecifier: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> PreferenceSpecifier {
-        return try PreferenceSpecifier(footerText: e.value("FooterText"),
-                                       title: e.value("Title"),
-                                       type: e.value("Type"),
-                                       license: e.valueOptional("License"))
-    }
 }
