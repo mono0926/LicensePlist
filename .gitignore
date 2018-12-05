@@ -15,3 +15,4 @@ Pods
 !Cartfile*.swift
 !Pods*.swift
 test_result_dir
+/.history
