@@ -23,8 +23,8 @@ extension VersionInfo {
                     assert(false, "maybe invalid regular expression to: \(nsPodManifest.substring(with: match.range))")
                     return sum
                 }
-                let name = nsPodManifest.substring(with: match.rangeAt(1))
-                let version = nsPodManifest.substring(with: match.rangeAt(2))
+                let name = nsPodManifest.substring(with: match.range(at: 1))
+                let version = nsPodManifest.substring(with: match.range(at: 2))
                 var sum = sum
                 sum[name] = version
                 if let prefix = name.components(separatedBy: "/").first, sum[prefix] == nil {

@@ -1,26 +1,41 @@
-// swift-tools-version:3.1
+// swift-tools-version:4.2
 
 import PackageDescription
 
 let package = Package(
     name: "LicensePlist",
-    targets: [
-        Target(
-            name: "LicensePlist",
-            dependencies: ["LicensePlistCore"]
-        ),
-        Target(name: "LicensePlistCore")
+    products: [
+        .executable(name: "license-plist", targets: ["LicensePlist"]),
+        .library(name: "LicensePlistCore", targets: ["LicensePlistCore"])
     ],
     dependencies: [
-        .Package(url: "https://github.com/kylef/Commander.git",
-                 majorVersion: 0),
-        .Package(url: "https://github.com/ikesyo/Himotoki.git",
-                 majorVersion: 3),
-        .Package(url: "https://github.com/ishkawa/APIKit.git",
-                 majorVersion: 4),
-        .Package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
-                 majorVersion: 1),
-        .Package(url: "https://github.com/behrang/YamlSwift.git", 
-                 majorVersion: 3)
+        .package(url: "https://github.com/kylef/Commander.git",
+                 from: "0.0.0"),
+        .package(url: "https://github.com/ishkawa/APIKit.git",
+                 from: "4.0.0"),
+        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
+                 from: "1.0.0"),
+        .package(url: "https://github.com/behrang/YamlSwift.git",
+                 from: "3.0.0")
+    ],
+    targets: [
+        .target(
+            name: "LicensePlist",
+            dependencies: [
+                "LicensePlistCore",
+                "Commander",
+                "HeliumLogger"
+            ]
+        ),
+        .target(
+            name: "LicensePlistCore",
+            dependencies: [
+                "APIKit",
+                "Commander",
+                "HeliumLogger",
+                "Yaml"
+            ]
+        ),
+        .testTarget(name: "LicensePlistTests", dependencies: ["LicensePlistCore"])
     ]
 )

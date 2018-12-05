@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Himotoki
 import APIKit
 
 struct SearchRequests {
@@ -24,17 +23,11 @@ struct SearchRequests {
     }
 }
 
-struct RepositoriesResponse {
+struct RepositoriesResponse: Decodable {
     let items: [RepositoryResponse]
 }
 
-extension RepositoriesResponse: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> RepositoriesResponse {
-        return try RepositoriesResponse(items: e.array("items"))
-    }
-}
-
-final class RepositoryResponse {
+final class RepositoryResponse: Decodable {
     let owner: RepositoryOwnerResponse
     let name: String
     let htmlUrl: URL
@@ -48,21 +41,6 @@ final class RepositoryResponse {
     }
 }
 
-extension RepositoryResponse: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> RepositoryResponse {
-        return try RepositoryResponse(owner: e.value("owner"),
-                                      name: e.value("name"),
-                                      htmlUrl: URL(string: e.value("html_url"))!,
-                                      parent: e.valueOptional("parent"))
-    }
-}
-
-struct RepositoryOwnerResponse {
+struct RepositoryOwnerResponse: Decodable {
     let login: String
-}
-
-extension RepositoryOwnerResponse: Himotoki.Decodable {
-    static func decode(_ e: Extractor) throws -> RepositoryOwnerResponse {
-        return try RepositoryOwnerResponse(login: e.value("login"))
-    }
 }

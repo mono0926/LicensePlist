@@ -24,7 +24,7 @@ public struct Config {
             } ?? [:]
         let manuals = value["manual"].array ?? []
         let manualList = Manual.load(manuals, renames: renames, configBasePath: configBasePath)
-        let githubs = value["github"].array?.map { $0.string }.flatMap { $0 } ?? []
+        let githubs = value["github"].array?.map { $0.string }.compactMap { $0 } ?? []
         let gitHubList = githubs.map { GitHub.load($0, renames: renames, mark: "", quotes: "") }.flatMap { $0 }
         gitHubList.forEach {
             Log.warning("\($0.name) is specified by the depricated format. It will be removed at Version 2." +
@@ -41,7 +41,7 @@ public struct Config {
                           nameSpecified: renames[name],
                           owner: owner,
                           version: dictionary["version"]?.string)
-            }.flatMap { $0 } ?? []
+            }.compactMap { $0 } ?? []
         self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames)
     }
 
@@ -84,7 +84,7 @@ public struct Config {
             assert(false, "maybe invalid regular expression to: \(nsText.substring(with: match.range))")
             return nil
         }
-        return nsText.substring(with: match.rangeAt(1))
+        return nsText.substring(with: match.range(at: 1))
     }
 
     func filterExcluded<T: HasName>(_ names: [T]) -> [T] {

@@ -103,7 +103,6 @@ class PlistInfoTests: XCTestCase {
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
                                           githubResponse: LicenseResponse(content: "",
-                                                                          contentDecoded: "",
                                                                           encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
@@ -129,7 +128,6 @@ class PlistInfoTests: XCTestCase {
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
                                           githubResponse: LicenseResponse(content: "",
-                                                                          contentDecoded: "",
                                                                           encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
@@ -143,7 +141,6 @@ class PlistInfoTests: XCTestCase {
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
                                           githubResponse: LicenseResponse(content: "",
-                                                                          contentDecoded: "",
                                                                           encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
@@ -158,7 +155,6 @@ class PlistInfoTests: XCTestCase {
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
                                           githubResponse: LicenseResponse(content: "",
-                                                                          contentDecoded: "",
                                                                           encoding: "",
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
