@@ -15,9 +15,9 @@
 
 ![Demo](https://github.com/mono0926/Resource/raw/master/LicensePlist/LicensePlist.gif)
 
-App Setting Root | License List | License Detail
---- | --- | ---
-![](Screenshots/root.png) | ![](Screenshots/list.png) | ![](Screenshots/detail.png)
+| App Setting Root          | License List              | License Detail              |
+| ------------------------- | ------------------------- | --------------------------- |
+| ![](Screenshots/root.png) | ![](Screenshots/list.png) | ![](Screenshots/detail.png) |
 
 ## Installation
 
@@ -27,7 +27,7 @@ App Setting Root | License List | License Detail
 $ brew install mono0926/license-plist/license-plist
 ```
 
-Or 
+Or
 
 ```sh
 $ brew tap mono0926/license-plist
