@@ -174,6 +174,12 @@ Execute `swift package generate-xcodeproj` or `make xcode`.
 
 ---
 
+## Stargazers over time
+
+[![Stargazers over time](https://starcharts.herokuapp.com/mono0926/LicensePlist.svg)](https://starcharts.herokuapp.com/mono0926/LicensePlist)
+      
+---
+
 ## 寄付(Donation)
 
 Donations are welcome if you like LicensePlist🤗
