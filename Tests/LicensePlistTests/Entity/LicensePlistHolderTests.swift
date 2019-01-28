@@ -4,7 +4,7 @@ import XCTest
 
 class LicensePlistHolderTests: XCTestCase {
     func testLoad_empty() {
-        let result = LicensePlistHolder.load(licenses: [], config: Config.empty)
+        let result = LicensePlistHolder.load(licenses: [], options: Options.empty)
         let (root, items) = result.deserialized()
         let rootItems = root["PreferenceSpecifiers"]!
         XCTAssertTrue(rootItems.isEmpty)
@@ -13,7 +13,7 @@ class LicensePlistHolderTests: XCTestCase {
     func testLoad_one() {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
-        let result = LicensePlistHolder.load(licenses: [podsLicense], config: Config.empty)
+        let result = LicensePlistHolder.load(licenses: [podsLicense], options: Options.empty)
         let (root, items) = result.deserialized()
         let rootItems = root["PreferenceSpecifiers"]!
         XCTAssertEqual(rootItems.count, 1)

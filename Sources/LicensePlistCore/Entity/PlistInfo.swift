@@ -50,7 +50,7 @@ struct PlistInfo {
             manualLicenses.map { String(describing: $0) } +
             ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
             .joined(separator: "\n\n")
-        let savePath = options.outputPath.appendingPathComponent("\(Consts.prefix).latest_result.txt")
+        let savePath = options.outputPath.appendingPathComponent("\(options.prefix).latest_result.txt")
         if let previous = savePath.lp.read(), previous == contents, !config.force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
@@ -86,15 +86,25 @@ struct PlistInfo {
     func outputPlist() {
         guard let licenses = licenses else { preconditionFailure() }
         let outputPath = options.outputPath
-        let itemsPath = outputPath.appendingPathComponent(Consts.prefix)
+        let itemsPath = outputPath.appendingPathComponent(options.prefix)
         if itemsPath.lp.deleteIfExits() {
-            Log.info("Deleted exiting plist within \(Consts.prefix)")
+            Log.info("Deleted exiting plist within \(options.prefix)")
         }
         itemsPath.lp.createDirectory()
         Log.info("Directory created: \(outputPath)")
 
-        let holder = LicensePlistHolder.load(licenses: licenses, config: options.config)
-        holder.write(to: outputPath.appendingPathComponent("\(Consts.prefix).plist"), itemsPath: itemsPath)
+        let holder = LicensePlistHolder.load(licenses: licenses, options: options)
+        holder.write(to: outputPath.appendingPathComponent("\(options.prefix).plist"), itemsPath: itemsPath)
+
+        if let markdownPath = options.markdownPath {
+            let markdownHolder = LicenseMarkdownHolder.load(licenses: licenses, options: options)
+            markdownHolder.write(to: markdownPath)
+        }
+
+        if let htmlPath = options.htmlPath {
+            let htmlHolder = LicenseHTMLHolder.load(licenses: licenses, options: options)
+            htmlHolder.write(to: htmlPath)
+        }
     }
 
     func reportMissings() {

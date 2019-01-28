@@ -4,11 +4,11 @@ import LoggerAPI
 struct LicensePlistHolder {
     let root: Data
     let items: [(LicenseInfo, Data)]
-    static func load(licenses: [LicenseInfo], config: Config) -> LicensePlistHolder {
+    static func load(licenses: [LicenseInfo], options: Options) -> LicensePlistHolder {
         let rootItems: [[String: String]] = licenses.map { license in
             return ["Type": "PSChildPaneSpecifier",
-                    "Title": license.name(withVersion: config.addVersionNumbers),
-                    "File": "\(Consts.prefix)/\(license.name)"]
+                    "Title": license.name(withVersion: options.config.addVersionNumbers),
+                    "File": "\(options.prefix)/\(license.name)"]
         }
         let root = try! PropertyListSerialization.data(fromPropertyList: ["PreferenceSpecifiers": rootItems],
                                                        format: .xml,

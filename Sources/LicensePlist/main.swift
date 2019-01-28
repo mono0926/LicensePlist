@@ -15,9 +15,12 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                    Option("output-path", default: Consts.outputPath),
                    Option("github-token", default: ""),
                    Option("config-path", default: Consts.configPath),
+                   Option("prefix", default: Consts.prefix),
+                   Option("html-path", default: ""),
+                   Option("markdown-path", default: ""),
                    Flag("force"),
                    Flag("add-version-numbers"),
-                   Flag("suppress-opening-directory")) { cartfile, podsPath, output, gitHubToken, configPath, force, version, suppressOpen in
+                   Flag("suppress-opening-directory")) { cartfile, podsPath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen in
 
                     Logger.configure()
                     var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
@@ -27,7 +30,10 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                     let options = Options(outputPath: URL(fileURLWithPath: output),
                                           cartfilePath: URL(fileURLWithPath: cartfile),
                                           podsPath: URL(fileURLWithPath: podsPath),
+                                          prefix: prefix,
                                           gitHubToken: gitHubToken.isEmpty ? nil : gitHubToken,
+                                          htmlPath: htmlPath.isEmpty ? nil : URL(fileURLWithPath: htmlPath),
+                                          markdownPath: markdownPath.isEmpty ? nil : URL(fileURLWithPath: markdownPath),
                                           config: config)
                     let tool = LicensePlist()
                     tool.process(options: options)
