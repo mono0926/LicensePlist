@@ -39,7 +39,7 @@ $ brew install license-plist
 $ mint run mono0926/LicensePlist
 ```
 
-### CocoaPods (Also recommened)
+### CocoaPods (Also Recommended)
 
 ```
 pod 'LicensePlist'
@@ -49,7 +49,7 @@ pod 'LicensePlist'
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
 
-Or you can also download the latest binary and install it by one-liner.
+Or you can also download the latest binary and install it with a one-liner.
 
 ```sh
 $ curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/install.sh | sh
@@ -66,7 +66,7 @@ $ make install
 
 ## Usage
 
-1. On the directory same as `Cartfile` or `Pods`, simply execute `license-plist`.
+1. When you are in the directory that contains your `Cartfile` or `Pods`, simply execute `license-plist`.
 2. `com.mono0926.LicensePlist.Output` directory will be generated.
 3. Move the files in the output directory into your app's `Settings.bundle`.
     - [Settings.bundle's sample is here](Settings.bundle.zip)
@@ -122,7 +122,7 @@ You can see options by `license-plist --help`.
 
 - Default: false
 - `LicensePlist` saves latest result summary, so if there are no changes, the program interrupts.
-    - In this case, **excecution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Run Script Phase` every time** 🎉
+    - In this case, **execution time is less than 100ms for the most case**, so **you can run `LicensePlist` at `Run Script Phase` every time** 🎉
 - You can run all the way anyway, by using `--force` flag.
 
 #### `--add-version-numbers`
