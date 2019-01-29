@@ -125,13 +125,13 @@ You can see options by `license-plist --help`.
 #### `--html-path`
 
 - Default: None.
-- If this the path is specified a html acknowledgements file will be generated.
+- If this path is specified, a html acknowledgements file will be generated.
   - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.html)
 
 #### `--markdown-path`
 
 - Default: None.
-- If this the path is specified a markdown acknowledgements file will be generated.
+- If this path is specified, a markdown acknowledgements file will be generated.
   - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.md)
 
 #### `--force`
