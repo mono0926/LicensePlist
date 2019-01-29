@@ -117,6 +117,22 @@ You can see options by `license-plist --help`.
 - You can specify GitHub libraries(introduced by hand) and excluded libraries
     - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)
 
+#### `--prefix`
+
+- Default: `com.mono0926.LicensePlist`
+- You can specify output file names instead of default one.
+
+#### `--html-path`
+
+- Default: None.
+- If this the path is specified a html acknowledgements file will be generated.
+  - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.html)
+
+#### `--markdown-path`
+
+- Default: None.
+- If this the path is specified a markdown acknowledgements file will be generated.
+  - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.md)
 
 #### `--force`
 
