@@ -11,7 +11,7 @@ private func loadConfig(configPath: URL) -> Config {
 }
 
 let main = command(Option("cartfile-path", default: Consts.cartfileName),
-                   Option("pods-path", default:  Consts.podsDirectoryName),
+                   Option("pods-path", default: Consts.podsDirectoryName),
                    Option("output-path", default: Consts.outputPath),
                    Option("github-token", default: ""),
                    Option("config-path", default: Consts.configPath),

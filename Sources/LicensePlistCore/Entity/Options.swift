@@ -10,7 +10,14 @@ public struct Options {
     public let markdownPath: URL?
     public let config: Config
 
-    public static let empty = Options(outputPath: URL(fileURLWithPath: ""), cartfilePath: URL(fileURLWithPath: ""), podsPath: URL(fileURLWithPath: ""), prefix: "", gitHubToken: nil, htmlPath: nil, markdownPath: nil, config: Config.empty)
+    public static let empty = Options(outputPath: URL(fileURLWithPath: ""),
+                                      cartfilePath: URL(fileURLWithPath: ""),
+                                      podsPath: URL(fileURLWithPath: ""),
+                                      prefix: "",
+                                      gitHubToken: nil,
+                                      htmlPath: nil,
+                                      markdownPath: nil,
+                                      config: Config.empty)
 
     public init(outputPath: URL,
                 cartfilePath: URL,

@@ -53,7 +53,7 @@ private struct PreferenceSpecifier: Decodable {
         case type = "Type"
         case license = "License"
     }
-    
+
     let footerText: String
     let title: String
     let type: String

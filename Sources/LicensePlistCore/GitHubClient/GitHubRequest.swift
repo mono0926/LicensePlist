@@ -34,16 +34,16 @@ extension GitHubRequest where Response: Decodable {
     var dataParser: DataParser {
         return DecodableDataParser()
     }
-    
+
     func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
         guard let data = object as? Data else {
             throw ResponseError.unexpectedObject(object)
         }
-        
+
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+
         return try decoder.decode(Response.self, from: data)
     }
-    
+
 }

@@ -37,11 +37,11 @@ struct LicenseResponse: Decodable {
         case encoding = "encoding"
         case kind = "license"
     }
-    
+
     let content: String
     let encoding: String
     let kind: LicenseKindResponse
-    
+
     var contentDecoded: String {
         assert(encoding == "base64")
         return String(data: Data(base64Encoded: content, options: [.ignoreUnknownCharacters])!, encoding: .utf8)!
