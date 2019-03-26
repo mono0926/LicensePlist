@@ -3,7 +3,7 @@ PREFIX?=/usr/local
 TEMPORARY_FOLDER=./tmp_portable_licenseplist
 
 build:
-	swift build --disable-sandbox -c release -Xswiftc -static-stdlib
+	swift build --disable-sandbox -c release
 
 test:
 	swift test
