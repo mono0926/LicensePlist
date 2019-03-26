@@ -7,7 +7,7 @@ public protocol Library: HasName, Hashable {
 }
 
 extension Library {
-    public var hashValue: Int {
-        return name.hash
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
     }
 }
