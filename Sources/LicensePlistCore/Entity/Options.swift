@@ -13,7 +13,7 @@ public struct Options {
     public static let empty = Options(outputPath: URL(fileURLWithPath: ""),
                                       cartfilePath: URL(fileURLWithPath: ""),
                                       podsPath: URL(fileURLWithPath: ""),
-                                      prefix: "",
+                                      prefix: Consts.prefix,
                                       gitHubToken: nil,
                                       htmlPath: nil,
                                       markdownPath: nil,
