@@ -21,7 +21,16 @@
 
 ## Installation
 
-### Homebrew (Recommended)
+
+### CocoaPods (Recommended)
+
+```
+pod 'LicensePlist'
+```
+
+### Homebrew (Also Recommended)
+
+⚠️ The installation may fail on Xcode 10.2 or later as written on https://github.com/mono0926/LicensePlist/issues/102.
 
 ```sh
 $ brew install mono0926/license-plist/license-plist
@@ -39,12 +48,6 @@ $ brew install license-plist
 $ mint run mono0926/LicensePlist
 ```
 
-### CocoaPods (Also Recommended)
-
-```
-pod 'LicensePlist'
-```
-
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
@@ -56,6 +59,9 @@ $ curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/inst
 ```
 
 ### From Source
+
+⚠️ The installation may fail on Xcode 10.2 or later as written on https://github.com/mono0926/LicensePlist/issues/102.
+By removing [`-Xswiftc -static-stdlib` from Makefile's build](https://github.com/mono0926/LicensePlist/blob/master/Makefile#L6), it might be fixed.
 
 Clone the master branch of the repository, then run `make install`.
 
