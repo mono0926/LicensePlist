@@ -5,7 +5,8 @@ TEMPORARY_FOLDER=./tmp_portable_licenseplist
 build:
 	swift build --disable-sandbox -c release
 
-# Xcode 10.1(Swift 4.2) or earlier
+# For CocoaPods distribution
+# Works onl on Xcode 10.1(Swift 4.2) or earlier
 build_legacy:
 	swift build --disable-sandbox -c release -Xswiftc -static-stdlib
 
