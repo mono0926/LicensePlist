@@ -1,7 +1,14 @@
+#!/bin/sh
+
+# Check arguments
 if [ $# -eq 1 ]; then
     echo "A tag and token argument is needed!(ex: ./release.sh 1.2.3 xxxxxxx)"
     exit 1
 fi
+
+# build
+make build
+
 lib_name="license-plist"
 tag=$1
 token=$2
@@ -11,7 +18,7 @@ echo "Token: '${token}'"
 filename="${tag}.tar.gz"
 echo "Filename: '${filename}'"
 
-# tag
+# Push tag
 git tag $tag
 git push origin $tag
 
@@ -19,6 +26,7 @@ curl -LOk "https://github.com/mono0926/LicensePlist/archive/${filename}"
 sha256=$(shasum -a 256 $filename | cut -d ' ' -f 1)
 rm $filename
 
+# Homebrew
 formula_path="$lib_name.rb"
 formula_url="https://api.github.com/repos/mono0926/homebrew-$lib_name/contents/$formula_path"
 sha=`curl GET $formula_url \
@@ -43,6 +51,7 @@ curl -i -X PUT $formula_url \
 brew upgrade $lib_name
 zip -j $lib_name.zip /usr/local/bin/$lib_name
 
+# GitHub Release
 github-release release \
     --user mono0926 \
     --repo LicensePlist \
@@ -57,7 +66,8 @@ github-release upload \
 
 rm $lib_name.zip
 
-make portable_zip
+# CocoaPods
+DEVELOPER_DIR=/Applications/Xcode-10.1.app/Contents/Developer make portable_zip
 portable_zip_name="portable_licenseplist.zip"
 github-release upload \
     --user mono0926 \
