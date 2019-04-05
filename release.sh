@@ -66,7 +66,8 @@ github-release upload \
 
 rm $lib_name.zip
 
-make portable_zip
+# CocoaPods
+DEVELOPER_DIR=/Applications/Xcode-10.1.app/Contents/Developer make portable_zip
 portable_zip_name="portable_licenseplist.zip"
 github-release upload \
     --user mono0926 \
