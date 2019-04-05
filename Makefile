@@ -6,7 +6,7 @@ build:
 	swift build --disable-sandbox -c release
 
 # For CocoaPods distribution
-# Works onl on Xcode 10.1(Swift 4.2) or earlier
+# Works only on Xcode 10.1(Swift 4.2) or earlier
 build_legacy:
 	swift build --disable-sandbox -c release -Xswiftc -static-stdlib
 
