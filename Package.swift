@@ -10,13 +10,13 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/kylef/Commander.git",
-                 from: "0.0.0"),
+                 from: "0.8.0"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
                  from: "4.0.0"),
         .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
-                 from: "1.0.0"),
+                 from: "1.8.0"),
         .package(url: "https://github.com/behrang/YamlSwift.git",
-                 from: "3.0.0")
+                 from: "3.4.0")
     ],
     targets: [
         .target(
