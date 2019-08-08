@@ -56,6 +56,15 @@
         }
       },
       {
+        "package": "HTMLEntities",
+        "repositoryURL": "https://github.com/IBM-Swift/swift-html-entities.git",
+        "state": {
+          "branch": null,
+          "revision": "3b778b3ab061684db024eaf38c576887b42918aa",
+          "version": "3.0.13"
+        }
+      },
+      {
         "package": "Yaml",
         "repositoryURL": "https://github.com/behrang/YamlSwift.git",
         "state": {
