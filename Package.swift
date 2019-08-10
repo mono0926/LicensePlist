@@ -16,7 +16,9 @@ let package = Package(
         .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
                  from: "1.8.0"),
         .package(url: "https://github.com/behrang/YamlSwift.git",
-                 from: "3.4.0")
+                 from: "3.4.0"),
+        .package(url: "https://github.com/IBM-Swift/swift-html-entities.git",
+                 from: "3.0.0")
     ],
     targets: [
         .target(
@@ -33,6 +35,7 @@ let package = Package(
                 "APIKit",
                 "Commander",
                 "HeliumLogger",
+                "HTMLEntities",
                 "Yaml"
             ]
         ),

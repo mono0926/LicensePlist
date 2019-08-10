@@ -1,5 +1,6 @@
 import Foundation
 import LoggerAPI
+import HTMLEntities
 
 struct LicenseHTMLHolder {
     let html: String
@@ -20,8 +21,8 @@ struct LicenseHTMLHolder {
 """
         licenses.forEach { license in
             html += """
-        <h2>\(license.name(withVersion: options.config.addVersionNumbers))</h2>
-        <pre>\(license.body)</pre>
+        <h2>\(license.name(withVersion: options.config.addVersionNumbers).htmlEscape())</h2>
+        <pre>\(license.body.htmlEscape())</pre>
 
 """
         }
