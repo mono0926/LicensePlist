@@ -11,6 +11,7 @@ public final class LicensePlist {
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
         info.loadGitHubLibraries(cartfile: readCartfile(path: options.cartfilePath))
+        info.loadSwiftPackageLibraries(packageFile: readSwiftPackages(path: options.packagePath))
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         info.downloadGitHubLicenses()
@@ -30,6 +31,16 @@ private func readCartfile(path: URL) -> String? {
         fatalError("Invalid Cartfile name: \(path.lastPathComponent)")
     }
     if let content = path.appendingPathExtension("resolved").lp.read() {
+        return content
+    }
+    return path.lp.read()
+}
+
+private func readSwiftPackages(path: URL) -> String? {
+    if path.lastPathComponent != Consts.packageName {
+        fatalError("Invalid Package.swift name: \(path.lastPathComponent)")
+    }
+    if let content = path.deletingPathExtension().appendingPathExtension("resolved").lp.read() {
         return content
     }
     return path.lp.read()

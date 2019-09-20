@@ -28,6 +28,7 @@ extension GitHub {
     public static func load(_ content: String, renames: [String: String] = [:]) -> [GitHub] {
         return load(content, renames: renames, mark: "github ")
     }
+    
     public static func load(_ content: String, renames: [String: String], mark: String, quotes: String = "\"") -> [GitHub] {
         let r = load(content, renames: renames, mark: mark, quotes: quotes, version: true)
         if !r.isEmpty {
@@ -35,6 +36,7 @@ extension GitHub {
         }
         return load(content, renames: renames, mark: mark, quotes: quotes, version: false)
     }
+    
     public static func load(_ content: String,
                             renames: [String: String],
                             mark: String,

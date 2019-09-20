@@ -19,7 +19,7 @@ public struct SwiftPackage: Decodable {
     let state: State
 }
 
-public struct ResolvedPackages: Decodable {
+fileprivate struct ResolvedPackages: Decodable {
     struct Pins: Decodable {
         let pins: [SwiftPackage]
     }
@@ -30,7 +30,16 @@ public struct ResolvedPackages: Decodable {
 
 extension SwiftPackage {
     
+    static func loadPackages(_ content: String) -> [SwiftPackage] {
+        guard let data = content.data(using: .utf8) else { return [] }
+        guard let resolvedPackages = try? JSONDecoder().decode(ResolvedPackages.self, from: data) else { return [] }
+        
+        return resolvedPackages.object.pins
+    }
+    
     func toGitHub(renames: [String: String]) -> GitHub? {
+        guard repositoryURL.contains("github.com") else { return nil }
+        
         let urlParts = repositoryURL
             .replacingOccurrences(of: "https://", with: "")
             .replacingOccurrences(of: "http://", with: "")

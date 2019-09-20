@@ -4,6 +4,7 @@ public struct Options {
     public let outputPath: URL
     public let cartfilePath: URL
     public let podsPath: URL
+    public let packagePath: URL
     public let prefix: String
     public let gitHubToken: String?
     public let htmlPath: URL?
@@ -13,6 +14,7 @@ public struct Options {
     public static let empty = Options(outputPath: URL(fileURLWithPath: ""),
                                       cartfilePath: URL(fileURLWithPath: ""),
                                       podsPath: URL(fileURLWithPath: ""),
+                                      packagePath: URL(fileURLWithPath: ""),
                                       prefix: Consts.prefix,
                                       gitHubToken: nil,
                                       htmlPath: nil,
@@ -22,6 +24,7 @@ public struct Options {
     public init(outputPath: URL,
                 cartfilePath: URL,
                 podsPath: URL,
+                packagePath: URL,
                 prefix: String,
                 gitHubToken: String?,
                 htmlPath: URL?,
@@ -30,6 +33,7 @@ public struct Options {
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
         self.podsPath = podsPath
+        self.packagePath = packagePath
         self.prefix = prefix
         self.gitHubToken = gitHubToken
         self.htmlPath = htmlPath

@@ -50,4 +50,10 @@ class SwiftPackageManagerTests: XCTestCase {
         let result = package.toGitHub(renames: [:])
         XCTAssertNil(result)
     }
+    
+    func testNonGithub() {
+        let package = SwiftPackage(package: "Bitbucket", repositoryURL: "https://mbuchetics@bitbucket.org/mbuchetics/adventofcode2018.git", state: SwiftPackage.State(branch: nil, revision: "", version: "0.0.0"))
+        let result = package.toGitHub(renames: [:])
+        XCTAssertNil(result)
+    }
 }
