@@ -56,4 +56,20 @@ class SwiftPackageManagerTests: XCTestCase {
         let result = package.toGitHub(renames: [:])
         XCTAssertNil(result)
     }
+    
+    func testParse() {
+        let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Package.resolved"
+        //let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/Package.resolved"
+        let content = try! String(contentsOf: URL(string: path)!)
+        let packages = SwiftPackage.loadPackages(content)
+        
+        XCTAssertFalse(packages.isEmpty)
+        XCTAssertEqual(packages.count, 8)
+        
+        let packageFirst = packages.first!
+        XCTAssertEqual(packageFirst, SwiftPackage(package: "APIKit", repositoryURL: "https://github.com/ishkawa/APIKit.git", state: SwiftPackage.State(branch: nil, revision: "86d51ecee0bc0ebdb53fb69b11a24169a69097ba", version: "4.1.0")))
+        let packageLast = packages.last!
+        XCTAssertEqual(packageLast, SwiftPackage(package: "Yaml", repositoryURL: "https://github.com/behrang/YamlSwift.git", state: SwiftPackage.State(branch: nil, revision: "287f5cab7da0d92eb947b5fd8151b203ae04a9a3", version: "3.4.4")))
+        
+    }
 }

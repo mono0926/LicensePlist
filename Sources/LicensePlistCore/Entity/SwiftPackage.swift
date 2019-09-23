@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct SwiftPackage: Decodable {
-    struct State: Decodable {
+public struct SwiftPackage: Decodable, Equatable {
+    struct State: Decodable, Equatable {
         let branch: String?
         let revision: String?
         let version: String
