@@ -32,13 +32,13 @@ struct PlistInfo {
         Log.info("Carthage License collect start")
         githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? "", renames: options.config.renames)).sorted()
     }
-    
+
     mutating func loadSwiftPackageLibraries(packageFile: String?) {
         Log.info("Swift Package Manager License collect start")
 
         let packages = SwiftPackage.loadPackages(packageFile ?? "")
         let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
-        
+
         githubLibraries = (githubLibraries ?? []) + packagesAsGithubLibraries
     }
 
