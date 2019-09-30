@@ -16,13 +16,17 @@ class LicensePlistHolderTests: XCTestCase {
         let result = LicensePlistHolder.load(licenses: [podsLicense], options: Options.empty)
         let (root, items) = result.deserialized()
         let rootItems = root["PreferenceSpecifiers"]!
-        XCTAssertEqual(rootItems.count, 1)
+        XCTAssertEqual(rootItems.count, 2)
         XCTAssertEqual(items.count, 1)
 
-        let rootItems1 = rootItems.first!
-        XCTAssertEqual(rootItems1["Type"], "PSChildPaneSpecifier")
-        XCTAssertEqual(rootItems1["Title"], "name")
-        XCTAssertEqual(rootItems1["File"], "com.mono0926.LicensePlist/name")
+        let rootItems1 = rootItems[0]
+        XCTAssertEqual(rootItems1["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(rootItems1["Title"], "Licenses")
+
+        let rootItems2 = rootItems[1]
+        XCTAssertEqual(rootItems2["Type"], "PSChildPaneSpecifier")
+        XCTAssertEqual(rootItems2["Title"], "name")
+        XCTAssertEqual(rootItems2["File"], "com.mono0926.LicensePlist/name")
 
         let item1 = items.first!.1
         let item1_1 = item1["PreferenceSpecifiers"]!.first!
