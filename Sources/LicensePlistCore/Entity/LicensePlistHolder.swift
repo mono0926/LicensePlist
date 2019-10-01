@@ -5,11 +5,14 @@ struct LicensePlistHolder {
     let root: Data
     let items: [(LicenseInfo, Data)]
     static func load(licenses: [LicenseInfo], options: Options) -> LicensePlistHolder {
-        let rootItems: [[String: String]] = licenses.map { license in
-            return ["Type": "PSChildPaneSpecifier",
-                    "Title": license.name(withVersion: options.config.addVersionNumbers),
-                    "File": "\(options.prefix)/\(license.name)"]
-        }
+        let rootItems: [[String: String]] = {
+            guard !licenses.isEmpty else { return [] }
+            return [["Type": "PSGroupSpecifier", "Title": "Licenses"]] + licenses.map { license in
+                return ["Type": "PSChildPaneSpecifier",
+                        "Title": license.name(withVersion: options.config.addVersionNumbers),
+                        "File": "\(options.prefix)/\(license.name)"]
+            }
+        }()
         let root = try! PropertyListSerialization.data(fromPropertyList: ["PreferenceSpecifiers": rootItems],
                                                        format: .xml,
                                                        options: 0)
