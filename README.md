@@ -101,6 +101,11 @@ You can see options by `license-plist --help`.
 
 - Default: `Pods`
 
+#### `--package-path`
+
+- Default: `Package.swift`
+- If you are using Swift Package Manager inside Xcode, you can use `--package-path $PROJECT_FILE_PATH/project.xcworkspace/xcshareddata/swiftpm/Package.swift` inside your `Run script`.
+
 #### `--output-path`
 
 - Default: `com.mono0926.LicensePlist.Output`
