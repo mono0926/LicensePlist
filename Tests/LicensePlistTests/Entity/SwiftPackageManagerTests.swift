@@ -32,6 +32,29 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(package.state.revision, "86d51ecee0bc0ebdb53fb69b11a24169a69097ba")
         XCTAssertEqual(package.state.version, "4.1.0")
     }
+    
+    func testDecodingOptionalVersion() {
+        let jsonString = """
+            {
+              "package": "APIKit",
+              "repositoryURL": "https://github.com/ishkawa/APIKit.git",
+              "state": {
+                "branch": "master",
+                "revision": "86d51ecee0bc0ebdb53fb69b11a24169a69097ba",
+                "version": null
+              }
+            }
+        """
+
+        let data = jsonString.data(using: .utf8)!
+        let package = try! JSONDecoder().decode(SwiftPackage.self, from: data)
+
+        XCTAssertEqual(package.package, "APIKit")
+        XCTAssertEqual(package.repositoryURL, "https://github.com/ishkawa/APIKit.git")
+        XCTAssertEqual(package.state.revision, "86d51ecee0bc0ebdb53fb69b11a24169a69097ba")
+        XCTAssertEqual(package.state.branch, "master")
+        XCTAssertEqual(package.state.version, nil)
+    }
 
     func testConvertToGithub() {
         let package = SwiftPackage(package: "Commander",
