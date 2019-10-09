@@ -33,7 +33,7 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                                           podsPath: URL(fileURLWithPath: podsPath),
                                           packagePath: URL(fileURLWithPath: packagePath),
                                           prefix: prefix,
-                                          gitHubToken: gitHubToken.isEmpty ? nil : gitHubToken,
+                                          gitHubToken: gitHubToken.isEmpty ? ProcessInfo.processInfo.environment["LICENSE_PLIST_GITHUB_TOKEN"] : gitHubToken,
                                           htmlPath: htmlPath.isEmpty ? nil : URL(fileURLWithPath: htmlPath),
                                           markdownPath: markdownPath.isEmpty ? nil : URL(fileURLWithPath: markdownPath),
                                           config: config)
