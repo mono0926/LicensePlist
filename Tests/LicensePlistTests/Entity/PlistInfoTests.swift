@@ -13,6 +13,7 @@ class PlistInfoTests: XCTestCase {
                                   cartfilePath: URL(fileURLWithPath: "test_result_dir"),
                                   podsPath: URL(fileURLWithPath: "test_result_dir"),
                                   packagePath: URL(fileURLWithPath: "test_result_dir"),
+                                  xcodeprojPath: URL(fileURLWithPath: "test_result_dir"),
                                   prefix: Consts.prefix,
                                   gitHubToken: nil,
                                   htmlPath: nil,

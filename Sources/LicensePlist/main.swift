@@ -13,6 +13,7 @@ private func loadConfig(configPath: URL) -> Config {
 let main = command(Option("cartfile-path", default: Consts.cartfileName),
                    Option("pods-path", default: Consts.podsDirectoryName),
                    Option("package-path", default: Consts.packageName),
+                   Option("xcodeproj-path", default: "*.xcodeproj"),
                    Option("output-path", default: Consts.outputPath),
                    Option("github-token", default: ""),
                    Option("config-path", default: Consts.configPath),
@@ -21,7 +22,7 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                    Option("markdown-path", default: ""),
                    Flag("force"),
                    Flag("add-version-numbers"),
-                   Flag("suppress-opening-directory")) { cartfile, podsPath, packagePath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen in
+                   Flag("suppress-opening-directory")) { cartfile, podsPath, packagePath, xcodeprojPath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen in
 
                     Logger.configure()
                     var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
@@ -32,6 +33,7 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                                           cartfilePath: URL(fileURLWithPath: cartfile),
                                           podsPath: URL(fileURLWithPath: podsPath),
                                           packagePath: URL(fileURLWithPath: packagePath),
+                                          xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
                                           prefix: prefix,
                                           gitHubToken: gitHubToken.isEmpty ? ProcessInfo.processInfo.environment["LICENSE_PLIST_GITHUB_TOKEN"] : gitHubToken,
                                           htmlPath: htmlPath.isEmpty ? nil : URL(fileURLWithPath: htmlPath),
