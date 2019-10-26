@@ -39,7 +39,7 @@ struct PlistInfo {
         let packages = SwiftPackage.loadPackages(packageFile ?? "")
         let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
 
-        githubLibraries = (githubLibraries ?? []) + packagesAsGithubLibraries
+        githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
     }
 
     mutating func loadManualLibraries() {
