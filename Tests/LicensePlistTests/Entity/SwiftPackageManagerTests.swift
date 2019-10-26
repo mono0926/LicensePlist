@@ -32,7 +32,29 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(package.state.revision, "86d51ecee0bc0ebdb53fb69b11a24169a69097ba")
         XCTAssertEqual(package.state.version, "4.1.0")
     }
-    
+
+    func testDecodingOfURLWithDots() {
+        let jsonString = """
+            {
+              "package": "R.swift.Library",
+              "repositoryURL": "https://github.com/mac-cain13/R.swift.Library",
+              "state": {
+                "branch": "master",
+                "revision": "3365947d725398694d6ed49f2e6622f05ca3fc0f",
+                "version": null
+              }
+            }
+        """
+
+        let data = jsonString.data(using: .utf8)!
+        let package = try! JSONDecoder().decode(SwiftPackage.self, from: data)
+
+        XCTAssertEqual(package.package, "R.swift.Library")
+        XCTAssertEqual(package.repositoryURL, "https://github.com/mac-cain13/R.swift.Library")
+        XCTAssertEqual(package.state.revision, "3365947d725398694d6ed49f2e6622f05ca3fc0f")
+        XCTAssertEqual(package.state.version, nil)
+    }
+
     func testDecodingOptionalVersion() {
         let jsonString = """
             {
@@ -62,6 +84,14 @@ class SwiftPackageManagerTests: XCTestCase {
                                    state: SwiftPackage.State(branch: nil, revision: "e5b50ad7b2e91eeb828393e89b03577b16be7db9", version: "0.8.0"))
         let result = package.toGitHub(renames: [:])
         XCTAssertEqual(result, GitHub(name: "Commander", nameSpecified: nil, owner: "kylef", version: "0.8.0"))
+    }
+    
+    func testConvertToGithubNameWithDots() {
+        let package = SwiftPackage(package: "R.swift.Library",
+                                   repositoryURL: "https://github.com/mac-cain13/R.swift.Library",
+                                   state: SwiftPackage.State(branch: nil, revision: "3365947d725398694d6ed49f2e6622f05ca3fc0f", version: nil))
+        let result = package.toGitHub(renames: [:])
+        XCTAssertEqual(result, GitHub(name: "R.swift.Library", nameSpecified: nil, owner: "mac-cain13", version: nil))
     }
 
     func testRename() {
