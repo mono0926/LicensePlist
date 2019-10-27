@@ -85,7 +85,7 @@ class SwiftPackageManagerTests: XCTestCase {
         let result = package.toGitHub(renames: [:])
         XCTAssertEqual(result, GitHub(name: "Commander", nameSpecified: nil, owner: "kylef", version: "0.8.0"))
     }
-    
+
     func testConvertToGithubNameWithDots() {
         let package = SwiftPackage(package: "R.swift.Library",
                                    repositoryURL: "https://github.com/mac-cain13/R.swift.Library",
