@@ -47,7 +47,7 @@ extension SwiftPackage {
 
         guard urlParts.count >= 3 else { return nil }
 
-        let name = urlParts.last?.components(separatedBy: ".").first ?? ""
+        let name = urlParts.last?.deletingSuffix(".git") ?? ""
         let owner = urlParts[urlParts.count - 2]
 
         return GitHub(name: name,
