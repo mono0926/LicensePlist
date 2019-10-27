@@ -11,7 +11,7 @@ public final class LicensePlist {
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
         info.loadGitHubLibraries(cartfile: readCartfile(path: options.cartfilePath))
-        info.loadSwiftPackageLibraries(packageFile: readSwiftPackages(path: options.packagePath))
+        info.loadSwiftPackageLibraries(packageFile: readSwiftPackages(path: options.packagePath) ?? readXcodeProject(path: options.xcodeprojPath))
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         info.downloadGitHubLicenses()
@@ -37,13 +37,36 @@ private func readCartfile(path: URL) -> String? {
 }
 
 private func readSwiftPackages(path: URL) -> String? {
-    if path.lastPathComponent != Consts.packageName {
+    if path.lastPathComponent != Consts.packageName && path.lastPathComponent != "Package.resolved" {
         fatalError("Invalid Package.swift name: \(path.lastPathComponent)")
     }
     if let content = path.deletingPathExtension().appendingPathExtension("resolved").lp.read() {
         return content
     }
     return path.lp.read()
+}
+
+private func readXcodeProject(path: URL) -> String? {
+
+    var projectPath: URL?
+    if path.lastPathComponent.contains("*") {
+        // find first "xcodeproj" in directory
+        projectPath = path.deletingLastPathComponent().lp.listDir().first { $0.pathExtension == Consts.xcodeprojExtension }
+    } else {
+        // use the specified path
+        projectPath = path
+    }
+    guard let validatedPath = projectPath else { return nil }
+
+    if validatedPath.pathExtension != Consts.xcodeprojExtension {
+        return nil
+    }
+    let packageResolvedPath = validatedPath
+        .appendingPathComponent("project.xcworkspace")
+        .appendingPathComponent("xcshareddata")
+        .appendingPathComponent("swiftpm")
+        .appendingPathComponent("Package.resolved")
+    return readSwiftPackages(path: packageResolvedPath)
 }
 
 private func readPodsAcknowledgements(path: URL) -> [String] {
