@@ -33,4 +33,18 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(item1_1["Type"], "PSGroupSpecifier")
         XCTAssertEqual(item1_1["FooterText"], "\'<body>")
     }
+    func testLoad_allToRoot() {
+        let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
+        let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
+        let result = LicensePlistHolder.loadAllToRoot(licenses: [podsLicense])
+        let (root, items) = result.deserialized()
+        let rootItems = root["PreferenceSpecifiers"]!
+        XCTAssertEqual(rootItems.count, 1)
+        XCTAssertEqual(items.count, 0)
+
+        let rootItems1 = rootItems[0]
+        XCTAssertEqual(rootItems1["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(rootItems1["Title"], "name")
+        XCTAssertEqual(rootItems1["FooterText"], "'<body>")
+    }
 }

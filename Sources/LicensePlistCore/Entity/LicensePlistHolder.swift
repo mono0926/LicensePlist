@@ -24,6 +24,24 @@ struct LicensePlistHolder {
         return LicensePlistHolder(root: root, items: items)
     }
 
+    static func loadAllToRoot(licenses: [LicenseInfo]) -> LicensePlistHolder {
+        let rootItem: [[String: String]] = {
+            guard !licenses.isEmpty else { return [] }
+            let body = licenses
+                .compactMap { lincense in
+                    return ["Type": "PSGroupSpecifier",
+                            "Title": lincense.name,
+                            "FooterText": lincense.body
+                            ]
+                }
+            return body
+        }()
+        let root = try! PropertyListSerialization.data(fromPropertyList: ["PreferenceSpecifiers": rootItem],
+                                                       format: .xml,
+                                                       options: 0)
+        return LicensePlistHolder(root: root, items: [])
+    }
+
     func deserialized() -> (root: [String: [[String: String]]], items: [(LicenseInfo, [String: [[String: String]]])]) {
         let root = try! PropertyListSerialization.propertyList(from: self.root, options: [], format: nil) as! [String: [[String: String]]]
         let items: [(LicenseInfo, [String: [[String: String]]])] = self.items.map { license, data in

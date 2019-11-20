@@ -162,6 +162,11 @@ You can see options by `license-plist --help`.
 - Default: false
 - Only when the files are created or updated, the terminal or the finder opens. By adding `--suppress-opening-directory` flag, this behavior is suppressed.
 
+#### `--export-all-to-root`
+
+- Default: false
+- All licenses are displayed in one page, not a list.
+
 ### Integrate into build
 
 Add a `Run Script Phase` to `Build Phases`:

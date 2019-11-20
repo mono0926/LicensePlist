@@ -102,7 +102,9 @@ struct PlistInfo {
         itemsPath.lp.createDirectory()
         Log.info("Directory created: \(outputPath)")
 
-        let holder = LicensePlistHolder.load(licenses: licenses, options: options)
+        let holder = options.config.exportAllToRoot ?
+            LicensePlistHolder.loadAllToRoot(licenses: licenses) :
+            LicensePlistHolder.load(licenses: licenses, options: options)
         holder.write(to: outputPath.appendingPathComponent("\(options.prefix).plist"), itemsPath: itemsPath)
 
         if let markdownPath = options.markdownPath {
