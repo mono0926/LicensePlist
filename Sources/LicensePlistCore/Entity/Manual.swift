@@ -10,7 +10,7 @@ public class Manual: Library {
     public var nameSpecified: String?
     public var version: String?
 
-    init(name n: String, source: String?, nameSpecified: String?, version: String?) {
+    public init(name n: String, source: String?, nameSpecified: String?, version: String?) {
         self.name = n
         self.source = source
         self.nameSpecified = nameSpecified
