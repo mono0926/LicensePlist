@@ -45,7 +45,7 @@ public struct Config {
         self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames)
     }
 
-    init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String]) {
+    public init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String]) {
         self.githubs = githubs
         self.manuals = manuals
         self.excludes = excludes
