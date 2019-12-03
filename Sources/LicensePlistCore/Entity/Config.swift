@@ -10,6 +10,7 @@ public struct Config {
     public var force = false
     public var addVersionNumbers = false
     public var suppressOpeningDirectory = false
+    public var exportAllToRoot = false
 
     public static let empty = Config(githubs: [], manuals: [], excludes: [], renames: [:])
 
