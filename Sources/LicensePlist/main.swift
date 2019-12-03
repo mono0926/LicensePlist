@@ -23,14 +23,14 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                    Flag("force"),
                    Flag("add-version-numbers"),
                    Flag("suppress-opening-directory"),
-                   Flag("export-all-to-root")) { cartfile, podsPath, packagePath, xcodeprojPath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen, exportAllToRoot in
+                   Flag("single-page")) { cartfile, podsPath, packagePath, xcodeprojPath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen, singlePage in
 
                     Logger.configure()
                     var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
                     config.force = force
                     config.addVersionNumbers = version
                     config.suppressOpeningDirectory = suppressOpen
-                    config.exportAllToRoot = exportAllToRoot
+                    config.singlePage = singlePage
                     let options = Options(outputPath: URL(fileURLWithPath: output),
                                           cartfilePath: URL(fileURLWithPath: cartfile),
                                           podsPath: URL(fileURLWithPath: podsPath),
