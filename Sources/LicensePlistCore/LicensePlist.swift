@@ -73,12 +73,18 @@ private func readPodsAcknowledgements(path: URL) -> [String] {
     if path.lastPathComponent != Consts.podsDirectoryName {
         fatalError("Invalid Pods name: \(path.lastPathComponent)")
     }
-    let path = path.appendingPathComponent("Target Support Files")
-    if !path.lp.isExists {
-        Log.warning("not found: \(path)")
+
+    let pathsToFind = [
+        path.appendingPathComponent("Target Support Files"),
+        path.appendingPathComponent("_Prebuild").appendingPathComponent("Target Support Files")
+    ]
+
+    let paths = pathsToFind.filter { $0.lp.isExists }
+    if paths.isEmpty {
+        pathsToFind.forEach { Log.warning("not found: \($0)") }
         return []
     }
-    let urls = path.lp.listDir()
+    let urls = paths.flatMap { $0.lp.listDir() }
         .filter { $0.lp.isDirectory }
         .map { f in
             f.lp.listDir()
