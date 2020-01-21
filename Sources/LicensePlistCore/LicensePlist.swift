@@ -66,7 +66,17 @@ private func readXcodeProject(path: URL) -> String? {
         .appendingPathComponent("xcshareddata")
         .appendingPathComponent("swiftpm")
         .appendingPathComponent("Package.resolved")
-    return readSwiftPackages(path: packageResolvedPath)
+    if packageResolvedPath.lp.isExists {
+        return readSwiftPackages(path: packageResolvedPath)
+    } else {
+        let packageResolvedPath = validatedPath
+        .deletingPathExtension()
+        .appendingPathExtension("xcworkspace")
+        .appendingPathComponent("xcshareddata")
+        .appendingPathComponent("swiftpm")
+        .appendingPathComponent("Package.resolved")
+        return readSwiftPackages(path: packageResolvedPath)
+    }
 }
 
 private func readPodsAcknowledgements(path: URL) -> [String] {
