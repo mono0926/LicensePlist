@@ -45,10 +45,13 @@ extension SwiftPackage {
             .replacingOccurrences(of: "http://", with: "")
             .components(separatedBy: "/")
 
-        guard urlParts.count >= 3 else { return nil }
-
         let name = urlParts.last?.deletingSuffix(".git") ?? ""
-        let owner = urlParts[urlParts.count - 2]
+        let owner: String
+        if urlParts.count >= 3 {
+            owner = urlParts[urlParts.count - 2]
+        } else {
+            owner = urlParts.first?.components(separatedBy: ":").last ?? ""
+        }
 
         return GitHub(name: name,
                       nameSpecified: renames[name],
