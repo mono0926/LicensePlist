@@ -23,7 +23,8 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                    Flag("force"),
                    Flag("add-version-numbers"),
                    Flag("suppress-opening-directory"),
-                   Flag("single-page")) { cartfile, podsPath, packagePath, xcodeprojPath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen, singlePage in
+                   Flag("single-page"),
+                   Flag("fail-if-missing-license")) { cartfile, podsPath, packagePath, xcodeprojPath, output, gitHubToken, configPath, prefix, htmlPath, markdownPath, force, version, suppressOpen, singlePage, failIfMissingLicense in
 
                     Logger.configure()
                     var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
@@ -31,6 +32,7 @@ let main = command(Option("cartfile-path", default: Consts.cartfileName),
                     config.addVersionNumbers = version
                     config.suppressOpeningDirectory = suppressOpen
                     config.singlePage = singlePage
+                    config.failIfMissingLicense = failIfMissingLicense
                     let options = Options(outputPath: URL(fileURLWithPath: output),
                                           cartfilePath: URL(fileURLWithPath: cartfile),
                                           podsPath: URL(fileURLWithPath: podsPath),
