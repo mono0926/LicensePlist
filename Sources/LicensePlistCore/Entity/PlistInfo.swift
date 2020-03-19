@@ -126,8 +126,12 @@ struct PlistInfo {
         let missing = Set(githubLibraries.map { $0.name }).subtracting(Set(licenses.map { $0.name }))
         if missing.isEmpty {
             Log.info("None 🎉")
-        } else {
-            Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
+            return
+        }
+        
+        Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
+        if options.config.failIfMissingLicense {
+            exit(1)
         }
     }
 
