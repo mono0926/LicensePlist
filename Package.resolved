@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/kylef/Commander.git",
         "state": {
           "branch": null,
-          "revision": "e5b50ad7b2e91eeb828393e89b03577b16be7db9",
-          "version": "0.8.0"
+          "revision": "4b6133c3071d521489a80c38fb92d7983f19d438",
+          "version": "0.9.1"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/HeliumLogger.git",
         "state": {
           "branch": null,
-          "revision": "779865e83149a59894b14950aa83f70b7e81bc27",
-          "version": "1.8.1"
+          "revision": "146a36c2a91270e4213fa7d7e8192cd2e55d0ace",
+          "version": "1.9.0"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/LoggerAPI.git",
         "state": {
           "branch": null,
-          "revision": "e29073bb7cecf3673e56bcb16180e8fd0cb091f6",
-          "version": "1.8.1"
+          "revision": "3357dd9526cdf9436fa63bb792b669e6efdc43da",
+          "version": "1.9.0"
         }
       },
       {
@@ -60,8 +60,17 @@
         "repositoryURL": "https://github.com/IBM-Swift/swift-html-entities.git",
         "state": {
           "branch": null,
-          "revision": "3b778b3ab061684db024eaf38c576887b42918aa",
-          "version": "3.0.13"
+          "revision": "744c094976355aa96ca61b9b60ef0a38e979feb7",
+          "version": "3.0.14"
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "eba9b323b5ba542c119ff17382a4ce737bcdc0b8",
+          "version": "0.0.0"
         }
       },
       {

@@ -167,6 +167,11 @@ You can see options by `license-plist --help`.
 - Default: false
 - All licenses are listed on a single page, not separated pages.
 
+#### `--fail-if-missing-license`
+
+- Default: false
+- If there is even one package for which a license cannot be found, LicensePlist returns exit code 1.
+
 ### Integrate into build
 
 Add a `Run Script Phase` to `Build Phases`:
