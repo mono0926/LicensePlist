@@ -54,7 +54,7 @@ class PlistInfoTests: XCTestCase {
     func testLoadGitHubLibraries() {
         var target = PlistInfo(options: options)
         XCTAssertNil(target.githubLibraries)
-        target.loadGitHubLibraries(cartfile: "github \"ikesyo/Himotoki\" \"3.0.1\"")
+        target.loadGitHubLibraries(file: .carthage(content: "github \"ikesyo/Himotoki\" \"3.0.1\""))
         let libraries = target.githubLibraries!
         XCTAssertEqual(libraries.count, 2)
         let lib1 = libraries[0]
@@ -66,7 +66,7 @@ class PlistInfoTests: XCTestCase {
     func testLoadGitHubLibraries_empty() {
         var target = PlistInfo(options: options)
         XCTAssertNil(target.githubLibraries)
-        target.loadGitHubLibraries(cartfile: nil)
+        target.loadGitHubLibraries(file: .carthage(content: nil))
         let libraries = target.githubLibraries!
         XCTAssertEqual(libraries.count, 1)
         let lib1 = libraries[0]
