@@ -25,25 +25,19 @@ extension GitHub: CustomStringConvertible {
 }
 
 extension GitHub {
-    public static func load(_ content: String, renames: [String: String] = [:]) -> [GitHub] {
-        return load(content, renames: renames, mark: "github ")
-    }
-
-    public static func load(_ content: String, renames: [String: String], mark: String, quotes: String = "\"") -> [GitHub] {
-        let r = load(content, renames: renames, mark: mark, quotes: quotes, version: true)
+    public static func load(_ file: GitHubLibraryConfigFile, renames: [String: String] = [:]) -> [GitHub] {
+        let r = load(file, renames: renames, version: true)
         if !r.isEmpty {
             return r
         }
-        return load(content, renames: renames, mark: mark, quotes: quotes, version: false)
+        return load(file, renames: renames, version: false)
     }
 
-    public static func load(_ content: String,
-                            renames: [String: String],
-                            mark: String,
-                            quotes: String = "\"",
-                            version: Bool = false) -> [GitHub] {
-        let pattern = "[\\w\\.\\-]+"
-        let regexString = "\(mark)\(quotes)(\(pattern))/(\(pattern))\(quotes)" + (version ? " \(quotes)([\\w\\.\\-]+)\(quotes)" : "")
+    private static func load(_ file: GitHubLibraryConfigFile,
+                             renames: [String: String],
+                             version: Bool = false) -> [GitHub] {
+        guard let content = file.content else { return [] }
+        let regexString = file.type.regexString(version: version)
         let regex = try! NSRegularExpression(pattern: regexString, options: [])
         let nsContent = content as NSString
         let matches = regex.matches(in: content, options: [], range: NSRange(location: 0, length: nsContent.length))

@@ -10,7 +10,8 @@ public final class LicensePlist {
         GitHubAuthorization.shared.token = options.gitHubToken
         var info = PlistInfo(options: options)
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
-        info.loadGitHubLibraries(cartfile: readCartfile(path: options.cartfilePath))
+        info.loadGitHubLibraries(file: readCartfile(path: options.cartfilePath))
+        info.loadGitHubLibraries(file: readMintfile(path: options.mintfilePath))
         info.loadSwiftPackageLibraries(packageFile: readSwiftPackages(path: options.packagePath) ?? readXcodeProject(path: options.xcodeprojPath))
         info.loadManualLibraries()
         info.compareWithLatestSummary()
@@ -26,14 +27,21 @@ public final class LicensePlist {
     }
 }
 
-private func readCartfile(path: URL) -> String? {
+private func readCartfile(path: URL) -> GitHubLibraryConfigFile {
     if path.lastPathComponent != Consts.cartfileName {
         fatalError("Invalid Cartfile name: \(path.lastPathComponent)")
     }
     if let content = path.appendingPathExtension("resolved").lp.read() {
-        return content
+        return GitHubLibraryConfigFile(type: .carthage, content: content)
     }
-    return path.lp.read()
+    return .carthage(content: path.lp.read())
+}
+
+private func readMintfile(path: URL) -> GitHubLibraryConfigFile {
+    if path.lastPathComponent != Consts.mintfileName {
+        fatalError("Invalid MintFile name: \(path.lastPathComponent)")
+    }
+    return .mint(content: path.lp.read())
 }
 
 private func readSwiftPackages(path: URL) -> String? {
