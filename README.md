@@ -97,6 +97,10 @@ You can see options by `license-plist --help`.
 
 - Default: `Cartfile`
 
+#### `--mintfile-path`
+
+- Default: `Mintfile`
+
 #### `--pods-path`
 
 - Default: `Pods`
