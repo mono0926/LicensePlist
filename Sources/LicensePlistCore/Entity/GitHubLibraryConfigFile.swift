@@ -4,9 +4,9 @@ public struct GitHubLibraryConfigFile: Equatable {
 }
 
 extension GitHubLibraryConfigFile {
-    static func carthage(content: String?) -> GitHubLibraryConfigFile { .init(type: .carthage, content: content) }
-    static func mint(content: String?) -> GitHubLibraryConfigFile { .init(type: .mint, content: content) }
-    static func licensePlist(content: String?) -> GitHubLibraryConfigFile { .init(type: .licensePlist, content: content) }
+    static func carthage(content: String?) -> GitHubLibraryConfigFile { return .init(type: .carthage, content: content) }
+    static func mint(content: String?) -> GitHubLibraryConfigFile { return .init(type: .mint, content: content) }
+    static func licensePlist(content: String?) -> GitHubLibraryConfigFile { return .init(type: .licensePlist, content: content) }
 }
 
 public enum GitHubLibraryConfigFileType: Int, CaseIterable {
