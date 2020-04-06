@@ -28,9 +28,18 @@ struct PlistInfo {
         cocoaPodsLicenses = config.filterExcluded(licenses).sorted()
     }
 
-    mutating func loadGitHubLibraries(cartfile: String?) {
-        Log.info("Carthage License collect start")
-        githubLibraries  = options.config.apply(githubs: GitHub.load(cartfile ?? "", renames: options.config.renames)).sorted()
+    mutating func loadGitHubLibraries(file: GitHubLibraryConfigFile) {
+        switch file.type {
+        case .carthage:
+            Log.info("Carthage License collect start")
+        case .mint:
+            Log.info("Mint License collect start")
+        case .licensePlist:
+            // should not reach here
+            preconditionFailure()
+        }
+        let githubs = GitHub.load(file, renames: options.config.renames)
+        githubLibraries = ((githubLibraries ?? []) + options.config.apply(githubs: githubs)).sorted()
     }
 
     mutating func loadSwiftPackageLibraries(packageFile: String?) {

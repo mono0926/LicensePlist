@@ -2,6 +2,7 @@ import Foundation
 
 public struct Consts {
     public static let cartfileName = "Cartfile"
+    public static let mintfileName = "Mintfile"
     public static let podsDirectoryName = "Pods"
     public static let packageName = "Package.swift"
     public static let xcodeprojExtension = "xcodeproj"
