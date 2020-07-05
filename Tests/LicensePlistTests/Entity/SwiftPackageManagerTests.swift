@@ -83,7 +83,7 @@ class SwiftPackageManagerTests: XCTestCase {
                                    repositoryURL: "https://github.com/kylef/Commander.git",
                                    state: SwiftPackage.State(branch: nil, revision: "e5b50ad7b2e91eeb828393e89b03577b16be7db9", version: "0.8.0"))
         let result = package.toGitHub(renames: [:])
-        XCTAssertEqual(result, GitHub(name: "Commander", nameSpecified: nil, owner: "kylef", version: "0.8.0"))
+        XCTAssertEqual(result, GitHub(name: "Commander", nameSpecified: "Commander", owner: "kylef", version: "0.8.0"))
     }
 
     func testConvertToGithubNameWithDots() {
@@ -91,7 +91,7 @@ class SwiftPackageManagerTests: XCTestCase {
                                    repositoryURL: "https://github.com/mac-cain13/R.swift.Library",
                                    state: SwiftPackage.State(branch: nil, revision: "3365947d725398694d6ed49f2e6622f05ca3fc0f", version: nil))
         let result = package.toGitHub(renames: [:])
-        XCTAssertEqual(result, GitHub(name: "R.swift.Library", nameSpecified: nil, owner: "mac-cain13", version: nil))
+        XCTAssertEqual(result, GitHub(name: "R.swift.Library", nameSpecified: "R.swift.Library", owner: "mac-cain13", version: nil))
     }
 
     func testConvertToGithubSSH() {
@@ -99,7 +99,23 @@ class SwiftPackageManagerTests: XCTestCase {
                                    repositoryURL: "git@github.com:mono0926/LicensePlist.git",
                                    state: SwiftPackage.State(branch: nil, revision: "3365947d725398694d6ed49f2e6622f05ca3fc0e", version: nil))
         let result = package.toGitHub(renames: [:])
-        XCTAssertEqual(result, GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil))
+        XCTAssertEqual(result, GitHub(name: "LicensePlist", nameSpecified: "LicensePlist", owner: "mono0926", version: nil))
+    }
+
+    func testConvertToGithubPackageName() {
+        let package = SwiftPackage(package: "IterableSDK",
+                                   repositoryURL: "https://github.com/Iterable/swift-sdk",
+                                   state: SwiftPackage.State(branch: nil, revision: "3365947d725398694d6ed49f2e6622f05ca3fc0e", version: nil))
+        let result = package.toGitHub(renames: [:])
+        XCTAssertEqual(result, GitHub(name: "swift-sdk", nameSpecified: "IterableSDK", owner: "Iterable", version: nil))
+    }
+
+    func testConvertToGithubRenames() {
+        let package = SwiftPackage(package: "IterableSDK",
+                                   repositoryURL: "https://github.com/Iterable/swift-sdk",
+                                   state: SwiftPackage.State(branch: nil, revision: "3365947d725398694d6ed49f2e6622f05ca3fc0e", version: nil))
+        let result = package.toGitHub(renames: ["swift-sdk": "NAME"])
+        XCTAssertEqual(result, GitHub(name: "swift-sdk", nameSpecified: "NAME", owner: "Iterable", version: nil))
     }
 
     func testRename() {

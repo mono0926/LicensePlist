@@ -54,7 +54,7 @@ extension SwiftPackage {
         }
 
         return GitHub(name: name,
-                      nameSpecified: renames[name],
+                      nameSpecified: renames[name] ?? package,
                       owner: owner,
                       version: state.version)
     }
