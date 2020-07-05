@@ -8,6 +8,6 @@ included:
   - Sources
   - Tests
 
-line_length: 210
+line_length: 250
 nesting:
   type_level: 3
