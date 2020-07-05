@@ -137,7 +137,7 @@ struct PlistInfo {
             Log.info("None 🎉")
             return
         }
-        
+
         Array(missing).sorted { $0 < $1 }.forEach { Log.warning($0) }
         if options.config.failIfMissingLicense {
             exit(1)
