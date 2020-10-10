@@ -36,7 +36,8 @@ struct LicensePlist: ParsableCommand {
 	@Option(name: .long, completion: .file())
 	var outputPath = Consts.outputPath
 	
-	@Option(name: .long, completion: .empty )
+	static let githubTokenEnv = "LICENSE_PLIST_GITHUB_TOKEN"
+	@Option(name: .long, help: "You can also pass the token via the '\(Self.githubTokenEnv)' environment variable.", completion: .empty)
 	var githubToken: String?
 	
 	@Option(name: .long, completion: .file())
@@ -81,7 +82,7 @@ struct LicensePlist: ParsableCommand {
 									 packagePath: URL(fileURLWithPath: packagePath),
 									 xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
 									 prefix: prefix,
-									 gitHubToken: githubToken ?? ProcessInfo.processInfo.environment["LICENSE_PLIST_GITHUB_TOKEN"],
+									 gitHubToken: githubToken ?? ProcessInfo.processInfo.environment[Self.githubTokenEnv],
 									 htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
 									 markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
 									 config: config)
