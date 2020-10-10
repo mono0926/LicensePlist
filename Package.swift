@@ -9,8 +9,8 @@ let package = Package(
         .library(name: "LicensePlistCore", targets: ["LicensePlistCore"])
     ],
     dependencies: [
-        .package(url: "https://github.com/kylef/Commander.git",
-                 from: "0.9.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git",
+                 from: "0.3.1"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
                  from: "4.0.0"),
         .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
@@ -25,7 +25,7 @@ let package = Package(
             name: "LicensePlist",
             dependencies: [
                 "LicensePlistCore",
-                "Commander",
+                "ArgumentParser",
                 "HeliumLogger"
             ]
         ),
@@ -33,7 +33,6 @@ let package = Package(
             name: "LicensePlistCore",
             dependencies: [
                 "APIKit",
-                "Commander",
                 "HeliumLogger",
                 "HTMLEntities",
                 "Yaml"
