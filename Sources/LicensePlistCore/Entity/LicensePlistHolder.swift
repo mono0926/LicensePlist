@@ -17,8 +17,17 @@ struct LicensePlistHolder {
                                                        format: .xml,
                                                        options: 0)
         let items: [(LicenseInfo, Data)] = licenses.map { license in
+            let lineRegex = try! NSRegularExpression(pattern: "^[-_*=]{3,}$", options: [])
             let item = ["PreferenceSpecifiers":
-                license.body.components(separatedBy: "\n\n").map { (paragraph) -> [String: String] in
+                            license.body
+                            .components(separatedBy: "\n\n")
+                            .split(whereSeparator: { (possibleHorizontalLine) -> Bool in
+                                lineRegex.firstMatch(in: possibleHorizontalLine, options: [], range: NSRange(location: 0, length: possibleHorizontalLine.count)) != nil
+                            })
+                            .map { parts in
+                                parts.joined(separator: "\n\n")
+                            }
+                            .map { (paragraph) -> [String: String] in
                     ["Type": "PSGroupSpecifier", "FooterText": paragraph]
                 }
             ]
