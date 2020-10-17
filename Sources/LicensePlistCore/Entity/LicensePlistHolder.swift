@@ -17,7 +17,7 @@ struct LicensePlistHolder {
                                                        format: .xml,
                                                        options: 0)
         let items: [(LicenseInfo, Data)] = licenses.map { license in
-            let lineRegex = try! NSRegularExpression(pattern: "^[-_*=]{3,}$", options: [])
+            let lineRegex = try! NSRegularExpression(pattern: "^\s*[-_*=]{3,}\s*$", options: [])
             let item = ["PreferenceSpecifiers":
                             license.body
                             .components(separatedBy: "\n\n")
