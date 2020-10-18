@@ -47,4 +47,33 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(rootItems1["Title"], "name")
         XCTAssertEqual(rootItems1["FooterText"], "'<body>")
     }
+    func testLoad_splitByHorizontalLine() {
+        let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
+        let firstPart = "1\n2\n\n3\n---"
+        let secondPart = "a"
+        let thirdPart = "b"
+        let separator = String(repeating: "-", count: 40)
+        let podsLicense = CocoaPodsLicense(library: pods, body: "\(firstPart)\n\n\n---\n\n\(secondPart)\n\n==========\n\n\(thirdPart)")
+        let result = LicensePlistHolder.load(licenses: [podsLicense], options: Options.empty)
+        let (_, items) = result.deserialized()
+        
+        let item1 = items.first!.1
+        let groupArray = item1["PreferenceSpecifiers"]!
+        XCTAssertEqual(groupArray.count, 5)
+        let item1_0 = groupArray[0]
+        XCTAssertEqual(item1_0["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(item1_0["FooterText"], firstPart)
+        let item1_1 = groupArray[1]
+        XCTAssertEqual(item1_1["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(item1_1["FooterText"], separator)
+        let item1_2 = groupArray[2]
+        XCTAssertEqual(item1_2["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(item1_2["FooterText"], secondPart)
+        let item1_3 = groupArray[3]
+        XCTAssertEqual(item1_3["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(item1_3["FooterText"], separator)
+        let item1_4 = groupArray[4]
+        XCTAssertEqual(item1_4["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(item1_4["FooterText"], thirdPart)
+    }
 }
