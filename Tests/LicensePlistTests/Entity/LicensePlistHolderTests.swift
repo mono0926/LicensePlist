@@ -56,7 +56,7 @@ class LicensePlistHolderTests: XCTestCase {
         let podsLicense = CocoaPodsLicense(library: pods, body: "\(firstPart)\n\n\n---\n\n\(secondPart)\n\n==========\n\n\(thirdPart)")
         let result = LicensePlistHolder.load(licenses: [podsLicense], options: Options.empty)
         let (_, items) = result.deserialized()
-        
+
         let item1 = items.first!.1
         let groupArray = item1["PreferenceSpecifiers"]!
         XCTAssertEqual(groupArray.count, 5)
