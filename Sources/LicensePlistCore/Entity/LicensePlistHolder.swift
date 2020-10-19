@@ -17,7 +17,21 @@ struct LicensePlistHolder {
                                                        format: .xml,
                                                        options: 0)
         let items: [(LicenseInfo, Data)] = licenses.map { license in
-            let item = ["PreferenceSpecifiers": [["Type": "PSGroupSpecifier", "FooterText": license.body]]]
+            let lineRegex = try! NSRegularExpression(pattern: "^\\s*[-_*=]{3,}\\s*$", options: [])
+            let item = ["PreferenceSpecifiers":
+                            license.body
+                            .components(separatedBy: "\n\n")
+                            .split(whereSeparator: { (possibleHorizontalLine) -> Bool in
+                                lineRegex.firstMatch(in: possibleHorizontalLine, options: [], range: NSRange(location: 0, length: possibleHorizontalLine.count)) != nil
+                            })
+                            .map { parts in
+                                [parts.joined(separator: "\n\n")]
+                            }
+                            .joined(separator: [String(repeating: "-", count: 40)])
+                            .map { (paragraph) -> [String: String] in
+                                ["Type": "PSGroupSpecifier", "FooterText": paragraph]
+                            }
+            ]
             let value = try! PropertyListSerialization.data(fromPropertyList: item, format: .xml, options: 0)
             return (license, value)
         }
