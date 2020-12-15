@@ -14,4 +14,5 @@ jobs:
       with:
         url: https://github.com/thii/xcbeautify
         version: '*'
-    - run: swift test | xcbeautify
+    - run: |
+        swift test | xcbeautify
