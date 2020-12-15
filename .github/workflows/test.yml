@@ -10,4 +10,8 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - run: fastlane scan
+    - uses: Cyberbeni/install-swift-tool@v2
+      with:
+        url: https://github.com/thii/xcbeautify
+        version: '*'
+    - run: swift test | xcbeautify
