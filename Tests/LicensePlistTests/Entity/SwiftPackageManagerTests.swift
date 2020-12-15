@@ -143,7 +143,6 @@ class SwiftPackageManagerTests: XCTestCase {
 
     func testParse() {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Package.resolved"
-        //let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/Package.resolved"
         let content = try! String(contentsOf: URL(string: path)!)
         let packages = SwiftPackage.loadPackages(content)
 
