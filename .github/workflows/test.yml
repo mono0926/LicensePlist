@@ -1,0 +1,13 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: fastlane scan
