@@ -1,0 +1,17 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: Cyberbeni/install-swift-tool@v2
+      with:
+        url: https://github.com/realm/SwiftLint
+        version: '*'
+    - run: swiftlint lint --strict .

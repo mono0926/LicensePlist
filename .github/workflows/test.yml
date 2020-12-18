@@ -1,0 +1,19 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: Cyberbeni/install-swift-tool@v2
+      with:
+        url: https://github.com/thii/xcbeautify
+        version: '*'
+    - run: |
+        set -o pipefail
+        swift test 2>&1 | xcbeautify
