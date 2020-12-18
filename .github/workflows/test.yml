@@ -16,4 +16,4 @@ jobs:
         version: '*'
     - run: |
         set -o pipefail
-        swift test | xcbeautify
+        swift test 2>&1 | xcbeautify
