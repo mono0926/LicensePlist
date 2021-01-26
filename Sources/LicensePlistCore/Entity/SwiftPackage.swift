@@ -29,7 +29,6 @@ private struct ResolvedPackages: Decodable {
 }
 
 extension SwiftPackage {
-
     static func loadPackages(_ content: String) -> [SwiftPackage] {
         guard let data = content.data(using: .utf8) else { return [] }
         guard let resolvedPackages = try? JSONDecoder().decode(ResolvedPackages.self, from: data) else { return [] }

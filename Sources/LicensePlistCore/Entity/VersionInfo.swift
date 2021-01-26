@@ -6,8 +6,8 @@ public struct VersionInfo: Equatable {
     func version(name: String) -> String? {
         return dictionary[name]
     }
-    public static func==(lhs: VersionInfo, rhs: VersionInfo) -> Bool {
 
+    public static func== (lhs: VersionInfo, rhs: VersionInfo) -> Bool {
         return lhs.dictionary == rhs.dictionary
     }
 }
@@ -31,6 +31,6 @@ extension VersionInfo {
                     sum[prefix] = version
                 }
                 return sum
-        }
+            }
     }
 }

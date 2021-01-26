@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import XCTest
 @testable import LicensePlistCore
+import XCTest
 
 class SwiftPackageManagerTests: XCTestCase {
-
     func testDecoding() {
         let jsonString = """
             {
@@ -143,7 +142,7 @@ class SwiftPackageManagerTests: XCTestCase {
 
     func testParse() {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Package.resolved"
-        //let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/Package.resolved"
+        // let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/Package.resolved"
         let content = try! String(contentsOf: URL(string: path)!)
         let packages = SwiftPackage.loadPackages(content)
 
@@ -158,6 +157,5 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(packageLast, SwiftPackage(package: "Yaml",
                                                  repositoryURL: "https://github.com/behrang/YamlSwift.git",
                                                  state: SwiftPackage.State(branch: nil, revision: "287f5cab7da0d92eb947b5fd8151b203ae04a9a3", version: "3.4.4")))
-
     }
 }

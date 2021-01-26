@@ -23,7 +23,7 @@ public struct Config {
             var sum = sum
             sum[from] = to
             return sum
-            } ?? [:]
+        } ?? [:]
         let manuals = value["manual"].array ?? []
         let manualList = Manual.load(manuals, renames: renames, configBasePath: configBasePath)
         let githubs = value["github"].array?.map { $0.string }.compactMap { $0 } ?? []
@@ -43,7 +43,7 @@ public struct Config {
                           nameSpecified: renames[name],
                           owner: owner,
                           version: dictionary["version"]?.string)
-            }.compactMap { $0 } ?? []
+        }.compactMap { $0 } ?? []
         self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames)
     }
 
@@ -102,16 +102,16 @@ public struct Config {
 
     func apply(githubs: [GitHub]) -> [GitHub] {
         self.githubs.forEach { Log.warning("\($0.name) was loaded from config YAML.") }
-        return filterExcluded((self.githubs + githubs))
+        return filterExcluded(self.githubs + githubs)
     }
 
     func applyManual(manuals: [Manual]) -> [Manual] {
-        return filterExcluded((self.manuals + manuals))
+        return filterExcluded(self.manuals + manuals)
     }
 }
 
 extension Config: Equatable {
-    public static func==(lhs: Config, rhs: Config) -> Bool {
+    public static func== (lhs: Config, rhs: Config) -> Bool {
         return lhs.githubs == rhs.githubs &&
             lhs.manuals == rhs.manuals &&
             lhs.excludes == rhs.excludes &&

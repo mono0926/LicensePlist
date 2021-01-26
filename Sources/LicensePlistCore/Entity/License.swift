@@ -1,5 +1,5 @@
-import Foundation
 import APIKit
+import Foundation
 import LoggerAPI
 
 public protocol LicenseInfo: HasName {
@@ -14,8 +14,8 @@ public protocol License: LicenseInfo {
     var body: String { get }
 }
 
-extension LicenseInfo {
-    public func name(withVersion: Bool) -> String {
+public extension LicenseInfo {
+    func name(withVersion: Bool) -> String {
         let title = nameSpecified ?? name
         if let version = version, withVersion {
             return "\(title) (\(version))"
@@ -24,11 +24,11 @@ extension LicenseInfo {
     }
 }
 
-extension License {
-    public var name: String { return library.name }
-    public var nameSpecified: String? { return library.nameSpecified }
-    public var version: String? { return library.version }
-    public var bodyEscaped: String {
+public extension License {
+    var name: String { return library.name }
+    var nameSpecified: String? { return library.nameSpecified }
+    var version: String? { return library.version }
+    var bodyEscaped: String {
         return body
             .replacingOccurrences(of: "&", with: "&amp;")
             .replacingOccurrences(of: "\"", with: "&quot;")

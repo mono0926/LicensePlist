@@ -1,7 +1,7 @@
 import HeliumLogger
 import LoggerAPI
 
-public struct Logger {
+public enum Logger {
     public static func configure() {
         let logger = createDefaultLogger()
 //        let logger = createDebugLogger()

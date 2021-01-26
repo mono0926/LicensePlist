@@ -5,7 +5,7 @@ public struct CocoaPodsLicense: License, Equatable {
     public let library: CocoaPods
     public let body: String
 
-    public static func==(lhs: CocoaPodsLicense, rhs: CocoaPodsLicense) -> Bool {
+    public static func== (lhs: CocoaPodsLicense, rhs: CocoaPodsLicense) -> Bool {
         return lhs.library == rhs.library &&
             lhs.body == rhs.body
     }
@@ -17,8 +17,8 @@ extension CocoaPodsLicense: CustomStringConvertible {
     }
 }
 
-extension CocoaPodsLicense {
-    public static func load(_ content: String, versionInfo: VersionInfo, config: Config) -> [CocoaPodsLicense] {
+public extension CocoaPodsLicense {
+    static func load(_ content: String, versionInfo: VersionInfo, config: Config) -> [CocoaPodsLicense] {
         do {
             let plistData = content.data(using: .utf8)!
             let plistDecoder = PropertyListDecoder()
@@ -31,7 +31,7 @@ extension CocoaPodsLicense {
                                                                nameSpecified: config.renames[name],
                                                                version: versionInfo.version(name: $0.title)),
                                             body: $0.footerText)
-            }
+                }
         } catch let e {
             Log.error(String(describing: e))
             return []
@@ -43,6 +43,7 @@ private struct AcknowledgementsPlist: Decodable {
     enum CodingKeys: String, CodingKey {
         case preferenceSpecifiers = "PreferenceSpecifiers"
     }
+
     let preferenceSpecifiers: [PreferenceSpecifier]
 }
 

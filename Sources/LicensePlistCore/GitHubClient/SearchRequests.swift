@@ -6,8 +6,8 @@
 //
 //
 
-import Foundation
 import APIKit
+import Foundation
 
 struct SearchRequests {
     private init() {}

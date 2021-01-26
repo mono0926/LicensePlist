@@ -1,13 +1,13 @@
-import Foundation
 import APIKit
+import Foundation
 import LoggerAPI
 
 public protocol Library: HasName, Hashable {
     var version: String? { get }
 }
 
-extension Library {
-    public func hash(into hasher: inout Hasher) {
+public extension Library {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
 }

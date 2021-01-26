@@ -2,7 +2,6 @@ import Foundation
 import LoggerAPI
 
 public final class LicensePlist {
-
     public init() {}
 
     public func process(options: Options) {
@@ -45,7 +44,7 @@ private func readMintfile(path: URL) -> GitHubLibraryConfigFile {
 }
 
 private func readSwiftPackages(path: URL) -> String? {
-    if path.lastPathComponent != Consts.packageName && path.lastPathComponent != "Package.resolved" {
+    if path.lastPathComponent != Consts.packageName, path.lastPathComponent != "Package.resolved" {
         fatalError("Invalid Package.swift name: \(path.lastPathComponent)")
     }
     if let content = path.deletingPathExtension().appendingPathExtension("resolved").lp.read() {
@@ -55,7 +54,6 @@ private func readSwiftPackages(path: URL) -> String? {
 }
 
 private func readXcodeProject(path: URL) -> String? {
-
     var projectPath: URL?
     if path.lastPathComponent.contains("*") {
         // find first "xcodeproj" in directory
@@ -78,11 +76,11 @@ private func readXcodeProject(path: URL) -> String? {
         return readSwiftPackages(path: packageResolvedPath)
     } else {
         let packageResolvedPath = validatedPath
-        .deletingPathExtension()
-        .appendingPathExtension("xcworkspace")
-        .appendingPathComponent("xcshareddata")
-        .appendingPathComponent("swiftpm")
-        .appendingPathComponent("Package.resolved")
+            .deletingPathExtension()
+            .appendingPathExtension("xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
         return readSwiftPackages(path: packageResolvedPath)
     }
 }
@@ -94,7 +92,7 @@ private func readPodsAcknowledgements(path: URL) -> [String] {
 
     let pathsToFind = [
         path.appendingPathComponent("Target Support Files"),
-        path.appendingPathComponent("_Prebuild").appendingPathComponent("Target Support Files")
+        path.appendingPathComponent("_Prebuild").appendingPathComponent("Target Support Files"),
     ]
 
     let paths = pathsToFind.filter { $0.lp.isExists }

@@ -1,9 +1,8 @@
 import Foundation
-import XCTest
 @testable import LicensePlistCore
+import XCTest
 
 class CocoaPodsTests: XCTestCase {
-
     func testParse_empty() {
         let results = CocoaPodsLicense.load("(　´･‿･｀)", versionInfo: VersionInfo(), config: Config.empty)
         XCTAssertTrue(results.isEmpty)
