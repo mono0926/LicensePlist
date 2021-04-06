@@ -54,7 +54,7 @@ private func readSwiftPackages(path: URL) -> String? {
     return path.lp.read()
 }
 
-private func readXcodeProject(path: URL) -> String? {
+func readXcodeProject(path: URL) -> String? {
 
     var projectPath: URL?
     if path.lastPathComponent.contains("*") {
