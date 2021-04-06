@@ -8,22 +8,43 @@
 import XCTest
 @testable import LicensePlistCore
 
+@available(OSX 10.11, *)
 class XcodeProjectFileReaderTests: XCTestCase {
 
+    var testURLBase: URL!
+    var fileURL: URL!
+    var wildcardFileURL: URL!
+
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        let testFilePath = #file
+
+        // The url deeply depends on this file location and XcodeProjects location. If any fix will be added, please fix this baseURL.
+        let baseURL = URL(string: testFilePath)!
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("XcodeProjects")
+
+        fileURL = URL(fileURLWithPath: "\(baseURL)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj")
+        wildcardFileURL = URL(fileURLWithPath: "\(baseURL)/SwiftPackageManagerTestProject/*")
+
+        print("fileURL: \(String(describing: fileURL))")
+        print("wildcardURL: \(String(describing: wildcardFileURL))")
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        fileURL = nil
+        wildcardFileURL = nil
     }
 
-    func testReadXcodeProject() throws {
-        #warning("TODO: This should be replcased to \"https://github.com/yosshi4486/LicensePlist/mono0926/master/Tests/LicensePlistTests/XcodeProjects/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj\" until I create pull request.")
+    func testProjectPathWhenSpecifiesCorrectFilePath() throws {
+        let fileReader = XcodeProjectFileReader(path: fileURL)
+        XCTAssertEqual(fileReader.projectPath, fileURL)
+    }
 
-        let githubXcodeprojURL = URL(string: "https://github.com/yosshi4486/LicensePlist/tree/fix-spm-licenses-gen/Tests/LicensePlistTests/XcodeProjects/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj")!
-        let result = readXcodeProject(path: githubXcodeprojURL)
-        XCTAssertNotNil(result)
+    func testProjectPathWhenSpecifiesWildcard() throws {
+        let fileReader = XcodeProjectFileReader(path: wildcardFileURL)
+        XCTAssertEqual(fileReader.projectPath, fileURL)
     }
 
 }
