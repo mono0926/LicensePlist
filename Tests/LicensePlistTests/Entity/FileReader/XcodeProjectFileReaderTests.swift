@@ -11,39 +11,39 @@ import XCTest
 @available(OSX 10.11, *)
 class XcodeProjectFileReaderTests: XCTestCase {
 
-    var fileURL: URL!
+    var projectFileURL: URL!
     var wildcardFileURL: URL!
 
     override func setUpWithError() throws {
-        fileURL = URL(fileURLWithPath: "\(TestUtil.testProjectsPath)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj")
+        projectFileURL = URL(fileURLWithPath: "\(TestUtil.testProjectsPath)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj")
         wildcardFileURL = URL(fileURLWithPath: "\(TestUtil.testProjectsPath)/SwiftPackageManagerTestProject/*")
 
-        print("fileURL: \(String(describing: fileURL))")
+        print("fileURL: \(String(describing: projectFileURL))")
         print("wildcardURL: \(String(describing: wildcardFileURL))")
     }
 
     override func tearDownWithError() throws {
-        fileURL = nil
+        projectFileURL = nil
         wildcardFileURL = nil
     }
 
     func testProjectPathWhenSpecifiesCorrectFilePath() throws {
-        let fileReader = XcodeProjectFileReader(path: fileURL)
-        XCTAssertEqual(fileReader.projectPath, fileURL)
+        let fileReader = XcodeProjectFileReader(path: projectFileURL)
+        XCTAssertEqual(fileReader.projectPath, projectFileURL)
     }
 
     func testProjectPathWhenSpecifiesWildcard() throws {
         let fileReader = XcodeProjectFileReader(path: wildcardFileURL)
-        XCTAssertEqual(fileReader.projectPath, fileURL)
+        XCTAssertEqual(fileReader.projectPath, projectFileURL)
     }
 
     func testReadNotNil() throws {
-        let fileReader = XcodeProjectFileReader(path: fileURL)
+        let fileReader = XcodeProjectFileReader(path: projectFileURL)
         XCTAssertNotNil(try fileReader.read())
     }
 
     func testReadPackageResolved() throws {
-        let fileReader = XcodeProjectFileReader(path: fileURL)
+        let fileReader = XcodeProjectFileReader(path: projectFileURL)
         let expected = #"""
         {
           "object": {
@@ -110,6 +110,39 @@ class XcodeProjectFileReaderTests: XCTestCase {
         XCTAssertEqual(
             try fileReader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
             expected.trimmingCharacters(in: .whitespacesAndNewlines)
+        )
+    }
+
+    /// Test Xcode update either xcodeproj one or the other one.
+    ///
+    /// The problem is occured when developer adds additional xcworkspace from the middle of project processt.
+    /// Licenses should be latest, but this behaviour cause unlisted OSS software.
+    @available(OSX 10.14, *)
+    func testTwoDifferentPackageResolvedAreExist() throws {
+        let projectXcworkspacePackageResolvedFileURL = projectFileURL!
+            .appendingPathComponent("project.xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
+
+        let cocoapodsXcworkspacePackageResolvedFIleURL = projectFileURL
+            .deletingPathExtension()
+            .appendingPathExtension("xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
+
+        let fileManager = FileManager()
+
+        let projectPackageResolvedFileAttributes = try fileManager.attributesOfItem(atPath: projectXcworkspacePackageResolvedFileURL.url.absoluteString)
+        let cocoapodPackageResolvedFileAttributes = try fileManager.attributesOfItem(atPath: cocoapodsXcworkspacePackageResolvedFIleURL.url.absoluteString)
+
+        // FileAttributeKey
+        // https://developer.apple.com/documentation/foundation/fileattributekey
+
+        XCTAssertNotEqual(
+            try XCTUnwrap(projectPackageResolvedFileAttributes[.modificationDate] as? Date),
+            try XCTUnwrap(cocoapodPackageResolvedFileAttributes[.modificationDate] as? Date)
         )
     }
 

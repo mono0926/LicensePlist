@@ -34,7 +34,15 @@ class TestUtil {
 extension URL {
 
     var fileURL: URL {
-        return URL(fileURLWithPath: self.absoluteString)
+        var components = URLComponents(string: self.absoluteString)!
+        components.scheme = "file:///"
+        return components.url!
+    }
+
+    var url: URL {
+        var components = URLComponents(string: self.absoluteString)!
+        components.scheme = nil
+        return components.url!
     }
 
 }
