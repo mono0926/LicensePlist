@@ -15,9 +15,12 @@
 		181A7384261BEB880010A791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181A7382261BEB880010A791 /* LaunchScreen.storyboard */; };
 		181A738E261BED020010A791 /* APIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 181A738D261BED020010A791 /* APIKit */; };
 		181A7394261BED2C0010A791 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 181A7393261BED2C0010A791 /* Swinject */; };
+		181A7501261C25AE0010A791 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 181A7500261C25AE0010A791 /* Kingfisher */; };
+		DEA2D016D17021DD0BE94AE8 /* Pods_SwiftPackageManagerTestProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D264460E93BB4CD0E77E02AD /* Pods_SwiftPackageManagerTestProject.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E824DA88D148AACE86EA348 /* Pods-SwiftPackageManagerTestProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftPackageManagerTestProject.debug.xcconfig"; path = "Target Support Files/Pods-SwiftPackageManagerTestProject/Pods-SwiftPackageManagerTestProject.debug.xcconfig"; sourceTree = "<group>"; };
 		181A7374261BEB870010A791 /* SwiftPackageManagerTestProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftPackageManagerTestProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		181A7377261BEB870010A791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		181A7379261BEB870010A791 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +29,8 @@
 		181A7380261BEB880010A791 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		181A7383261BEB880010A791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		181A7385261BEB880010A791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E8FAAB559E7E08FCBB3B3D2 /* Pods-SwiftPackageManagerTestProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftPackageManagerTestProject.release.xcconfig"; path = "Target Support Files/Pods-SwiftPackageManagerTestProject/Pods-SwiftPackageManagerTestProject.release.xcconfig"; sourceTree = "<group>"; };
+		D264460E93BB4CD0E77E02AD /* Pods_SwiftPackageManagerTestProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftPackageManagerTestProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,8 +38,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				181A7501261C25AE0010A791 /* Kingfisher in Frameworks */,
 				181A738E261BED020010A791 /* APIKit in Frameworks */,
 				181A7394261BED2C0010A791 /* Swinject in Frameworks */,
+				DEA2D016D17021DD0BE94AE8 /* Pods_SwiftPackageManagerTestProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +53,8 @@
 			children = (
 				181A7376261BEB870010A791 /* SwiftPackageManagerTestProject */,
 				181A7375261BEB870010A791 /* Products */,
+				457D5F9A8DBFE8564B9EFD4A /* Pods */,
+				A8A5C05B0578E01CF9FDE92D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +80,23 @@
 			path = SwiftPackageManagerTestProject;
 			sourceTree = "<group>";
 		};
+		457D5F9A8DBFE8564B9EFD4A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0E824DA88D148AACE86EA348 /* Pods-SwiftPackageManagerTestProject.debug.xcconfig */,
+				1E8FAAB559E7E08FCBB3B3D2 /* Pods-SwiftPackageManagerTestProject.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A8A5C05B0578E01CF9FDE92D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D264460E93BB4CD0E77E02AD /* Pods_SwiftPackageManagerTestProject.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -78,6 +104,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 181A7388261BEB880010A791 /* Build configuration list for PBXNativeTarget "SwiftPackageManagerTestProject" */;
 			buildPhases = (
+				851DDC7A17B1A42CB6B9F644 /* [CP] Check Pods Manifest.lock */,
 				181A7370261BEB870010A791 /* Sources */,
 				181A7371261BEB870010A791 /* Frameworks */,
 				181A7372261BEB870010A791 /* Resources */,
@@ -90,6 +117,7 @@
 			packageProductDependencies = (
 				181A738D261BED020010A791 /* APIKit */,
 				181A7393261BED2C0010A791 /* Swinject */,
+				181A7500261C25AE0010A791 /* Kingfisher */,
 			);
 			productName = SwiftPackageManagerTestProject;
 			productReference = 181A7374261BEB870010A791 /* SwiftPackageManagerTestProject.app */;
@@ -122,6 +150,7 @@
 				181A738C261BED020010A791 /* XCRemoteSwiftPackageReference "APIKit" */,
 				181A7390261BED140010A791 /* XCRemoteSwiftPackageReference "R" */,
 				181A7392261BED2C0010A791 /* XCRemoteSwiftPackageReference "Swinject" */,
+				181A74FF261C25AE0010A791 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 181A7375261BEB870010A791 /* Products */;
 			projectDirPath = "";
@@ -144,6 +173,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		851DDC7A17B1A42CB6B9F644 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwiftPackageManagerTestProject-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		181A7370261BEB870010A791 /* Sources */ = {
@@ -296,6 +350,7 @@
 		};
 		181A7389261BEB880010A791 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E824DA88D148AACE86EA348 /* Pods-SwiftPackageManagerTestProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -314,6 +369,7 @@
 		};
 		181A738A261BEB880010A791 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E8FAAB559E7E08FCBB3B3D2 /* Pods-SwiftPackageManagerTestProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -378,6 +434,14 @@
 				minimumVersion = 2.7.1;
 			};
 		};
+		181A74FF261C25AE0010A791 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.2.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -390,6 +454,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 181A7392261BED2C0010A791 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		181A7500261C25AE0010A791 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 181A74FF261C25AE0010A791 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
