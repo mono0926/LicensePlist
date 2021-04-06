@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		181A737F261BEB870010A791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181A737D261BEB870010A791 /* Main.storyboard */; };
 		181A7381261BEB880010A791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 181A7380261BEB880010A791 /* Assets.xcassets */; };
 		181A7384261BEB880010A791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181A7382261BEB880010A791 /* LaunchScreen.storyboard */; };
+		181A738E261BED020010A791 /* APIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 181A738D261BED020010A791 /* APIKit */; };
+		181A7394261BED2C0010A791 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 181A7393261BED2C0010A791 /* Swinject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				181A738E261BED020010A791 /* APIKit in Frameworks */,
+				181A7394261BED2C0010A791 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,10 @@
 			dependencies = (
 			);
 			name = SwiftPackageManagerTestProject;
+			packageProductDependencies = (
+				181A738D261BED020010A791 /* APIKit */,
+				181A7393261BED2C0010A791 /* Swinject */,
+			);
 			productName = SwiftPackageManagerTestProject;
 			productReference = 181A7374261BEB870010A791 /* SwiftPackageManagerTestProject.app */;
 			productType = "com.apple.product-type.application";
@@ -110,6 +118,11 @@
 				Base,
 			);
 			mainGroup = 181A736B261BEB870010A791;
+			packageReferences = (
+				181A738C261BED020010A791 /* XCRemoteSwiftPackageReference "APIKit" */,
+				181A7390261BED140010A791 /* XCRemoteSwiftPackageReference "R" */,
+				181A7392261BED2C0010A791 /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			productRefGroup = 181A7375261BEB870010A791 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -339,6 +352,46 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		181A738C261BED020010A791 /* XCRemoteSwiftPackageReference "APIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ishkawa/APIKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.0;
+			};
+		};
+		181A7390261BED140010A791 /* XCRemoteSwiftPackageReference "R" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-cain13/R.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
+		181A7392261BED2C0010A791 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		181A738D261BED020010A791 /* APIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 181A738C261BED020010A791 /* XCRemoteSwiftPackageReference "APIKit" */;
+			productName = APIKit;
+		};
+		181A7393261BED2C0010A791 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 181A7392261BED2C0010A791 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 181A736C261BEB870010A791 /* Project object */;
 }
