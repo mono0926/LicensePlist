@@ -37,7 +37,7 @@ struct XcodeProjectFileReader: FileReader {
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
         if packageResolvedPath.lp.isExists {
-            return readSwiftPackages(path: packageResolvedPath)
+            return try SwiftPackageFileReader(path: packageResolvedPath).read()
         } else {
             let packageResolvedPath = validatedPath
             .deletingPathExtension()
@@ -45,7 +45,7 @@ struct XcodeProjectFileReader: FileReader {
             .appendingPathComponent("xcshareddata")
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
-            return readSwiftPackages(path: packageResolvedPath)
+            return try SwiftPackageFileReader(path: packageResolvedPath).read()
         }
     }
 
