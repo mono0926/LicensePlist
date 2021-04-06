@@ -26,7 +26,27 @@ struct XcodeProjectFileReader: FileReader {
     }
 
     func read() -> String? {
-        return nil
+        guard let validatedPath = projectPath else { return nil }
+
+        if validatedPath.pathExtension != Consts.xcodeprojExtension {
+            return nil
+        }
+        let packageResolvedPath = validatedPath
+            .appendingPathComponent("project.xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
+        if packageResolvedPath.lp.isExists {
+            return readSwiftPackages(path: packageResolvedPath)
+        } else {
+            let packageResolvedPath = validatedPath
+            .deletingPathExtension()
+            .appendingPathExtension("xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
+            return readSwiftPackages(path: packageResolvedPath)
+        }
     }
 
 }

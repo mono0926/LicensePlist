@@ -44,7 +44,7 @@ private func readMintfile(path: URL) -> GitHubLibraryConfigFile {
     return .mint(content: path.lp.read())
 }
 
-private func readSwiftPackages(path: URL) -> String? {
+func readSwiftPackages(path: URL) -> String? {
     if path.lastPathComponent != Consts.packageName && path.lastPathComponent != "Package.resolved" {
         fatalError("Invalid Package.swift name: \(path.lastPathComponent)")
     }
