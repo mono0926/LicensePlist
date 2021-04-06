@@ -112,7 +112,7 @@ class SwiftPackageFileReaderTests: XCTestCase {
 
     func testPackageSwift() throws {
         // Path for this package's Package.swift.
-        let packageSwiftPath = TestUtil.sourceDir.appendingPathComponent("Package.swift").fileURL
+        let packageSwiftPath = TestUtil.sourceDir.appendingPathComponent("Package.swift").lp.fileURL
         let reader = SwiftPackageFileReader(path: packageSwiftPath)
         XCTAssertEqual(
             try reader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -122,7 +122,7 @@ class SwiftPackageFileReaderTests: XCTestCase {
 
     func testPackageResolved() throws {
         // Path for this package's Package.resolved.
-        let packageResolvedPath = TestUtil.sourceDir.appendingPathComponent("Package.resolved").fileURL
+        let packageResolvedPath = TestUtil.sourceDir.appendingPathComponent("Package.resolved").lp.fileURL
         let reader = SwiftPackageFileReader(path: packageResolvedPath)
         XCTAssertEqual(
             try reader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),

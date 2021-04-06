@@ -117,7 +117,6 @@ class XcodeProjectFileReaderTests: XCTestCase {
     ///
     /// The problem is occured when developer adds additional xcworkspace from the middle of project processt.
     /// Licenses should be latest, but this behaviour cause unlisted OSS software.
-    @available(OSX 10.14, *)
     func testTwoDifferentPackageResolvedAreExist() throws {
         let projectXcworkspacePackageResolvedFileURL = projectFileURL!
             .appendingPathComponent("project.xcworkspace")
@@ -132,18 +131,19 @@ class XcodeProjectFileReaderTests: XCTestCase {
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
 
-        let fileManager = FileManager()
 
-        let projectPackageResolvedFileAttributes = try fileManager.attributesOfItem(atPath: projectXcworkspacePackageResolvedFileURL.url.absoluteString)
-        let cocoapodPackageResolvedFileAttributes = try fileManager.attributesOfItem(atPath: cocoapodsXcworkspacePackageResolvedFIleURL.url.absoluteString)
+        // URLResourceKey
+        // https://developer.apple.com/documentation/foundation/urlresourcekey
 
-        // FileAttributeKey
-        // https://developer.apple.com/documentation/foundation/fileattributekey
+        let projectPackageResolvedFileModificationDate = try projectXcworkspacePackageResolvedFileURL
+            .resourceValues(forKeys: [.attributeModificationDateKey])
+            .attributeModificationDate
 
-        XCTAssertNotEqual(
-            try XCTUnwrap(projectPackageResolvedFileAttributes[.modificationDate] as? Date),
-            try XCTUnwrap(cocoapodPackageResolvedFileAttributes[.modificationDate] as? Date)
-        )
+        let cocoapodPackageResolvedFileModificationDate = try cocoapodsXcworkspacePackageResolvedFIleURL
+            .resourceValues(forKeys: [.attributeModificationDateKey])
+            .attributeModificationDate
+
+        XCTAssertNotEqual(projectPackageResolvedFileModificationDate, cocoapodPackageResolvedFileModificationDate)
     }
 
 }
