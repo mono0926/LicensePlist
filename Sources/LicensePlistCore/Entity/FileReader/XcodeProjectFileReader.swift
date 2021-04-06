@@ -25,7 +25,7 @@ struct XcodeProjectFileReader: FileReader {
         }
     }
 
-    func read() -> String? {
+    func read() throws -> String? {
         guard let validatedPath = projectPath else { return nil }
 
         if validatedPath.pathExtension != Consts.xcodeprojExtension {

@@ -49,7 +49,7 @@ class XcodeProjectFileReaderTests: XCTestCase {
 
     func testReadNotNil() throws {
         let fileReader = XcodeProjectFileReader(path: fileURL)
-        XCTAssertNotNil(fileReader.read())
+        XCTAssertNotNil(try fileReader.read())
     }
 
     func testReadPackageResolved() throws {
@@ -118,7 +118,7 @@ class XcodeProjectFileReaderTests: XCTestCase {
         }
         """#
         XCTAssertEqual(
-            fileReader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
+            try fileReader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
             expected.trimmingCharacters(in: .whitespacesAndNewlines)
         )
     }

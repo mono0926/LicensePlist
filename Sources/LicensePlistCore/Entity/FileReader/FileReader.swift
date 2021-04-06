@@ -17,6 +17,6 @@ protocol FileReader {
     var path: URL { get }
 
     /// Returns a concrete result by reading a file which the given path specifies.
-    func read() -> ResultType
+    func read() throws -> ResultType
 
 }
