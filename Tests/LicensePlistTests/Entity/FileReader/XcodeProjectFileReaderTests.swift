@@ -11,22 +11,12 @@ import XCTest
 @available(OSX 10.11, *)
 class XcodeProjectFileReaderTests: XCTestCase {
 
-    var testURLBase: URL!
     var fileURL: URL!
     var wildcardFileURL: URL!
 
     override func setUpWithError() throws {
-        let testFilePath = #file
-
-        // The url deeply depends on this file location and XcodeProjects location. If any fix will be added, please fix this baseURL.
-        let baseURL = URL(string: testFilePath)!
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .appendingPathComponent("XcodeProjects")
-
-        fileURL = URL(fileURLWithPath: "\(baseURL)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj")
-        wildcardFileURL = URL(fileURLWithPath: "\(baseURL)/SwiftPackageManagerTestProject/*")
+        fileURL = URL(fileURLWithPath: "\(TestUtil.testProjectsPath)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj")
+        wildcardFileURL = URL(fileURLWithPath: "\(TestUtil.testProjectsPath)/SwiftPackageManagerTestProject/*")
 
         print("fileURL: \(String(describing: fileURL))")
         print("wildcardURL: \(String(describing: wildcardFileURL))")

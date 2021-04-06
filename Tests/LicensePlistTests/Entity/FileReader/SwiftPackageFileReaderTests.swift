@@ -10,24 +10,7 @@ import XCTest
 
 class SwiftPackageFileReaderTests: XCTestCase {
 
-    var testURLBase: URL!
     var fileURL: URL!
-
-    var sourceDir: URL {
-        return URL(string: #file)!
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-    }
-
-    var testProjectsPath: URL {
-        return sourceDir
-            .appendingPathComponent("Tests")
-            .appendingPathComponent("LicensePlistTests")
-            .appendingPathComponent("XcodeProjects")
-    }
 
     var packageResolvedText: String {
         return #"""
@@ -114,8 +97,11 @@ class SwiftPackageFileReaderTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
-        // The url deeply depends on this file location and XcodeProjects location. If any fix will be added, please fix this baseURL.
-        fileURL = URL(fileURLWithPath: "\(testProjectsPath)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
+        fileURL = URL(fileURLWithPath: "\(TestUtil.testProjectsPath)/SwiftPackageManagerTestProject/SwiftPackageManagerTestProject.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
+    }
+
+    override func tearDownWithError() throws {
+        fileURL = nil
     }
 
     func testInvalidPath() throws {
@@ -126,7 +112,7 @@ class SwiftPackageFileReaderTests: XCTestCase {
 
     func testPackageSwift() throws {
         // Path for this package's Package.swift.
-        let packageSwiftPath = sourceDir.appendingPathComponent("Package.swift").fileURL
+        let packageSwiftPath = TestUtil.sourceDir.appendingPathComponent("Package.swift").fileURL
         let reader = SwiftPackageFileReader(path: packageSwiftPath)
         XCTAssertEqual(
             try reader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -136,7 +122,7 @@ class SwiftPackageFileReaderTests: XCTestCase {
 
     func testPackageResolved() throws {
         // Path for this package's Package.resolved.
-        let packageResolvedPath = sourceDir.appendingPathComponent("Package.resolved").fileURL
+        let packageResolvedPath = TestUtil.sourceDir.appendingPathComponent("Package.resolved").fileURL
         let reader = SwiftPackageFileReader(path: packageResolvedPath)
         XCTAssertEqual(
             try reader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -144,11 +130,4 @@ class SwiftPackageFileReaderTests: XCTestCase {
         )
     }
 
-}
-
-extension URL {
-
-    var fileURL: URL {
-        return URL(fileURLWithPath: self.absoluteString)
-    }
 }
