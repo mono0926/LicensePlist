@@ -7,13 +7,14 @@
 
 import Foundation
 
-/// An object that reads a  xcodeproj file.
+/// An object that reads a xcodeproj file.
 struct XcodeProjectFileReader: FileReader {
 
     typealias ResultType = String?
 
     let path: URL
 
+    /// The path which specifies "xcodeproj" file.
     var projectPath: URL? {
         if path.lastPathComponent.contains("*") {
             // find first "xcodeproj" in directory
