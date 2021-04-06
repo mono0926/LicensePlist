@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 /// An object that reads a xcodeproj file.
 struct XcodeProjectFileReader: FileReader {
 
@@ -31,21 +32,53 @@ struct XcodeProjectFileReader: FileReader {
         if validatedPath.pathExtension != Consts.xcodeprojExtension {
             return nil
         }
-        let packageResolvedPath = validatedPath
+
+        let xcodeprojPackageResolvedPath = validatedPath
             .appendingPathComponent("project.xcworkspace")
             .appendingPathComponent("xcshareddata")
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
-        if packageResolvedPath.lp.isExists {
-            return try SwiftPackageFileReader(path: packageResolvedPath).read()
-        } else {
-            let packageResolvedPath = validatedPath
+
+        let xcworkspacePackageResolvedPath = validatedPath
             .deletingPathExtension()
             .appendingPathExtension("xcworkspace")
             .appendingPathComponent("xcshareddata")
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
-            return try SwiftPackageFileReader(path: packageResolvedPath).read()
+
+        let defaultPath = xcworkspacePackageResolvedPath
+
+        /*
+         Xcode only update one Package.resolved that associated with workspace you work in. so, the files may be inconsistent at any time.
+         This implementation compare modificationDate and use new one to avoid referring old Package.resolved.
+         */
+        switch (xcodeprojPackageResolvedPath.lp.isExists, xcworkspacePackageResolvedPath.lp.isExists) {
+        case (true, true):
+            guard
+                let xcodeprojPackageResolvedModifiedDate = try xcodeprojPackageResolvedPath
+                    .resourceValues(forKeys: [.attributeModificationDateKey])
+                    .attributeModificationDate,
+                let xcworkspacePackageResolveModifiedDate = try xcworkspacePackageResolvedPath
+                    .resourceValues(forKeys: [.attributeModificationDateKey])
+                    .attributeModificationDate
+            else {
+                return try SwiftPackageFileReader(path: defaultPath).read()
+            }
+
+            if xcworkspacePackageResolveModifiedDate >= xcodeprojPackageResolvedModifiedDate {
+                return try SwiftPackageFileReader(path: xcworkspacePackageResolvedPath).read()
+            } else {
+                return try SwiftPackageFileReader(path: xcodeprojPackageResolvedPath).read()
+            }
+
+        case (true, false):
+            return try SwiftPackageFileReader(path: xcodeprojPackageResolvedPath).read()
+
+        case (false, true):
+            return try SwiftPackageFileReader(path: xcworkspacePackageResolvedPath).read()
+
+        case (false, false):
+            return try SwiftPackageFileReader(path: defaultPath).read()
         }
     }
 
