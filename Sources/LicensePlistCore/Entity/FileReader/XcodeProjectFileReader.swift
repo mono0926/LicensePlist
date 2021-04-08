@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /// An object that reads a xcodeproj file.
 struct XcodeProjectFileReader: FileReader {
 

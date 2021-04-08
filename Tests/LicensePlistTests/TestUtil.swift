@@ -3,7 +3,7 @@ import LoggerAPI
 @testable import LicensePlistCore
 
 class TestUtil {
-    
+
     static func setGitHubToken() {
         // Specify your `github_token.txt` location
         let url = URL(fileURLWithPath: "/Users/mono/Git/LicensePlist/Tests/LicensePlistTests/Resources/github_token.txt")

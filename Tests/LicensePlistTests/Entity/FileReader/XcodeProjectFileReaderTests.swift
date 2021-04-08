@@ -193,7 +193,6 @@ class XcodeProjectFileReaderTests: XCTestCase {
         )
     }
 
-
     /// Test Xcode update either xcodeproj one or the other one.
     ///
     /// The problem is occured when developer adds additional xcworkspace from the middle of project processt.
@@ -211,7 +210,6 @@ class XcodeProjectFileReaderTests: XCTestCase {
             .appendingPathComponent("xcshareddata")
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
-
 
         // URLResourceKey
         // https://developer.apple.com/documentation/foundation/urlresourcekey
