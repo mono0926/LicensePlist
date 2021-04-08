@@ -22,6 +22,13 @@ class TestUtil {
             .deletingLastPathComponent()
     }
 
+    static var testResourceDir: URL {
+        return sourceDir
+            .appendingPathComponent("Tests")
+            .appendingPathComponent("LicensePlistTests")
+            .appendingPathComponent("Resources")
+    }
+
     static var testProjectsPath: URL {
         return sourceDir
             .appendingPathComponent("Tests")

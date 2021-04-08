@@ -44,153 +44,16 @@ class XcodeProjectFileReaderTests: XCTestCase {
 
     func testOldPackageResolvedNotUsed() throws {
         let fileReader = XcodeProjectFileReader(path: projectFileURL)
-        let expected = #"""
-        {
-          "object": {
-            "pins": [
-              {
-                "package": "APIKit",
-                "repositoryURL": "https://github.com/ishkawa/APIKit",
-                "state": {
-                  "branch": null,
-                  "revision": "c8f5320d84c4c34c0fd965da3c7957819a1ccdd4",
-                  "version": "5.2.0"
-                }
-              },
-              {
-                "package": "Commander",
-                "repositoryURL": "https://github.com/kylef/Commander.git",
-                "state": {
-                  "branch": null,
-                  "revision": "4b6133c3071d521489a80c38fb92d7983f19d438",
-                  "version": "0.9.1"
-                }
-              },
-              {
-                "package": "rswift",
-                "repositoryURL": "https://github.com/mac-cain13/R.swift",
-                "state": {
-                  "branch": null,
-                  "revision": "18ad905c6f8f0865042e1d1ee4effc7291aa899d",
-                  "version": "5.4.0"
-                }
-              },
-              {
-                "package": "Spectre",
-                "repositoryURL": "https://github.com/kylef/Spectre.git",
-                "state": {
-                  "branch": null,
-                  "revision": "f79d4ecbf8bc4e1579fbd86c3e1d652fb6876c53",
-                  "version": "0.9.2"
-                }
-              },
-              {
-                "package": "Swinject",
-                "repositoryURL": "https://github.com/Swinject/Swinject",
-                "state": {
-                  "branch": null,
-                  "revision": "8a76d2c74bafbb455763487cc6a08e91bad1f78b",
-                  "version": "2.7.1"
-                }
-              },
-              {
-                "package": "XcodeEdit",
-                "repositoryURL": "https://github.com/tomlokhorst/XcodeEdit",
-                "state": {
-                  "branch": null,
-                  "revision": "dab519997ca05833470c88f0926b27498911ecbf",
-                  "version": "2.7.7"
-                }
-              }
-            ]
-          },
-          "version": 1
-        }
-        """#
-        XCTAssertNotEqual(
-            try fileReader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
-            expected.trimmingCharacters(in: .whitespacesAndNewlines)
-        )
+        let data = try Data(contentsOf: TestUtil.testResourceDir.appendingPathComponent("OldExpectedPackage.resolved").lp.fileURL)
+        let oldExpectedPackageResolved = try XCTUnwrap(String(data: data, encoding: .utf8))
+        XCTAssertNotEqual(try fileReader.read(), oldExpectedPackageResolved)
     }
 
     func testNewPackageResolvedUsed() throws {
         let fileReader = XcodeProjectFileReader(path: projectFileURL)
-        let expected = #"""
-        {
-          "object": {
-            "pins": [
-              {
-                "package": "APIKit",
-                "repositoryURL": "https://github.com/ishkawa/APIKit",
-                "state": {
-                  "branch": null,
-                  "revision": "c8f5320d84c4c34c0fd965da3c7957819a1ccdd4",
-                  "version": "5.2.0"
-                }
-              },
-              {
-                "package": "Commander",
-                "repositoryURL": "https://github.com/kylef/Commander.git",
-                "state": {
-                  "branch": null,
-                  "revision": "4b6133c3071d521489a80c38fb92d7983f19d438",
-                  "version": "0.9.1"
-                }
-              },
-              {
-                "package": "Kingfisher",
-                "repositoryURL": "https://github.com/onevcat/Kingfisher",
-                "state": {
-                  "branch": null,
-                  "revision": "bbc4bc4def7eb05a7ba8e1219f80ee9be327334e",
-                  "version": "6.2.1"
-                }
-              },
-              {
-                "package": "rswift",
-                "repositoryURL": "https://github.com/mac-cain13/R.swift",
-                "state": {
-                  "branch": null,
-                  "revision": "18ad905c6f8f0865042e1d1ee4effc7291aa899d",
-                  "version": "5.4.0"
-                }
-              },
-              {
-                "package": "Spectre",
-                "repositoryURL": "https://github.com/kylef/Spectre.git",
-                "state": {
-                  "branch": null,
-                  "revision": "f79d4ecbf8bc4e1579fbd86c3e1d652fb6876c53",
-                  "version": "0.9.2"
-                }
-              },
-              {
-                "package": "Swinject",
-                "repositoryURL": "https://github.com/Swinject/Swinject",
-                "state": {
-                  "branch": null,
-                  "revision": "8a76d2c74bafbb455763487cc6a08e91bad1f78b",
-                  "version": "2.7.1"
-                }
-              },
-              {
-                "package": "XcodeEdit",
-                "repositoryURL": "https://github.com/tomlokhorst/XcodeEdit",
-                "state": {
-                  "branch": null,
-                  "revision": "dab519997ca05833470c88f0926b27498911ecbf",
-                  "version": "2.7.7"
-                }
-              }
-            ]
-          },
-          "version": 1
-        }
-        """#
-        XCTAssertEqual(
-            try fileReader.read()?.trimmingCharacters(in: .whitespacesAndNewlines),
-            expected.trimmingCharacters(in: .whitespacesAndNewlines)
-        )
+        let data = try Data(contentsOf: TestUtil.testResourceDir.appendingPathComponent("NewExpectedPackage.resolved").lp.fileURL)
+        let newExpectedPackageResolved = try XCTUnwrap(String(data: data, encoding: .utf8))
+        XCTAssertEqual(try fileReader.read(), newExpectedPackageResolved)
     }
 
     /// Test Xcode update either xcodeproj one or the other one.
