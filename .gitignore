@@ -16,3 +16,4 @@ Pods
 !Pods*.swift
 test_result_dir
 /.history
+Tests/LicensePlistTests/XcodeProjects/**/xcuserdata
