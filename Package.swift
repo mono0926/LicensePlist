@@ -6,19 +6,19 @@ let package = Package(
     name: "LicensePlist",
     products: [
         .executable(name: "license-plist", targets: ["LicensePlist"]),
-        .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),
+        .library(name: "LicensePlistCore", targets: ["LicensePlistCore"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
-                 from: "0.3.2"),
+                 from: "0.3.1"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
-                 from: "5.1.0"),
+                 from: "4.0.0"),
         .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
-                 from: "1.9.200"),
+                 from: "1.8.0"),
         .package(url: "https://github.com/behrang/YamlSwift.git",
-                 from: "3.4.4"),
+                 from: "3.4.0"),
         .package(url: "https://github.com/IBM-Swift/swift-html-entities.git",
-                 from: "3.0.200"),
+                 from: "3.0.0")
     ],
     targets: [
         .target(
@@ -26,7 +26,7 @@ let package = Package(
             dependencies: [
                 "LicensePlistCore",
                 "ArgumentParser",
-                "HeliumLogger",
+                "HeliumLogger"
             ]
         ),
         .target(
@@ -35,9 +35,15 @@ let package = Package(
                 "APIKit",
                 "HeliumLogger",
                 "HTMLEntities",
-                "Yaml",
+                "Yaml"
             ]
         ),
-        .testTarget(name: "LicensePlistTests", dependencies: ["LicensePlistCore"]),
+        .testTarget(
+            name: "LicensePlistTests",
+            dependencies: ["LicensePlistCore"],
+            exclude: [
+                "XcodeProjects"
+            ]
+        )
     ]
 )

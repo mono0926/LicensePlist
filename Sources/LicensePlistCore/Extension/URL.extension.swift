@@ -88,6 +88,9 @@ public extension LicensePlistExtension where Base == URL {
         assertionFailure(message)
         Log.error(message)
     }
+    internal var fileURL: URL {
+        return URL(fileURLWithPath: base.absoluteString)
+    }
 }
 
 protocol HasDefaultValue {

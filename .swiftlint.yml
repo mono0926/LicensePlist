@@ -7,6 +7,9 @@ disabled_rules:
 included:
   - Sources
   - Tests
+  
+excluded:
+  - Tests/LicensePlistTests/XcodeProjects
 
 line_length: 250
 nesting:

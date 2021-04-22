@@ -108,7 +108,7 @@ You can see options by `license-plist --help`.
 #### `--package-path`
 
 - Default: `Package.swift`
-- If you are using Swift Package Manager inside Xcode, you can use `--package-path $PROJECT_FILE_PATH/project.xcworkspace/xcshareddata/swiftpm/Package.swift` inside your `Run script`.
+- `LicensePlist` tries to find `YourProjectName.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` and `YourProjectName.xcworkspace/xcshareddata/swiftpm/Package.resolved`, then uses new one. If you make anothor workspace in custom directory,  you can use `--package-path PathToYourCustomWorkspace/CustomWorkspaceName.xcworkspace/xcshareddata/swiftpm/Package.swift` inside your `Run script`.
 
 #### `--output-path`
 
