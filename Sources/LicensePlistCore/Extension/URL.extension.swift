@@ -1,6 +1,5 @@
 import Foundation
 import LoggerAPI
-import Result
 
 extension URL: LicensePlistCompatible {}
 

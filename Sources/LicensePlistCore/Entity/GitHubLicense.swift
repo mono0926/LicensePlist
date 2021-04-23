@@ -1,6 +1,5 @@
 import LoggerAPI
 import APIKit
-import Result
 
 public struct GitHubLicense: License, Equatable {
     public let library: GitHub
