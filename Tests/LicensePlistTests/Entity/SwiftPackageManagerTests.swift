@@ -6,10 +6,11 @@
 //
 
 import Foundation
-@testable import LicensePlistCore
 import XCTest
+@testable import LicensePlistCore
 
 class SwiftPackageManagerTests: XCTestCase {
+
     func testDecoding() {
         let jsonString = """
             {
@@ -157,5 +158,6 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(packageLast, SwiftPackage(package: "Yaml",
                                                  repositoryURL: "https://github.com/behrang/YamlSwift.git",
                                                  state: SwiftPackage.State(branch: nil, revision: "287f5cab7da0d92eb947b5fd8151b203ae04a9a3", version: "3.4.4")))
+
     }
 }

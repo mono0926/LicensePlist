@@ -17,5 +17,6 @@ struct LicenseMarkdownHolder {
         } catch let e {
             Log.error("Failed to write to (markdownPath: \(markdownPath)).\nerror: \(e)")
         }
+
     }
 }

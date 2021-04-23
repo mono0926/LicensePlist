@@ -6,8 +6,8 @@
 //
 //
 
-import APIKit
 import Foundation
+import APIKit
 
 struct RepoRequests {
     private init() {}
@@ -17,7 +17,7 @@ struct RepoRequests {
         let path: String
         typealias Response = LicenseResponse
         init(owner: String, repo: String) {
-            path = "repos/\(owner)/\(repo)/license"
+            self.path = "repos/\(owner)/\(repo)/license"
         }
     }
 
@@ -33,8 +33,8 @@ struct RepoRequests {
 
 struct LicenseResponse: Decodable {
     enum CodingKeys: String, CodingKey {
-        case content
-        case encoding
+        case content = "content"
+        case encoding = "encoding"
         case kind = "license"
     }
 

@@ -24,18 +24,18 @@ struct DecodableDataParser: DataParser {
     var contentType: String? {
         return "application/json"
     }
-
     func parse(data: Data) throws -> Any {
         return data
     }
 }
 
 extension GitHubRequest where Response: Decodable {
+
     var dataParser: DataParser {
         return DecodableDataParser()
     }
 
-    func response(from object: Any, urlResponse _: HTTPURLResponse) throws -> Response {
+    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> Response {
         guard let data = object as? Data else {
             throw ResponseError.unexpectedObject(object)
         }
@@ -45,4 +45,5 @@ extension GitHubRequest where Response: Decodable {
 
         return try decoder.decode(Response.self, from: data)
     }
+
 }
