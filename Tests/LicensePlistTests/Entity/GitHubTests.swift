@@ -1,8 +1,9 @@
 import Foundation
-@testable import LicensePlistCore
 import XCTest
+@testable import LicensePlistCore
 
 class GitHubTests: XCTestCase {
+
     func testParse_empty() {
         let results = GitHub.load(.carthage(content: "(　´･‿･｀)"))
         XCTAssertTrue(results.isEmpty)

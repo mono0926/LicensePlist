@@ -1,6 +1,6 @@
 import Foundation
-@testable import LicensePlistCore
 import XCTest
+@testable import LicensePlistCore
 
 class LicenseTests: XCTestCase {
     func testBodyEscaped() {

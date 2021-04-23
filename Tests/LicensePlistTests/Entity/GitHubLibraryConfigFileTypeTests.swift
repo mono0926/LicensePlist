@@ -1,7 +1,8 @@
-@testable import LicensePlistCore
 import XCTest
+@testable import LicensePlistCore
 
 class GitHubLibraryConfigFileTypeTests: XCTestCase {
+
     func testRegexString() {
         // carthage
         do {

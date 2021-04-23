@@ -1,6 +1,6 @@
 import Foundation
-@testable import LicensePlistCore
 import XCTest
+@testable import LicensePlistCore
 
 class LicensePlistHolderTests: XCTestCase {
     func testLoad_empty() {
@@ -10,7 +10,6 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertTrue(rootItems.isEmpty)
         XCTAssertTrue(items.isEmpty)
     }
-
     func testLoad_one() {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
@@ -34,7 +33,6 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(item1_1["Type"], "PSGroupSpecifier")
         XCTAssertEqual(item1_1["FooterText"], "\'<body>")
     }
-
     func testLoad_allToRoot() {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
@@ -49,7 +47,6 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(rootItems1["Title"], "name")
         XCTAssertEqual(rootItems1["FooterText"], "'<body>")
     }
-
     func testLoad_splitByHorizontalLine() {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let firstPart = "1\n2\n\n3\n---"

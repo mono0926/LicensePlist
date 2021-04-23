@@ -1,15 +1,16 @@
 import Foundation
 import LoggerAPI
+import Result
 
 extension URL: LicensePlistCompatible {}
 
 extension LicensePlistExtension where Base == URL {
-    func download() -> ResultOperation<String, Error> {
-        let operation = ResultOperation<String, Error> { _ in
+    func download() -> ResultOperation<String, NSError> {
+        let operation =  ResultOperation<String, NSError> { _ in
             do {
-                return Result(catching: {
-                    try String(contentsOf: self.base)
-                })
+                return Result(value: try String(contentsOf: self.base))
+            } catch let e {
+                return Result(error: e as NSError)
             }
         }
         return operation
@@ -17,16 +18,17 @@ extension LicensePlistExtension where Base == URL {
 }
 
 private let fm = FileManager.default
-public extension LicensePlistExtension where Base == URL {
-    var isExists: Bool { return fm.fileExists(atPath: base.path) }
+extension LicensePlistExtension where Base == URL {
 
-    var isDirectory: Bool {
+    public var isExists: Bool { return fm.fileExists(atPath: base.path) }
+
+    public var isDirectory: Bool {
         var result: ObjCBool = false
         fm.fileExists(atPath: base.path, isDirectory: &result)
         return result.boolValue
     }
 
-    func read() -> String? {
+    public func read() -> String? {
         if !isExists {
             Log.warning("Not found: \(base).")
             return nil
@@ -36,13 +38,13 @@ public extension LicensePlistExtension where Base == URL {
         }
     }
 
-    func write(content: String) {
+    public func write(content: String) {
         return run {
             try content.write(to: base, atomically: false, encoding: Consts.encoding)
         }
     }
 
-    func deleteIfExits() -> Bool {
+    public func deleteIfExits() -> Bool {
         if !isExists {
             return false
         }
@@ -52,7 +54,7 @@ public extension LicensePlistExtension where Base == URL {
         }
     }
 
-    func createDirectory(withIntermediateDirectories: Bool = true) {
+    public func createDirectory(withIntermediateDirectories: Bool = true) {
         return run {
             try fm.createDirectory(at: base,
                                    withIntermediateDirectories: withIntermediateDirectories,
@@ -60,7 +62,7 @@ public extension LicensePlistExtension where Base == URL {
         }
     }
 
-    func listDir() -> [URL] {
+    public func listDir() -> [URL] {
         return getResultOrDefault {
             try fm.contentsOfDirectory(at: base, includingPropertiesForKeys: nil, options: [])
         }
@@ -74,7 +76,6 @@ public extension LicensePlistExtension where Base == URL {
             return T.default
         }
     }
-
     private func run(closure: () throws -> Void) {
         do {
             try closure()
@@ -82,7 +83,6 @@ public extension LicensePlistExtension where Base == URL {
             handle(error: e)
         }
     }
-
     private func handle(error: Error) {
         let message = String(describing: error)
         assertionFailure(message)

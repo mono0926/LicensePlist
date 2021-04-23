@@ -1,8 +1,9 @@
 import Foundation
-@testable import LicensePlistCore
 import XCTest
+@testable import LicensePlistCore
 
 class VersionInfoTests: XCTestCase {
+
     func testInit_empty() {
         let results = VersionInfo(podsManifest: "(　´･‿･｀)")
         XCTAssertTrue(results.dictionary.isEmpty)
