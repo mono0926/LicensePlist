@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Consts {
+public enum Consts {
     public static let cartfileName = "Cartfile"
     public static let mintfileName = "Mintfile"
     public static let podsDirectoryName = "Pods"

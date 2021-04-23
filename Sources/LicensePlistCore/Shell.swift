@@ -1,7 +1,6 @@
 import Foundation
 
 struct Shell {
-
     @discardableResult
     static func execute(_ args: String...) -> Int32 {
         let task = Process()

@@ -1,5 +1,5 @@
-import Foundation
 import APIKit
+import Foundation
 import LoggerAPI
 
 public struct GitHub: Library {
@@ -9,8 +9,8 @@ public struct GitHub: Library {
     public let version: String?
 }
 
-extension GitHub {
-    public static func==(lhs: GitHub, rhs: GitHub) -> Bool {
+public extension GitHub {
+    static func== (lhs: GitHub, rhs: GitHub) -> Bool {
         return lhs.name == rhs.name &&
             lhs.nameSpecified == rhs.nameSpecified &&
             lhs.owner == rhs.owner &&
@@ -35,7 +35,8 @@ extension GitHub {
 
     private static func load(_ file: GitHubLibraryConfigFile,
                              renames: [String: String],
-                             version: Bool = false) -> [GitHub] {
+                             version: Bool = false) -> [GitHub]
+    {
         guard let content = file.content else { return [] }
         let regexString = file.type.regexString(version: version)
         let regex = try! NSRegularExpression(pattern: regexString, options: [])
@@ -61,7 +62,7 @@ extension GitHub {
                           nameSpecified: renames[name],
                           owner: nsContent.substring(with: match.range(at: 1)),
                           version: version)
-            }
-            .compactMap { $0 }
+        }
+        .compactMap { $0 }
     }
 }

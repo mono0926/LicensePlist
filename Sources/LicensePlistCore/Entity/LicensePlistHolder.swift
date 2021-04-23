@@ -8,9 +8,9 @@ struct LicensePlistHolder {
         let rootItems: [[String: String]] = {
             guard !licenses.isEmpty else { return [] }
             return [["Type": "PSGroupSpecifier", "Title": "Licenses"]] + licenses.map { license in
-                return ["Type": "PSChildPaneSpecifier",
-                        "Title": license.name(withVersion: options.config.addVersionNumbers),
-                        "File": "\(options.prefix)/\(license.name)"]
+                ["Type": "PSChildPaneSpecifier",
+                 "Title": license.name(withVersion: options.config.addVersionNumbers),
+                 "File": "\(options.prefix)/\(license.name)"]
             }
         }()
         let root = try! PropertyListSerialization.data(fromPropertyList: ["PreferenceSpecifiers": rootItems],
@@ -19,19 +19,18 @@ struct LicensePlistHolder {
         let items: [(LicenseInfo, Data)] = licenses.map { license in
             let lineRegex = try! NSRegularExpression(pattern: "^\\s*[-_*=]{3,}\\s*$", options: [])
             let item = ["PreferenceSpecifiers":
-                            license.body
-                            .components(separatedBy: "\n\n")
-                            .split(whereSeparator: { (possibleHorizontalLine) -> Bool in
-                                lineRegex.firstMatch(in: possibleHorizontalLine, options: [], range: NSRange(location: 0, length: possibleHorizontalLine.count)) != nil
-                            })
-                            .map { parts in
-                                [parts.joined(separator: "\n\n")]
-                            }
-                            .joined(separator: [String(repeating: "-", count: 40)])
-                            .map { (paragraph) -> [String: String] in
-                                ["Type": "PSGroupSpecifier", "FooterText": paragraph]
-                            }
-            ]
+                license.body
+                .components(separatedBy: "\n\n")
+                .split(whereSeparator: { (possibleHorizontalLine) -> Bool in
+                    lineRegex.firstMatch(in: possibleHorizontalLine, options: [], range: NSRange(location: 0, length: possibleHorizontalLine.count)) != nil
+                })
+                .map { parts in
+                    [parts.joined(separator: "\n\n")]
+                }
+                .joined(separator: [String(repeating: "-", count: 40)])
+                .map { (paragraph) -> [String: String] in
+                    ["Type": "PSGroupSpecifier", "FooterText": paragraph]
+                }]
             let value = try! PropertyListSerialization.data(fromPropertyList: item, format: .xml, options: 0)
             return (license, value)
         }
@@ -43,10 +42,9 @@ struct LicensePlistHolder {
             guard !licenses.isEmpty else { return [] }
             let body = licenses
                 .compactMap { lincense in
-                    return ["Type": "PSGroupSpecifier",
-                            "Title": lincense.name,
-                            "FooterText": lincense.body
-                            ]
+                    ["Type": "PSGroupSpecifier",
+                     "Title": lincense.name,
+                     "FooterText": lincense.body]
                 }
             return body
         }()
@@ -64,6 +62,7 @@ struct LicensePlistHolder {
         }
         return (root: root, items: items)
     }
+
     func write(to rootPath: URL, itemsPath: URL) {
         do {
             try root.write(to: rootPath)
@@ -73,6 +72,5 @@ struct LicensePlistHolder {
         } catch let e {
             Log.error("Failed to write to (rootPath: \(rootPath), itemsPath: \(itemsPath)).\nerror: \(e)")
         }
-
     }
 }

@@ -35,7 +35,8 @@ public struct Options {
                 gitHubToken: String?,
                 htmlPath: URL?,
                 markdownPath: URL?,
-                config: Config) {
+                config: Config)
+    {
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
         self.mintfilePath = mintfilePath

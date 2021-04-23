@@ -58,8 +58,8 @@ struct PlistInfo {
 
     mutating func compareWithLatestSummary() {
         guard let cocoaPodsLicenses = cocoaPodsLicenses,
-            let githubLibraries = githubLibraries,
-            let manualLicenses = manualLicenses else { preconditionFailure() }
+              let githubLibraries = githubLibraries,
+              let manualLicenses = manualLicenses else { preconditionFailure() }
 
         let config = options.config
 
@@ -84,13 +84,20 @@ struct PlistInfo {
         queue.maxConcurrentOperationCount = 10
         let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
-        githubLicenses = carthageOperations.map { $0.result?.value }.compactMap { $0 }
+        githubLicenses = carthageOperations.map { operation in
+            switch operation.result {
+            case let .success(value):
+                return value
+            default:
+                return nil
+            }
+        }.compactMap { $0 }
     }
 
     mutating func collectLicenseInfos() {
         guard let cocoaPodsLicenses = cocoaPodsLicenses,
-            let githubLicenses = githubLicenses,
-            let manualLicenses = manualLicenses else { preconditionFailure() }
+              let githubLicenses = githubLicenses,
+              let manualLicenses = manualLicenses else { preconditionFailure() }
 
         licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (githubLicenses as [LicenseInfo]) + (manualLicenses as [LicenseInfo]))
             .reduce([String: LicenseInfo]()) { sum, e in

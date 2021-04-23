@@ -1,9 +1,8 @@
 import Foundation
-import XCTest
 @testable import LicensePlistCore
+import XCTest
 
 class PlistInfoTests: XCTestCase {
-
     override class func setUp() {
         super.setUp()
         TestUtil.setGitHubToken()
