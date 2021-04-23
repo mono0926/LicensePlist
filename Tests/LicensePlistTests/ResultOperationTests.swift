@@ -1,15 +1,14 @@
 import Foundation
 import XCTest
 import APIKit
-import Result
 @testable import LicensePlistCore
 
 class ResultOperatoinTests: XCTestCase {
 
     func testBlocking() {
         let operation = ResultOperation<String, NSError> { _ in
-            return Result(value: "hello")
+            return Result.success("hello")
         }
-        XCTAssertEqual(operation.resultSync().value!, "hello")
+        XCTAssertEqual(try! operation.resultSync().get(), "hello")
     }
 }

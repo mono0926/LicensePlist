@@ -36,13 +36,13 @@ extension GitHubLicense {
                     } else {
                         Log.warning("Failed to download \(name).\nError: \(error)")
                     }
-                    return Result(error: DownloadError.unexpected(error))
+                    return Result.failure(DownloadError.unexpected(error))
                 }
                 Log.warning("404 error, license download failed(owner: \(owner), name: \(name)), so finding parent...")
                 let result = Session.shared.lp.sendSync(RepoRequests.Get(owner: owner, repo: name))
                 switch result {
                 case .failure(let error):
-                    return Result(error: DownloadError.unexpected(error))
+                    return Result.failure(DownloadError.unexpected(error))
                 case .success(let response):
                     if let parent = response.parent {
                         var library = library
@@ -50,14 +50,14 @@ extension GitHubLicense {
                         return download(library).resultSync()
                     } else {
                         Log.warning("\(name)'s original and parent's license not found on GitHub")
-                        return Result(error: .notFound("\(name)'s original and parent's"))
+                        return Result.failure(.notFound("\(name)'s original and parent's"))
                     }
                 }
             case .success(let response):
                 let license = GitHubLicense(library: library,
                                             body: response.contentDecoded,
                                             githubResponse: response)
-                return Result(value: license)
+                return Result.success(license)
             }
         }
     }

@@ -37,7 +37,7 @@ class RepoRequestsTests: XCTestCase {
         let o2 = Session.shared.lp.send(request2)
         let queue = OperationQueue()
         queue.addOperations([o1, o2], waitUntilFinished: true)
-        let result = [o1.result!.value!, o2.result!.value!]
+        let result = [try! o1.result!.get(), try! o2.result!.get()]
         XCTAssertEqual(result.count, 2)
         XCTAssertTrue(result[0].contentDecoded.hasPrefix("MIT License"))
         XCTAssertTrue(result[1].contentDecoded.hasPrefix("**The MIT License**"))
