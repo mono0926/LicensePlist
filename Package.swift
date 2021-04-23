@@ -6,19 +6,19 @@ let package = Package(
     name: "LicensePlist",
     products: [
         .executable(name: "license-plist", targets: ["LicensePlist"]),
-        .library(name: "LicensePlistCore", targets: ["LicensePlistCore"])
+        .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
-                 from: "0.3.1"),
+                 from: "0.4.2"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
-                 from: "4.0.0"),
+                 from: "5.2.0"),
         .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
-                 from: "1.8.0"),
+                 from: "1.9.0"),
         .package(url: "https://github.com/behrang/YamlSwift.git",
-                 from: "3.4.0"),
+                 from: "3.4.4"),
         .package(url: "https://github.com/IBM-Swift/swift-html-entities.git",
-                 from: "3.0.0")
+                 from: "3.0.14"),
     ],
     targets: [
         .target(
@@ -26,7 +26,7 @@ let package = Package(
             dependencies: [
                 "LicensePlistCore",
                 "ArgumentParser",
-                "HeliumLogger"
+                "HeliumLogger",
             ]
         ),
         .target(
@@ -35,15 +35,15 @@ let package = Package(
                 "APIKit",
                 "HeliumLogger",
                 "HTMLEntities",
-                "Yaml"
+                "Yaml",
             ]
         ),
         .testTarget(
             name: "LicensePlistTests",
             dependencies: ["LicensePlistCore"],
             exclude: [
-                "XcodeProjects"
+                "XcodeProjects",
             ]
-        )
+        ),
     ]
 )
