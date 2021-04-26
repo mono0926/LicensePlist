@@ -58,10 +58,10 @@ class XcodeProjectFileReaderTests: XCTestCase {
 
     /// Test Xcode update either xcodeproj one or the other one.
     ///
-    /// The problem is occured when developer adds additional xcworkspace from the middle of project processt.
-    /// Licenses should be latest, but this behaviour cause unlisted OSS software.
+    /// The problem is occurred when developer adds additional xcworkspace from the middle of project process.
+    /// Licenses should be latest, but this behavior cause unlisted OSS software.
     func testTwoDifferentPackageResolvedAreExist() throws {
-        let projectXcworkspacePackageResolvedFileURL = projectFileURL!
+        let projectXcworkspacePackageResolvedFileURL = try XCTUnwrap(projectFileURL)
             .appendingPathComponent("project.xcworkspace")
             .appendingPathComponent("xcshareddata")
             .appendingPathComponent("swiftpm")

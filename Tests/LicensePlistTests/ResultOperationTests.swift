@@ -5,10 +5,10 @@ import APIKit
 
 class ResultOperatoinTests: XCTestCase {
 
-    func testBlocking() {
+    func testBlocking() throws {
         let operation = ResultOperation<String, NSError> { _ in
             return Result.success("hello")
         }
-        XCTAssertEqual(try! operation.resultSync().get(), "hello")
+        XCTAssertEqual(try operation.resultSync().get(), "hello")
     }
 }

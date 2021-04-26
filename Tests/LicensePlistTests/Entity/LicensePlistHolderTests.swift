@@ -3,19 +3,19 @@ import XCTest
 @testable import LicensePlistCore
 
 class LicensePlistHolderTests: XCTestCase {
-    func testLoad_empty() {
+    func testLoad_empty() throws {
         let result = LicensePlistHolder.load(licenses: [], options: Options.empty)
         let (root, items) = result.deserialized()
-        let rootItems = root["PreferenceSpecifiers"]!
+        let rootItems = try XCTUnwrap(root["PreferenceSpecifiers"])
         XCTAssertTrue(rootItems.isEmpty)
         XCTAssertTrue(items.isEmpty)
     }
-    func testLoad_one() {
+    func testLoad_one() throws {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
         let result = LicensePlistHolder.load(licenses: [podsLicense], options: Options.empty)
         let (root, items) = result.deserialized()
-        let rootItems = root["PreferenceSpecifiers"]!
+        let rootItems = try XCTUnwrap(root["PreferenceSpecifiers"])
         XCTAssertEqual(rootItems.count, 2)
         XCTAssertEqual(items.count, 1)
 
@@ -28,17 +28,17 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(rootItems2["Title"], "name")
         XCTAssertEqual(rootItems2["File"], "com.mono0926.LicensePlist/name")
 
-        let item1 = items.first!.1
-        let item1_1 = item1["PreferenceSpecifiers"]!.first!
+        let item1 = try XCTUnwrap(items.first).1
+        let item1_1 = try XCTUnwrap(item1["PreferenceSpecifiers"]?.first)
         XCTAssertEqual(item1_1["Type"], "PSGroupSpecifier")
         XCTAssertEqual(item1_1["FooterText"], "\'<body>")
     }
-    func testLoad_allToRoot() {
+    func testLoad_allToRoot() throws {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
         let result = LicensePlistHolder.loadAllToRoot(licenses: [podsLicense])
         let (root, items) = result.deserialized()
-        let rootItems = root["PreferenceSpecifiers"]!
+        let rootItems = try XCTUnwrap(root["PreferenceSpecifiers"])
         XCTAssertEqual(rootItems.count, 1)
         XCTAssertEqual(items.count, 0)
 
@@ -47,7 +47,7 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(rootItems1["Title"], "name")
         XCTAssertEqual(rootItems1["FooterText"], "'<body>")
     }
-    func testLoad_splitByHorizontalLine() {
+    func testLoad_splitByHorizontalLine() throws {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let firstPart = "1\n2\n\n3\n---"
         let secondPart = "a"
@@ -57,8 +57,8 @@ class LicensePlistHolderTests: XCTestCase {
         let result = LicensePlistHolder.load(licenses: [podsLicense], options: Options.empty)
         let (_, items) = result.deserialized()
 
-        let item1 = items.first!.1
-        let groupArray = item1["PreferenceSpecifiers"]!
+        let item1 = items.first?.1
+        let groupArray = try XCTUnwrap(item1?["PreferenceSpecifiers"])
         XCTAssertEqual(groupArray.count, 5)
         let item1_0 = groupArray[0]
         XCTAssertEqual(item1_0["Type"], "PSGroupSpecifier")

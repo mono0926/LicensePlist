@@ -25,19 +25,19 @@ class RepoRequestsTests: XCTestCase {
         case .success(let response):
             XCTAssertEqual(
                 response.parent?.htmlUrl,
-                URL(string: "https://github.com/adjust/ios_sdk")!)
+                URL(string: "https://github.com/adjust/ios_sdk"))
         case .failure(let error):
             XCTFail(String(describing: error))
         }
     }
-    func testLicense_multiple() {
+    func testLicense_multiple() throws {
         let request1 = RepoRequests.License(owner: "mono0926", repo: "NativePopup")
         let request2 = RepoRequests.License(owner: "ReactiveX", repo: "RxSwift")
         let o1 = Session.shared.lp.send(request1)
         let o2 = Session.shared.lp.send(request2)
         let queue = OperationQueue()
         queue.addOperations([o1, o2], waitUntilFinished: true)
-        let result = [try! o1.result!.get(), try! o2.result!.get()]
+        let result = try [XCTUnwrap(o1.result).get(), XCTUnwrap(o2.result).get()]
         XCTAssertEqual(result.count, 2)
         XCTAssertTrue(result[0].contentDecoded.hasPrefix("MIT License"))
         XCTAssertTrue(result[1].contentDecoded.hasPrefix("**The MIT License**"))

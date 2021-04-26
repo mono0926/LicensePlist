@@ -7,9 +7,9 @@ class ConfigTests: XCTestCase {
     func testInit_empty_yaml() {
         XCTAssertEqual(Config(yaml: "", configBasePath: URL(fileURLWithPath: "")), Config(githubs: [], manuals: [], excludes: [], renames: [:]))
     }
-    func testInit_sample() {
-        let url = URL(string: "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/license_plist.yml")!
-        XCTAssertEqual(Config(yaml: try! url.lp.download().resultSync().get(), configBasePath: url.deletingLastPathComponent()),
+    func testInit_sample() throws {
+        let url = try XCTUnwrap(URL(string: "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/license_plist.yml"))
+        XCTAssertEqual(Config(yaml: try url.lp.download().resultSync().get(), configBasePath: url.deletingLastPathComponent()),
                        Config(githubs: [GitHub(name: "LicensePlist", nameSpecified: "License Plist", owner: "mono0926", version: "1.2.0"),
                                         GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: nil)],
                               manuals: [Manual(name: "WebRTC",
