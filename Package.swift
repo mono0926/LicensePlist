@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
-                 from: "0.4.2"),
+                 from: "0.3.2"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
                  from: "5.2.0"),
         .package(url: "https://github.com/Kitura/HeliumLogger.git",
