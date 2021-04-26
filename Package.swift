@@ -13,11 +13,11 @@ let package = Package(
                  from: "0.4.2"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
                  from: "5.2.0"),
-        .package(url: "https://github.com/IBM-Swift/HeliumLogger.git",
+        .package(url: "https://github.com/Kitura/HeliumLogger.git",
                  from: "1.9.0"),
         .package(url: "https://github.com/behrang/YamlSwift.git",
                  from: "3.4.4"),
-        .package(url: "https://github.com/IBM-Swift/swift-html-entities.git",
+        .package(url: "https://github.com/Kitura/swift-html-entities.git",
                  from: "3.0.14"),
     ],
     targets: [

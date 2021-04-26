@@ -21,7 +21,7 @@
       },
       {
         "package": "HeliumLogger",
-        "repositoryURL": "https://github.com/IBM-Swift/HeliumLogger.git",
+        "repositoryURL": "https://github.com/Kitura/HeliumLogger.git",
         "state": {
           "branch": null,
           "revision": "779865e83149a59894b14950aa83f70b7e81bc27",
@@ -30,7 +30,7 @@
       },
       {
         "package": "LoggerAPI",
-        "repositoryURL": "https://github.com/IBM-Swift/LoggerAPI.git",
+        "repositoryURL": "https://github.com/Kitura/LoggerAPI.git",
         "state": {
           "branch": null,
           "revision": "e29073bb7cecf3673e56bcb16180e8fd0cb091f6",
@@ -57,7 +57,7 @@
       },
       {
         "package": "HTMLEntities",
-        "repositoryURL": "https://github.com/IBM-Swift/swift-html-entities.git",
+        "repositoryURL": "https://github.com/Kitura/swift-html-entities.git",
         "state": {
           "branch": null,
           "revision": "3b778b3ab061684db024eaf38c576887b42918aa",

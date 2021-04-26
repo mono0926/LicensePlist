@@ -22,35 +22,26 @@ class SwiftPackageFileReaderTests: XCTestCase {
                 "repositoryURL": "https://github.com/ishkawa/APIKit.git",
                 "state": {
                   "branch": null,
-                  "revision": "86d51ecee0bc0ebdb53fb69b11a24169a69097ba",
-                  "version": "4.1.0"
+                  "revision": "c8f5320d84c4c34c0fd965da3c7957819a1ccdd4",
+                  "version": "5.2.0"
                 }
               },
               {
                 "package": "HeliumLogger",
-                "repositoryURL": "https://github.com/IBM-Swift/HeliumLogger.git",
+                "repositoryURL": "https://github.com/Kitura/HeliumLogger.git",
                 "state": {
                   "branch": null,
-                  "revision": "146a36c2a91270e4213fa7d7e8192cd2e55d0ace",
-                  "version": "1.9.0"
+                  "revision": "55fd2f0b70793017acee853c53cfcf8da0bd8d8d",
+                  "version": "1.9.200"
                 }
               },
               {
                 "package": "LoggerAPI",
-                "repositoryURL": "https://github.com/IBM-Swift/LoggerAPI.git",
+                "repositoryURL": "https://github.com/Kitura/LoggerAPI.git",
                 "state": {
                   "branch": null,
-                  "revision": "3357dd9526cdf9436fa63bb792b669e6efdc43da",
-                  "version": "1.9.0"
-                }
-              },
-              {
-                "package": "Result",
-                "repositoryURL": "https://github.com/antitypical/Result.git",
-                "state": {
-                  "branch": null,
-                  "revision": "2ca499ba456795616fbc471561ff1d963e6ae160",
-                  "version": "4.1.0"
+                  "revision": "e82d34eab3f0b05391082b11ea07d3b70d2f65bb",
+                  "version": "1.9.200"
                 }
               },
               {
@@ -58,17 +49,17 @@ class SwiftPackageFileReaderTests: XCTestCase {
                 "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
                 "state": {
                   "branch": null,
-                  "revision": "92646c0cdbaca076c8d3d0207891785b3379cbff",
-                  "version": "0.3.1"
+                  "revision": "47bd06ebeff8146ecd0020809e186218b46f465f",
+                  "version": "0.4.2"
                 }
               },
               {
                 "package": "HTMLEntities",
-                "repositoryURL": "https://github.com/IBM-Swift/swift-html-entities.git",
+                "repositoryURL": "https://github.com/Kitura/swift-html-entities.git",
                 "state": {
                   "branch": null,
-                  "revision": "744c094976355aa96ca61b9b60ef0a38e979feb7",
-                  "version": "3.0.14"
+                  "revision": "2b14531d0c36dbb7c1c45a4d38db9c2e7898a307",
+                  "version": "3.0.200"
                 }
               },
               {
@@ -76,8 +67,8 @@ class SwiftPackageFileReaderTests: XCTestCase {
                 "repositoryURL": "https://github.com/apple/swift-log.git",
                 "state": {
                   "branch": null,
-                  "revision": "eba9b323b5ba542c119ff17382a4ce737bcdc0b8",
-                  "version": "0.0.0"
+                  "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
+                  "version": "1.4.2"
                 }
               },
               {
