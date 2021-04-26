@@ -84,7 +84,14 @@ struct PlistInfo {
         queue.maxConcurrentOperationCount = 10
         let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
-        githubLicenses = carthageOperations.map { $0.result?.value }.compactMap { $0 }
+        githubLicenses = carthageOperations.map { operation in
+            switch operation.result {
+            case let .success(value):
+                return value
+            default:
+                return nil
+            }
+        }.compactMap { $0 }
     }
 
     mutating func collectLicenseInfos() {

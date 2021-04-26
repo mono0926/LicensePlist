@@ -1,6 +1,5 @@
 import Foundation
 import APIKit
-import Result
 
 extension Session: LicensePlistCompatible {}
 
