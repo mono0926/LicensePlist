@@ -9,9 +9,9 @@ class VersionInfoTests: XCTestCase {
         XCTAssertTrue(results.dictionary.isEmpty)
     }
 
-    func testInit() {
+    func testInit() throws {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/Manifest.lock"
-        let content = try! String(contentsOf: URL(string: path)!)
+        let content = try String(contentsOf: XCTUnwrap(URL(string: path)))
         let results = VersionInfo(podsManifest: content)
         XCTAssertFalse(results.dictionary.isEmpty)
         XCTAssertEqual(results.dictionary.count, 30)

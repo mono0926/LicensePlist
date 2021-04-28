@@ -10,17 +10,17 @@ class GitHubLicenseTests: XCTestCase {
         TestUtil.setGitHubToken()
     }
 
-    func testCollect() {
+    func testCollect() throws {
         let carthage = GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: nil)
-        let license = try! GitHubLicense.download(carthage).resultSync().get()
+        let license = try GitHubLicense.download(carthage).resultSync().get()
         XCTAssertEqual(license.library, carthage)
         XCTAssertTrue(license.body.hasPrefix("MIT License"))
         XCTAssertEqual(license.githubResponse.kind.spdxId, "MIT")
     }
 
-    func testCollect_forked() {
+    func testCollect_forked() throws {
         let carthage = GitHub(name: "vapor", nameSpecified: nil, owner: "mono0926", version: nil)
-        let license = try! GitHubLicense.download(carthage).resultSync().get()
+        let license = try GitHubLicense.download(carthage).resultSync().get()
         XCTAssertEqual(license.library, carthage)
         XCTAssertTrue(license.body.hasPrefix("The MIT License (MIT)"))
         XCTAssertEqual(license.githubResponse.kind.spdxId, "MIT")

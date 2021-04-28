@@ -31,15 +31,15 @@ class PlistInfoTests: XCTestCase {
                                                  excludes: ["exclude"],
                                                  renames: ["Himotoki": "Himotoki2"]))
 
-    func testLoadCocoaPodsLicense() {
+    func testLoadCocoaPodsLicense() throws {
         var target = PlistInfo(options: options)
         XCTAssertNil(target.cocoaPodsLicenses)
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/acknowledgements.plist"
-        let content = try! String(contentsOf: URL(string: path)!)
+        let content = try String(contentsOf: XCTUnwrap(URL(string: path)))
         target.loadCocoaPodsLicense(acknowledgements: [content])
-        let licenses = target.cocoaPodsLicenses!
+        let licenses = try XCTUnwrap(target.cocoaPodsLicenses)
         XCTAssertEqual(licenses.count, 11)
-        let licenseFirst = licenses.first!
+        let licenseFirst = try XCTUnwrap(licenses.first)
         XCTAssertEqual(licenseFirst.library, CocoaPods(name: "Firebase", nameSpecified: nil, version: nil))
         XCTAssertEqual(licenseFirst.body, "Copyright 2017 Google")
     }
@@ -48,14 +48,14 @@ class PlistInfoTests: XCTestCase {
         var target = PlistInfo(options: options)
         XCTAssertNil(target.cocoaPodsLicenses)
         target.loadCocoaPodsLicense(acknowledgements: [])
-        XCTAssertEqual(target.cocoaPodsLicenses!, [])
+        XCTAssertEqual(target.cocoaPodsLicenses, [])
     }
 
-    func testLoadGitHubLibraries() {
+    func testLoadGitHubLibraries() throws {
         var target = PlistInfo(options: options)
         XCTAssertNil(target.githubLibraries)
         target.loadGitHubLibraries(file: .carthage(content: "github \"ikesyo/Himotoki\" \"3.0.1\""))
-        let libraries = target.githubLibraries!
+        let libraries = try XCTUnwrap(target.githubLibraries)
         XCTAssertEqual(libraries.count, 2)
         let lib1 = libraries[0]
         XCTAssertEqual(lib1, GitHub(name: "facebook-ios-sdk", nameSpecified: nil, owner: "facebook", version: "sdk-version-4.21.0"))
@@ -63,11 +63,11 @@ class PlistInfoTests: XCTestCase {
         XCTAssertEqual(lib2, GitHub(name: "Himotoki", nameSpecified: "Himotoki2", owner: "ikesyo", version: "3.0.1"))
     }
 
-    func testLoadGitHubLibraries_empty() {
+    func testLoadGitHubLibraries_empty() throws {
         var target = PlistInfo(options: options)
         XCTAssertNil(target.githubLibraries)
         target.loadGitHubLibraries(file: .carthage(content: nil))
-        let libraries = target.githubLibraries!
+        let libraries = try XCTUnwrap(target.githubLibraries)
         XCTAssertEqual(libraries.count, 1)
         let lib1 = libraries[0]
         XCTAssertEqual(lib1, GitHub(name: "facebook-ios-sdk", nameSpecified: nil, owner: "facebook", version: "sdk-version-4.21.0"))
@@ -88,22 +88,23 @@ class PlistInfoTests: XCTestCase {
         XCTAssertNotNil(target.summaryPath)
     }
 
-    func testDownloadGitHubLicenses() {
+    func testDownloadGitHubLicenses() throws {
         var target = PlistInfo(options: options)
         let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
         target.githubLibraries = [github]
 
         XCTAssertNil(target.githubLicenses)
         target.downloadGitHubLicenses()
-        XCTAssertEqual(target.githubLicenses!.count, 1)
-        let license = target.githubLicenses!.first!
+        let licenses = try XCTUnwrap(target.githubLicenses)
+        XCTAssertEqual(licenses.count, 1)
+        let license = licenses.first
 
-        XCTAssertEqual(license.library, github)
-        XCTAssertNotNil(license.body)
-        XCTAssertNotNil(license.githubResponse)
+        XCTAssertEqual(license?.library, github)
+        XCTAssertNotNil(license?.body)
+        XCTAssertNotNil(license?.githubResponse)
     }
 
-    func testCollectLicenseInfos() {
+    func testCollectLicenseInfos() throws {
         var target = PlistInfo(options: options)
         let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
         let githubLicense = GitHubLicense(library: github,
@@ -121,10 +122,10 @@ class PlistInfoTests: XCTestCase {
 
         XCTAssertNil(target.licenses)
         target.collectLicenseInfos()
-        let licenses = target.licenses!
+        let licenses = try XCTUnwrap(target.licenses)
         XCTAssertEqual(licenses.count, 2)
-        let license = licenses.last!
-        XCTAssertEqual(license.name, "LicensePlist")
+        let license = licenses.last
+        XCTAssertEqual(license?.name, "LicensePlist")
     }
 
     // MEMO: No result assertions

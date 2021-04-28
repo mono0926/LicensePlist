@@ -11,7 +11,7 @@ import XCTest
 
 class SwiftPackageManagerTests: XCTestCase {
 
-    func testDecoding() {
+    func testDecoding() throws {
         let jsonString = """
             {
               "package": "APIKit",
@@ -24,8 +24,8 @@ class SwiftPackageManagerTests: XCTestCase {
             }
         """
 
-        let data = jsonString.data(using: .utf8)!
-        let package = try! JSONDecoder().decode(SwiftPackage.self, from: data)
+        let data = try XCTUnwrap(jsonString.data(using: .utf8))
+        let package = try JSONDecoder().decode(SwiftPackage.self, from: data)
 
         XCTAssertEqual(package.package, "APIKit")
         XCTAssertEqual(package.repositoryURL, "https://github.com/ishkawa/APIKit.git")
@@ -33,7 +33,7 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(package.state.version, "4.1.0")
     }
 
-    func testDecodingOfURLWithDots() {
+    func testDecodingOfURLWithDots() throws {
         let jsonString = """
             {
               "package": "R.swift.Library",
@@ -46,8 +46,8 @@ class SwiftPackageManagerTests: XCTestCase {
             }
         """
 
-        let data = jsonString.data(using: .utf8)!
-        let package = try! JSONDecoder().decode(SwiftPackage.self, from: data)
+        let data = try XCTUnwrap(jsonString.data(using: .utf8))
+        let package = try JSONDecoder().decode(SwiftPackage.self, from: data)
 
         XCTAssertEqual(package.package, "R.swift.Library")
         XCTAssertEqual(package.repositoryURL, "https://github.com/mac-cain13/R.swift.Library")
@@ -55,7 +55,7 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(package.state.version, nil)
     }
 
-    func testDecodingOptionalVersion() {
+    func testDecodingOptionalVersion() throws {
         let jsonString = """
             {
               "package": "APIKit",
@@ -68,8 +68,8 @@ class SwiftPackageManagerTests: XCTestCase {
             }
         """
 
-        let data = jsonString.data(using: .utf8)!
-        let package = try! JSONDecoder().decode(SwiftPackage.self, from: data)
+        let data = try XCTUnwrap(jsonString.data(using: .utf8))
+        let package = try JSONDecoder().decode(SwiftPackage.self, from: data)
 
         XCTAssertEqual(package.package, "APIKit")
         XCTAssertEqual(package.repositoryURL, "https://github.com/ishkawa/APIKit.git")
@@ -141,20 +141,20 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertNil(result)
     }
 
-    func testParse() {
+    func testParse() throws {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Package.resolved"
         // let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/Package.resolved"
-        let content = try! String(contentsOf: URL(string: path)!)
+        let content = try String(contentsOf: XCTUnwrap(URL(string: path)))
         let packages = SwiftPackage.loadPackages(content)
 
         XCTAssertFalse(packages.isEmpty)
         XCTAssertEqual(packages.count, 7)
 
-        let packageFirst = packages.first!
+        let packageFirst = try XCTUnwrap(packages.first)
         XCTAssertEqual(packageFirst, SwiftPackage(package: "APIKit",
                                                   repositoryURL: "https://github.com/ishkawa/APIKit.git",
                                                   state: SwiftPackage.State(branch: nil, revision: "c8f5320d84c4c34c0fd965da3c7957819a1ccdd4", version: "5.2.0")))
-        let packageLast = packages.last!
+        let packageLast = try XCTUnwrap(packages.last)
         XCTAssertEqual(packageLast, SwiftPackage(package: "Yaml",
                                                  repositoryURL: "https://github.com/behrang/YamlSwift.git",
                                                  state: SwiftPackage.State(branch: nil, revision: "287f5cab7da0d92eb947b5fd8151b203ae04a9a3", version: "3.4.4")))
