@@ -45,10 +45,7 @@ struct PlistInfo {
     mutating func loadSwiftPackageLibraries(packageFiles: [String]) {
         Log.info("Swift Package Manager License collect start")
 
-        var packages: [SwiftPackage] = []
-        packageFiles.forEach { packageFile in
-            packages += SwiftPackage.loadPackages(packageFile)
-        }
+        let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
         let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
