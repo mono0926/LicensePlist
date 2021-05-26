@@ -18,7 +18,6 @@ public final class LicensePlist {
                 try SwiftPackageFileReader(path: packagePath).read()
             }
             let xcodeProjectFileReadResult = try XcodeProjectFileReader(path: options.xcodeprojPath).read()
-            
             info.loadSwiftPackageLibraries(
                 packageFiles: swiftPackageFileReadResults.isEmpty
                     ? [xcodeProjectFileReadResult ?? ""]
