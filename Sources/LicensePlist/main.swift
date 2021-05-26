@@ -27,7 +27,7 @@ struct LicensePlist: ParsableCommand {
 	@Option(name: .long, completion: .directory)
 	var podsPath = Consts.podsDirectoryName
 
-	@Option(name: [.customLong("package-path"), .customLong("swift-package-path"), .long, .customLong("swift-package-paths")], completion: .file())
+	@Option(name: [.customLong("package-path"), .customLong("swift-package-path"), .long, .customLong("swift-package-paths")], parsing: .upToNextOption, completion: .file())
 	var packagePaths = [Consts.packageName]
 
 	@Option(name: .long, completion: .file())
