@@ -27,8 +27,8 @@ struct LicensePlist: ParsableCommand {
 	@Option(name: .long, completion: .directory)
 	var podsPath = Consts.podsDirectoryName
 
-	@Option(name: [.long, .customLong("swift-package-path")], completion: .file())
-	var packagePath = Consts.packageName
+	@Option(name: [.customLong("package-path"), .customLong("swift-package-path"), .long, .customLong("swift-package-paths")], completion: .file())
+	var packagePaths = [Consts.packageName]
 
 	@Option(name: .long, completion: .file())
 	var xcodeprojPath = "*.xcodeproj"
@@ -79,7 +79,7 @@ struct LicensePlist: ParsableCommand {
 									 cartfilePath: URL(fileURLWithPath: cartfilePath),
 									 mintfilePath: URL(fileURLWithPath: mintfilePath),
 									 podsPath: URL(fileURLWithPath: podsPath),
-									 packagePath: URL(fileURLWithPath: packagePath),
+									 packagePaths: packagePaths.map { URL(fileURLWithPath: $0) },
 									 xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
 									 prefix: prefix,
 									 gitHubToken: githubToken ?? ProcessInfo.processInfo.environment[Self.githubTokenEnv],
