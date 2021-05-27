@@ -42,10 +42,10 @@ struct PlistInfo {
         githubLibraries = ((githubLibraries ?? []) + options.config.apply(githubs: githubs)).sorted()
     }
 
-    mutating func loadSwiftPackageLibraries(packageFile: String?) {
+    mutating func loadSwiftPackageLibraries(packageFiles: [String]) {
         Log.info("Swift Package Manager License collect start")
 
-        let packages = SwiftPackage.loadPackages(packageFile ?? "")
+        let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
         let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)

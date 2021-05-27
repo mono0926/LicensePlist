@@ -14,9 +14,15 @@ public final class LicensePlist {
         info.loadGitHubLibraries(file: readMintfile(path: options.mintfilePath))
 
         do {
-            let swiftPackageFileReadResult = try SwiftPackageFileReader(path: options.packagePath).read()
+            let swiftPackageFileReadResults = try options.packagePaths.compactMap { packagePath in
+                try SwiftPackageFileReader(path: packagePath).read()
+            }
             let xcodeProjectFileReadResult = try XcodeProjectFileReader(path: options.xcodeprojPath).read()
-            info.loadSwiftPackageLibraries(packageFile: swiftPackageFileReadResult ?? xcodeProjectFileReadResult)
+            info.loadSwiftPackageLibraries(
+                packageFiles: swiftPackageFileReadResults.isEmpty
+                    ? [xcodeProjectFileReadResult ?? ""]
+                    : swiftPackageFileReadResults
+            )
         } catch {
             fatalError(error.localizedDescription)
         }
