@@ -84,7 +84,7 @@ class PlistInfoTests: XCTestCase {
         target.compareWithLatestSummary()
 
         XCTAssertEqual(target.summary,
-                       "add-version-numbers: false\n\nLicensePlist Version: 3.14.1")
+                       "add-version-numbers: false\n\nLicensePlist Version: 3.14.2")
         XCTAssertNotNil(target.summaryPath)
     }
 
