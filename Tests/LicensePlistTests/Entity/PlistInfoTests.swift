@@ -14,6 +14,7 @@ class PlistInfoTests: XCTestCase {
                                   mintfilePath: URL(fileURLWithPath: "test_result_dir"),
                                   podsPath: URL(fileURLWithPath: "test_result_dir"),
                                   packagePaths: [URL(fileURLWithPath: "test_result_dir")],
+                                  xcworkspacePath: URL(fileURLWithPath: "test_result_dir"),
                                   xcodeprojPath: URL(fileURLWithPath: "test_result_dir"),
                                   prefix: Consts.prefix,
                                   gitHubToken: nil,
