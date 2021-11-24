@@ -7,7 +7,7 @@ struct XcodeWorkspaceFileReader: FileReader {
 
     let path: URL
 
-    /// The path which specifies `"*.xcworkspace` file wrapper.
+    /// The path which specifies `"*.xcworkspace"` file wrapper.
     var workspacePath: URL? {
         if path.lastPathComponent.contains("*") {
             // find first "xcworkspace" in directory

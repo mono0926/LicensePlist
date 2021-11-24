@@ -108,13 +108,23 @@ You can see options by `license-plist --help`.
 #### `--package-path`
 
 - Default: `Package.swift`
-- `LicensePlist` tries to find `YourProjectName.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` and `YourProjectName.xcworkspace/xcshareddata/swiftpm/Package.resolved`, then uses new one. If you make anothor workspace in custom directory,  you can use `--package-path PathToYourCustomWorkspace/CustomWorkspaceName.xcworkspace/xcshareddata/swiftpm/Package.swift` inside your `Run script`.
+- `LicensePlist` tries to find `YourProjectName.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` and `YourProjectName.xcworkspace/xcshareddata/swiftpm/Package.resolved`, then uses new one.
+
+### `--xcodeproj-path`
+
+- Default: `"*.xcodeproj"`
+- By specifiying the path to the `.xcodeproj` `LicensePlist` will attempt to load the `Package.resolved` from that Xcode project. If you specify `somedir/*.xcodeproj` then `LicensePlist` will load from the first `xcodeproj` it finds in `somedir`.
+
+#### `--xcworkspace-path`
+
+- Default: `"*.xcworkspace"`
+- By specifying the path to the `.xcworkspace` `LicensePlist` will load the `Package.resolved` from that Xcode workspace. If you specify `somedir/*.xcworkspace` then `LicensePlist` will load from the first `xcworkspace` it finds in `somedir`.
+- `--xcworkspace-path` supersedes any provided `--xcodeproj-path`.
 
 #### `--output-path`
 
 - Default: `com.mono0926.LicensePlist.Output`
 - Recommended: `--output-path YOUR_PRODUCT_DIR/Settings.bundle`
-
 
 #### `--github-token`
 
