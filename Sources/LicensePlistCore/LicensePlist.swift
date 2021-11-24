@@ -17,12 +17,14 @@ public final class LicensePlist {
             let swiftPackageFileReadResults = try options.packagePaths.compactMap { packagePath in
                 try SwiftPackageFileReader(path: packagePath).read()
             }
-            let xcodeProjectFileReadResult = try XcodeProjectFileReader(path: options.xcodeprojPath).read()
-            info.loadSwiftPackageLibraries(
-                packageFiles: swiftPackageFileReadResults.isEmpty
-                    ? [xcodeProjectFileReadResult ?? ""]
-                    : swiftPackageFileReadResults
-            )
+
+            let xcodeFileReadResult = try xcodeFileReadResult(xcworkspacePath: options.xcworkspacePath, xcodeprojPath: options.xcodeprojPath)
+
+            let packageFiles = swiftPackageFileReadResults.isEmpty
+                ? [xcodeFileReadResult ?? ""]
+                : swiftPackageFileReadResults
+
+            info.loadSwiftPackageLibraries(packageFiles: packageFiles)
         } catch {
             fatalError(error.localizedDescription)
         }
@@ -37,6 +39,22 @@ public final class LicensePlist {
         if !options.config.suppressOpeningDirectory {
             Shell.open(options.outputPath.path)
         }
+    }
+
+    /// Gets the result of attempting to read the `Package.resolved` from ether a Xcode Workspace or Xcode project.
+    /// - note: If an Xcode workspace is found it is preferred over a Xcode project.
+    private func xcodeFileReadResult(xcworkspacePath: URL, xcodeprojPath: URL) throws -> String? {
+
+        var result: String?
+        if xcworkspacePath.path.isEmpty == false {
+            result = try XcodeWorkspaceFileReader(path: xcworkspacePath).read()
+        }
+
+        if result == nil && xcodeprojPath.path.isEmpty == false {
+            result = try XcodeProjectFileReader(path: xcodeprojPath).read()
+        }
+
+        return result
     }
 }
 
