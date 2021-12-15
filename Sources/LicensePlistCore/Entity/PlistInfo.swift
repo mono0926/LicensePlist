@@ -119,7 +119,7 @@ struct PlistInfo {
         Log.info("Directory created: \(outputPath)")
 
         let holder = options.config.singlePage ?
-            LicensePlistHolder.loadAllToRoot(licenses: licenses) :
+            LicensePlistHolder.loadAllToRoot(licenses: licenses, options: options) :
             LicensePlistHolder.load(licenses: licenses, options: options)
         holder.write(to: outputPath.appendingPathComponent("\(options.prefix).plist"), itemsPath: itemsPath)
 

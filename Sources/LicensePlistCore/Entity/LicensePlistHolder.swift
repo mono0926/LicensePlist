@@ -38,13 +38,13 @@ struct LicensePlistHolder {
         return LicensePlistHolder(root: root, items: items)
     }
 
-    static func loadAllToRoot(licenses: [LicenseInfo]) -> LicensePlistHolder {
+    static func loadAllToRoot(licenses: [LicenseInfo], options: Options) -> LicensePlistHolder {
         let rootItem: [[String: String]] = {
             guard !licenses.isEmpty else { return [] }
             let body = licenses
                 .compactMap { lincense in
                     return ["Type": "PSGroupSpecifier",
-                            "Title": lincense.name,
+                            "Title": lincense.name(withVersion: options.config.addVersionNumbers),
                             "FooterText": lincense.body
                             ]
                 }
