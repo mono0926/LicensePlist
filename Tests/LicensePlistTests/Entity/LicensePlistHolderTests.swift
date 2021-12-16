@@ -36,7 +36,7 @@ class LicensePlistHolderTests: XCTestCase {
     func testLoad_allToRoot() throws {
         let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
         let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
-        let result = LicensePlistHolder.loadAllToRoot(licenses: [podsLicense])
+        let result = LicensePlistHolder.loadAllToRoot(licenses: [podsLicense], options: Options.empty)
         let (root, items) = result.deserialized()
         let rootItems = try XCTUnwrap(root["PreferenceSpecifiers"])
         XCTAssertEqual(rootItems.count, 1)
