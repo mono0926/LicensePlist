@@ -110,7 +110,7 @@ You can see options by `license-plist --help`.
 - Default: `Package.swift`
 - `LicensePlist` tries to find `YourProjectName.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` and `YourProjectName.xcworkspace/xcshareddata/swiftpm/Package.resolved`, then uses new one.
 
-### `--xcodeproj-path`
+#### `--xcodeproj-path`
 
 - Default: `"*.xcodeproj"`
 - By specifiying the path to the `.xcodeproj` `LicensePlist` will attempt to load the `Package.resolved` from that Xcode project. If you specify `somedir/*.xcodeproj` then `LicensePlist` will load from the first `xcodeproj` it finds in `somedir`.
