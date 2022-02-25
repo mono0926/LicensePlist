@@ -20,11 +20,19 @@ struct LicenseHTMLHolder {
 
 """
         licenses.forEach { license in
-            html += """
+            if options.config.addSources, let source = license.source {
+                html += """
+        <a href="\(source)"<h2>\(license.name(withVersion: options.config.addVersionNumbers).htmlEscape())</h2></a>
+        <pre>\(license.body.htmlEscape())</pre>
+
+"""
+            } else {
+                html += """
         <h2>\(license.name(withVersion: options.config.addVersionNumbers).htmlEscape())</h2>
         <pre>\(license.body.htmlEscape())</pre>
 
 """
+            }
         }
         html += """
     </body>

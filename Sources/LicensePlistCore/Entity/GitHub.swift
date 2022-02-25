@@ -7,20 +7,30 @@ public struct GitHub: Library {
     public let nameSpecified: String?
     var owner: String
     public let version: String?
+    public let source: String?
+    
+    public init(name: String, nameSpecified: String?, owner: String, version: String?) {
+        self.name = name
+        self.nameSpecified = nameSpecified
+        self.owner = owner
+        self.version = version
+        self.source = "https://github.com/\(owner)/\(name)"
+    }
 }
 
 extension GitHub {
     public static func==(lhs: GitHub, rhs: GitHub) -> Bool {
         return lhs.name == rhs.name &&
-            lhs.nameSpecified == rhs.nameSpecified &&
-            lhs.owner == rhs.owner &&
-            lhs.version == rhs.version
+        lhs.nameSpecified == rhs.nameSpecified &&
+        lhs.owner == rhs.owner &&
+        lhs.version == rhs.version &&
+        lhs.source == rhs.source
     }
 }
 
 extension GitHub: CustomStringConvertible {
     public var description: String {
-        return "name: \(name), nameSpecified: \(nameSpecified ?? ""), owner: \(owner), version: \(version ?? "")"
+        return "name: \(name), nameSpecified: \(nameSpecified ?? ""), owner: \(owner), version: \(version ?? ""), source: \(source ?? "")"
     }
 }
 
@@ -57,9 +67,10 @@ extension GitHub {
                 return version
             }()
             let name = nsContent.substring(with: match.range(at: 2))
+            let owner = nsContent.substring(with: match.range(at: 1))
             return GitHub(name: name,
                           nameSpecified: renames[name],
-                          owner: nsContent.substring(with: match.range(at: 1)),
+                          owner: owner,
                           version: version)
             }
             .compactMap { $0 }

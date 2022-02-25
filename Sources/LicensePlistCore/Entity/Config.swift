@@ -9,6 +9,7 @@ public struct Config {
     let renames: [String: String]
     public var force = false
     public var addVersionNumbers = false
+    public var addSources = false
     public var suppressOpeningDirectory = false
     public var singlePage = false
     public var failIfMissingLicense = false
