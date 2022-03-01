@@ -12,7 +12,22 @@ public final class LicensePlist {
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
         info.loadGitHubLibraries(file: readCartfile(path: options.cartfilePath))
         info.loadGitHubLibraries(file: readMintfile(path: options.mintfilePath))
-        info.loadSwiftPackageLibraries(packageFile: readSwiftPackages(path: options.packagePath) ?? readXcodeProject(path: options.xcodeprojPath))
+
+        do {
+            let swiftPackageFileReadResults = try options.packagePaths.compactMap { packagePath in
+                try SwiftPackageFileReader(path: packagePath).read()
+            }
+
+            let xcodeFileReadResult = try xcodeFileReadResult(xcworkspacePath: options.xcworkspacePath, xcodeprojPath: options.xcodeprojPath)
+
+            let packageFiles = swiftPackageFileReadResults.isEmpty
+                ? [xcodeFileReadResult ?? ""]
+                : swiftPackageFileReadResults
+
+            info.loadSwiftPackageLibraries(packageFiles: packageFiles)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         info.downloadGitHubLicenses()
@@ -24,6 +39,22 @@ public final class LicensePlist {
         if !options.config.suppressOpeningDirectory {
             Shell.open(options.outputPath.path)
         }
+    }
+
+    /// Gets the result of attempting to read the `Package.resolved` from ether a Xcode Workspace or Xcode project.
+    /// - note: If an Xcode workspace is found it is preferred over a Xcode project.
+    private func xcodeFileReadResult(xcworkspacePath: URL, xcodeprojPath: URL) throws -> String? {
+
+        var result: String?
+        if xcworkspacePath.path.isEmpty == false {
+            result = try XcodeWorkspaceFileReader(path: xcworkspacePath).read()
+        }
+
+        if result == nil && xcodeprojPath.path.isEmpty == false {
+            result = try XcodeProjectFileReader(path: xcodeprojPath).read()
+        }
+
+        return result
     }
 }
 
@@ -42,49 +73,6 @@ private func readMintfile(path: URL) -> GitHubLibraryConfigFile {
         fatalError("Invalid MintFile name: \(path.lastPathComponent)")
     }
     return .mint(content: path.lp.read())
-}
-
-private func readSwiftPackages(path: URL) -> String? {
-    if path.lastPathComponent != Consts.packageName && path.lastPathComponent != "Package.resolved" {
-        fatalError("Invalid Package.swift name: \(path.lastPathComponent)")
-    }
-    if let content = path.deletingPathExtension().appendingPathExtension("resolved").lp.read() {
-        return content
-    }
-    return path.lp.read()
-}
-
-private func readXcodeProject(path: URL) -> String? {
-
-    var projectPath: URL?
-    if path.lastPathComponent.contains("*") {
-        // find first "xcodeproj" in directory
-        projectPath = path.deletingLastPathComponent().lp.listDir().first { $0.pathExtension == Consts.xcodeprojExtension }
-    } else {
-        // use the specified path
-        projectPath = path
-    }
-    guard let validatedPath = projectPath else { return nil }
-
-    if validatedPath.pathExtension != Consts.xcodeprojExtension {
-        return nil
-    }
-    let packageResolvedPath = validatedPath
-        .appendingPathComponent("project.xcworkspace")
-        .appendingPathComponent("xcshareddata")
-        .appendingPathComponent("swiftpm")
-        .appendingPathComponent("Package.resolved")
-    if packageResolvedPath.lp.isExists {
-        return readSwiftPackages(path: packageResolvedPath)
-    } else {
-        let packageResolvedPath = validatedPath
-        .deletingPathExtension()
-        .appendingPathExtension("xcworkspace")
-        .appendingPathComponent("xcshareddata")
-        .appendingPathComponent("swiftpm")
-        .appendingPathComponent("Package.resolved")
-        return readSwiftPackages(path: packageResolvedPath)
-    }
 }
 
 private func readPodsAcknowledgements(path: URL) -> [String] {

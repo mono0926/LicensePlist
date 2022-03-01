@@ -42,10 +42,10 @@ struct PlistInfo {
         githubLibraries = ((githubLibraries ?? []) + options.config.apply(githubs: githubs)).sorted()
     }
 
-    mutating func loadSwiftPackageLibraries(packageFile: String?) {
+    mutating func loadSwiftPackageLibraries(packageFiles: [String]) {
         Log.info("Swift Package Manager License collect start")
 
-        let packages = SwiftPackage.loadPackages(packageFile ?? "")
+        let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
         let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
@@ -84,7 +84,14 @@ struct PlistInfo {
         queue.maxConcurrentOperationCount = 10
         let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
         queue.addOperations(carthageOperations, waitUntilFinished: true)
-        githubLicenses = carthageOperations.map { $0.result?.value }.compactMap { $0 }
+        githubLicenses = carthageOperations.map { operation in
+            switch operation.result {
+            case let .success(value):
+                return value
+            default:
+                return nil
+            }
+        }.compactMap { $0 }
     }
 
     mutating func collectLicenseInfos() {
@@ -112,7 +119,7 @@ struct PlistInfo {
         Log.info("Directory created: \(outputPath)")
 
         let holder = options.config.singlePage ?
-            LicensePlistHolder.loadAllToRoot(licenses: licenses) :
+            LicensePlistHolder.loadAllToRoot(licenses: licenses, options: options) :
             LicensePlistHolder.load(licenses: licenses, options: options)
         holder.write(to: outputPath.appendingPathComponent("\(options.prefix).plist"), itemsPath: itemsPath)
 

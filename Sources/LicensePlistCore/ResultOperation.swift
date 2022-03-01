@@ -1,5 +1,4 @@
 import Foundation
-import Result
 import LoggerAPI
 
 public class ResultOperation<T, E: Error>: Operation {

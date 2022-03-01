@@ -5,7 +5,8 @@ public struct Options {
     public let cartfilePath: URL
     public let mintfilePath: URL
     public let podsPath: URL
-    public let packagePath: URL
+    public let packagePaths: [URL]
+    public let xcworkspacePath: URL
     public let xcodeprojPath: URL
     public let prefix: String
     public let gitHubToken: String?
@@ -17,7 +18,8 @@ public struct Options {
                                       cartfilePath: URL(fileURLWithPath: ""),
                                       mintfilePath: URL(fileURLWithPath: ""),
                                       podsPath: URL(fileURLWithPath: ""),
-                                      packagePath: URL(fileURLWithPath: ""),
+                                      packagePaths: [],
+                                      xcworkspacePath: URL(fileURLWithPath: ""),
                                       xcodeprojPath: URL(fileURLWithPath: ""),
                                       prefix: Consts.prefix,
                                       gitHubToken: nil,
@@ -29,7 +31,8 @@ public struct Options {
                 cartfilePath: URL,
                 mintfilePath: URL,
                 podsPath: URL,
-                packagePath: URL,
+                packagePaths: [URL],
+                xcworkspacePath: URL,
                 xcodeprojPath: URL,
                 prefix: String,
                 gitHubToken: String?,
@@ -40,7 +43,8 @@ public struct Options {
         self.cartfilePath = cartfilePath
         self.mintfilePath = mintfilePath
         self.podsPath = podsPath
-        self.packagePath = packagePath
+        self.packagePaths = packagePaths
+        self.xcworkspacePath = xcworkspacePath
         self.xcodeprojPath = xcodeprojPath
         self.prefix = prefix
         self.gitHubToken = gitHubToken

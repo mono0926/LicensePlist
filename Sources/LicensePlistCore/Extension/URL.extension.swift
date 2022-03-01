@@ -1,16 +1,15 @@
 import Foundation
 import LoggerAPI
-import Result
 
 extension URL: LicensePlistCompatible {}
 
 extension LicensePlistExtension where Base == URL {
-    func download() -> ResultOperation<String, NSError> {
-        let operation =  ResultOperation<String, NSError> { _ in
+    func download() -> ResultOperation<String, Error> {
+        let operation = ResultOperation<String, Error> { _ in
             do {
-                return Result(value: try String(contentsOf: self.base))
-            } catch let e {
-                return Result(error: e as NSError)
+                return Result(catching: {
+                    try String(contentsOf: self.base)
+                })
             }
         }
         return operation
@@ -87,6 +86,9 @@ extension LicensePlistExtension where Base == URL {
         let message = String(describing: error)
         assertionFailure(message)
         Log.error(message)
+    }
+    internal var fileURL: URL {
+        return URL(fileURLWithPath: base.absoluteString)
     }
 }
 
