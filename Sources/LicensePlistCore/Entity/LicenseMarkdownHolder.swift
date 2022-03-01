@@ -6,7 +6,11 @@ struct LicenseMarkdownHolder {
     static func load(licenses: [LicenseInfo], options: Options) -> LicenseMarkdownHolder {
         var markdown = "# Acknowledgements\nThis project makes use of the following third party libraries:\n\n"
         licenses.forEach { license in
-            markdown += "## \(license.name(withVersion: options.config.addVersionNumbers))\n\n\(license.body)\n\n"
+            if options.config.addSources, let source = license.source {
+                markdown += "## [\(license.name(withVersion: options.config.addVersionNumbers))](\(source))\n\n\(license.body)\n\n"
+            } else {
+                markdown += "## \(license.name(withVersion: options.config.addVersionNumbers))\n\n\(license.body)\n\n"
+            }
         }
         return LicenseMarkdownHolder(markdown: markdown)
     }

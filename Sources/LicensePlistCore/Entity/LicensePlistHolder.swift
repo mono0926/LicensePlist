@@ -18,7 +18,7 @@ struct LicensePlistHolder {
                                                        options: 0)
         let items: [(LicenseInfo, Data)] = licenses.map { license in
             let lineRegex = try! NSRegularExpression(pattern: "^\\s*[-_*=]{3,}\\s*$", options: [])
-            let item = ["PreferenceSpecifiers":
+            var item = ["PreferenceSpecifiers":
                             license.body
                             .components(separatedBy: "\n\n")
                             .split(whereSeparator: { (possibleHorizontalLine) -> Bool in
@@ -32,6 +32,10 @@ struct LicensePlistHolder {
                                 ["Type": "PSGroupSpecifier", "FooterText": paragraph]
                             }
             ]
+            
+            if options.config.addSources, let source = license.source {
+                item["PreferenceSpecifiers"]?.insert(["Type": "PSTitleValueSpecifier", "Key": "\(license.name)-source", "DefaultValue": source, "Title": "Source"], at: 0)
+            }
             let value = try! PropertyListSerialization.data(fromPropertyList: item, format: .xml, options: 0)
             return (license, value)
         }

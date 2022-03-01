@@ -174,6 +174,11 @@ You can see options by `license-plist --help`.
 
 <img src="Screenshots/list_version.png" width="320" height="568" alt="License list with versions">
 
+#### `--add-sources`
+
+- Default: false
+- Adds the source of the library to the output if there is one. The source for GitHub and CocoaPods libraries is generated. Manual libraries use the optional source field.
+
 #### `--suppress-opening-directory`
 
 - Default: false

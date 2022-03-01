@@ -7,6 +7,7 @@ public struct GitHub: Library {
     public let nameSpecified: String?
     var owner: String
     public let version: String?
+    public var source: String? { "https://github.com/\(owner)/\(name)" }
 }
 
 extension GitHub {
@@ -20,7 +21,7 @@ extension GitHub {
 
 extension GitHub: CustomStringConvertible {
     public var description: String {
-        return "name: \(name), nameSpecified: \(nameSpecified ?? ""), owner: \(owner), version: \(version ?? "")"
+        return "name: \(name), nameSpecified: \(nameSpecified ?? ""), owner: \(owner), version: \(version ?? ""), source: \(source ?? "")"
     }
 }
 
@@ -57,9 +58,10 @@ extension GitHub {
                 return version
             }()
             let name = nsContent.substring(with: match.range(at: 2))
+            let owner = nsContent.substring(with: match.range(at: 1))
             return GitHub(name: name,
                           nameSpecified: renames[name],
-                          owner: nsContent.substring(with: match.range(at: 1)),
+                          owner: owner,
                           version: version)
             }
             .compactMap { $0 }
