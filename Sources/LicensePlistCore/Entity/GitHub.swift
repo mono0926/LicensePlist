@@ -7,24 +7,15 @@ public struct GitHub: Library {
     public let nameSpecified: String?
     var owner: String
     public let version: String?
-    public let source: String?
-    
-    public init(name: String, nameSpecified: String?, owner: String, version: String?) {
-        self.name = name
-        self.nameSpecified = nameSpecified
-        self.owner = owner
-        self.version = version
-        self.source = "https://github.com/\(owner)/\(name)"
-    }
+    public var source: String? { "https://github.com/\(owner)/\(name)" }
 }
 
 extension GitHub {
     public static func==(lhs: GitHub, rhs: GitHub) -> Bool {
         return lhs.name == rhs.name &&
-        lhs.nameSpecified == rhs.nameSpecified &&
-        lhs.owner == rhs.owner &&
-        lhs.version == rhs.version &&
-        lhs.source == rhs.source
+            lhs.nameSpecified == rhs.nameSpecified &&
+            lhs.owner == rhs.owner &&
+            lhs.version == rhs.version
     }
 }
 
