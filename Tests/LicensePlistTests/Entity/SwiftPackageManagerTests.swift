@@ -76,7 +76,7 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(package.state.branch, "master")
         XCTAssertNil(package.state.version)
     }
-    
+
     func testDecodingWithVersionV2() throws {
         let jsonString = """
             {
@@ -99,7 +99,7 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertNil(package.state.branch)
         XCTAssertEqual(package.state.version, "4.1.0")
     }
-    
+
     func testDecodingWithBranchV2() throws {
         let jsonString = """
             {

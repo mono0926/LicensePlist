@@ -41,7 +41,7 @@ struct SwiftPackageV2: Decodable {
         let revision: String?
         let version: String?
     }
-    
+
     let identity: String
     let location: String
     let state: State
@@ -59,13 +59,11 @@ extension SwiftPackage {
             return resolvedPackagesV1.object.pins.map {
                 SwiftPackage(package: $0.package, repositoryURL: $0.repositoryURL, revision: $0.state.revision, version: $0.state.version)
             }
-        }
-        else if let resolvedPackagesV2 = try? JSONDecoder().decode(ResolvedPackagesV2.self, from: data) {
+        } else if let resolvedPackagesV2 = try? JSONDecoder().decode(ResolvedPackagesV2.self, from: data) {
             return resolvedPackagesV2.pins.map {
                 SwiftPackage(package: $0.identity, repositoryURL: $0.location, revision: $0.state.revision, version: $0.state.version)
             }
-        }
-        else {
+        } else {
             return []
         }
     }
