@@ -32,7 +32,7 @@ struct LicensePlistHolder {
                                 ["Type": "PSGroupSpecifier", "FooterText": paragraph]
                             }
             ]
-            
+
             if options.config.addSources, let source = license.source {
                 item["PreferenceSpecifiers"]?.insert(["Type": "PSTitleValueSpecifier", "Key": "\(license.name)-source", "DefaultValue": source, "Title": "Source"], at: 0)
             }
