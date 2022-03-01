@@ -10,6 +10,9 @@
 [![Language: Swift 5.0](https://img.shields.io/badge/swift-5.0-4BC51D.svg?style=flat)](https://developer.apple.com/swift)
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
+[![Lint](https://github.com/mono0926/LicensePlist/actions/workflows/lint.yml/badge.svg)](https://github.com/mono0926/LicensePlist/actions/workflows/lint.yml)
+[![Test](https://github.com/mono0926/LicensePlist/actions/workflows/test.yml/badge.svg)](https://github.com/mono0926/LicensePlist/actions/workflows/test.yml)
+
 `LicensePlist` is a command-line tool that automatically generates a Plist of all your dependencies, including files added manually(specified by [YAML config file](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)) or using `Carthage` or `CocoaPods`. All these licenses then show up in the Settings app.
 
 ![Flow](Screenshots/flow.png)
