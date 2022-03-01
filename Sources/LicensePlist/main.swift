@@ -65,7 +65,7 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long)
     var addSources = false
-    
+
     @Flag(name: .long)
     var suppressOpeningDirectory = false
 
