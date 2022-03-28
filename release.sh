@@ -49,7 +49,7 @@ curl -i -X PUT $formula_url \
 }"
 
 brew upgrade $lib_name
-zip -j $lib_name.zip /usr/local/bin/$lib_name
+zip -j $lib_name.zip ./.build/release/$lib_name
 
 # GitHub Release
 github-release release \
