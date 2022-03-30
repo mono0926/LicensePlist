@@ -194,6 +194,11 @@ You can see options by `license-plist --help`.
 - Default: false
 - If there is even one package for which a license cannot be found, LicensePlist returns exit code 1.
 
+#### `--silence-mode`
+
+- Default: false
+- By adding `--silence-mode` flag, the output of the logger will not print.
+
 ### Integrate into build
 
 Add a `Run Script Phase` to `Build Phases`:
