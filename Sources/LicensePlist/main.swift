@@ -74,16 +74,16 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long)
     var failIfMissingLicense = false
-    
+
     @Flag(name: .long)
     var silenceMode = false
 
     func run() throws {
-        
+
         if !silenceMode {
             Logger.configure()
         }
-        
+
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force
         config.addVersionNumbers = addVersionNumbers
