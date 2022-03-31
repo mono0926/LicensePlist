@@ -1,4 +1,4 @@
-// swift-tools-version:4.1
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -10,22 +10,22 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
-                 from: "1.0.1"),
+                 from: "1.1.1"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
-                 from: "5.2.0"),
+                 from: "5.3.0"),
         .package(url: "https://github.com/Kitura/HeliumLogger.git",
-                 from: "1.9.0"),
+                 from: "2.0.0"),
         .package(url: "https://github.com/behrang/YamlSwift.git",
                  from: "3.4.4"),
         .package(url: "https://github.com/Kitura/swift-html-entities.git",
-                 from: "3.0.14"),
+                 from: "4.0.1"),
     ],
     targets: [
         .target(
             name: "LicensePlist",
             dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 "LicensePlistCore",
-                "ArgumentParser",
                 "HeliumLogger",
             ]
         ),
@@ -34,14 +34,15 @@ let package = Package(
             dependencies: [
                 "APIKit",
                 "HeliumLogger",
-                "HTMLEntities",
-                "Yaml",
+                .product(name: "HTMLEntities", package: "swift-html-entities"),
+                .product(name: "Yaml", package: "YamlSwift")
             ]
         ),
         .testTarget(
             name: "LicensePlistTests",
             dependencies: ["LicensePlistCore"],
             exclude: [
+                "Resources",
                 "XcodeProjects",
             ]
         ),
