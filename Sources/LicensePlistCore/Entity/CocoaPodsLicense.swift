@@ -29,7 +29,8 @@ extension CocoaPodsLicense {
                     let name = $0.title
                     return CocoaPodsLicense(library: CocoaPods(name: name,
                                                                nameSpecified: config.renames[name],
-                                                               version: versionInfo.version(name: $0.title)),
+                                                               version: versionInfo.version(name: $0.title),
+                                                               licenseType: LicenseType(id: $0.license)),
                                             body: $0.footerText)
             }
         } catch let e {

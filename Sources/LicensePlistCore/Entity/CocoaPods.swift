@@ -7,6 +7,14 @@ public struct CocoaPods: Library {
     public let nameSpecified: String?
     public let version: String?
     public var source: String? { "https://cocoapods.org/pods/\(name)"  }
+    public let licenseType: LicenseType
+
+    public init(name: String, nameSpecified: String?, version: String?, licenseType: LicenseType = .unknown) {
+        self.name = name
+        self.nameSpecified = nameSpecified
+        self.version = version
+        self.licenseType = licenseType
+    }
 }
 
 extension CocoaPods {
