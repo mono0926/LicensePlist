@@ -7,6 +7,7 @@ public protocol LicenseInfo: HasName {
     var version: String? { get }
     var source: String? { get }
     var bodyEscaped: String { get }
+    var licenseType: LicenseType { get }
 }
 
 public protocol License: LicenseInfo {
@@ -38,4 +39,5 @@ extension License {
             .replacingOccurrences(of: ">", with: "&gt;")
             .replacingOccurrences(of: "<", with: "&lt;")
     }
+    public var licenseType: LicenseType { return library.licenseType }
 }

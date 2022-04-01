@@ -203,8 +203,8 @@ class SwiftPackageManagerTests: XCTestCase {
         let packageFirst = try XCTUnwrap(packages.first)
         XCTAssertEqual(packageFirst, SwiftPackage(package: "APIKit",
                                                   repositoryURL: "https://github.com/ishkawa/APIKit.git",
-                                                  revision: "c8f5320d84c4c34c0fd965da3c7957819a1ccdd4",
-                                                  version: "5.2.0"))
+                                                  revision: "4e7f42d93afb787b0bc502171f9b5c12cf49d0ca",
+                                                  version: "5.3.0"))
         let packageLast = try XCTUnwrap(packages.last)
         XCTAssertEqual(packageLast, SwiftPackage(package: "Yaml",
                                                  repositoryURL: "https://github.com/behrang/YamlSwift.git",

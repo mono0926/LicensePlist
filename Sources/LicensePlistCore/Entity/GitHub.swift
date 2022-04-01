@@ -8,6 +8,15 @@ public struct GitHub: Library {
     var owner: String
     public let version: String?
     public var source: String? { "https://github.com/\(owner)/\(name)" }
+    public let licenseType: LicenseType
+
+    public init(name: String, nameSpecified: String?, owner: String, version: String?, licenseType: LicenseType = .unknown) {
+        self.name = name
+        self.nameSpecified = nameSpecified
+        self.owner = owner
+        self.version = version
+        self.licenseType = licenseType
+    }
 }
 
 extension GitHub {

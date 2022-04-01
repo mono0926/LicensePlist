@@ -5,6 +5,7 @@ import LoggerAPI
 public protocol Library: HasName, Hashable {
     var version: String? { get }
     var source: String? { get }
+    var licenseType: LicenseType { get }
 }
 
 extension Library {

@@ -9,12 +9,14 @@ public class Manual: Library {
     public var source: String?
     public var nameSpecified: String?
     public var version: String?
+    public let licenseType: LicenseType
 
-    public init(name n: String, source: String?, nameSpecified: String?, version: String?) {
+    public init(name n: String, source: String?, nameSpecified: String?, version: String?, licenseType: LicenseType = .unknown) {
         self.name = n
         self.source = source
         self.nameSpecified = nameSpecified
         self.version = version
+        self.licenseType = licenseType
     }
 }
 

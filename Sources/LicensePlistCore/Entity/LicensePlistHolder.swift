@@ -29,7 +29,9 @@ struct LicensePlistHolder {
                             }
                             .joined(separator: [String(repeating: "-", count: 40)])
                             .map { (paragraph) -> [String: String] in
-                                ["Type": "PSGroupSpecifier", "FooterText": paragraph]
+                                return ["Type": "PSGroupSpecifier",
+                                        "FooterText": paragraph,
+                                        "License": license.licenseType.rawValue]
                             }
             ]
 
@@ -46,10 +48,11 @@ struct LicensePlistHolder {
         let rootItem: [[String: String]] = {
             guard !licenses.isEmpty else { return [] }
             let body = licenses
-                .compactMap { lincense in
+                .compactMap { license in
                     return ["Type": "PSGroupSpecifier",
-                            "Title": lincense.name(withVersion: options.config.addVersionNumbers),
-                            "FooterText": lincense.body
+                            "Title": license.name(withVersion: options.config.addVersionNumbers),
+                            "FooterText": license.body,
+                            "License": license.licenseType.rawValue
                             ]
                 }
             return body
