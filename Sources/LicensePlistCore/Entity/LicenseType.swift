@@ -22,6 +22,6 @@ public enum LicenseType: String, CaseIterable {
 extension LicenseType {
 
     init(id: String?) {
-        self = Self(rawValue: id ?? "") ?? .unknown
+        self = Self(rawValue: id ?? "") ?? Self.allCases.first(where: { $0.rawValue.replacingOccurrences(of: "-", with: " ") == id }) ?? .unknown
     }
 }
