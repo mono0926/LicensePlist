@@ -34,19 +34,19 @@ pod 'LicensePlist'
 ### Homebrew (Also Recommended)
 
 ```sh
-$ brew install mono0926/license-plist/license-plist
+brew install mono0926/license-plist/license-plist
 ```
 
 Or
 
 ```sh
-$ brew tap mono0926/license-plist
-$ brew install license-plist
+brew tap mono0926/license-plist
+brew install license-plist
 ```
 
 ### Mint (Also Recommended)
 ```sh
-$ mint run mono0926/LicensePlist
+mint run mono0926/LicensePlist
 ```
 
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
@@ -56,7 +56,7 @@ Download from [Releases](https://github.com/mono0926/LicensePlist/releases), the
 Or you can also download the latest binary and install it with a one-liner.
 
 ```sh
-$ curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/install.sh | sh
 ```
 
 ### From Source
@@ -64,8 +64,8 @@ $ curl -fsSL https://raw.githubusercontent.com/mono0926/LicensePlist/master/inst
 Clone the master branch of the repository, then run `make install`.
 
 ```sh
-$ git clone https://github.com/mono0926/LicensePlist.git
-$ make install
+git clone https://github.com/mono0926/LicensePlist.git
+make install
 ```
 
 ## Usage
