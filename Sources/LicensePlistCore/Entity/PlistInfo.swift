@@ -25,7 +25,7 @@ struct PlistInfo {
             .map { CocoaPodsLicense.load($0, versionInfo: podsVersionInfo, config: options.config) }
             .flatMap { $0 }
         let config = options.config
-        cocoaPodsLicenses = config.filterExcluded(licenses).sorted()
+        cocoaPodsLicenses = config.filterExcluded(cocoaPodsLicenses: licenses).sorted()
     }
 
     mutating func loadGitHubLibraries(file: GitHubLibraryConfigFile) {

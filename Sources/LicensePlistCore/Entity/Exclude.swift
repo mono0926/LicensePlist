@@ -1,0 +1,53 @@
+import Foundation
+import Yaml
+import LoggerAPI
+
+public struct Exclude {
+    public let name: String?
+    public let owner: String?
+    public let source: String?
+    public let licenseType: String?
+
+    public init(name: String? = nil, owner: String? = nil, source: String? = nil, licenseType: String? = nil) {
+        self.name = name
+        self.owner = owner
+        self.source = source
+        self.licenseType = licenseType
+    }
+
+    public init?(from yaml: Yaml) {
+        if let name = yaml.string {
+            self.init(name: name, owner: nil, source: nil, licenseType: Optional<String>.none)
+            return
+        }
+
+        guard let dictionary = yaml.dictionary else {
+            Log.warning("Attempt to load exclude failed. Supported YAML types are String and Dictionary.")
+            return nil
+        }
+
+        let name = dictionary["name"]?.string
+        let owner = dictionary["owner"]?.string
+        let source = dictionary["source"]?.string
+        let licenseType = dictionary["licenseType"]?.string
+
+        if name == nil && owner == nil && source == nil && licenseType == nil {
+            Log.warning("Attempt to load exclude failed. At least one exclude matcher must be specified.")
+            return nil
+        }
+
+        self.init(name: name,
+                  owner: owner,
+                  source: source,
+                  licenseType: licenseType)
+    }
+}
+
+extension Exclude: Equatable {
+    public static func==(lhs: Self, rhs: Self) -> Bool {
+        return lhs.name == rhs.name &&
+            lhs.owner == rhs.owner &&
+            lhs.source == rhs.source &&
+            lhs.licenseType == rhs.licenseType
+    }
+}
