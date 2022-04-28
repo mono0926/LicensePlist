@@ -139,6 +139,7 @@ You can see options by `license-plist --help`.
 - Default: `license_plist.yml`
 - You can specify GitHub libraries(introduced by hand) and excluded libraries
     - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml)
+    - See [Configuration](#Configuration) for more information
 
 #### `--prefix`
 
@@ -215,6 +216,118 @@ Alternatively, if you've installed LicensePlist via CocoaPods the script should 
 if [ $CONFIGURATION = "Debug" ]; then
 ${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN
 fi
+```
+
+## Configuration
+
+### Manual GitHub source
+
+A GitHub source can be explicitly defined to include the license in the scenario where it can't be inferred from your dependency files.
+
+#### Examples
+
+```yml
+github:
+  - owner: mono0926
+    name: LicensePlist
+    version: 1.2.0
+```
+
+### Manual License Body
+
+If you need to include a license that isn't available on GitHub, you can place the license text in the config file to be included in the output.
+The license text can also be read from a local file, to keep the config file clean.
+
+#### Examples
+
+License body directly in the config file:
+
+```yml
+manual:
+  - source: https://webrtc.googlesource.com/src
+    name: WebRTC
+    version: M61
+    body: |-
+      Copyright (c) 2011, The WebRTC project authors. All rights reserved.
+      ...
+      ...
+      ...
+```
+
+License body in local file:
+
+```yml
+manual:
+  - name: "Dummy License File"
+    file: "dummy_license.txt"
+```
+
+### Excludes
+
+Excludes can be defined to exclude matching libraries from the final output.
+An exclude is a dictionary containing any combination of `name`, `source`, `owner`, or `licenseType`.
+
+When using the dictionary format:
+
+- The exclusion rule is only applied if _all_ properties match for a dependency. eg, `(name: LicensePlist) AND (owner: mono0926)`
+- Any property can be either a string or a regular expression. 
+
+#### Examples
+
+Exclude a package by name:
+
+```yml
+exclude:
+  - name: LicensePlist
+```
+
+Exclude packages using a specific license:
+
+```yml
+exclude:
+  - licenseType: "Apache 2.0"
+```
+
+Exclude packages using any matching licenses:
+
+```yml
+exclude:
+  - licenseType: /BSD/
+```
+
+Exclude packages from a specific github owner:
+
+```yml
+exclude:
+  - owner: mycompany
+```
+
+Exclude packages from a specific github owner containing matching licenses:
+
+```yml
+exclude:
+  - owner: mycompany
+    licenseType: /^(?!.*MIT).*$/ # this regex excludes packages that do NOT use the MIT license
+``` 
+
+Exclude a package from a specific github owner and repo:
+
+```yml
+exclude:
+  - owner: mycompany
+    name: private-repo
+```
+
+### Rename
+
+If a library name is unsuitable for the output bundle, you can explicitly rename it. This can be used when a library name is too vague, or if more human-readable names are needed.
+
+#### Examples
+
+```yml
+rename:
+  LicensePlist: License Plist # Rename LicensePlist to "License Plist"
+  WebRTC: Web RTC # Rename WebRTC to "Web RTC" (which is faulty, but used for test)
 ```
 
 ## Q&A
