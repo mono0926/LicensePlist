@@ -17,7 +17,7 @@ public struct Exclude {
 
     public init?(from yaml: Yaml) {
         if let name = yaml.string {
-            self.init(name: name, owner: nil, source: nil, licenseType: Optional<String>.none)
+            self.init(name: name, owner: nil, source: nil, licenseType: nil)
             return
         }
 

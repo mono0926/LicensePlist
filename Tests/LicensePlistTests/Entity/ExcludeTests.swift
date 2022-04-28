@@ -10,7 +10,7 @@ class ExcludeTests: XCTestCase {
             "name": "LicensePlist",
             "owner": "mono0926",
             "source": "https://github.com/mono0926/LicensePlist",
-            "licenseType": "MIT",
+            "licenseType": "MIT"
         ]
         let yaml = Yaml.dictionary(testDict)
         let exclude = Exclude(from: yaml)
@@ -24,7 +24,7 @@ class ExcludeTests: XCTestCase {
     func testInit_yaml_dictionary_missing_some_properties() {
         let testDict: [Yaml: Yaml] = [
             "name": "LicensePlist",
-            "owner": "mono0926",
+            "owner": "mono0926"
         ]
         let yaml = Yaml.dictionary(testDict)
         let exclude = Exclude(from: yaml)

@@ -64,8 +64,7 @@ public struct Config {
             if matches(testString: github.name, matchString: exclude.name) &&
                 matches(testString: github.owner, matchString: exclude.owner) &&
                 matches(testString: github.source, matchString: exclude.source) &&
-                matches(testString: github.licenseType.rawValue, matchString: exclude.licenseType)
-            {
+                matches(testString: github.licenseType.rawValue, matchString: exclude.licenseType) {
                 return true
             }
         }
@@ -76,8 +75,7 @@ public struct Config {
         for exclude in excludes {
             if matches(testString: manual.name, matchString: exclude.name) &&
                 matches(testString: manual.source, matchString: exclude.source) &&
-                matches(testString: manual.licenseType.rawValue, matchString: exclude.licenseType)
-            {
+                matches(testString: manual.licenseType.rawValue, matchString: exclude.licenseType) {
                 return true
             }
         }
@@ -88,8 +86,7 @@ public struct Config {
         for exclude in excludes {
             if matches(testString: cocoaPodsLicense.name, matchString: exclude.name) &&
                 matches(testString: cocoaPodsLicense.source, matchString: exclude.source) &&
-                matches(testString: cocoaPodsLicense.licenseType.rawValue, matchString: exclude.licenseType)
-            {
+                matches(testString: cocoaPodsLicense.licenseType.rawValue, matchString: exclude.licenseType) {
                 return true
             }
         }
