@@ -115,7 +115,7 @@ You can see options by `license-plist --help`.
 
 #### `--package-paths`
 
-- Support for multiple `Pakckage.swift`
+- Support for multiple `Package.swift`
 - Example: `license-plist --package-paths /path/to/package1/Package.swift /path/to/package2/Package.swift`
 
 #### `--xcodeproj-path`
