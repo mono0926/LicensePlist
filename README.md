@@ -113,6 +113,11 @@ You can see options by `license-plist --help`.
 - Default: `Package.swift`
 - `LicensePlist` tries to find `YourProjectName.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` and `YourProjectName.xcworkspace/xcshareddata/swiftpm/Package.resolved`, then uses new one.
 
+#### `--package-paths`
+
+- Support for multiple `Package.swift`
+- Example: `license-plist --package-paths /path/to/package1/Package.swift /path/to/package2/Package.swift`
+
 #### `--xcodeproj-path`
 
 - Default: `"*.xcodeproj"`
