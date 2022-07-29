@@ -94,10 +94,8 @@ public struct Config {
     }
 
     func excluded(name: String) -> Bool {
-        for exclude in excludes {
-            if matches(testString: name, matchString: exclude.name) {
-                return true
-            }
+        for exclude in excludes where matches(testString: name, matchString: exclude.name) {
+            return true
         }
         return false
     }
