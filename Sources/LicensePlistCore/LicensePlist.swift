@@ -18,16 +18,22 @@ public final class LicensePlist {
                 try SwiftPackageFileReader(path: packagePath).read()
             }
 
-            let xcodeFileReadResult = try xcodeFileReadResult(xcworkspacePath: options.xcworkspacePath, xcodeprojPath: options.xcodeprojPath)
-
-            let packageFiles = swiftPackageFileReadResults.isEmpty
-                ? [xcodeFileReadResult ?? ""]
-                : swiftPackageFileReadResults
-
-            info.loadSwiftPackageLibraries(packageFiles: packageFiles)
+            if !swiftPackageFileReadResults.isEmpty {
+                info.loadSwiftPackageLibraries(packageFiles: swiftPackageFileReadResults)
+            }
         } catch {
             fatalError(error.localizedDescription)
         }
+
+        do {
+            if let xcodeFileReadResult = try xcodeFileReadResult(xcworkspacePath: options.xcworkspacePath, xcodeprojPath: options.xcodeprojPath),
+               !xcodeFileReadResult.isEmpty {
+                info.loadSwiftPackageLibraries(packageFiles: [xcodeFileReadResult])
+            }
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+        
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         info.downloadGitHubLicenses()
