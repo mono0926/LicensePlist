@@ -105,9 +105,9 @@ extension SwiftPackage {
 
     func parseName(from packageDefinition: String) -> String? {
         // Step 1 - Trim the beginning of the Package Description to where the Package object is starting to be defined -> return as a one-liner without spaces
-        let startingPoint = packageDefinition
+        guard let startingPoint = packageDefinition
             .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
-            .components(separatedBy: "let package = Package")[1]
+            .components(separatedBy: "let package = Package").first else { return nil }
 
         // Step 2 - Assemble Reduced Package Description
         // This removes all nested square brackets and everything written after the closing round bracket of the Package definition
