@@ -33,7 +33,7 @@ public final class LicensePlist {
         } catch {
             fatalError(error.localizedDescription)
         }
-        
+
         info.loadManualLibraries()
         info.compareWithLatestSummary()
         info.downloadGitHubLicenses()
