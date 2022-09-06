@@ -49,8 +49,8 @@ class SwiftPackageFileReaderTests: XCTestCase {
                 "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
                 "state": {
                   "branch": null,
-                  "revision": "82905286cc3f0fa8adc4674bf49437cab65a8373",
-                  "version": "1.1.1"
+                  "revision": "e394bf350e38cb100b6bc4172834770ede1b7232",
+                  "version": "1.0.3"
                 }
               },
               {
