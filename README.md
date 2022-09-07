@@ -34,14 +34,7 @@ pod 'LicensePlist'
 ### Homebrew (Also Recommended)
 
 ```sh
-brew install mono0926/license-plist/license-plist
-```
-
-Or
-
-```sh
-brew tap mono0926/license-plist
-brew install license-plist
+brew install licenseplist
 ```
 
 ### Mint (Also Recommended)
