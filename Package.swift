@@ -19,6 +19,8 @@ let package = Package(
                  from: "3.4.4"),
         .package(url: "https://github.com/Kitura/swift-html-entities.git",
                  from: "4.0.1"),
+        .package(url: "https://github.com/apple/swift-tools-support-core",
+                 .upToNextMinor(from: "0.2.7")),
     ],
     targets: [
         .target(
@@ -35,7 +37,8 @@ let package = Package(
                 "APIKit",
                 "HeliumLogger",
                 .product(name: "HTMLEntities", package: "swift-html-entities"),
-                .product(name: "Yaml", package: "YamlSwift")
+                .product(name: "Yaml", package: "YamlSwift"),
+                .product(name: "SwiftToolsSupport-auto", package: "swift-tools-support-core")
             ]
         ),
         .testTarget(
