@@ -19,7 +19,7 @@ public struct LoggerConfiguration {
         silence = silenceModeCommandLineFlag
         
         colored = {
-            // precede commandline
+            // commandline
             if noColorCommandLineFlag {
                 return false
             }
@@ -32,24 +32,28 @@ public struct LoggerConfiguration {
                 return false
             }
             
-            // default(auto):
+            // auto:
+            do {
+                let terminalType = try terminalType();
+                
+                switch terminalType {
+                case .file:
+                    return false
+                case .dumb:
+                    return false // dumb terminals don't interpret escape sequences
+                case .tty:
+                    break // keep guessing
+                }
+
+                // TODO: detect pipe and -> no-color
+            } catch { // TODO: catch specific error
+            }
+            
             if Self.env["TERM"] == "xterm-256color" {
                 return true
             }
-                
-            do {
-                if try terminalType() == .file {
-                    return false
-                }
-                
-                // TODO: pipe -> no-color
-                // TODO: tty -> keep guessing
-    //            if isatty()
-                
-                return false
-            } catch {
-                return false
-            }
+            
+            return false
         }()
         
         self.verbose = verboseCommandLineFlag
@@ -91,7 +95,7 @@ fileprivate func terminalType() throws -> TerminalController.TerminalType {
     // FILEPointer(aka UnsafeMutablePointer<FILE>)はCのFILE*と同じと仮定
     // fdopenで fileDescriptorから filePointerを作り、
     // FILEPointerからLocalFileOutputByteStream を作り、terminalTypeを取得
-    let fileDescriptor: Int32 = {
+    let stdOutFileDescriptor: Int32 = {
         if #available(macOS 11,*) {
             return FileDescriptor.standardOutput.rawValue as Int32
         } else {
@@ -103,9 +107,10 @@ fileprivate func terminalType() throws -> TerminalController.TerminalType {
     let terminalType:TerminalController.TerminalType = try mode.withCString {
         (modeCString: UnsafePointer<CChar>) -> TerminalController.TerminalType in
         
-        let filePointer: FILEPointer! = fdopen(fileDescriptor, modeCString)
-        let s = try LocalFileOutputByteStream(filePointer: filePointer)
-        return TerminalController.terminalType(s)
+        let filePointer: FILEPointer! = fdopen(stdOutFileDescriptor, modeCString)
+        let stream = try LocalFileOutputByteStream(filePointer: filePointer)
+        // TerminalController.terminalType() use isatty() inside.
+        return TerminalController.terminalType(stream)
     }
     
     return terminalType
