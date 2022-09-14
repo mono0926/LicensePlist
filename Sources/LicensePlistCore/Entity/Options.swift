@@ -12,7 +12,6 @@ public struct Options {
     public let gitHubToken: String?
     public let htmlPath: URL?
     public let markdownPath: URL?
-    public let noColor: Bool
     public let config: Config
 
     public static let empty = Options(outputPath: URL(fileURLWithPath: ""),
@@ -26,7 +25,6 @@ public struct Options {
                                       gitHubToken: nil,
                                       htmlPath: nil,
                                       markdownPath: nil,
-                                      noColor: false,
                                       config: Config.empty)
 
     public init(outputPath: URL,
@@ -40,7 +38,6 @@ public struct Options {
                 gitHubToken: String?,
                 htmlPath: URL?,
                 markdownPath: URL?,
-                noColor: Bool,
                 config: Config) {
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
@@ -53,7 +50,6 @@ public struct Options {
         self.gitHubToken = gitHubToken
         self.htmlPath = htmlPath
         self.markdownPath = markdownPath
-        self.noColor = noColor
         self.config = config
     }
 }

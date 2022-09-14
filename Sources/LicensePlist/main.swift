@@ -113,7 +113,6 @@ struct LicensePlist: ParsableCommand {
                               gitHubToken: githubToken ?? ProcessInfo.processInfo.environment[Self.githubTokenEnv],
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
-                              noColor: resolvedNoColor, // これいらんかも silenceModeもOptionsに含まれてない
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
