@@ -1,11 +1,12 @@
 import HeliumLogger
 import LoggerAPI
+import Foundation
 
 public struct Logger {
-    public static func configure() {
+    public static func configure(noColor: Bool) {
         let logger = createDefaultLogger()
 //        let logger = createDebugLogger()
-        logger.colored = true
+        logger.colored = !noColor
         Log.logger = logger
     }
 

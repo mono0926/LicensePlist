@@ -77,11 +77,22 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long)
     var silenceMode = false
+    
+    static let noColorEnv = "NO_COLOR"
+    @Flag(name: .long, help: "This command line option take precedence over '\(Self.noColorEnv)' environment variable.")
+    var noColor = false
 
     func run() throws {
+        let resolvedNoColor : Bool = {
+            if noColor {
+                return true // noColor
+            } else {
+                return ProcessInfo.processInfo.environment["NO_COLOR"] == "1"
+            }
+        }()
 
         if !silenceMode {
-            Logger.configure()
+            Logger.configure(noColor: resolvedNoColor)
         }
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
@@ -102,6 +113,7 @@ struct LicensePlist: ParsableCommand {
                               gitHubToken: githubToken ?? ProcessInfo.processInfo.environment[Self.githubTokenEnv],
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
+                              noColor: resolvedNoColor, // これいらんかも silenceModeもOptionsに含まれてない
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
