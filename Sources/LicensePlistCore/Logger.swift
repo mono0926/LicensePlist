@@ -1,6 +1,5 @@
 import HeliumLogger
 import LoggerAPI
-import Foundation
 
 public struct Logger {
     public static func configure(noColor: Bool) {
