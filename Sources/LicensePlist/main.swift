@@ -41,8 +41,7 @@ struct LicensePlist: ParsableCommand {
     @Option(name: .long, completion: .file())
     var outputPath = Consts.outputPath
 
-    static let githubTokenEnv = "LICENSE_PLIST_GITHUB_TOKEN"
-    @Option(name: .long, help: "You can also pass the token via the '\(Self.githubTokenEnv)' environment variable.", completion: .empty)
+    @Option(name: .long, help: "You can also pass the token via the '\(Environment.Keys.githubToken)' environment variable.", completion: .empty)
     var githubToken: String?
 
     @Option(name: .long, completion: .file())
@@ -83,7 +82,7 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long,
           inversion: .prefixedNo,
-          help: "This command line option take precedence over the '\(Consts.EnvironmentVariableKey.noColor)' environment variable.")
+          help: "This command line option take precedence over the '\(Environment.Keys.noColor)' environment variable.")
     var color: Bool = Self.defaultForColorFlag()
 
     func run() throws {
@@ -106,7 +105,7 @@ struct LicensePlist: ParsableCommand {
                               xcworkspacePath: URL(fileURLWithPath: xcworkspacePath),
                               xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
                               prefix: prefix,
-                              gitHubToken: githubToken ?? ProcessInfo.processInfo.environment[Self.githubTokenEnv],
+                              gitHubToken: githubToken ?? Environment.shared[.githubToken],
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
                               config: config)
@@ -116,15 +115,15 @@ struct LicensePlist: ParsableCommand {
     
     fileprivate static func defaultForColorFlag() -> Bool {
         // environment variable:
-        if ProcessInfo.processInfo.environment[Consts.EnvironmentVariableKey.noColor] == "1" {
+        if Environment.shared[.noColor] == "1" {
             return true
         }
         
         // auto:
-        return autoColor(env: ProcessInfo.processInfo.environment, fileDescriptor: STDOUT_FILENO)
+        return autoColor(env: Environment.shared, fileDescriptor: STDOUT_FILENO)
     }
     
-    fileprivate static func autoColor(env: [String:String], fileDescriptor: Int32) -> Bool {
+    fileprivate static func autoColor(env: Environment, fileDescriptor: Int32) -> Bool {
         func isTTY(_ fileDescriptor:Int32) -> Bool {
             return isatty(fileDescriptor) == 1
         }
@@ -133,11 +132,11 @@ struct LicensePlist: ParsableCommand {
             return false
         }
 
-        if env[Consts.EnvironmentVariableKey.term] == "dumb" {
+        if env[.term] == "dumb" {
             return false
         }
         
-        if env[Consts.EnvironmentVariableKey.term] == "xterm-256color" {
+        if env[.term] == "xterm-256color" {
             return true
         }
         
@@ -146,3 +145,19 @@ struct LicensePlist: ParsableCommand {
 }
 
 LicensePlist.main()
+
+public struct Environment {
+    public enum Keys : String {
+        case githubToken = "LICENSE_PLIST_GITHUB_TOKEN"
+        case noColor = "NO_COLOR"
+        case term = "TERM"
+    }
+    
+    subscript(key: Keys) -> String? {
+        get {
+            return ProcessInfo.processInfo.environment[key.rawValue]
+        }
+    }
+    
+    static let shared = Environment()
+}
