@@ -1,9 +1,6 @@
 import HeliumLogger
 import LoggerAPI
 import Foundation
-//import TSCBasic
-//import System
-//import Darwin
 
 public struct Logger {
     public static func configure(silenceModeCommandLineFlag: Bool,
@@ -120,53 +117,4 @@ fileprivate struct LoggerConfiguration {
         
         return .noColor // to be on the safe side
     }
-
-//    private static func terminalType() -> TerminalController.TerminalType? {
-//        // cf. FILEPointer = UnsafeMutablePointer<FILE> = FILE* in C
-//
-//        // fdopenで fileDescriptorから filePointerを作り、
-//        // FILEPointerからLocalFileOutputByteStream を作り、terminalTypeを取得
-//        let stdOutFileDescriptor: Int32 = {
-////            if #available(macOS 11,*) {
-////                return //FileDescriptor.standardOutput.rawValue as Int32
-////            } else {
-//                return STDOUT_FILENO as Int32
-////            }
-//        }()
-//        // TODO: 本当に標準出力でいいのか確認。標準エラー出力にログを吐いている可能性も
-//
-////        fdopen(<#T##Int32#>, <#T##UnsafePointer<CChar>!#>)
-//
-//        do {
-//            let mode = "r"
-//            let terminalType:TerminalController.TerminalType = try mode.withCString {
-//                (modeCString: UnsafePointer<CChar>) -> TerminalController.TerminalType in
-//
-//                    //open()
-//                let filePointer: FILEPointer = fdopen(stdOutFileDescriptor, O_RDONLY)
-//                let stream = try LocalFileOutputByteStream(filePointer: filePointer)
-//                // TerminalController.terminalType() use isatty() inside.
-//                return TerminalController.terminalType(stream)
-//            }
-//
-//            let isatty = isatty(STDOUT_FILENO)
-//
-//            #if !os(Windows)
-//                    if ProcessInfo.processInfo.environment["TERM"] == "dumb" {
-//                        return .noColor
-//                    }
-//            #endif
-//            let isTTY = isatty(fileno(stream.filePointer)) != 0
-//        return isTTY ? .tty : .file
-//    }
-//
-//            debugPrint(terminalType) // debug
-//            return terminalType
-//        } catch is FileSystemError {
-//            return nil
-//        } catch {
-//            assertionFailure("An unexpected/unhandled error occured.")
-//            return nil
-//        }
-//    }
 }
