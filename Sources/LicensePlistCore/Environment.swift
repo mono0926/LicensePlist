@@ -15,9 +15,7 @@ public struct Environment {
     }
 
     public subscript(key: Keys) -> String? {
-        get {
-            return ProcessInfo.processInfo.environment[key.rawValue]
-        }
+        ProcessInfo.processInfo.environment[key.rawValue]
     }
 
     public static let shared = Environment()
