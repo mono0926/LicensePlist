@@ -120,7 +120,8 @@ public struct LoggerConfiguration {
         } catch is FileSystemError {
             return nil
         } catch {
-            fatalError("unexpected Error")
+            assertionFailure("An unexpected/unhandled error occured.")
+            return nil
         }
     }
 }
