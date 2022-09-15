@@ -76,7 +76,7 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long)
     var silenceMode = false
-    
+
     @Flag(name: .long)
     var verbose = false
 
@@ -112,22 +112,22 @@ struct LicensePlist: ParsableCommand {
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
     }
-    
+
     fileprivate static func defaultForColorFlag() -> Bool {
         // environment variable:
         if Environment.shared[.noColor] == "1" {
             return true
         }
-        
+
         // auto:
         return autoColor(env: Environment.shared, fileDescriptor: STDOUT_FILENO)
     }
-    
+
     fileprivate static func autoColor(env: Environment, fileDescriptor: Int32) -> Bool {
-        func isTTY(_ fileDescriptor:Int32) -> Bool {
+        func isTTY(_ fileDescriptor: Int32) -> Bool {
             return isatty(fileDescriptor) == 1
         }
-        
+
         if !isTTY(fileDescriptor) {
             return false
         }
@@ -135,11 +135,11 @@ struct LicensePlist: ParsableCommand {
         if env[.term] == "dumb" {
             return false
         }
-        
+
         if env[.term] == "xterm-256color" {
             return true
         }
-        
+
         return false // to be on the safe side
     }
 }

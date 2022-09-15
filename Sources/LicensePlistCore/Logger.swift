@@ -16,7 +16,7 @@ public struct Logger {
                 return createDefaultLogger()
             }
         }()
-        
+
         logger.colored = colorCommandLineFlag
         Log.logger = logger
     }
