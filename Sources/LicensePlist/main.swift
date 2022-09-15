@@ -41,7 +41,7 @@ struct LicensePlist: ParsableCommand {
     @Option(name: .long, completion: .file())
     var outputPath = Consts.outputPath
 
-    @Option(name: .long, help: "You can also pass the token via the '\(Environment.Keys.githubToken)' environment variable.", completion: .empty)
+    @Option(name: .long, help: "You can also pass the token via the '\(EnvironmentImpl.Keys.githubToken)' environment variable.", completion: .empty)
     var githubToken: String?
 
     @Option(name: .long, completion: .file())
@@ -82,7 +82,7 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long,
           inversion: .prefixedNo,
-          help: "This command line option take precedence over the '\(Environment.Keys.noColor)' environment variable.")
+          help: "This command line option take precedence over the '\(EnvironmentImpl.Keys.noColor)' environment variable.")
     var color: Bool = Self.defaultForColorFlag()
 
     func run() throws {
@@ -105,7 +105,7 @@ struct LicensePlist: ParsableCommand {
                               xcworkspacePath: URL(fileURLWithPath: xcworkspacePath),
                               xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
                               prefix: prefix,
-                              gitHubToken: githubToken ?? Environment.shared[.githubToken],
+                              gitHubToken: githubToken ?? EnvironmentImpl.shared[.githubToken],
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
                               config: config)
@@ -115,32 +115,35 @@ struct LicensePlist: ParsableCommand {
 
     fileprivate static func defaultForColorFlag() -> Bool {
         // environment variable:
-        if Environment.shared[.noColor] == "1" {
+        if EnvironmentImpl.shared[.noColor] == "1" {
             return true
         }
 
         // auto:
-        return autoColor(env: Environment.shared, fileDescriptor: STDOUT_FILENO)
+        let isTTY:Bool = isatty(STDOUT_FILENO) == 1
+        return autoColor(env: EnvironmentImpl.shared, isTTY: isTTY)
     }
 
-    fileprivate static func autoColor(env: Environment, fileDescriptor: Int32) -> Bool {
-        func isTTY(_ fileDescriptor: Int32) -> Bool {
-            return isatty(fileDescriptor) == 1
-        }
-
-        if !isTTY(fileDescriptor) {
-            return false
+    fileprivate static func autoColor(env: Dictionary<String,String>, isTTY: Bool) -> Bool {
+        if !isTTY {
+            return false // monochrome
         }
 
         if env[.term] == "dumb" {
-            return false
+            return false // monochrome
         }
 
         if env[.term] == "xterm-256color" {
-            return true
+            return true // color
         }
 
-        return false // to be on the safe side
+        return false // monochrome - to be on the safe side
+    }
+}
+
+fileprivate extension CFFileDescriptor {
+    var isTTY : Bool {
+        return isatty(CFFileDescriptorGetNativeDescriptor(self)) == 1
     }
 }
 

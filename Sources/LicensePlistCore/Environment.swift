@@ -7,16 +7,27 @@
 
 import Foundation
 
-public struct Environment {
-    public enum Keys: String {
-        case githubToken = "LICENSE_PLIST_GITHUB_TOKEN"
-        case noColor = "NO_COLOR"
-        case term = "TERM"
-    }
+public protocol EnvironmentProtocol {
+    associatedtype Keys : EnvironmentKeyProtocol
+    
+    subscript(key: Keys) -> String? { get }
+}
 
-    public subscript(key: Keys) -> String? {
+public protocol EnvironmentKeyProtocol : RawRepresentable where RawValue == String {}
+
+
+public let shared = EnvironmentImpl<KeysImpl>()
+
+public struct EnvironmentImpl<T:EnvironmentKeyProtocol> : EnvironmentProtocol {
+    public typealias Keys = T
+    
+    public subscript<T : EnvironmentKeyProtocol>(key: T) -> String? {
         ProcessInfo.processInfo.environment[key.rawValue]
     }
+}
 
-    public static let shared = Environment()
+public enum KeysImpl: String, EnvironmentKeyProtocol, RawRepresentable {
+    case githubToken = "LICENSE_PLIST_GITHUB_TOKEN"
+    case noColor = "NO_COLOR"
+    case term = "TERM"
 }
