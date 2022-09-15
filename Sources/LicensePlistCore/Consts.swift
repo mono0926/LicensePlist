@@ -12,4 +12,8 @@ public struct Consts {
     public static let configPath = "license_plist.yml"
     public static let version = "3.22.5"
     public static let encoding = String.Encoding.utf8
+    
+    public struct EnvironmentVariableKey {
+        public static let noColor = "NO_COLOR"
+    }
 }

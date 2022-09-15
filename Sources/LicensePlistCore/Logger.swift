@@ -5,8 +5,6 @@ import TSCBasic
 import System
 
 public struct Logger {
-    public static let noColorEnv = "NO_COLOR"
-    
     public static func configure(silenceModeCommandLineFlag: Bool,
                                  noColorCommandLineFlag: Bool,
                                  colorCommandLineFlag: Bool,
@@ -76,7 +74,7 @@ fileprivate struct LoggerConfiguration {
         }
         
         // environment variable:
-        if env[Logger.noColorEnv] == "1" {
+        if env[Consts.EnvironmentVariableKey.noColor] == "1" {
             return false
         }
         
