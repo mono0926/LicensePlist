@@ -15,5 +15,6 @@ public struct Consts {
     
     public struct EnvironmentVariableKey {
         public static let noColor = "NO_COLOR"
+        public static let term = "TERM"
     }
 }

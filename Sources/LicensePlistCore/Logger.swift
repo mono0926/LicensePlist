@@ -2,16 +2,18 @@ import HeliumLogger
 import LoggerAPI
 import Foundation
 
+typealias Env = [String:String]
+
 public struct Logger {
     public static func configure(silenceModeCommandLineFlag: Bool,
                                  noColorCommandLineFlag: Bool,
                                  colorCommandLineFlag: Bool,
                                  verboseCommandLineFlag: Bool) {
         
-        let loggerConfiguration = LoggerConfiguration(silenceModeCommandLineFlag: silenceModeCommandLineFlag,
-                                                      noColorCommandLineFlag: noColorCommandLineFlag,
-                                                      colorCommandLineFlag: colorCommandLineFlag,
-                                                      verboseCommandLineFlag: verboseCommandLineFlag)
+        let loggerConfiguration = LoggerConfiguration(silenceModeCommandLineArg: silenceModeCommandLineFlag,
+                                                      noColorCommandLineArg: noColorCommandLineFlag,
+                                                      colorCommandLineArg: colorCommandLineFlag,
+                                                      verboseCommandLineArg: verboseCommandLineFlag)
         
         if loggerConfiguration.silenceMode {
             return
@@ -25,7 +27,7 @@ public struct Logger {
             }
         }()
         
-        logger.colored = loggerConfiguration.colored.rawValue
+        logger.colored = loggerConfiguration.colored
         Log.logger = logger
     }
 
@@ -43,78 +45,68 @@ public struct Logger {
 }
 
 fileprivate struct LoggerConfiguration {
-    public var silenceMode: Bool
-    public var colored: Colored
-    public var verbose: Bool
+    public let silenceMode: Bool
+    public let verbose: Bool
+    
+    public var colored: Bool {
+        return _colored == .color
+    }
+    private let _colored: Colored
 
-    public init(silenceModeCommandLineFlag: Bool,
-                noColorCommandLineFlag: Bool,
-                colorCommandLineFlag: Bool,
-                verboseCommandLineFlag: Bool){
-        let env: [String:String] = ProcessInfo.processInfo.environment
+    public init(silenceModeCommandLineArg: Bool,
+                noColorCommandLineArg: Bool,
+                colorCommandLineArg: Bool,
+                verboseCommandLineArg: Bool){
+        let env: Env = ProcessInfo.processInfo.environment
 
-        silenceMode = silenceModeCommandLineFlag
-        self.colored = Self.colored(noColorCommandLineFlag: noColorCommandLineFlag,
-                        colorCommandLineFlag: colorCommandLineFlag,
+        silenceMode = silenceModeCommandLineArg
+        _colored = Self.calculateColored(noColorCommandLineFlag: noColorCommandLineArg,
+                        colorCommandLineFlag: colorCommandLineArg,
                         env: env)
-        self.verbose = verboseCommandLineFlag
+        self.verbose = verboseCommandLineArg
     }
     
-    enum Colored: RawRepresentable {
-        init?(rawValue: Bool) {
-            switch rawValue {
-            case true: self = .colored
-            case false: self = .noColor
-            }
-        }
-        
-        var rawValue: Bool {
-            switch self {
-            case .colored: return true
-            case .noColor: return false
-            }
-        }
-        
-        typealias RawValue = Bool
-        
-        case colored
-        case noColor
+    fileprivate enum Colored {
+        case color
+        case monochrome
     }
     
-    private static func colored(noColorCommandLineFlag: Bool,
+    fileprivate static func calculateColored(noColorCommandLineFlag: Bool,
                                colorCommandLineFlag: Bool,
-                               env: [String:String]) -> Colored {
+                               env: Env) -> Colored {
         // commandline options:
         if noColorCommandLineFlag {
-            return .noColor
+            return .monochrome
         }
         if colorCommandLineFlag {
-            return .colored
+            return .color
         }
         
         // environment variable:
         if env[Consts.EnvironmentVariableKey.noColor] == "1" {
-            return .noColor
+            return .monochrome
         }
         
         // auto:
-        func isTTY(_ fd:Int32) -> Bool {
-            return isatty(fd) == 1
+        return calculateAutoColor(env: env, fileDescriptor: STDOUT_FILENO)
+    }
+    
+    fileprivate static func calculateAutoColor(env: Env, fileDescriptor: Int32) -> Colored {
+        func isTTY(_ fileDescriptor:Int32) -> Bool {
+            return isatty(fileDescriptor) == 1
         }
-        if !isTTY(STDOUT_FILENO) {
-            return .noColor
+        if !isTTY(fileDescriptor) {
+            return .monochrome
         }
-        
-        // TODO: detect pipe (and return no-color)
-        
-        if env["TERM"] == "dumb" {
-            return .noColor
-        }
-        
-        if env["TERM"] == "xterm-256color" {
-            return .colored
+
+        if env[Consts.EnvironmentVariableKey.term] == "dumb" {
+            return .monochrome
         }
         
-        return .noColor // to be on the safe side
+        if env[Consts.EnvironmentVariableKey.term] == "xterm-256color" {
+            return .color
+        }
+        
+        return .monochrome // to be on the safe side
     }
 }
