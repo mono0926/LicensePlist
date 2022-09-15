@@ -118,7 +118,7 @@ fileprivate struct LoggerConfiguration {
             let terminalType:TerminalController.TerminalType = try mode.withCString {
                 (modeCString: UnsafePointer<CChar>) -> TerminalController.TerminalType in
                 
-                let filePointer: FILEPointer! = fdopen(stdOutFileDescriptor, modeCString)
+                let filePointer: FILEPointer = fdopen(stdOutFileDescriptor, modeCString)
                 let stream = try LocalFileOutputByteStream(filePointer: filePointer)
                 // TerminalController.terminalType() use isatty() inside.
                 return TerminalController.terminalType(stream)
