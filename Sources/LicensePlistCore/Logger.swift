@@ -6,12 +6,10 @@ typealias Env = [String:String]
 
 public struct Logger {
     public static func configure(silenceModeCommandLineFlag: Bool,
-                                 noColorCommandLineFlag: Bool,
-                                 colorCommandLineFlag: Bool,
+                                 colorCommandLineFlag: Bool?,
                                  verboseCommandLineFlag: Bool) {
         
         let loggerConfiguration = LoggerConfiguration(silenceModeCommandLineArg: silenceModeCommandLineFlag,
-                                                      noColorCommandLineArg: noColorCommandLineFlag,
                                                       colorCommandLineArg: colorCommandLineFlag,
                                                       verboseCommandLineArg: verboseCommandLineFlag)
         
@@ -54,14 +52,12 @@ fileprivate struct LoggerConfiguration {
     private let _colored: Colored
 
     public init(silenceModeCommandLineArg: Bool,
-                noColorCommandLineArg: Bool,
-                colorCommandLineArg: Bool,
+                colorCommandLineArg: Bool?,
                 verboseCommandLineArg: Bool){
         let env: Env = ProcessInfo.processInfo.environment
 
         silenceMode = silenceModeCommandLineArg
-        _colored = Self.calculateColored(noColorCommandLineFlag: noColorCommandLineArg,
-                        colorCommandLineFlag: colorCommandLineArg,
+        _colored = Self.calculateColored(colorCommandLineFlag: colorCommandLineArg,
                         env: env)
         self.verbose = verboseCommandLineArg
     }
@@ -71,15 +67,15 @@ fileprivate struct LoggerConfiguration {
         case monochrome
     }
     
-    fileprivate static func calculateColored(noColorCommandLineFlag: Bool,
-                               colorCommandLineFlag: Bool,
+    fileprivate static func calculateColored(colorCommandLineFlag: Bool?,
                                env: Env) -> Colored {
         // commandline options:
-        if noColorCommandLineFlag {
-            return .monochrome
-        }
-        if colorCommandLineFlag {
-            return .color
+        if let color = colorCommandLineFlag {
+            if color {
+                return .color
+            } else {
+                return .monochrome
+            }
         }
         
         // environment variable:

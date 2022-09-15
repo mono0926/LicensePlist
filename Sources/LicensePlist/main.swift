@@ -81,15 +81,13 @@ struct LicensePlist: ParsableCommand {
     @Flag(name: .long)
     var verbose = false
 
-    @Flag(name: .long, help: "This command line option take precedence over the '\(Consts.EnvironmentVariableKey.noColor)' environment variable.")
-    var noColor = false
-    
-    @Flag(name: .long, help: "This command line option take precedence over the '\(Consts.EnvironmentVariableKey.noColor)' environment variable.")
-    var color = false
+    @Flag(name: .long,
+          inversion: .prefixedNo,
+          help: "This command line option take precedence over the '\(Consts.EnvironmentVariableKey.noColor)' environment variable.")
+    var color: Bool?
 
     func run() throws {
         Logger.configure(silenceModeCommandLineFlag: silenceMode,
-                         noColorCommandLineFlag: noColor,
                          colorCommandLineFlag: color,
                          verboseCommandLineFlag: verbose)
 
