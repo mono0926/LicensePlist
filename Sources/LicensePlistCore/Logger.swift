@@ -4,62 +4,6 @@ import Foundation
 import TSCBasic
 import System
 
-public struct LoggerConfiguration {
-    public var silence: Bool
-    public var colored: Bool
-    public var verbose: Bool
-
-    public static let noColorEnv = "NO_COLOR"
-    private static let env = ProcessInfo.processInfo.environment
-    
-    public init(silenceModeCommandLineFlag: Bool,
-                noColorCommandLineFlag: Bool,
-                colorCommandLineFlag: Bool,
-                verboseCommandLineFlag: Bool){
-        silence = silenceModeCommandLineFlag
-        
-        colored = {
-            // commandline
-            if noColorCommandLineFlag {
-                return false
-            }
-            if colorCommandLineFlag {
-                return true
-            }
-            
-            // environment variable:
-            if Self.env[Self.noColorEnv] == "1" {
-                return false
-            }
-            
-            // auto:
-            do {
-                let terminalType = try terminalType();
-                
-                switch terminalType {
-                case .file:
-                    return false
-                case .dumb:
-                    return false // dumb terminals don't interpret escape sequences
-                case .tty:
-                    break // keep guessing
-                }
-
-                // TODO: detect pipe and -> no-color
-            } catch { // TODO: catch specific error
-            }
-            
-            if Self.env["TERM"] == "xterm-256color" {
-                return true
-            }
-            
-            return false
-        }()
-        
-        self.verbose = verboseCommandLineFlag
-    }
-}
-
 public struct Logger {
     public static func configure(with loggerConfiguration: LoggerConfiguration) {
         if loggerConfiguration.silence {
@@ -91,27 +35,92 @@ public struct Logger {
     }
 }
 
-fileprivate func terminalType() throws -> TerminalController.TerminalType {
-    // FILEPointer(aka UnsafeMutablePointer<FILE>)はCのFILE*と同じと仮定
-    // fdopenで fileDescriptorから filePointerを作り、
-    // FILEPointerからLocalFileOutputByteStream を作り、terminalTypeを取得
-    let stdOutFileDescriptor: Int32 = {
-        if #available(macOS 11,*) {
-            return FileDescriptor.standardOutput.rawValue as Int32
-        } else {
-            return 1 as Int32
-        }
-    }()
+public struct LoggerConfiguration {
+    public var silence: Bool
+    public var colored: Bool
+    public var verbose: Bool
+
+    public static let noColorEnv = "NO_COLOR"
+    private static let env: [String:String] = ProcessInfo.processInfo.environment
     
-    let mode = "r"
-    let terminalType:TerminalController.TerminalType = try mode.withCString {
-        (modeCString: UnsafePointer<CChar>) -> TerminalController.TerminalType in
-        
-        let filePointer: FILEPointer! = fdopen(stdOutFileDescriptor, modeCString)
-        let stream = try LocalFileOutputByteStream(filePointer: filePointer)
-        // TerminalController.terminalType() use isatty() inside.
-        return TerminalController.terminalType(stream)
+    public init(silenceModeCommandLineFlag: Bool,
+                noColorCommandLineFlag: Bool,
+                colorCommandLineFlag: Bool,
+                verboseCommandLineFlag: Bool){
+        silence = silenceModeCommandLineFlag
+        colored = Self.color(noColorCommandLineFlag: noColorCommandLineFlag,
+                        colorCommandLineFlag: colorCommandLineFlag,
+                        env: Self.env)
+        self.verbose = verboseCommandLineFlag
     }
     
-    return terminalType
+    private static func color(noColorCommandLineFlag: Bool,
+                               colorCommandLineFlag: Bool,
+                               env: [String:String]) -> Bool {
+        // commandline options:
+        if noColorCommandLineFlag {
+            return false
+        }
+        if colorCommandLineFlag {
+            return true
+        }
+        
+        // environment variable:
+        if env[Self.noColorEnv] == "1" {
+            return false
+        }
+        
+        // auto:
+        switch terminalType() {
+        case .file:
+            return false
+        case .dumb:
+            return false // Dumb terminals don't interpret escape sequences
+        case .tty:
+            break // Keep guessing
+        case .none:
+            return false // to be on the safe side
+        }
+
+        // TODO: detect pipe (and return no-color)
+        // see https://stackoverflow.com/questions/899764/distinguishing-a-pipe-from-a-file-in-unix for more details
+        
+        if env["TERM"] == "xterm-256color" {
+            return true
+        }
+        
+        return false
+    }
+
+    private static func terminalType() -> TerminalController.TerminalType? {
+        // FILEPointer(aka UnsafeMutablePointer<FILE>)はCのFILE*と同じと仮定
+        // fdopenで fileDescriptorから filePointerを作り、
+        // FILEPointerからLocalFileOutputByteStream を作り、terminalTypeを取得
+        let stdOutFileDescriptor: Int32 = {
+            if #available(macOS 11,*) {
+                return FileDescriptor.standardOutput.rawValue as Int32
+            } else {
+                return 1 as Int32
+            }
+        }()
+        
+        do {
+            let mode = "r"
+            let terminalType:TerminalController.TerminalType = try mode.withCString {
+                (modeCString: UnsafePointer<CChar>) -> TerminalController.TerminalType in
+                
+                let filePointer: FILEPointer! = fdopen(stdOutFileDescriptor, modeCString)
+                let stream = try LocalFileOutputByteStream(filePointer: filePointer)
+                // TerminalController.terminalType() use isatty() inside.
+                return TerminalController.terminalType(stream)
+            }
+            
+            debugPrint(terminalType) // debug
+            return terminalType
+        } catch is FileSystemError {
+            return nil
+        } catch {
+            fatalError("unexpected Error")
+        }
+    }
 }
