@@ -5,8 +5,19 @@ import TSCBasic
 import System
 
 public struct Logger {
-    public static func configure(with loggerConfiguration: LoggerConfiguration) {
-        if loggerConfiguration.silence {
+    public static let noColorEnv = "NO_COLOR"
+    
+    public static func configure(silenceModeCommandLineFlag: Bool,
+                                 noColorCommandLineFlag: Bool,
+                                 colorCommandLineFlag: Bool,
+                                 verboseCommandLineFlag: Bool) {
+        
+        let loggerConfiguration = LoggerConfiguration(silenceModeCommandLineFlag: silenceModeCommandLineFlag,
+                                                      noColorCommandLineFlag: noColorCommandLineFlag,
+                                                      colorCommandLineFlag: colorCommandLineFlag,
+                                                      verboseCommandLineFlag: verboseCommandLineFlag)
+        
+        if loggerConfiguration.silenceMode {
             return
         }
 
@@ -35,22 +46,21 @@ public struct Logger {
     }
 }
 
-public struct LoggerConfiguration {
-    public var silence: Bool
+fileprivate struct LoggerConfiguration {
+    public var silenceMode: Bool
     public var colored: Bool
     public var verbose: Bool
 
-    public static let noColorEnv = "NO_COLOR"
-    private static let env: [String:String] = ProcessInfo.processInfo.environment
-    
     public init(silenceModeCommandLineFlag: Bool,
                 noColorCommandLineFlag: Bool,
                 colorCommandLineFlag: Bool,
                 verboseCommandLineFlag: Bool){
-        silence = silenceModeCommandLineFlag
+        let env: [String:String] = ProcessInfo.processInfo.environment
+
+        silenceMode = silenceModeCommandLineFlag
         colored = Self.color(noColorCommandLineFlag: noColorCommandLineFlag,
                         colorCommandLineFlag: colorCommandLineFlag,
-                        env: Self.env)
+                        env: env)
         self.verbose = verboseCommandLineFlag
     }
     
@@ -66,7 +76,7 @@ public struct LoggerConfiguration {
         }
         
         // environment variable:
-        if env[Self.noColorEnv] == "1" {
+        if env[Logger.noColorEnv] == "1" {
             return false
         }
         
@@ -103,6 +113,7 @@ public struct LoggerConfiguration {
                 return 1 as Int32
             }
         }()
+        // TODO: 本当に標準出力でいいのか確認。標準エラー出力にログを吐いている可能性も
         
         do {
             let mode = "r"
