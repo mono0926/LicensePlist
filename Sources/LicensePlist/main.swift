@@ -145,19 +145,3 @@ struct LicensePlist: ParsableCommand {
 }
 
 LicensePlist.main()
-
-public struct Environment {
-    public enum Keys : String {
-        case githubToken = "LICENSE_PLIST_GITHUB_TOKEN"
-        case noColor = "NO_COLOR"
-        case term = "TERM"
-    }
-    
-    subscript(key: Keys) -> String? {
-        get {
-            return ProcessInfo.processInfo.environment[key.rawValue]
-        }
-    }
-    
-    static let shared = Environment()
-}
