@@ -84,7 +84,7 @@ struct LicensePlist: ParsableCommand {
     @Flag(name: .long,
           inversion: .prefixedNo,
           help: "This command line option take precedence over the '\(Consts.EnvironmentVariableKey.noColor)' environment variable.")
-    var color: Bool?
+    var color: Bool = Self.defaultForColorFlag()
 
     func run() throws {
         Logger.configure(silenceModeCommandLineFlag: silenceMode,
@@ -112,6 +112,36 @@ struct LicensePlist: ParsableCommand {
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
+    }
+    
+    fileprivate static func defaultForColorFlag() -> Bool {
+        // environment variable:
+        if ProcessInfo.processInfo.environment[Consts.EnvironmentVariableKey.noColor] == "1" {
+            return true
+        }
+        
+        // auto:
+        return autoColor(env: ProcessInfo.processInfo.environment, fileDescriptor: STDOUT_FILENO)
+    }
+    
+    fileprivate static func autoColor(env: [String:String], fileDescriptor: Int32) -> Bool {
+        func isTTY(_ fileDescriptor:Int32) -> Bool {
+            return isatty(fileDescriptor) == 1
+        }
+        
+        if !isTTY(fileDescriptor) {
+            return false
+        }
+
+        if env[Consts.EnvironmentVariableKey.term] == "dumb" {
+            return false
+        }
+        
+        if env[Consts.EnvironmentVariableKey.term] == "xterm-256color" {
+            return true
+        }
+        
+        return false // to be on the safe side
     }
 }
 
