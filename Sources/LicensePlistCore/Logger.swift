@@ -17,8 +17,8 @@ public struct Logger {
             }
         }()
 
-        let commandLineDesignation = UserDesignatedColorMode(from: colorCommandLineFlag)
-        logger.colored = AutoColorMode.usedColorMode(commandLineDesignation: commandLineDesignation).boolValue
+        let colorMode = AutoColorMode.usedColorMode(commandLineDesignation: UserDesignatedColorMode(from: colorCommandLineFlag))
+        logger.colored = colorMode.boolValue
         
         Log.logger = logger
     }
@@ -37,17 +37,17 @@ public struct Logger {
 }
 
 
-extension AutoColorMode.UserDesignatedColorMode {
+extension UserDesignatedColorMode {
     init(from flag: Bool?) {
         switch flag {
-        case .none: self = .auto
+        case .none: self = .noDesignation
         case .some(true): self = .color
         case .some(false): self = .noColor
         }
     }
 }
 
-extension AutoColorMode.UsedColorMode {
+extension UsedColorMode {
     var boolValue: Bool {
         switch self {
         case .color: return true

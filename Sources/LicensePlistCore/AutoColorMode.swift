@@ -1,5 +1,5 @@
 //
-//  AutoColor.swift
+//  AutoColorMode.swift
 //  
 //
 //  Created by acevif (acevif@gmail.com) on 2022/09/16.
@@ -7,33 +7,61 @@
 
 import Foundation
 
+// Facade
 public struct AutoColorMode {
-    static func defaultForColorFlag() -> UsedColorMode {
-        // environment variable:
-        if Environment.shared[.noColor] == "1" {
-            return .noColor
-        }
-
-        // auto:
-        let termEnv: String? = Environment.shared[.term]
-        let isTTY:Bool = isatty(STDOUT_FILENO) == 1
-        return autoColor(termEnv: termEnv, isTTY: isTTY)
+    public static func usedColorMode(commandLineDesignation: UserDesignatedColorMode) -> UsedColorMode {
+        return UsedColorMode(commandLineDesignation: commandLineDesignation)
     }
+}
+
+public enum UserDesignatedColorMode {
+    case color
+    case noColor
+    case forceAuto
+    case noDesignation
+}
+
+public enum UsedColorMode {
+    case color
+    case noColor
     
-    public static func usedColorMode(commandLineDesignation commandLine: UserDesignatedColorMode) -> UsedColorMode {
-        
+    public init(commandLineDesignation: UserDesignatedColorMode) {
         let termEnv: String? = Environment.shared[.term]
         let noColorEnv: String? = Environment.shared[.noColor]
+        // TODO: Support STDERR
         let isattyResult = isatty(STDOUT_FILENO)
         
-        
-        return _usedColorMode(commandLineDesignation: commandLine,
+        self = Self._usedColorMode(commandLineDesignation: commandLineDesignation,
                               noColorEnvironmentVariable: noColorEnv,
                               isattyResultValue: isattyResult,
                               termEnvEnvironmentVariable: termEnv)
     }
+    
+    internal static func _usedColorMode(commandLineDesignation: UserDesignatedColorMode,
+                               noColorEnvironmentVariable: String?,
+                               isattyResultValue: Int32,
+                               termEnvEnvironmentVariable: String?) -> UsedColorMode {
+        // command line options:
+        switch commandLineDesignation {
+            case .noColor: return .noColor
+            case .color: return .color
+            case .noDesignation: break
+            case .forceAuto:
+                let isTTY:Bool = isattyResultValue == 1
+                return autoColor(termEnv: termEnvEnvironmentVariable, isTTY: isTTY)
+        }
+        
+        // environment variable:
+        if noColorEnvironmentVariable == "1" {
+            return .noColor
+        }
 
-    static func autoColor(termEnv: String?, isTTY: Bool) -> UsedColorMode {
+        // auto:
+        let isTTY:Bool = isattyResultValue == 1
+        return autoColor(termEnv: termEnvEnvironmentVariable, isTTY: isTTY)
+    }
+    
+    private static func autoColor(termEnv: String?, isTTY: Bool) -> UsedColorMode {
         if !isTTY {
             return .noColor
         }
@@ -48,40 +76,4 @@ public struct AutoColorMode {
 
         return .noColor // to be on the safe side
     }
-    
-    static func _usedColorMode(commandLineDesignation: AutoColorMode.UserDesignatedColorMode,
-                                          noColorEnvironmentVariable: String?,
-                                          isattyResultValue: Int32,
-                                          termEnvEnvironmentVariable: String?) -> UsedColorMode {
-        // command line options:
-        switch commandLineDesignation {
-            case .noColor: return .noColor
-            case .color: return .color
-            case .auto: break
-        }
-        
-        // environment variable:
-        if Environment.shared[.noColor] == "1" {
-            return .noColor
-        }
-
-        // auto:
-        let termEnv: String? = Environment.shared[.term]
-        let isTTY:Bool = isatty(STDOUT_FILENO) == 1
-        return autoColor(termEnv: termEnv, isTTY: isTTY)
-    }
-    
-    public enum UserDesignatedColorMode {
-        case color
-        case noColor
-        case auto
-    }
-    
-    public enum UsedColorMode {
-        case color
-        case noColor
-    }
 }
-
-typealias UsedColorMode = AutoColorMode.UsedColorMode
-typealias UserDesignatedColorMode = AutoColorMode.UserDesignatedColorMode
