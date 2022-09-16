@@ -82,6 +82,7 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long,
           inversion: .prefixedNo,
+          exclusivity: .chooseLast,
           help: "This command line option take precedence over the '\(Environment.Keys.noColor)' environment variable.")
     var color: Bool?
 
