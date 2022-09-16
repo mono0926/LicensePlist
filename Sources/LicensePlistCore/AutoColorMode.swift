@@ -25,11 +25,12 @@ public enum UsedColorMode {
     case color
     case noColor
 
-    public init(commandLineDesignation: UserDesignatedColorMode) {
+    public init(commandLineDesignation: UserDesignatedColorMode,
+                fileDescriptorForOutputStream: Int32 = STDOUT_FILENO
+    ) {
         let termEnv: String? = Environment.shared[.term]
         let noColorEnv: String? = Environment.shared[.noColor]
-        // TODO: Support STDERR
-        let isattyResult = isatty(STDOUT_FILENO)
+        let isattyResult = isatty(fileDescriptorForOutputStream)
 
         self = Self._usedColorMode(commandLineDesignation: commandLineDesignation,
                                    noColorEnvironmentVariable: noColorEnv,
