@@ -1,5 +1,6 @@
 import HeliumLogger
 import LoggerAPI
+import ArgumentParser
 
 public struct Logger {
     public static func configure(silenceModeCommandLineFlag: Int,
@@ -54,3 +55,32 @@ extension UsedColorMode {
         }
     }
 }
+
+public enum SilenceMode: Int, EnumerableFlag {
+    init?(argument: String) {
+        switch argument {
+        case "silence-mode":
+            self = .silenceMode
+        case "verbose":
+            self = .verbose
+        default:
+            return nil
+        }
+    }
+
+    public static func name(for value: Self) -> NameSpecification {
+        switch value {
+        case .silenceMode:
+            return [.long, .customLong("silent")]
+        case .normal:
+            return []
+        case .verbose:
+            return .long
+        }
+    }
+
+    case silenceMode = 0
+    case normal = 1
+    case verbose = 2
+}
+

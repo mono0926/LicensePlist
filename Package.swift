@@ -37,7 +37,8 @@ let package = Package(
                 "APIKit",
                 "HeliumLogger",
                 .product(name: "HTMLEntities", package: "swift-html-entities"),
-                .product(name: "Yaml", package: "YamlSwift")
+                .product(name: "Yaml", package: "YamlSwift"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
         .testTarget(
