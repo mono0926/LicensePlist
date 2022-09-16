@@ -8,7 +8,11 @@
 import Foundation
 
 public struct Environment {
-    public enum Keys: String {
+    public enum Keys: String, CustomStringConvertible {
+        public var description: String {
+            return rawValue
+        }
+
         case githubToken = "LICENSE_PLIST_GITHUB_TOKEN"
         case noColor = "NO_COLOR"
         case term = "TERM"
