@@ -42,7 +42,7 @@ let package = Package(
         ),
         .testTarget(
             name: "LicensePlistTests",
-            dependencies: ["LicensePlistCore", "LicensePlist", "SwiftParamTest"],
+            dependencies: ["LicensePlistCore", "SwiftParamTest"],
             exclude: [
                 "Resources",
                 "XcodeProjects",
