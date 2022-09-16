@@ -1,25 +1,23 @@
 import HeliumLogger
 import LoggerAPI
-import ArgumentParser
 
 public struct Logger {
-    public static func configure(silenceModeCommandLineFlag: Int,
+    public static func configure(logLevel: LogLevel,
                                  colorCommandLineFlag: Bool?) {
-        if silenceModeCommandLineFlag == 0 {
+        if logLevel == .silenceMode {
             return
         }
 
         let logger: HeliumLogger = {
-            if silenceModeCommandLineFlag == 1 {
+            if logLevel == .normalLogLevel {
                 return createDefaultLogger()
             } else {
-                assert(2 <= silenceModeCommandLineFlag)
                 return createDebugLogger()
             }
         }()
 
-        let colorMode = AutoColorMode.usedColorMode(commandLineDesignation: UserDesignatedColorMode(from: colorCommandLineFlag))
-        logger.colored = colorMode.boolValue
+        let usedColorMode = AutoColorMode.usedColorMode(commandLineDesignation: UserDesignatedColorMode(from: colorCommandLineFlag))
+        logger.colored = usedColorMode.boolValue
 
         Log.logger = logger
     }
@@ -56,31 +54,8 @@ extension UsedColorMode {
     }
 }
 
-public enum SilenceMode: Int, EnumerableFlag {
-    init?(argument: String) {
-        switch argument {
-        case "silence-mode":
-            self = .silenceMode
-        case "verbose":
-            self = .verbose
-        default:
-            return nil
-        }
-    }
-
-    public static func name(for value: Self) -> NameSpecification {
-        switch value {
-        case .silenceMode:
-            return [.long, .customLong("silent")]
-        case .normal:
-            return []
-        case .verbose:
-            return .long
-        }
-    }
-
-    case silenceMode = 0
-    case normal = 1
-    case verbose = 2
+public enum LogLevel {
+    case silenceMode
+    case normalLogLevel
+    case verbose
 }
-

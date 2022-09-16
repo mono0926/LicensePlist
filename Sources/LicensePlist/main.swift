@@ -16,6 +16,10 @@ extension CompletionKind {
     }
 }
 
+extension LogLevel: EnumerableFlag {
+    public static var allCases: [LogLevel] = [.silenceMode, .normalLogLevel, .verbose]
+}
+
 // Typename used for usage in help command
 struct LicensePlist: ParsableCommand {
     static let configuration = CommandConfiguration(version: Consts.version)
@@ -74,8 +78,8 @@ struct LicensePlist: ParsableCommand {
     @Flag(name: .long)
     var failIfMissingLicense = false
 
-    @Flag
-    var silenceMode: SilenceMode = .normal
+    @Flag(exclusivity: .chooseLast)
+    var logLevel: LogLevel = .normalLogLevel
 
     @Flag(name: .long,
           inversion: .prefixedNo,
@@ -84,7 +88,7 @@ struct LicensePlist: ParsableCommand {
     var color: Bool?
 
     func run() throws {
-        Logger.configure(silenceModeCommandLineFlag: silenceMode.rawValue,
+        Logger.configure(logLevel: logLevel,
                          colorCommandLineFlag: color)
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
