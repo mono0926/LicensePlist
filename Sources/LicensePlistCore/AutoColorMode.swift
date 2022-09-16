@@ -24,43 +24,48 @@ public enum UserDesignatedColorMode {
 public enum UsedColorMode {
     case color
     case noColor
-    
+
     public init(commandLineDesignation: UserDesignatedColorMode) {
         let termEnv: String? = Environment.shared[.term]
         let noColorEnv: String? = Environment.shared[.noColor]
         // TODO: Support STDERR
         let isattyResult = isatty(STDOUT_FILENO)
-        
+
         self = Self._usedColorMode(commandLineDesignation: commandLineDesignation,
-                              noColorEnvironmentVariable: noColorEnv,
-                              isattyResultValue: isattyResult,
-                              termEnvEnvironmentVariable: termEnv)
+                                   noColorEnvironmentVariable: noColorEnv,
+                                   isattyResultValue: isattyResult,
+                                   termEnvEnvironmentVariable: termEnv)
     }
-    
+
     internal static func _usedColorMode(commandLineDesignation: UserDesignatedColorMode,
-                               noColorEnvironmentVariable: String?,
-                               isattyResultValue: Int32,
-                               termEnvEnvironmentVariable: String?) -> UsedColorMode {
+                                        noColorEnvironmentVariable: String?,
+                                        isattyResultValue: Int32,
+                                        termEnvEnvironmentVariable: String?) -> UsedColorMode {
         // command line options:
         switch commandLineDesignation {
-            case .noColor: return .noColor
-            case .color: return .color
-            case .noDesignation: break
-            case .forceAuto:
-                let isTTY:Bool = isattyResultValue == 1
-                return autoColor(termEnv: termEnvEnvironmentVariable, isTTY: isTTY)
+        case .noColor:
+            return .noColor
+        case .color:
+            return .color
+        case .noDesignation:
+            // -> env -> auto
+            break
+        case .forceAuto:
+            // -> auto
+            let isTTY: Bool = isattyResultValue == 1
+            return autoColor(termEnv: termEnvEnvironmentVariable, isTTY: isTTY)
         }
-        
+
         // environment variable:
         if noColorEnvironmentVariable == "1" {
             return .noColor
         }
 
         // auto:
-        let isTTY:Bool = isattyResultValue == 1
+        let isTTY: Bool = isattyResultValue == 1
         return autoColor(termEnv: termEnvEnvironmentVariable, isTTY: isTTY)
     }
-    
+
     private static func autoColor(termEnv: String?, isTTY: Bool) -> UsedColorMode {
         if !isTTY {
             return .noColor

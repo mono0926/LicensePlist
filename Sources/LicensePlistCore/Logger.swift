@@ -19,7 +19,7 @@ public struct Logger {
 
         let colorMode = AutoColorMode.usedColorMode(commandLineDesignation: UserDesignatedColorMode(from: colorCommandLineFlag))
         logger.colored = colorMode.boolValue
-        
+
         Log.logger = logger
     }
 
@@ -35,7 +35,6 @@ public struct Logger {
         return logger
     }
 }
-
 
 extension UserDesignatedColorMode {
     init(from flag: Bool?) {
