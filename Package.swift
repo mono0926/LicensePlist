@@ -19,6 +19,8 @@ let package = Package(
                  from: "3.4.4"),
         .package(url: "https://github.com/Kitura/swift-html-entities.git",
                  from: "4.0.1"),
+        .package(url: "https://github.com/YusukeHosonuma/SwiftParamTest",
+                 .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
         .target(
@@ -40,7 +42,7 @@ let package = Package(
         ),
         .testTarget(
             name: "LicensePlistTests",
-            dependencies: ["LicensePlistCore"],
+            dependencies: ["LicensePlistCore", "LicensePlist", "SwiftParamTest"],
             exclude: [
                 "Resources",
                 "XcodeProjects",

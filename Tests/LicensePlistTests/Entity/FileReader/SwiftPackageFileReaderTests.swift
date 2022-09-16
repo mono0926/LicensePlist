@@ -27,6 +27,15 @@ class SwiftPackageFileReaderTests: XCTestCase {
                 }
               },
               {
+                "package": "Flatten",
+                "repositoryURL": "https://github.com/YusukeHosonuma/Flatten.git",
+                "state": {
+                  "branch": null,
+                  "revision": "5286148aa255f57863e0d7e2b827ca6b91677051",
+                  "version": "0.1.0"
+                }
+              },
+              {
                 "package": "HeliumLogger",
                 "repositoryURL": "https://github.com/Kitura/HeliumLogger.git",
                 "state": {
@@ -42,6 +51,15 @@ class SwiftPackageFileReaderTests: XCTestCase {
                   "branch": null,
                   "revision": "4e6b45e850ffa275e8e26a24c6454fd709d5b6ac",
                   "version": "2.0.0"
+                }
+              },
+              {
+                "package": "SHList",
+                "repositoryURL": "https://github.com/YusukeHosonuma/SHList.git",
+                "state": {
+                  "branch": null,
+                  "revision": "6c61f5382dd07a64d76bc8b7fad8cec0d8a4ff7a",
+                  "version": "0.1.0"
                 }
               },
               {
@@ -69,6 +87,15 @@ class SwiftPackageFileReaderTests: XCTestCase {
                   "branch": null,
                   "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
                   "version": "1.4.2"
+                }
+              },
+              {
+                "package": "SwiftParamTest",
+                "repositoryURL": "https://github.com/YusukeHosonuma/SwiftParamTest",
+                "state": {
+                  "branch": null,
+                  "revision": "f513e1dbbdd86e2ca2b672537f4bcb4417f94c27",
+                  "version": "2.2.1"
                 }
               },
               {
