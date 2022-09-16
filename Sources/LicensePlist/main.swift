@@ -74,11 +74,8 @@ struct LicensePlist: ParsableCommand {
     @Flag(name: .long)
     var failIfMissingLicense = false
 
-    @Flag(name: .long)
-    var silenceMode = false
-
-    @Flag(name: .long)
-    var verbose = false
+    @Flag
+    var silenceMode: SilenceMode = .normal
 
     @Flag(name: .long,
           inversion: .prefixedNo,
@@ -87,9 +84,8 @@ struct LicensePlist: ParsableCommand {
     var color: Bool?
 
     func run() throws {
-        Logger.configure(silenceModeCommandLineFlag: silenceMode,
-                         colorCommandLineFlag: color,
-                         verboseCommandLineFlag: verbose)
+        Logger.configure(silenceModeCommandLineFlag: silenceMode.rawValue,
+                         colorCommandLineFlag: color)
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force
@@ -116,3 +112,31 @@ struct LicensePlist: ParsableCommand {
 }
 
 LicensePlist.main()
+
+enum SilenceMode: Int, EnumerableFlag {
+    init?(argument: String) {
+        switch argument {
+        case "silence-mode":
+            self = .silenceMode
+        case "verbose":
+            self = .verbose
+        default:
+            return nil
+        }
+    }
+
+    static func name(for value: Self) -> NameSpecification {
+        switch value {
+        case .silenceMode:
+            return [.long, .customLong("silent")]
+        case .normal:
+            return []
+        case .verbose:
+            return .long
+        }
+    }
+
+    case silenceMode = 0
+    case normal = 1
+    case verbose = 2
+}

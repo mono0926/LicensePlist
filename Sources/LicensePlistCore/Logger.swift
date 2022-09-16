@@ -2,18 +2,18 @@ import HeliumLogger
 import LoggerAPI
 
 public struct Logger {
-    public static func configure(silenceModeCommandLineFlag: Bool,
-                                 colorCommandLineFlag: Bool?,
-                                 verboseCommandLineFlag: Bool) {
-        if silenceModeCommandLineFlag {
+    public static func configure(silenceModeCommandLineFlag: Int,
+                                 colorCommandLineFlag: Bool?) {
+        if silenceModeCommandLineFlag == 0 {
             return
         }
 
         let logger: HeliumLogger = {
-            if verboseCommandLineFlag {
-                return createDebugLogger()
-            } else {
+            if silenceModeCommandLineFlag == 1 {
                 return createDefaultLogger()
+            } else {
+                assert(2 <= silenceModeCommandLineFlag)
+                return createDebugLogger()
             }
         }()
 
