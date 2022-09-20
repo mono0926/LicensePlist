@@ -2,10 +2,23 @@ import HeliumLogger
 import LoggerAPI
 
 public struct Logger {
-    public static func configure() {
-        let logger = createDefaultLogger()
-//        let logger = createDebugLogger()
-        logger.colored = true
+    public static func configure(logLevel: LogLevel,
+                                 colorCommandLineFlag: Bool?) {
+        if logLevel == .silenceMode {
+            return
+        }
+
+        let logger: HeliumLogger = {
+            if logLevel == .normalLogLevel {
+                return createDefaultLogger()
+            } else {
+                return createDebugLogger()
+            }
+        }()
+
+        let usedColorMode = AutoColorMode.usedColorMode(commandLineDesignation: UserDesignatedColorMode(from: colorCommandLineFlag))
+        logger.colored = usedColorMode.boolValue
+
         Log.logger = logger
     }
 
@@ -20,4 +33,29 @@ public struct Logger {
         logger.details = true
         return logger
     }
+}
+
+extension UserDesignatedColorMode {
+    init(from flag: Bool?) {
+        switch flag {
+        case .none: self = .noDesignation
+        case .some(true): self = .color
+        case .some(false): self = .noColor
+        }
+    }
+}
+
+extension UsedColorMode {
+    var boolValue: Bool {
+        switch self {
+        case .color: return true
+        case .noColor: return false
+        }
+    }
+}
+
+public enum LogLevel {
+    case silenceMode
+    case normalLogLevel
+    case verbose
 }

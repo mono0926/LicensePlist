@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
-                 from: "1.0.3"),
+                 from: "1.1.4"),
         .package(url: "https://github.com/ishkawa/APIKit.git",
                  from: "5.3.0"),
         .package(url: "https://github.com/Kitura/HeliumLogger.git",
@@ -19,6 +19,8 @@ let package = Package(
                  from: "3.4.4"),
         .package(url: "https://github.com/Kitura/swift-html-entities.git",
                  from: "4.0.1"),
+        .package(url: "https://github.com/YusukeHosonuma/SwiftParamTest",
+                 .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
         .target(
@@ -40,7 +42,7 @@ let package = Package(
         ),
         .testTarget(
             name: "LicensePlistTests",
-            dependencies: ["LicensePlistCore"],
+            dependencies: ["LicensePlistCore", "SwiftParamTest"],
             exclude: [
                 "Resources",
                 "XcodeProjects",

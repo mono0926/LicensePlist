@@ -16,6 +16,10 @@ extension CompletionKind {
     }
 }
 
+extension LogLevel: EnumerableFlag {
+    public static var allCases: [LogLevel] = [.silenceMode, .normalLogLevel, .verbose]
+}
+
 // Typename used for usage in help command
 struct LicensePlist: ParsableCommand {
     static let configuration = CommandConfiguration(version: Consts.version)
@@ -41,8 +45,7 @@ struct LicensePlist: ParsableCommand {
     @Option(name: .long, completion: .file())
     var outputPath = Consts.outputPath
 
-    static let githubTokenEnv = "LICENSE_PLIST_GITHUB_TOKEN"
-    @Option(name: .long, help: "You can also pass the token via the '\(Self.githubTokenEnv)' environment variable.", completion: .empty)
+    @Option(name: .long, help: "You can also pass the token via the '\(Environment.Keys.githubToken)' environment variable.", completion: .empty)
     var githubToken: String?
 
     @Option(name: .long, completion: .file())
@@ -75,14 +78,18 @@ struct LicensePlist: ParsableCommand {
     @Flag(name: .long)
     var failIfMissingLicense = false
 
-    @Flag(name: .long)
-    var silenceMode = false
+    @Flag(exclusivity: .chooseLast)
+    var logLevel: LogLevel = .normalLogLevel
+
+    @Flag(name: .long,
+          inversion: .prefixedNo,
+          exclusivity: .chooseLast,
+          help: "This command line option take precedence over the '\(Environment.Keys.noColor)' environment variable.")
+    var color: Bool?
 
     func run() throws {
-
-        if !silenceMode {
-            Logger.configure()
-        }
+        Logger.configure(logLevel: logLevel,
+                         colorCommandLineFlag: color)
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force
@@ -99,7 +106,7 @@ struct LicensePlist: ParsableCommand {
                               xcworkspacePath: URL(fileURLWithPath: xcworkspacePath),
                               xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
                               prefix: prefix,
-                              gitHubToken: githubToken ?? ProcessInfo.processInfo.environment[Self.githubTokenEnv],
+                              gitHubToken: githubToken ?? Environment.shared[.githubToken],
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
                               config: config)

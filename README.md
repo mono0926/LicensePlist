@@ -192,10 +192,21 @@ You can see options by `license-plist --help`.
 - Default: false
 - If there is even one package for which a license cannot be found, LicensePlist returns exit code 1.
 
-#### `--silence-mode`
+#### `--silence-mode` / `--verbose`
 
-- Default: false
-- By adding `--silence-mode` flag, the output of the logger will not print.
+- By adding the `--silence-mode` flag, the logger's output will not print.
+- The logger's output will be more detailed than the average log level by adding the `--verbose` flag.
+- LicencePlist uses the latter option if you simultaneously set the `--silence-mode` option and the `--verbose` option.
+- Default: average log level
+
+#### `--no-color` / `--color`
+
+- The logger's output is printed in monochrome by adding the `--no-color` flag. If any escape characters in CI/CD log bother you, the `--no-color` option will help.
+- By adding the `--color` flag, LicensePlist will always print the logger's output in color.
+- LicencePlist uses the latter option if you simultaneously set the `--no-color` option and the `--color` option.
+- If neither option is specified, LicensePlist will look for the `NO_COLOR` environment variable. If you set the `NO_COLOR` environment variable to `"1"`, LicensePlist runs without colors.
+- Default: auto - LicensePlist decides its color mode depending on the terminal type.
+
 
 ### Integrate into build
 
