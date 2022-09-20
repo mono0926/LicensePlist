@@ -168,7 +168,7 @@ class SwiftPackageManagerTests: XCTestCase {
         let packages = SwiftPackage.loadPackages(content)
 
         XCTAssertFalse(packages.isEmpty)
-        XCTAssertEqual(packages.count, 7)
+        XCTAssertEqual(packages.count, 10)
 
         let packageFirst = try XCTUnwrap(packages.first)
         XCTAssertEqual(packageFirst, SwiftPackage(package: "APIKit",
