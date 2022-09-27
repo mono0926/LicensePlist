@@ -8,11 +8,13 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - uses: Cyberbeni/install-swift-tool@v2
+      - name: Install SwiftLint
+        uses: Cyberbeni/install-swift-tool@v2
         with:
           url: https://github.com/realm/SwiftLint
-          version: '*'
-      - run: swiftlint lint --strict .
+          version: '0.46.5' # Workaround for https://github.com/realm/SwiftLint/issues/4031
+      - name: Lint (strict)
+        run: swiftlint lint --strict .
