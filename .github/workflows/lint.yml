@@ -8,7 +8,9 @@ on:
 
 jobs:
   lint:
+    # Follow https://github.com/Cyberbeni/install-swift-tool/blob/master/.github/workflows/test.yml#L9
     runs-on: ubuntu-20.04
+
     steps:
       - uses: actions/checkout@v2
       - name: Install SwiftLint
