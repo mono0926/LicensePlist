@@ -48,7 +48,7 @@ curl -i -X PUT $formula_url \
   \"message\":\"$commit_message\"
 }"
 
-brew upgrade $lib_name
+brew upgrade licenseplist
 zip -j $lib_name.zip ./.build/release/$lib_name
 
 # GitHub Release
