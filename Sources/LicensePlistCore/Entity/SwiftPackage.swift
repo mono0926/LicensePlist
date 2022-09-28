@@ -75,13 +75,16 @@ extension SwiftPackage {
         let urlParts = repositoryURL
             .replacingOccurrences(of: "https://", with: "")
             .replacingOccurrences(of: "http://", with: "")
+            .deletingSuffix("/")
             .components(separatedBy: "/")
 
         let name = urlParts.last?.deletingSuffix(".git") ?? ""
         let owner: String
         if urlParts.count >= 3 {
+            // http/https
             owner = urlParts[urlParts.count - 2]
         } else {
+            // ssh
             owner = urlParts.first?.components(separatedBy: ":").last ?? ""
         }
 

@@ -106,6 +106,16 @@ class SwiftPackageManagerTests: XCTestCase {
         XCTAssertEqual(result, GitHub(name: "R.swift.Library", nameSpecified: "R.swift.Library", owner: "mac-cain13", version: nil))
     }
 
+    func testConvertToGithubURLWithTrailingSlash() {
+        let package = SwiftPackage(package: "Defaults",
+                                   repositoryURL: "https://github.com/sindresorhus/Defaults/",
+                                   revision: "981ccb0a01c54abbe3c12ccb8226108527bbf115",
+                                   version: "6.3.0",
+                                   packageDefinitionVersion: 1)
+        let result = package.toGitHub(renames: [:])
+        XCTAssertEqual(result, GitHub(name: "Defaults", nameSpecified: "Defaults", owner: "sindresorhus", version: "6.3.0"))
+    }
+
     func testConvertToGithubSSH() {
         let package = SwiftPackage(package: "LicensePlist",
                                    repositoryURL: "git@github.com:mono0926/LicensePlist.git",
