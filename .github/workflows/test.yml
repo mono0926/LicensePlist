@@ -9,10 +9,10 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: Cyberbeni/install-swift-tool@v2
         with:
-          url: https://github.com/thii/xcbeautify
+          url: https://github.com/tuist/xcbeautify
           version: '*'
       - run: |
           set -o pipefail
