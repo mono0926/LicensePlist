@@ -230,6 +230,38 @@ fi
 
 ## Configuration
 
+### General options
+
+The main parameters from the [Options](#Options) can be defined in the configuration file.
+
+All the parameters are optional.
+
+The tool uses the command line value if both the command line and the config specify values for the same attribute.
+
+#### Example
+
+```yml
+options:
+  outputPath: "./com.mono0926.LicensePlist.Output"
+  cartfilePath: Cartfile
+  mintfilePath: Mintfile
+  podsPath: Pods
+  packagePaths:
+    - Package.swift
+  xcodeprojPath: "*.xcodeproj"
+  xcworkspacePath: "*.xcworkspace"
+  prefix: com.mono0926.LicensePlist
+  gitHubToken: YOUR_GITHUB_TOKEN
+  htmlPath: acknowledgements.html
+  markdownPath: acknowledgements.md
+  force: false
+  addVersionNumbers: false
+  suppressOpeningDirectory: false
+  singlePage: false
+  failIfMissingLicense: false
+  addSources: false
+```
+
 ### Manual GitHub source
 
 A GitHub source can be explicitly defined to include the license in the scenario where it can't be inferred from your dependency files.
