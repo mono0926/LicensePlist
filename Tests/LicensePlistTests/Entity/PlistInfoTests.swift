@@ -30,7 +30,8 @@ class PlistInfoTests: XCTestCase {
                                                                   version: nil)],
                                                  manuals: [],
                                                  excludes: ["exclude"],
-                                                 renames: ["Himotoki": "Himotoki2"]))
+                                                 renames: ["Himotoki": "Himotoki2"],
+                                                 options: .empty))
 
     func testLoadCocoaPodsLicense() throws {
         var target = PlistInfo(options: options)
