@@ -19,7 +19,23 @@ class ConfigTests: XCTestCase {
                                         Manual(name: "Dummy License File", source: nil, nameSpecified: nil, version: nil)],
                               excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
                               renames: ["LicensePlist": "License Plist", "WebRTC": "Web RTC"],
-                              options: .empty))
+                              options: GeneralOptions(outputPath: "./com.mono0926.LicensePlist.Output",
+                                                      cartfilePath: "Cartfile",
+                                                      mintfilePath: "Mintfile",
+                                                      podsPath: "Pods",
+                                                      packagePaths: ["Package.swift"],
+                                                      xcworkspacePath: "*.xcworkspace",
+                                                      xcodeprojPath: "*.xcodeproj",
+                                                      prefix: "com.mono0926.LicensePlist",
+                                                      gitHubToken: "YOUR_GITHUB_TOKEN",
+                                                      htmlPath: "acknowledgements.html",
+                                                      markdownPath: "acknowledgements.md",
+                                                      force: false,
+                                                      addVersionNumbers: false,
+                                                      suppressOpeningDirectory: false,
+                                                      singlePage: false,
+                                                      failIfMissingLicense: false,
+                                                      addSources: false)))
     }
 
     func testExcludedGithubByName() {
