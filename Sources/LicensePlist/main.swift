@@ -93,11 +93,11 @@ struct LicensePlist: ParsableCommand {
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force ?? config.options.force ?? false
-        config.addVersionNumbers = config.options.addVersionNumbers ?? addVersionNumbers ?? false
-        config.suppressOpeningDirectory = config.options.suppressOpeningDirectory ?? suppressOpeningDirectory ?? false
-        config.singlePage = config.options.singlePage ?? singlePage ?? false
-        config.failIfMissingLicense = config.options.failIfMissingLicense ?? failIfMissingLicense ?? false
-        config.addSources = config.options.addSources ?? addSources ?? false
+        config.addVersionNumbers = addVersionNumbers ?? config.options.addVersionNumbers ?? false
+        config.suppressOpeningDirectory = suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false
+        config.singlePage = singlePage ?? config.options.singlePage ?? false
+        config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
+        config.addSources = addSources ?? config.options.addSources ?? false
         let cartfilePath = cartfilePath ?? config.options.cartfilePath ?? Consts.cartfileName
         let mintfilePath = mintfilePath ?? config.options.mintfilePath ?? Consts.mintfileName
         let podsPath = podsPath ?? config.options.podsPath ?? Consts.podsDirectoryName
