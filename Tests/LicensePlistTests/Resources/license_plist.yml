@@ -1,5 +1,26 @@
 # You can validate the YAML config file at http://yaml-online-parser.appspot.com
 
+# General options
+options:
+  outputPath: "./com.mono0926.LicensePlist.Output"
+  cartfilePath: Cartfile
+  mintfilePath: Mintfile
+  podsPath: Pods
+  packagePaths:
+    - Package.swift
+  xcodeprojPath: "*.xcodeproj"
+  xcworkspacePath: "*.xcworkspace"
+  prefix: com.mono0926.LicensePlist
+  gitHubToken: YOUR_GITHUB_TOKEN
+  htmlPath: acknowledgements.html
+  markdownPath: acknowledgements.md
+  force: false
+  addVersionNumbers: false
+  suppressOpeningDirectory: false
+  singlePage: false
+  failIfMissingLicense: false
+  addSources: false
+
 # Specify GitHub's library manually.
 github:
   - owner: mono0926

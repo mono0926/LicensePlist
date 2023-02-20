@@ -7,6 +7,7 @@ public struct Config {
     let manuals: [Manual]
     let excludes: [Exclude]
     let renames: [String: String]
+    public let options: GeneralOptions
     public var force = false
     public var addVersionNumbers = false
     public var addSources = false
@@ -14,7 +15,7 @@ public struct Config {
     public var singlePage = false
     public var failIfMissingLicense = false
 
-    public static let empty = Config(githubs: [], manuals: [], excludes: [Exclude](), renames: [:])
+    public static let empty = Config(githubs: [], manuals: [], excludes: [Exclude](), renames: [:], options: .empty)
 
     public init(yaml: String, configBasePath: URL) {
         let value = try! Yaml.load(yaml)
@@ -45,18 +46,22 @@ public struct Config {
                           owner: owner,
                           version: dictionary["version"]?.string)
             }.compactMap { $0 } ?? []
-        self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames)
+        let options: GeneralOptions = value["options"].dictionary.map {
+            GeneralOptions.load($0)
+        } ?? .empty
+        self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames, options: options)
     }
 
-    public init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String]) {
-        self.init(githubs: githubs, manuals: manuals, excludes: excludes.map({ Exclude(name: $0) }), renames: renames)
+    public init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String], options: GeneralOptions) {
+        self.init(githubs: githubs, manuals: manuals, excludes: excludes.map({ Exclude(name: $0) }), renames: renames, options: options)
     }
 
-    public init(githubs: [GitHub], manuals: [Manual], excludes: [Exclude], renames: [String: String]) {
+    public init(githubs: [GitHub], manuals: [Manual], excludes: [Exclude], renames: [String: String], options: GeneralOptions) {
         self.githubs = githubs
         self.manuals = manuals
         self.excludes = excludes
         self.renames = renames
+        self.options = options
     }
 
     func excluded(github: GitHub) -> Bool {
@@ -190,6 +195,7 @@ extension Config: Equatable {
         return lhs.githubs == rhs.githubs &&
             lhs.manuals == rhs.manuals &&
             lhs.excludes == rhs.excludes &&
-            lhs.renames == rhs.renames
+            lhs.renames == rhs.renames &&
+            lhs.options == rhs.options
     }
 }
