@@ -66,6 +66,19 @@ github-release upload \
 
 rm $lib_name.zip
 
+# Artifact bundle
+binary_artifact="LicensePlistBinary-macos.artifactbundle.zip"
+make spm_artifactbundle_macos
+./Tools/update-artifact-bundle.sh "${tag}"
+github-release upload \
+    --user mono0926 \
+    --repo LicensePlist \
+    --tag $tag \
+    --name $binary_artifact \
+    --file $binary_artifact
+
+rm $binary_artifact
+
 # CocoaPods
 make portable_zip
 portable_zip_name="portable_licenseplist.zip"
