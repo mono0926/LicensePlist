@@ -23,9 +23,10 @@ binary_artifact="LicensePlistBinary-macos.artifactbundle.zip"
 make spm_artifactbundle_macos
 ./Tools/update-artifact-bundle.sh "${tag}"
 
-# Commit changes
+# Push updated binary target definition
 git add Package.swift
 git commit -m "release ${tag}"
+git push origin HEAD
 
 # Push tag
 git tag $tag
