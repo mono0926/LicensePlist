@@ -6,7 +6,7 @@
             "type": "executable",
             "variants": [
                 {
-                    "path": "license-plist__VERSION__-macos/bin/license-plist",
+                    "path": "license-plist-__VERSION__-macos/bin/license-plist",
                     "supportedTriples": ["x86_64-apple-macosx", "arm64-apple-macosx"]
                 }
             ]
