@@ -14,4 +14,5 @@ public struct Consts {
     public static let configPath = "license_plist.yml"
     public static let version = "3.24.1"
     public static let encoding = String.Encoding.utf8
+    public static let licenseFileNames = ["LICENSE", "LICENSE.txt", "LICENSE.md"]
 }

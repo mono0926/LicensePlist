@@ -8,12 +8,17 @@ options:
   podsPath: Pods
   packagePaths:
     - Package.swift
+  packageCheckoutPath: ""./checkouts"
   xcodeprojPath: "*.xcodeproj"
   xcworkspacePath: "*.xcworkspace"
   prefix: com.mono0926.LicensePlist
   gitHubToken: YOUR_GITHUB_TOKEN
   htmlPath: acknowledgements.html
   markdownPath: acknowledgements.md
+  licenseFileNames:
+    - LICENSE
+    - LICENSE.txt
+    - LICENSE.md
   force: false
   addVersionNumbers: false
   suppressOpeningDirectory: false

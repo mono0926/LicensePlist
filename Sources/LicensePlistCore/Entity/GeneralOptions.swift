@@ -8,12 +8,14 @@ public struct GeneralOptions {
     public let mintfilePath: String?
     public let podsPath: String?
     public let packagePaths: [String]?
+    public let packageCheckoutPath: String?
     public let xcworkspacePath: String?
     public let xcodeprojPath: String?
     public let prefix: String?
     public let gitHubToken: String?
     public let htmlPath: String?
     public let markdownPath: String?
+    public let licenseFileNames: [String]?
     public let force: Bool?
     public let addVersionNumbers: Bool?
     public let suppressOpeningDirectory: Bool?
@@ -26,12 +28,14 @@ public struct GeneralOptions {
                                              mintfilePath: nil,
                                              podsPath: nil,
                                              packagePaths: nil,
+                                             packageCheckoutPath: nil,
                                              xcworkspacePath: nil,
                                              xcodeprojPath: nil,
                                              prefix: nil,
                                              gitHubToken: nil,
                                              htmlPath: nil,
                                              markdownPath: nil,
+                                             licenseFileNames: nil,
                                              force: nil,
                                              addVersionNumbers: nil,
                                              suppressOpeningDirectory: nil,
@@ -44,12 +48,14 @@ public struct GeneralOptions {
                 mintfilePath: String?,
                 podsPath: String?,
                 packagePaths: [String]?,
+                packageCheckoutPath: String?,
                 xcworkspacePath: String?,
                 xcodeprojPath: String?,
                 prefix: String?,
                 gitHubToken: String?,
                 htmlPath: String?,
                 markdownPath: String?,
+                licenseFileNames: [String]?,
                 force: Bool?,
                 addVersionNumbers: Bool?,
                 suppressOpeningDirectory: Bool?,
@@ -61,12 +67,14 @@ public struct GeneralOptions {
         self.mintfilePath = mintfilePath
         self.podsPath = podsPath
         self.packagePaths = packagePaths
+        self.packageCheckoutPath = packageCheckoutPath
         self.xcworkspacePath = xcworkspacePath
         self.xcodeprojPath = xcodeprojPath
         self.prefix = prefix
         self.gitHubToken = gitHubToken
         self.htmlPath = htmlPath
         self.markdownPath = markdownPath
+        self.licenseFileNames = licenseFileNames
         self.force = force
         self.addVersionNumbers = addVersionNumbers
         self.suppressOpeningDirectory = suppressOpeningDirectory
@@ -83,12 +91,14 @@ extension GeneralOptions {
             lhs.mintfilePath == rhs.mintfilePath &&
             lhs.podsPath == rhs.podsPath &&
             lhs.packagePaths == rhs.packagePaths &&
+            lhs.packageCheckoutPath == rhs.packageCheckoutPath &&
             lhs.xcworkspacePath == rhs.xcworkspacePath &&
             lhs.xcodeprojPath == rhs.xcodeprojPath &&
             lhs.prefix == rhs.prefix &&
             lhs.gitHubToken == rhs.gitHubToken &&
             lhs.htmlPath == rhs.htmlPath &&
             lhs.markdownPath == rhs.markdownPath &&
+            lhs.licenseFileNames == rhs.licenseFileNames &&
             lhs.force == rhs.force &&
             lhs.addVersionNumbers == rhs.addVersionNumbers &&
             lhs.suppressOpeningDirectory == rhs.suppressOpeningDirectory &&
@@ -105,12 +115,14 @@ extension GeneralOptions {
                               mintfilePath: raw["mintfilePath"]?.string,
                               podsPath: raw["podsPath"]?.string,
                               packagePaths: raw["packagePaths"]?.array?.compactMap(\.string),
+                              packageCheckoutPath: raw["packageCheckoutPath"]?.string,
                               xcworkspacePath: raw["xcworkspacePath"]?.string,
                               xcodeprojPath: raw["xcodeprojPath"]?.string,
                               prefix: raw["prefix"]?.string,
                               gitHubToken: raw["gitHubToken"]?.string,
                               htmlPath: raw["htmlPath"]?.string,
                               markdownPath: raw["markdownPath"]?.string,
+                              licenseFileNames: raw["licenseFileNames"]?.array?.compactMap(\.string),
                               force: raw["force"]?.bool,
                               addVersionNumbers: raw["addVersionNumbers"]?.bool,
                               suppressOpeningDirectory: raw["suppressOpeningDirectory"]?.bool,

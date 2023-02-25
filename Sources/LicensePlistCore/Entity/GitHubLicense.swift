@@ -1,10 +1,11 @@
+import Foundation
 import LoggerAPI
 import APIKit
 
 public struct GitHubLicense: License, Equatable {
     public let library: GitHub
     public let body: String
-    let githubResponse: LicenseResponse
+    let githubResponse: LicenseResponse?
 
     public static func==(lhs: GitHubLicense, rhs: GitHubLicense) -> Bool {
         return lhs.library == rhs.library &&
@@ -63,6 +64,29 @@ extension GitHubLicense {
                                             githubResponse: response)
                 return Result.success(license)
             }
+        }
+    }
+    
+    public static func readFromDisk(_ libraries: [GitHub], checkoutPath: URL, licenseFileNames: [String]) -> [GitHubLicense] {
+        return libraries.compactMap { library in
+            let owner = library.owner
+            let name = library.name
+            Log.info("license reading from disk start(owner: \(owner), name: \(name))")
+
+            // Check several variants of license file name
+            for fileName in licenseFileNames {
+                do {
+                    let url = checkoutPath.appendingPathComponent(name).appendingPathComponent(fileName)
+                    let content = try String(contentsOf: url)
+                    // Return the content of the first matched file
+                    return GitHubLicense(library: library, body: content, githubResponse: nil)
+                } catch {
+                    continue
+                }
+            }
+
+            Log.warning("Failed to read from disk \(name)")
+            return nil
         }
     }
 

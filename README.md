@@ -109,6 +109,11 @@ You can see options by `license-plist --help`.
 - Support for multiple `Package.swift`
 - Example: `license-plist --package-paths /path/to/package1/Package.swift /path/to/package2/Package.swift`
 
+#### `--package-checkout-path`
+
+- The directory with cloned Swift package sources. If specified `LicensePlist` uses cloned files instead of GitHub API. For more information, see parameter `-clonedSourcePackagesDirPath` of [xcodebuild](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
+- Example: `license-plist --package-checkout-path ./checkouts`
+
 #### `--xcodeproj-path`
 
 - Default: `"*.xcodeproj"`
@@ -156,6 +161,11 @@ You can see options by `license-plist --help`.
 - Default: None.
 - If this path is specified, a markdown acknowledgements file will be generated.
   - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.md)
+
+#### `--license-file-names`
+
+- Default: `LICENSE, LICENSE.txt, LICENSE.md`.
+- License file name variants. Might be used only in combination with `--package-checkout-path`.
 
 #### `--force`
 
@@ -248,12 +258,17 @@ options:
   podsPath: Pods
   packagePaths:
     - Package.swift
+  packageCheckoutPath: ""./checkouts"
   xcodeprojPath: "*.xcodeproj"
   xcworkspacePath: "*.xcworkspace"
   prefix: com.mono0926.LicensePlist
   gitHubToken: YOUR_GITHUB_TOKEN
   htmlPath: acknowledgements.html
   markdownPath: acknowledgements.md
+  licenseFileNames:
+    - LICENSE
+    - LICENSE.txt
+    - LICENSE.md
   force: false
   addVersionNumbers: false
   suppressOpeningDirectory: false
