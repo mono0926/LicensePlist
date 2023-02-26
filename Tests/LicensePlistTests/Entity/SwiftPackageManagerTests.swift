@@ -443,5 +443,17 @@ class SwiftPackageManagerTests: XCTestCase {
         let result = package.toGitHub(renames: [:])
         XCTAssertEqual(result?.nameSpecified, "better-name-parsed-from-repo", "For SPM v2 we try to parse the Package.swift from the repository to get the name. But when that fails, we fall back to the name in the Repository URL which is still an improvement to the name we get as `identity` from the generated JSON.")
     }
+    
+    // MARK: Source Packages
 
+    func testResolvingNameFromCheckoutSources() {
+        let package = SwiftPackage(package: "R.swift",
+                                   repositoryURL: "https://github.com/mac-cain13/R.swift",
+                                   revision: "18ad905c6f8f0865042e1d1ee4effc7291aa899d",
+                                   version: "0.5.4",
+                                   packageDefinitionVersion: 2)
+        let checkoutPath = TestUtil.testResourceDir.appendingPathComponent("SourcePackages/checkouts").lp.fileURL
+        let result = package.toGitHub(renames: [:], checkoutPath: checkoutPath)
+        XCTAssertEqual(result, GitHub(name: "R.swift", nameSpecified: "rswift", owner: "mac-cain13", version: "0.5.4"))
+    }
 }
