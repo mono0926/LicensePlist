@@ -50,6 +50,10 @@ struct PlistInfo {
         let packagesAsGithubLibraries = packages.compactMap {
              $0.toGitHub(renames: options.config.renames, checkoutPath: checkoutPath)
          }.sorted()
+        
+        if checkoutPath != nil && options.config.excludes.contains(where: { $0.licenseType != nil }) {
+            Log.warning("Filtering by license type is not supported in combination with specified package sources path")
+        }
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
     }

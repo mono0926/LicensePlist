@@ -262,7 +262,7 @@ options:
   podsPath: Pods
   packagePaths:
     - Package.swift
-  packageSourcesPath: ""./SourcePackages"
+  packageSourcesPath: "./SourcePackages"
   xcodeprojPath: "*.xcodeproj"
   xcworkspacePath: "*.xcworkspace"
   prefix: com.mono0926.LicensePlist
