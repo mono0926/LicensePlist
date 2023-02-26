@@ -35,7 +35,7 @@ struct LicensePlist: ParsableCommand {
 
     @Option(name: [.customLong("package-path"), .customLong("swift-package-path"), .long, .customLong("swift-package-paths")], parsing: .upToNextOption, completion: .file())
     var packagePaths = [String]()
-    
+
     @Option(name: [.long, .customLong("swift-package-sources-path")], completion: .directory)
     var packageSourcesPath: String?
 
@@ -62,7 +62,7 @@ struct LicensePlist: ParsableCommand {
 
     @Option(name: .long, completion: .file())
     var markdownPath: String?
-                   
+
     @Option(name: .long, parsing: .upToNextOption, completion: .empty)
     var licenseFileNames = [String]()
 

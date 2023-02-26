@@ -443,7 +443,7 @@ class SwiftPackageManagerTests: XCTestCase {
         let result = package.toGitHub(renames: [:])
         XCTAssertEqual(result?.nameSpecified, "better-name-parsed-from-repo", "For SPM v2 we try to parse the Package.swift from the repository to get the name. But when that fails, we fall back to the name in the Repository URL which is still an improvement to the name we get as `identity` from the generated JSON.")
     }
-    
+
     // MARK: Source Packages
 
     func testResolvingNameFromCheckoutSources() {

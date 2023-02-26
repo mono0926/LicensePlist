@@ -50,7 +50,7 @@ struct PlistInfo {
         let packagesAsGithubLibraries = packages.compactMap {
              $0.toGitHub(renames: options.config.renames, checkoutPath: checkoutPath)
          }.sorted()
-        
+
         if checkoutPath != nil && options.config.excludes.contains(where: { $0.licenseType != nil }) {
             Log.warning("Filtering by license type is not supported in combination with specified package sources path")
         }
@@ -83,7 +83,7 @@ struct PlistInfo {
         summary = contents
         summaryPath = savePath
     }
-    
+
     mutating func loadGitHubLicenses() {
         if let packageSourcesPath = options.packageSourcesPath {
             readCheckedOutLicenses(from: packageSourcesPath)
@@ -160,7 +160,7 @@ struct PlistInfo {
             Log.error("Failed to save summary. Error: \(String(describing: e))")
         }
     }
-    
+
     private mutating func downloadGitHubLicenses() {
         guard let githubLibraries = githubLibraries else { preconditionFailure() }
 
@@ -177,7 +177,7 @@ struct PlistInfo {
             }
         }.compactMap { $0 }
     }
-    
+
     private mutating func readCheckedOutLicenses(from packageSourcesPath: URL) {
         guard let githubLibraries = githubLibraries else { preconditionFailure() }
         guard !options.licenseFileNames.isEmpty else { preconditionFailure() }

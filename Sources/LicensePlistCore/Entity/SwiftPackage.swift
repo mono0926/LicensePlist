@@ -87,7 +87,7 @@ extension SwiftPackage {
             // ssh
             owner = urlParts.first?.components(separatedBy: ":").last ?? ""
         }
-        
+
         let nameSpecified = renames[name] ?? getDefaultName(for: owner, and: name, checkoutPath: checkoutPath)
 
         return GitHub(name: name,
@@ -101,19 +101,19 @@ extension SwiftPackage {
         guard let packageDefinition = packageDefinition(for: owner, name: name, checkoutPath: checkoutPath) else { return fallbackName(using: name) }
         return parseName(from: packageDefinition) ?? fallbackName(using: name)
     }
-    
+
     private func packageDefinition(for owner: String, name: String, checkoutPath: URL?) -> String? {
         // Try to read from a checkout directory in checkout folder
         let packageDefinitionFromDisk = checkoutPath.map { readPackageDefinition(name: name, checkoutPath: $0) }
         // Then download the definition from Github as a fallback
         return packageDefinitionFromDisk ?? loadPackageDefinitionFromGithub(for: owner, name: name)
     }
-    
+
     private func readPackageDefinition(name: String, checkoutPath: URL) -> String? {
         let url = checkoutPath.appendingPathComponent(name).appendingPathComponent("Package.swift")
         return try? String(contentsOf: url)
     }
-    
+
     private func loadPackageDefinitionFromGithub(for owner: String, name: String) -> String? {
         guard let version = version else { return nil }
         guard let packageDefinitionURL = URL(string: "https://raw.githubusercontent.com/\(owner)/\(name)/\(version)/Package.swift") else { return nil }

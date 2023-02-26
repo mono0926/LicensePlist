@@ -66,13 +66,13 @@ extension GitHubLicense {
             }
         }
     }
-    
+
     public static func readFromDisk(_ libraries: [GitHub], checkoutPath: URL, licenseFileNames: [String]) -> [GitHubLicense] {
         return libraries.compactMap { library in
             let owner = library.owner
             let name = library.name
             Log.info("license reading from disk start(owner: \(owner), name: \(name))")
-            
+
             let libraryUrl = checkoutPath.appendingPathComponent(name)
             let libraryFileUrls = libraryUrl.lp.listDir().filter { !$0.lp.isDirectory }
 
@@ -94,7 +94,7 @@ extension GitHubLicense {
             return nil
         }
     }
-    
+
     private static func findFile(with fileName: String, in fileUrls: [URL]) -> URL? {
         let anyExtensionSuffix = ".*"
         if fileName.hasSuffix(anyExtensionSuffix) {

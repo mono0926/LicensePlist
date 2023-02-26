@@ -4,7 +4,7 @@ import XCTest
 final class PlistInfoWithSourcePackagesTests: XCTestCase {
     private let github = GitHub(name: "R.swift", nameSpecified: "rswit", owner: "mac-cain13", version: "0.5.4")
     private let sourcePackagesPath = TestUtil.testResourceDir.appendingPathComponent("SourcePackages").lp.fileURL
-    
+
     func testReadLicenseFromDisk() throws {
         var target = plistInfo()
 
@@ -18,7 +18,7 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
         XCTAssertEqual(license?.body, "license text")
         XCTAssertNil(license?.githubResponse)
     }
-    
+
     func testReadLicenseMDFromDisk() throws {
         var target = plistInfo(licenseFileNames: ["LICENSE.md"])
 
@@ -27,7 +27,7 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
 
         XCTAssertEqual(license?.body, "license.md text")
     }
-    
+
     func testReadLicenseWithAsteriskFromDisk() throws {
         var target = plistInfo(licenseFileNames: ["LICENSE.*"])
 
@@ -36,7 +36,7 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
 
         XCTAssertEqual(license?.body, "license.md text")
     }
-    
+
     func testReadMissedLicenseFromDisk() throws {
         var target = PlistInfo(options: options(licenseFileNames: ["Not-a-license"]))
         target.githubLibraries = [github]
@@ -46,15 +46,15 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
 
         XCTAssertTrue(licenses.isEmpty)
     }
-    
+
     // MARK: Helpers
-    
+
     private func plistInfo(licenseFileNames: [String] = ["LICENSE"]) -> PlistInfo {
         var target = PlistInfo(options: options(licenseFileNames: licenseFileNames))
         target.githubLibraries = [github]
         return target
     }
-    
+
     private func options(licenseFileNames: [String]) -> Options {
         return Options(outputPath: URL(fileURLWithPath: "test_result_dir"),
                        cartfilePath: URL(fileURLWithPath: "test_result_dir"),
