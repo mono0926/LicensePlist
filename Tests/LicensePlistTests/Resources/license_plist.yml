@@ -8,7 +8,7 @@ options:
   podsPath: Pods
   packagePaths:
     - Package.swift
-  packageCheckoutPath: ""./checkouts"
+  packageSourcesPath: "./SourcePackages"
   xcodeprojPath: "*.xcodeproj"
   xcworkspacePath: "*.xcworkspace"
   prefix: com.mono0926.LicensePlist
@@ -17,8 +17,7 @@ options:
   markdownPath: acknowledgements.md
   licenseFileNames:
     - LICENSE
-    - LICENSE.txt
-    - LICENSE.md
+    - LICENSE.*
   force: false
   addVersionNumbers: false
   suppressOpeningDirectory: false

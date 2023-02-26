@@ -36,8 +36,8 @@ struct LicensePlist: ParsableCommand {
     @Option(name: [.customLong("package-path"), .customLong("swift-package-path"), .long, .customLong("swift-package-paths")], parsing: .upToNextOption, completion: .file())
     var packagePaths = [String]()
     
-    @Option(name: [.long, .customLong("swift-package-checkout-path")], completion: .directory)
-    var packageCheckoutPath: String?
+    @Option(name: [.long, .customLong("swift-package-sources-path")], completion: .directory)
+    var packageSourcesPath: String?
 
     @Option(name: .long, completion: .file())
     var xcworkspacePath: String?
@@ -109,7 +109,7 @@ struct LicensePlist: ParsableCommand {
         let podsPath = podsPath ?? config.options.podsPath ?? Consts.podsDirectoryName
         let configPackagePaths = config.options.packagePaths ?? [Consts.packageName]
         let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths
-        let packageCheckoutPath = packageCheckoutPath ?? config.options.packageCheckoutPath
+        let packageSourcesPath = packageSourcesPath ?? config.options.packageSourcesPath
         let xcworkspacePath = xcworkspacePath ?? config.options.xcworkspacePath ?? Consts.xcworkspacePath
         let xcodeprojPath = xcodeprojPath ?? config.options.xcodeprojPath ?? Consts.xcodeprojPath
         let outputPath = outputPath ?? config.options.outputPath ?? Consts.outputPath
@@ -124,7 +124,7 @@ struct LicensePlist: ParsableCommand {
                               mintfilePath: URL(fileURLWithPath: mintfilePath),
                               podsPath: URL(fileURLWithPath: podsPath),
                               packagePaths: packagePaths.map { URL(fileURLWithPath: $0) },
-                              packageCheckoutPath: packageCheckoutPath.map { URL(fileURLWithPath: $0, isDirectory: true) },
+                              packageSourcesPath: packageSourcesPath.map { URL(fileURLWithPath: $0, isDirectory: true) },
                               xcworkspacePath: URL(fileURLWithPath: xcworkspacePath),
                               xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
                               prefix: prefix,

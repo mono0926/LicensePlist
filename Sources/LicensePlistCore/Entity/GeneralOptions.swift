@@ -8,7 +8,7 @@ public struct GeneralOptions {
     public let mintfilePath: String?
     public let podsPath: String?
     public let packagePaths: [String]?
-    public let packageCheckoutPath: String?
+    public let packageSourcesPath: String?
     public let xcworkspacePath: String?
     public let xcodeprojPath: String?
     public let prefix: String?
@@ -28,7 +28,7 @@ public struct GeneralOptions {
                                              mintfilePath: nil,
                                              podsPath: nil,
                                              packagePaths: nil,
-                                             packageCheckoutPath: nil,
+                                             packageSourcesPath: nil,
                                              xcworkspacePath: nil,
                                              xcodeprojPath: nil,
                                              prefix: nil,
@@ -48,7 +48,7 @@ public struct GeneralOptions {
                 mintfilePath: String?,
                 podsPath: String?,
                 packagePaths: [String]?,
-                packageCheckoutPath: String?,
+                packageSourcesPath: String?,
                 xcworkspacePath: String?,
                 xcodeprojPath: String?,
                 prefix: String?,
@@ -67,7 +67,7 @@ public struct GeneralOptions {
         self.mintfilePath = mintfilePath
         self.podsPath = podsPath
         self.packagePaths = packagePaths
-        self.packageCheckoutPath = packageCheckoutPath
+        self.packageSourcesPath = packageSourcesPath
         self.xcworkspacePath = xcworkspacePath
         self.xcodeprojPath = xcodeprojPath
         self.prefix = prefix
@@ -91,7 +91,7 @@ extension GeneralOptions {
             lhs.mintfilePath == rhs.mintfilePath &&
             lhs.podsPath == rhs.podsPath &&
             lhs.packagePaths == rhs.packagePaths &&
-            lhs.packageCheckoutPath == rhs.packageCheckoutPath &&
+            lhs.packageSourcesPath == rhs.packageSourcesPath &&
             lhs.xcworkspacePath == rhs.xcworkspacePath &&
             lhs.xcodeprojPath == rhs.xcodeprojPath &&
             lhs.prefix == rhs.prefix &&
@@ -115,7 +115,7 @@ extension GeneralOptions {
                               mintfilePath: raw["mintfilePath"]?.string,
                               podsPath: raw["podsPath"]?.string,
                               packagePaths: raw["packagePaths"]?.array?.compactMap(\.string),
-                              packageCheckoutPath: raw["packageCheckoutPath"]?.string,
+                              packageSourcesPath: raw["packageSourcesPath"]?.string,
                               xcworkspacePath: raw["xcworkspacePath"]?.string,
                               xcodeprojPath: raw["xcodeprojPath"]?.string,
                               prefix: raw["prefix"]?.string,

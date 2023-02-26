@@ -46,8 +46,9 @@ struct PlistInfo {
         Log.info("Swift Package Manager License collect start")
 
         let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
+        let checkoutPath = options.packageSourcesPath?.appendingPathComponent("checkouts")
         let packagesAsGithubLibraries = packages.compactMap {
-             $0.toGitHub(renames: options.config.renames, checkoutPath: options.packageCheckoutPath)
+             $0.toGitHub(renames: options.config.renames, checkoutPath: checkoutPath)
          }.sorted()
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
@@ -80,8 +81,8 @@ struct PlistInfo {
     }
     
     mutating func loadGitHubLicenses() {
-        if let checkoutPath = options.packageCheckoutPath {
-            readCheckedOutLicenses(from: checkoutPath)
+        if let packageSourcesPath = options.packageSourcesPath {
+            readCheckedOutLicenses(from: packageSourcesPath)
         } else {
             downloadGitHubLicenses()
         }
@@ -173,9 +174,10 @@ struct PlistInfo {
         }.compactMap { $0 }
     }
     
-    private mutating func readCheckedOutLicenses(from checkoutPath: URL) {
+    private mutating func readCheckedOutLicenses(from packageSourcesPath: URL) {
         guard let githubLibraries = githubLibraries else { preconditionFailure() }
         guard !options.licenseFileNames.isEmpty else { preconditionFailure() }
+        let checkoutPath = packageSourcesPath.appendingPathComponent("checkouts")
         githubLicenses = GitHubLicense.readFromDisk(githubLibraries,
                                                     checkoutPath: checkoutPath,
                                                     licenseFileNames: options.licenseFileNames)

@@ -6,7 +6,7 @@ public struct Options {
     public let mintfilePath: URL
     public let podsPath: URL
     public let packagePaths: [URL]
-    public let packageCheckoutPath: URL?
+    public let packageSourcesPath: URL?
     public let xcworkspacePath: URL
     public let xcodeprojPath: URL
     public let prefix: String
@@ -21,7 +21,7 @@ public struct Options {
                                       mintfilePath: URL(fileURLWithPath: ""),
                                       podsPath: URL(fileURLWithPath: ""),
                                       packagePaths: [],
-                                      packageCheckoutPath: nil,
+                                      packageSourcesPath: nil,
                                       xcworkspacePath: URL(fileURLWithPath: ""),
                                       xcodeprojPath: URL(fileURLWithPath: ""),
                                       prefix: Consts.prefix,
@@ -36,7 +36,7 @@ public struct Options {
                 mintfilePath: URL,
                 podsPath: URL,
                 packagePaths: [URL],
-                packageCheckoutPath: URL?,
+                packageSourcesPath: URL?,
                 xcworkspacePath: URL,
                 xcodeprojPath: URL,
                 prefix: String,
@@ -50,7 +50,7 @@ public struct Options {
         self.mintfilePath = mintfilePath
         self.podsPath = podsPath
         self.packagePaths = packagePaths
-        self.packageCheckoutPath = packageCheckoutPath
+        self.packageSourcesPath = packageSourcesPath
         self.xcworkspacePath = xcworkspacePath
         self.xcodeprojPath = xcodeprojPath
         self.prefix = prefix

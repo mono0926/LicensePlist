@@ -72,11 +72,16 @@ extension GitHubLicense {
             let owner = library.owner
             let name = library.name
             Log.info("license reading from disk start(owner: \(owner), name: \(name))")
+            
+            let libraryUrl = checkoutPath.appendingPathComponent(name)
+            let libraryFileUrls = libraryUrl.lp.listDir().filter { !$0.lp.isDirectory }
 
             // Check several variants of license file name
             for fileName in licenseFileNames {
+                guard let url = findFile(with: fileName, in: libraryFileUrls) else {
+                    continue
+                }
                 do {
-                    let url = checkoutPath.appendingPathComponent(name).appendingPathComponent(fileName)
                     let content = try String(contentsOf: url)
                     // Return the content of the first matched file
                     return GitHubLicense(library: library, body: content, githubResponse: nil)
@@ -88,6 +93,30 @@ extension GitHubLicense {
             Log.warning("Failed to read from disk \(name)")
             return nil
         }
+    }
+    
+    private static func findFile(with fileName: String, in fileUrls: [URL]) -> URL? {
+        let anyExtensionSuffix = ".*"
+        if fileName.hasSuffix(anyExtensionSuffix) {
+            // Check file names without extensions
+            let fileNameWithoutExtension = String(fileName.prefix(fileName.count - anyExtensionSuffix.count))
+            let lowercasedFileName = fileNameWithoutExtension.lowercased()
+            for fileUrl in fileUrls {
+                let candidateFileName = fileUrl.deletingPathExtension().lastPathComponent
+                if candidateFileName.lowercased() == lowercasedFileName {
+                    return fileUrl
+                }
+            }
+        } else {
+            // Check lowercased file names
+            let lowercasedFileName = fileName.lowercased()
+            for fileUrl in fileUrls {
+                if fileUrl.lastPathComponent.lowercased() == lowercasedFileName {
+                    return fileUrl
+                }
+            }
+        }
+        return nil
     }
 
     private static func statusCode(from error: Error) -> Int? {
