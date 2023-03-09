@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cat Sources/LicensePlistCore/Consts.swift | grep "version =" | awk -F '"' '{print $2}' | xargs
