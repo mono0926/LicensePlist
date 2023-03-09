@@ -18,6 +18,16 @@ echo "Token: '${token}'"
 filename="${tag}.tar.gz"
 echo "Filename: '${filename}'"
 
+# Prepare artifact bundle
+binary_artifact="LicensePlistBinary-macos.artifactbundle.zip"
+make spm_artifactbundle_macos
+./Tools/update-artifact-bundle.sh "${tag}"
+
+# Push updated binary target definition
+git add Package.swift
+git commit -m "release ${tag}"
+git push origin HEAD
+
 # Push tag
 git tag $tag
 git push origin $tag
@@ -65,6 +75,16 @@ github-release upload \
     --file $lib_name.zip
 
 rm $lib_name.zip
+
+# Upload artifact bundle
+github-release upload \
+    --user mono0926 \
+    --repo LicensePlist \
+    --tag $tag \
+    --name $binary_artifact \
+    --file $binary_artifact
+
+rm $binary_artifact
 
 # CocoaPods
 make portable_zip
