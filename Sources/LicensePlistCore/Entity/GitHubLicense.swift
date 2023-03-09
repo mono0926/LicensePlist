@@ -1,10 +1,11 @@
+import Foundation
 import LoggerAPI
 import APIKit
 
 public struct GitHubLicense: License, Equatable {
     public let library: GitHub
     public let body: String
-    let githubResponse: LicenseResponse
+    let githubResponse: LicenseResponse?
 
     public static func==(lhs: GitHubLicense, rhs: GitHubLicense) -> Bool {
         return lhs.library == rhs.library &&
@@ -64,6 +65,58 @@ extension GitHubLicense {
                 return Result.success(license)
             }
         }
+    }
+
+    public static func readFromDisk(_ libraries: [GitHub], checkoutPath: URL, licenseFileNames: [String]) -> [GitHubLicense] {
+        return libraries.compactMap { library in
+            let owner = library.owner
+            let name = library.name
+            Log.info("license reading from disk start(owner: \(owner), name: \(name))")
+
+            let libraryUrl = checkoutPath.appendingPathComponent(name)
+            let libraryFileUrls = libraryUrl.lp.listDir().filter { !$0.lp.isDirectory }
+
+            // Check several variants of license file name
+            for fileName in licenseFileNames {
+                guard let url = findFile(with: fileName, in: libraryFileUrls) else {
+                    continue
+                }
+                do {
+                    let content = try String(contentsOf: url)
+                    // Return the content of the first matched file
+                    return GitHubLicense(library: library, body: content, githubResponse: nil)
+                } catch {
+                    continue
+                }
+            }
+
+            Log.warning("Failed to read from disk \(name)")
+            return nil
+        }
+    }
+
+    private static func findFile(with fileName: String, in fileUrls: [URL]) -> URL? {
+        let anyExtensionSuffix = ".*"
+        if fileName.hasSuffix(anyExtensionSuffix) {
+            // Check file names without extensions
+            let fileNameWithoutExtension = String(fileName.prefix(fileName.count - anyExtensionSuffix.count))
+            let lowercasedFileName = fileNameWithoutExtension.lowercased()
+            for fileUrl in fileUrls {
+                let candidateFileName = fileUrl.deletingPathExtension().lastPathComponent
+                if candidateFileName.lowercased() == lowercasedFileName {
+                    return fileUrl
+                }
+            }
+        } else {
+            // Check lowercased file names
+            let lowercasedFileName = fileName.lowercased()
+            for fileUrl in fileUrls {
+                if fileUrl.lastPathComponent.lowercased() == lowercasedFileName {
+                    return fileUrl
+                }
+            }
+        }
+        return nil
     }
 
     private static func statusCode(from error: Error) -> Int? {

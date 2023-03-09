@@ -109,6 +109,12 @@ You can see options by `license-plist --help`.
 - Support for multiple `Package.swift`
 - Example: `license-plist --package-paths /path/to/package1/Package.swift /path/to/package2/Package.swift`
 
+#### `--package-sources-path`
+
+- Default: None.
+- The directory with cloned Swift package sources. If specified `LicensePlist` uses cloned files instead of GitHub API. For more information, see parameter `-clonedSourcePackagesDirPath` of [xcodebuild](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
+- Example: `license-plist --package-sources-path ./SourcePackages`
+
 #### `--xcodeproj-path`
 
 - Default: `"*.xcodeproj"`
@@ -156,6 +162,14 @@ You can see options by `license-plist --help`.
 - Default: None.
 - If this path is specified, a markdown acknowledgements file will be generated.
   - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.md)
+
+#### `--license-file-names`
+
+- Default: `LICENSE, LICENSE.*`.
+- License file name variants for cloned Swift packages. 
+  - Case insensitive. 
+  - Supports any non-empty path extensions if `FILENAME.*` is specified.
+  - Used only in combination with `--package-sources-path`.
 
 #### `--force`
 
@@ -248,12 +262,16 @@ options:
   podsPath: Pods
   packagePaths:
     - Package.swift
+  packageSourcesPath: "./SourcePackages"
   xcodeprojPath: "*.xcodeproj"
   xcworkspacePath: "*.xcworkspace"
   prefix: com.mono0926.LicensePlist
   gitHubToken: YOUR_GITHUB_TOKEN
   htmlPath: acknowledgements.html
   markdownPath: acknowledgements.md
+  licenseFileNames:
+    - LICENSE
+    - LICENSE.*
   force: false
   addVersionNumbers: false
   suppressOpeningDirectory: false

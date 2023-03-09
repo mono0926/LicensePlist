@@ -36,6 +36,9 @@ struct LicensePlist: ParsableCommand {
     @Option(name: [.customLong("package-path"), .customLong("swift-package-path"), .long, .customLong("swift-package-paths")], parsing: .upToNextOption, completion: .file())
     var packagePaths = [String]()
 
+    @Option(name: [.long, .customLong("swift-package-sources-path")], completion: .directory)
+    var packageSourcesPath: String?
+
     @Option(name: .long, completion: .file())
     var xcworkspacePath: String?
 
@@ -59,6 +62,9 @@ struct LicensePlist: ParsableCommand {
 
     @Option(name: .long, completion: .file())
     var markdownPath: String?
+
+    @Option(name: .long, parsing: .upToNextOption, completion: .empty)
+    var licenseFileNames = [String]()
 
     @Flag(name: .long, inversion: .prefixedNo)
     var force: Bool?
@@ -103,6 +109,7 @@ struct LicensePlist: ParsableCommand {
         let podsPath = podsPath ?? config.options.podsPath ?? Consts.podsDirectoryName
         let configPackagePaths = config.options.packagePaths ?? [Consts.packageName]
         let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths
+        let packageSourcesPath = packageSourcesPath ?? config.options.packageSourcesPath
         let xcworkspacePath = xcworkspacePath ?? config.options.xcworkspacePath ?? Consts.xcworkspacePath
         let xcodeprojPath = xcodeprojPath ?? config.options.xcodeprojPath ?? Consts.xcodeprojPath
         let outputPath = outputPath ?? config.options.outputPath ?? Consts.outputPath
@@ -110,17 +117,21 @@ struct LicensePlist: ParsableCommand {
         let prefix = prefix ?? config.options.prefix ?? Consts.prefix
         let htmlPath = htmlPath ?? config.options.htmlPath
         let markdownPath = markdownPath ?? config.options.markdownPath
+        let configLicenseFileNames = config.options.licenseFileNames ?? Consts.licenseFileNames
+        let licenseFileNames = licenseFileNames.isEmpty ? configLicenseFileNames : licenseFileNames
         let options = Options(outputPath: URL(fileURLWithPath: outputPath),
                               cartfilePath: URL(fileURLWithPath: cartfilePath),
                               mintfilePath: URL(fileURLWithPath: mintfilePath),
                               podsPath: URL(fileURLWithPath: podsPath),
                               packagePaths: packagePaths.map { URL(fileURLWithPath: $0) },
+                              packageSourcesPath: packageSourcesPath.map { URL(fileURLWithPath: $0, isDirectory: true) },
                               xcworkspacePath: URL(fileURLWithPath: xcworkspacePath),
                               xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
                               prefix: prefix,
                               gitHubToken: githubToken,
                               htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
                               markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
+                              licenseFileNames: licenseFileNames,
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)

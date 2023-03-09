@@ -14,12 +14,14 @@ class PlistInfoTests: XCTestCase {
                                   mintfilePath: URL(fileURLWithPath: "test_result_dir"),
                                   podsPath: URL(fileURLWithPath: "test_result_dir"),
                                   packagePaths: [URL(fileURLWithPath: "test_result_dir")],
+                                  packageSourcesPath: nil,
                                   xcworkspacePath: URL(fileURLWithPath: "test_result_dir"),
                                   xcodeprojPath: URL(fileURLWithPath: "test_result_dir"),
                                   prefix: Consts.prefix,
                                   gitHubToken: nil,
                                   htmlPath: nil,
                                   markdownPath: nil,
+                                  licenseFileNames: [],
                                   config: Config(githubs: [GitHub(name: "facebook-ios-sdk",
                                                                   nameSpecified: nil,
                                                                   owner: "facebook",
@@ -96,7 +98,7 @@ class PlistInfoTests: XCTestCase {
         target.githubLibraries = [github]
 
         XCTAssertNil(target.githubLicenses)
-        target.downloadGitHubLicenses()
+        target.loadGitHubLicenses()
         let licenses = try XCTUnwrap(target.githubLicenses)
         XCTAssertEqual(licenses.count, 1)
         let license = licenses.first

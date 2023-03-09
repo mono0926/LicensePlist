@@ -69,7 +69,7 @@ extension SwiftPackage {
         }
     }
 
-    func toGitHub(renames: [String: String]) -> GitHub? {
+    func toGitHub(renames: [String: String], checkoutPath: URL? = nil) -> GitHub? {
         guard repositoryURL.contains("github.com") else { return nil }
 
         let urlParts = repositoryURL
@@ -88,18 +88,36 @@ extension SwiftPackage {
             owner = urlParts.first?.components(separatedBy: ":").last ?? ""
         }
 
+        let nameSpecified = renames[name] ?? getDefaultName(for: owner, and: name, checkoutPath: checkoutPath)
+
         return GitHub(name: name,
-                      nameSpecified: renames[name] ?? getDefaultName(for: owner, and: name),
+                      nameSpecified: nameSpecified,
                       owner: owner,
                       version: version)
     }
 
-    private func getDefaultName(for owner: String, and name: String) -> String {
+    private func getDefaultName(for owner: String, and name: String, checkoutPath: URL?) -> String {
         guard packageDefinitionVersion != 1 else { return package } // In SPM v1 the Package.resolved JSON always contains the correct name, no need for anything else.
-        guard let version = version else { return fallbackName(using: name) }
-        guard let packageDefinitionURL = URL(string: "https://raw.githubusercontent.com/\(owner)/\(name)/\(version)/Package.swift") else { return fallbackName(using: name) }
-        guard let packageDefinition = try? String(contentsOf: packageDefinitionURL) else { return fallbackName(using: name) }
+        guard let packageDefinition = packageDefinition(for: owner, name: name, checkoutPath: checkoutPath) else { return fallbackName(using: name) }
         return parseName(from: packageDefinition) ?? fallbackName(using: name)
+    }
+
+    private func packageDefinition(for owner: String, name: String, checkoutPath: URL?) -> String? {
+        // Try to read from a checkout directory in checkout folder
+        let packageDefinitionFromDisk = checkoutPath.map { readPackageDefinition(name: name, checkoutPath: $0) }
+        // Then download the definition from Github as a fallback
+        return packageDefinitionFromDisk ?? loadPackageDefinitionFromGithub(for: owner, name: name)
+    }
+
+    private func readPackageDefinition(name: String, checkoutPath: URL) -> String? {
+        let url = checkoutPath.appendingPathComponent(name).appendingPathComponent("Package.swift")
+        return try? String(contentsOf: url)
+    }
+
+    private func loadPackageDefinitionFromGithub(for owner: String, name: String) -> String? {
+        guard let version = version else { return nil }
+        guard let packageDefinitionURL = URL(string: "https://raw.githubusercontent.com/\(owner)/\(name)/\(version)/Package.swift") else { return nil }
+        return try? String(contentsOf: packageDefinitionURL)
     }
 
     private func fallbackName(using githubName: String) -> String {

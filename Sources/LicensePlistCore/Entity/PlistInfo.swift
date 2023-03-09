@@ -46,7 +46,14 @@ struct PlistInfo {
         Log.info("Swift Package Manager License collect start")
 
         let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
-        let packagesAsGithubLibraries = packages.compactMap { $0.toGitHub(renames: options.config.renames) }.sorted()
+        let checkoutPath = options.packageSourcesPath?.appendingPathComponent("checkouts")
+        let packagesAsGithubLibraries = packages.compactMap {
+             $0.toGitHub(renames: options.config.renames, checkoutPath: checkoutPath)
+         }.sorted()
+
+        if checkoutPath != nil && options.config.excludes.contains(where: { $0.licenseType != nil }) {
+            Log.warning("Filtering by license type is not supported in combination with specified package sources path")
+        }
 
         githubLibraries = (githubLibraries ?? []) + options.config.apply(githubs: packagesAsGithubLibraries)
     }
@@ -77,21 +84,12 @@ struct PlistInfo {
         summaryPath = savePath
     }
 
-    mutating func downloadGitHubLicenses() {
-        guard let githubLibraries = githubLibraries else { preconditionFailure() }
-
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 10
-        let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
-        queue.addOperations(carthageOperations, waitUntilFinished: true)
-        githubLicenses = carthageOperations.map { operation in
-            switch operation.result {
-            case let .success(value):
-                return value
-            default:
-                return nil
-            }
-        }.compactMap { $0 }
+    mutating func loadGitHubLicenses() {
+        if let packageSourcesPath = options.packageSourcesPath {
+            readCheckedOutLicenses(from: packageSourcesPath)
+        } else {
+            downloadGitHubLicenses()
+        }
     }
 
     mutating func collectLicenseInfos() {
@@ -161,5 +159,31 @@ struct PlistInfo {
         } catch let e {
             Log.error("Failed to save summary. Error: \(String(describing: e))")
         }
+    }
+
+    private mutating func downloadGitHubLicenses() {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 10
+        let carthageOperations = githubLibraries.map { GitHubLicense.download($0) }
+        queue.addOperations(carthageOperations, waitUntilFinished: true)
+        githubLicenses = carthageOperations.map { operation in
+            switch operation.result {
+            case let .success(value):
+                return value
+            default:
+                return nil
+            }
+        }.compactMap { $0 }
+    }
+
+    private mutating func readCheckedOutLicenses(from packageSourcesPath: URL) {
+        guard let githubLibraries = githubLibraries else { preconditionFailure() }
+        guard !options.licenseFileNames.isEmpty else { preconditionFailure() }
+        let checkoutPath = packageSourcesPath.appendingPathComponent("checkouts")
+        githubLicenses = GitHubLicense.readFromDisk(githubLibraries,
+                                                    checkoutPath: checkoutPath,
+                                                    licenseFileNames: options.licenseFileNames)
     }
 }

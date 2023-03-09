@@ -15,7 +15,7 @@ class GitHubLicenseTests: XCTestCase {
         let license = try GitHubLicense.download(carthage).resultSync().get()
         XCTAssertEqual(license.library, carthage)
         XCTAssertTrue(license.body.hasPrefix("MIT License"))
-        XCTAssertEqual(license.githubResponse.kind.spdxId, "MIT")
+        XCTAssertEqual(license.githubResponse?.kind.spdxId, "MIT")
     }
 
     func testCollect_forked() throws {
@@ -23,7 +23,7 @@ class GitHubLicenseTests: XCTestCase {
         let license = try GitHubLicense.download(carthage).resultSync().get()
         XCTAssertEqual(license.library, carthage)
         XCTAssertTrue(license.body.hasPrefix("The MIT License (MIT)"))
-        XCTAssertEqual(license.githubResponse.kind.spdxId, "MIT")
+        XCTAssertEqual(license.githubResponse?.kind.spdxId, "MIT")
     }
     func testCollect_invalid() {
         let carthage = GitHub(name: "abcde", nameSpecified: nil, owner: "invalid", version: nil)
