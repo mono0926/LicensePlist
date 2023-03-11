@@ -12,9 +12,7 @@ struct GenerateAcknowledgementsCommand: CommandPlugin {
 import XcodeProjectPlugin
 
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
-    func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {
-        Diagnostics.warning("WORKDIR: \(context.pluginWorkDirectory)") // TODO: remove
-        
+    func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {        
         let licensePlist = try context.tool(named: "license-plist")
         var arguments = externalArgs.skip(argument: "--target")
         do {
@@ -47,8 +45,6 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
         
         // Return default folder with checked out package sources
         return context.pluginWorkDirectory
-            .removingLastComponent()
-            .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
             .string
