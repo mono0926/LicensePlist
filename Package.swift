@@ -24,7 +24,7 @@ let package = Package(
                  .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "LicensePlist",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
