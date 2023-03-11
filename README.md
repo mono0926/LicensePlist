@@ -275,6 +275,7 @@ In case of build tool plugin, define all the settings in `license_plist.yml` in 
 `license_plist.yml` example:
 ```yml
 options:
+  prefix: Acknowledgements
   singlePage: true
 ```
 
