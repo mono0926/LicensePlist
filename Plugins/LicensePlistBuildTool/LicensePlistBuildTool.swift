@@ -63,7 +63,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         return [
             .prebuildCommand(displayName: "LicensePlist is processing licenses...",
                              executable: licensePlist.path,
-                             arguments: [//"--sandbox-mode",
+                             arguments: ["--sandbox-mode",
                                          "--config-path", configPath,
                                          "--package-path", packageResolvedPath,
                                          "--package-sources-path", packageSourcesPath,

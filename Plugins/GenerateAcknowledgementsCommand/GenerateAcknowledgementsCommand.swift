@@ -16,9 +16,8 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
         let licensePlist = try context.tool(named: "license-plist")
         var arguments = externalArgs.skip(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path", "--config-path"])
         do {
-//            arguments += ["--sandbox-mode"]
             let packageSources = try packageSourcesPath(context: context, arguments: externalArgs)
-            arguments += ["--package-sources-path", packageSources]
+            arguments += ["--sandbox-mode", "--package-sources-path", packageSources]
             try licensePlist.run(arguments: arguments)
         } catch let error as RunError {
             Diagnostics.error(error.description)
