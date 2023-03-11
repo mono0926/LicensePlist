@@ -42,6 +42,10 @@ brew install licenseplist
 mint run mono0926/LicensePlist
 ```
 
+### Xcode project - SPM
+
+In Project Settings, on the tab "Package Dependencies", click "+" and add `https://github.com/mono0926/LicensePlist`.
+
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
@@ -195,6 +199,7 @@ You can see options by `license-plist --help`.
 
 - Default: false
 - Only when the files are created or updated, the terminal or the finder opens. By adding `--suppress-opening-directory` flag, this behavior is suppressed.
+- Automatically enabled if `--sandbox-mode` is specified.
 
 #### `--single-page`
 
@@ -228,7 +233,7 @@ You can see options by `license-plist --help`.
 - In the sandbox mode, LicensePlist avoids network requests. That means Swift package licenses can not be fetched with GitHub API. To parse Swift package licenses `--package-sources-path` must be specified.
 
 
-### Integrate into build
+### Integrate into build - run script
 
 Add a `Run Script Phase` to `Build Phases`:
 
@@ -246,6 +251,17 @@ Alternatively, if you've installed LicensePlist via CocoaPods the script should 
 if [ $CONFIGURATION = "Debug" ]; then
 ${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN
 fi
+```
+
+### Integrate into build - build tool plugin
+
+Select your target, on the tab "Build Phases", in the section "Run Build Tool Plug-ins", click "+" and add `LicensePlistBuildTool`.
+
+In case of build tool plugin, define all the settings in [`license_plist.yml`](#configuration) in the root of your project.
+
+```yml
+options:
+  outputPath: "./com.mono0926.LicensePlist.Output"
 ```
 
 ## Configuration
