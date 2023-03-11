@@ -257,7 +257,17 @@ fi
 
 ### Integrate into build - build tool plugin
 
+LicensePlist build tool plugins requires [Swift package installation](#xcode-project---spm).
+
+![Choose package plugins](Screenshots/choose_plugin.png)
+
 Select your target, on the tab "Build Phases", in the section "Run Build Tool Plug-ins", click "+" and add `LicensePlistBuildTool`.
+
+![Run build tool plug-ins](Screenshots/run_build_tool_plugins.png)
+
+Build the app. At the first run, Xcode asks a permission to run the plugin. Click "Trust & Enable All"
+
+![Trust & Enable All](Screenshots/trust_and_enable.png)
 
 In case of build tool plugin, define all the settings in [`license_plist.yml`](#configuration) in the root of your project.
 
