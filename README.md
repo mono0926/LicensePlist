@@ -46,6 +46,8 @@ mint run mono0926/LicensePlist
 
 In Project Settings, on the tab "Package Dependencies", click "+" and add `https://github.com/mono0926/LicensePlist`.
 
+Click "Add Package" without selecting any package products.
+
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
