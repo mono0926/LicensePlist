@@ -13,6 +13,7 @@ import XcodeProjectPlugin
 
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {
+        Diagnostics.warning("ARGUMENTS: \(externalArgs.joined(","))") // TODO: Remove
         let licensePlist = try context.tool(named: "license-plist")        
         do {
             try licensePlist.run(arguments: externalArgs)
