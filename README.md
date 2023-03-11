@@ -136,6 +136,7 @@ You can see options by `license-plist --help`.
 
 - Default: `com.mono0926.LicensePlist.Output`
 - Recommended: `--output-path YOUR_PRODUCT_DIR/Settings.bundle`
+- This option is ignored in the [build tool plugin](#integrate-into-build---build-tool-plugin).
 
 #### `--github-token`
 
@@ -269,12 +270,15 @@ Build the app. At the first run, Xcode asks a permission to run the plugin. Clic
 
 ![Trust & Enable All](Screenshots/trust_and_enable.png)
 
-In case of build tool plugin, define all the settings in [`license_plist.yml`](#configuration) in the root of your project.
+In case of build tool plugin, define all the settings in `license_plist.yml` in the root of your project.
 
+`license_plist.yml` example:
 ```yml
 options:
-  outputPath: "./com.mono0926.LicensePlist.Output"
+  singlePage: true
 ```
+
+See the [configuration](#configuration) section for more information.
 
 ## Configuration
 

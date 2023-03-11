@@ -1,10 +1,3 @@
-//
-//  LicensePlistBuildTool.swift
-//  
-//
-//  Created by Vladimir Vlasov on 11/03/2023.
-//
-
 import Foundation
 import PackagePlugin
 
@@ -17,7 +10,8 @@ enum LicensePlistBuildToolError: Error {
 @main
 struct LicensePlistBuildTool: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-        fatalError("Not implemented")
+        Diagnostics.error("Plugin only supported in Xcode build phases")
+        return []
     }
 }
 
@@ -26,6 +20,7 @@ import XcodeProjectPlugin
 
 extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+        let licensePlist = try context.tool(named: "license-plist")
         let fileManager = FileManager.default
         
         // Checks LicensePlist config
@@ -67,7 +62,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         
         return [
             .prebuildCommand(displayName: "LicensePlist is processing licenses...",
-                             executable: try context.tool(named: "license-plist").path,
+                             executable: licensePlist.path,
                              arguments: [//"--sandbox-mode",
                                          "--config-path", configPath,
                                          "--package-path", packageResolvedPath,

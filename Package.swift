@@ -54,6 +54,19 @@ let package = Package(
             capability: .buildTool(),
             dependencies: ["LicensePlistBinary"]
         ),
+        .plugin(
+            name: "LicensePlistGenerateAcknowledgementsCommand",
+            capability: .command(
+                intent: .custom(
+                    verb: "license-plist-generate",
+                    description: "LicensePlist generates acknowledgements"
+                ),
+                permissions: [
+                    .writeToPackageDirectory(reason: "LicensePlist generates acknowledgements inside the project directory")
+                ]
+            ),
+            dependencies: ["LicensePlistBinary"]
+        ),
         .binaryTarget(
             name: "LicensePlistBinary",
             url: "https://github.com/mono0926/LicensePlist/releases/download/3.24.3/LicensePlistBinary-macos.artifactbundle.zip",
