@@ -84,23 +84,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "LicensePlistGenerateCommand"
-               BuildableName = "LicensePlistGenerateCommand"
-               BlueprintName = "LicensePlistGenerateCommand"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "LicensePlistGenerateAcknowledgementsCommand"
-               BuildableName = "LicensePlistGenerateAcknowledgementsCommand"
-               BlueprintName = "LicensePlistGenerateAcknowledgementsCommand"
+               BlueprintIdentifier = "GenerateAcknowledgementsCommand"
+               BuildableName = "GenerateAcknowledgementsCommand"
+               BlueprintName = "GenerateAcknowledgementsCommand"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>

@@ -2,7 +2,7 @@ import Foundation
 import PackagePlugin
 
 @main
-struct LicensePlistGenerateAcknowledgementsCommand: CommandPlugin {
+struct GenerateAcknowledgementsCommand: CommandPlugin {
     func performCommand(context: PluginContext, arguments externalArgs: [String]) async throws {
         Diagnostics.warning("Command only supported as Xcode command")
     }
@@ -11,7 +11,7 @@ struct LicensePlistGenerateAcknowledgementsCommand: CommandPlugin {
 #if canImport(XcodeProjectPlugin)
 import XcodeProjectPlugin
 
-extension LicensePlistGenerateAcknowledgementsCommand: XcodeCommandPlugin {
+extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {
         let licensePlist = try context.tool(named: "license-plist")        
         do {
@@ -22,6 +22,7 @@ extension LicensePlistGenerateAcknowledgementsCommand: XcodeCommandPlugin {
 
     }
 }
+#endif
 
 struct RunError: Error {
     let description: String
@@ -53,5 +54,3 @@ private extension PluginContext.Tool {
         }
     }
 }
-
-#endif
