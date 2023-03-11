@@ -13,10 +13,10 @@ import XcodeProjectPlugin
 
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {
-        Diagnostics.warning("ARGUMENTS: \(externalArgs.joined(separator: ","))") // TODO: Remove
-        let licensePlist = try context.tool(named: "license-plist")        
+        let licensePlist = try context.tool(named: "license-plist")
+        let processedArguments = externalArgs.skip(argument: "--target")
         do {
-            try licensePlist.run(arguments: externalArgs)
+            try licensePlist.run(arguments: processedArguments)
         } catch let error as RunError {
             Diagnostics.error(error.description)
         }
@@ -24,7 +24,29 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
 }
 #endif
 
-struct RunError: Error {
+private extension Array where Element == String {
+    /// Filter out specified argument with its value.
+    /// - Parameter argument: name of the argument, for example "--foo".
+    /// - Returns: array of arguments.
+    ///
+    /// The method assumes that the specified argument precedes its value.
+    func skip(argument skippedArgumentName: String) -> [String] {
+        var argumentIndex = 0
+        var resultArguments = [String]()
+        while argumentIndex < count {
+            let currentArgumentName = self[argumentIndex]
+            if currentArgumentName == skippedArgumentName {
+                argumentIndex += 2
+            } else {
+                resultArguments.append(currentArgumentName)
+                argumentIndex += 1
+            }
+        }
+        return resultArguments
+    }
+}
+
+private struct RunError: Error {
     let description: String
 }
 
