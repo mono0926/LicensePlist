@@ -55,10 +55,10 @@ let package = Package(
             dependencies: ["LicensePlistBinary"]
         ),
         .plugin(
-            name: "LicensePlistGenerateAcknowledgementsCommand",
+            name: "GenerateAcknowledgementsCommand",
             capability: .command(
                 intent: .custom(
-                    verb: "license-plist-generate-acknowledgements",
+                    verb: "license-plist",
                     description: "LicensePlist generates acknowledgements"
                 ),
                 permissions: [
