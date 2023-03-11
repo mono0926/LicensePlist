@@ -26,15 +26,27 @@ import XcodeProjectPlugin
 
 extension LicensePlistBuildTool: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+        let fileManager = FileManager.default
+        
+        // Checks LicensePlist config
+        let configPath = context.xcodeProject.directory.appending(subpath: "license_plist.yml")
+        guard fileManager.fileExists(atPath: configPath.string) else {
+            throw LicensePlistBuildToolError.configFileNotFound
+        }
+        
         // The folder with checked out package sources
-        let packageSourcesPath = context.pluginWorkDirectory
+        let defaultPackageSourcesPath = context.pluginWorkDirectory
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
         
+        // Parses package sources path from config
+        let yamlData = fileManager.contents(atPath: configPath.string) ?? Data()
+        let yaml = String(data: yamlData, encoding: .utf8) ?? ""
+        let packageSourcesPath = try parseString(parameter: "packageSourcesPath", in: yaml) ?? defaultPackageSourcesPath.string
+        
         // Gets the workspace path in the project folder
-        let fileManager = FileManager.default
         let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
         guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
             throw LicensePlistBuildToolError.workspaceNotFound
@@ -48,14 +60,9 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             throw LicensePlistBuildToolError.packageResolvedFileNotFound
         }
         
-        // Checks LicensePlist config
-        let configPath = context.xcodeProject.directory.appending(subpath: "license_plist.yml")
-        guard fileManager.fileExists(atPath: packageResolvedPath.string) else {
-            throw LicensePlistBuildToolError.configFileNotFound
-        }
-        
         // Output directory inside build output directory
-        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "LicensePlist")
+        let outputDirectoryName = "com.mono0926.LicensePlist.Output"
+        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: outputDirectoryName)
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
         
         return [
@@ -64,10 +71,25 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
                              arguments: [//"--sandbox-mode",
                                          "--config-path", configPath,
                                          "--package-path", packageResolvedPath,
-                                         "--package-sources-path", packageSourcesPath.string,
+                                         "--package-sources-path", packageSourcesPath,
                                          "--output-path", outputDirectoryPath],
                              outputFilesDirectory: context.pluginWorkDirectory)
         ]
+    }
+    
+    private func parseString(parameter name: String, in yaml: String) throws -> String? {
+        let regex = try NSRegularExpression(pattern: "^\\s+\(name):(.*)")
+        let range = NSRange(yaml.startIndex..<yaml.endIndex, in: yaml)
+        let matches = regex.matches(in: yaml, options: [], range:range)
+        
+        if let match = matches.first {
+            let range = match.range(at: 1)
+            if let swiftRange = Range(range, in: yaml) {
+                return String(yaml[swiftRange])
+            }
+        }
+        
+        return nil
     }
 }
 
