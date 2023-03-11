@@ -58,7 +58,7 @@ let package = Package(
             name: "LicensePlistGenerateAcknowledgementsCommand",
             capability: .command(
                 intent: .custom(
-                    verb: "license-plist-generate",
+                    verb: "license-plist-generate-acknowledgements",
                     description: "LicensePlist generates acknowledgements"
                 ),
                 permissions: [
