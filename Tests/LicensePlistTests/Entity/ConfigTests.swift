@@ -37,7 +37,8 @@ class ConfigTests: XCTestCase {
                                                       suppressOpeningDirectory: false,
                                                       singlePage: false,
                                                       failIfMissingLicense: false,
-                                                      addSources: false)))
+                                                      addSources: false,
+                                                      sandboxMode: false)))
     }
 
     func testExcludedGithubByName() {

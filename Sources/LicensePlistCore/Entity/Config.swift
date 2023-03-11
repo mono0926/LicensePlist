@@ -14,6 +14,7 @@ public struct Config {
     public var suppressOpeningDirectory = false
     public var singlePage = false
     public var failIfMissingLicense = false
+    public var sandboxMode = false
 
     public static let empty = Config(githubs: [], manuals: [], excludes: [Exclude](), renames: [:], options: .empty)
 

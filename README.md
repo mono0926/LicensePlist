@@ -221,6 +221,12 @@ You can see options by `license-plist --help`.
 - If neither option is specified, LicensePlist will look for the `NO_COLOR` environment variable. If you set the `NO_COLOR` environment variable to `"1"`, LicensePlist runs without colors.
 - Default: auto - LicensePlist decides its color mode depending on the terminal type.
 
+#### `--sandbox-mode` / `--no-sandbox-mode`
+
+- Default: false
+- Enables or disables the "sandbox" mode.
+- In the sandbox mode, LicensePlist avoids network requests. That means Swift package licenses can not be fetched with GitHub API. To parse Swift package licenses `--package-sources-path` must be specified.
+
 
 ### Integrate into build
 
@@ -278,6 +284,7 @@ options:
   singlePage: false
   failIfMissingLicense: false
   addSources: false
+  sandboxMode: false
 ```
 
 ### Manual GitHub source

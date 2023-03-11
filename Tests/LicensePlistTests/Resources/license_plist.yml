@@ -24,6 +24,7 @@ options:
   singlePage: false
   failIfMissingLicense: false
   addSources: false
+  sandboxMode: false
 
 # Specify GitHub's library manually.
 github:

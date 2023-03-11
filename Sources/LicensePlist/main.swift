@@ -83,6 +83,9 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long, inversion: .prefixedNo)
     var failIfMissingLicense: Bool?
+    
+    @Flag(name: .long, inversion: .prefixedNo)
+    var sandboxMode: Bool?
 
     @Flag(exclusivity: .chooseLast)
     var logLevel: LogLevel = .normalLogLevel
@@ -104,6 +107,7 @@ struct LicensePlist: ParsableCommand {
         config.singlePage = singlePage ?? config.options.singlePage ?? false
         config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
         config.addSources = addSources ?? config.options.addSources ?? false
+        config.sandboxMode = sandboxMode ?? config.options.sandboxMode ?? false
         let cartfilePath = cartfilePath ?? config.options.cartfilePath ?? Consts.cartfileName
         let mintfilePath = mintfilePath ?? config.options.mintfilePath ?? Consts.mintfileName
         let podsPath = podsPath ?? config.options.podsPath ?? Consts.podsDirectoryName

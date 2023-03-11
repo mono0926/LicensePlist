@@ -22,6 +22,7 @@ public struct GeneralOptions {
     public let singlePage: Bool?
     public let failIfMissingLicense: Bool?
     public let addSources: Bool?
+    public let sandboxMode: Bool?
 
     public static let empty = GeneralOptions(outputPath: nil,
                                              cartfilePath: nil,
@@ -41,7 +42,8 @@ public struct GeneralOptions {
                                              suppressOpeningDirectory: nil,
                                              singlePage: nil,
                                              failIfMissingLicense: nil,
-                                             addSources: nil)
+                                             addSources: nil,
+                                             sandboxMode: nil)
 
     public init(outputPath: String?,
                 cartfilePath: String?,
@@ -61,7 +63,8 @@ public struct GeneralOptions {
                 suppressOpeningDirectory: Bool?,
                 singlePage: Bool?,
                 failIfMissingLicense: Bool?,
-                addSources: Bool?) {
+                addSources: Bool?,
+                sandboxMode: Bool?) {
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
         self.mintfilePath = mintfilePath
@@ -81,6 +84,7 @@ public struct GeneralOptions {
         self.singlePage = singlePage
         self.failIfMissingLicense = failIfMissingLicense
         self.addSources = addSources
+        self.sandboxMode = sandboxMode
     }
 }
 
@@ -104,7 +108,8 @@ extension GeneralOptions {
             lhs.suppressOpeningDirectory == rhs.suppressOpeningDirectory &&
             lhs.singlePage == rhs.singlePage &&
             lhs.failIfMissingLicense == rhs.failIfMissingLicense &&
-            lhs.addSources == rhs.addSources
+            lhs.addSources == rhs.addSources &&
+            lhs.sandboxMode == rhs.sandboxMode
     }
 }
 
@@ -128,6 +133,7 @@ extension GeneralOptions {
                               suppressOpeningDirectory: raw["suppressOpeningDirectory"]?.bool,
                               singlePage: raw["singlePage"]?.bool,
                               failIfMissingLicense: raw["failIfMissingLicense"]?.bool,
-                              addSources: raw["addSources"]?.bool)
+                              addSources: raw["addSources"]?.bool,
+                              sandboxMode: raw["sandboxMode"]?.bool)
     }
 }
