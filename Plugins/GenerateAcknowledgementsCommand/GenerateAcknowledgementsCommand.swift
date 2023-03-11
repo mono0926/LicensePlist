@@ -14,10 +14,10 @@ import XcodeProjectPlugin
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {        
         let licensePlist = try context.tool(named: "license-plist")
-        var arguments = externalArgs.skip(argument: "--target")
+        var arguments = externalArgs.skip(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path"])
         do {
 //            arguments += ["--sandbox-mode"]
-            let packageSources = try packageSourcesPath(context: context, arguments: arguments)
+            let packageSources = try packageSourcesPath(context: context, arguments: externalArgs)
             arguments += ["--package-sources-path", packageSources]
             try licensePlist.run(arguments: arguments)
         } catch let error as RunError {
@@ -30,7 +30,7 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
         let argumentNames = ["--swift-package-sources-path", "--package-sources-path"]
         for argumentName in argumentNames {
             if let path = arguments.value(of: argumentName) {
-                return path
+                return context.xcodeProject.directory.appending(subpath: path).string
             }
         }
         
@@ -75,7 +75,7 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
 
 private extension Array where Element == String {
     /// Filter out specified argument with its value.
-    /// - Parameter argumentName: name of the argument, for example "--foo".
+    /// - Parameter argumentName: name of the argument, for example `--target`.
     /// - Returns: array of arguments.
     ///
     /// The method assumes that the specified argument precedes its value.
@@ -91,16 +91,16 @@ private extension Array where Element == String {
     }
     
     /// Filter out specified argument with its value.
-    /// - Parameter skippedArgumentName: name of the argument, for example "--foo".
+    /// - Parameter skippedArgumentNames: names of the arguments, for example `["--target"]`.
     /// - Returns: array of arguments.
     ///
     /// The method assumes that the specified argument precedes its value.
-    func skip(argument skippedArgumentName: String) -> [String] {
+    func skip(arguments skippedArgumentNames: [String]) -> [String] {
         var argumentIndex = 0
         var resultArguments = [String]()
         while argumentIndex < count {
             let currentArgumentName = self[argumentIndex]
-            if currentArgumentName == skippedArgumentName {
+            if skippedArgumentNames.contains(currentArgumentName) {
                 argumentIndex += 2
             } else {
                 resultArguments.append(currentArgumentName)
