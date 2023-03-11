@@ -8,6 +8,7 @@ let package = Package(
         .executable(name: "license-plist", targets: ["LicensePlist"]),
         .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),
         .plugin(name: "LicensePlistBuildTool", targets: ["LicensePlistBuildTool"]),
+        .plugin(name: "GenerateAcknowledgementsCommand", targets: ["GenerateAcknowledgementsCommand"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",

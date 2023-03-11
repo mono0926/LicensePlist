@@ -19,7 +19,6 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
         } catch let error as RunError {
             Diagnostics.error(error.description)
         }
-
     }
 }
 #endif
