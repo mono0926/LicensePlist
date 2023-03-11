@@ -22,7 +22,8 @@ extension LogLevel: EnumerableFlag {
 
 // Typename used for usage in help command
 struct LicensePlist: ParsableCommand {
-    static let configuration = CommandConfiguration(version: Consts.version)
+    static let configuration = CommandConfiguration(version: Consts.version,
+                                                    subcommands: [AddAcknowledgementsCopyScript.self])
 
     @Option(name: .long, completion: .file())
     var cartfilePath: String?

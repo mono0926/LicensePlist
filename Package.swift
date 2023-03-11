@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),
         .plugin(name: "LicensePlistBuildTool", targets: ["LicensePlistBuildTool"]),
         .plugin(name: "GenerateAcknowledgementsCommand", targets: ["GenerateAcknowledgementsCommand"]),
+        .plugin(name: "AddAcknowledgementsCopyScriptCommand", targets: ["AddAcknowledgementsCopyScriptCommand"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git",
@@ -23,6 +24,8 @@ let package = Package(
                  from: "4.0.1"),
         .package(url: "https://github.com/YusukeHosonuma/SwiftParamTest",
                  .upToNextMajor(from: "2.0.0")),
+        .package(url: "https://github.com/tomlokhorst/XcodeEdit.git",
+                 from: "2.9.0")
     ],
     targets: [
         .executableTarget(
@@ -31,6 +34,7 @@ let package = Package(
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 "LicensePlistCore",
                 "HeliumLogger",
+                "XcodeEdit"
             ]
         ),
         .target(
@@ -64,6 +68,19 @@ let package = Package(
                 ),
                 permissions: [
                     .writeToPackageDirectory(reason: "LicensePlist generates acknowledgements inside the project directory")
+                ]
+            ),
+            dependencies: ["LicensePlistBinary"]
+        ),
+        .plugin(
+            name: "AddAcknowledgementsCopyScriptCommand",
+            capability: .command(
+                intent: .custom(
+                    verb: "license-plist-add-copy-script",
+                    description: "LicensePlist adds a copy script to build phases"
+                ),
+                permissions: [
+                    .writeToPackageDirectory(reason: "LicensePlist updates project file")
                 ]
             ),
             dependencies: ["LicensePlistBinary"]
