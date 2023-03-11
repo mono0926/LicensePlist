@@ -13,6 +13,8 @@ import XcodeProjectPlugin
 
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {
+        Diagnostics.warning("WORKDIR: \(context.pluginWorkDirectory)") // TODO: remove
+        
         let licensePlist = try context.tool(named: "license-plist")
         var arguments = externalArgs.skip(argument: "--target")
         do {
