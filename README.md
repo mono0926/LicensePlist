@@ -136,7 +136,6 @@ You can see options by `license-plist --help`.
 
 - Default: `com.mono0926.LicensePlist.Output`
 - Recommended: `--output-path YOUR_PRODUCT_DIR/Settings.bundle`
-- This option is ignored in the [build tool plugin](#integrate-into-build---build-tool-plugin).
 
 #### `--github-token`
 

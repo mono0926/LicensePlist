@@ -3,18 +3,18 @@ import LoggerAPI
 import Yaml
 
 public struct GeneralOptions {
-    public let outputPath: String?
-    public let cartfilePath: String?
-    public let mintfilePath: String?
-    public let podsPath: String?
-    public let packagePaths: [String]?
-    public let packageSourcesPath: String?
-    public let xcworkspacePath: String?
-    public let xcodeprojPath: String?
+    public let outputPath: URL?
+    public let cartfilePath: URL?
+    public let mintfilePath: URL?
+    public let podsPath: URL?
+    public let packagePaths: [URL]?
+    public let packageSourcesPath: URL?
+    public let xcworkspacePath: URL?
+    public let xcodeprojPath: URL?
     public let prefix: String?
     public let gitHubToken: String?
-    public let htmlPath: String?
-    public let markdownPath: String?
+    public let htmlPath: URL?
+    public let markdownPath: URL?
     public let licenseFileNames: [String]?
     public let force: Bool?
     public let addVersionNumbers: Bool?
@@ -45,18 +45,18 @@ public struct GeneralOptions {
                                              addSources: nil,
                                              sandboxMode: nil)
 
-    public init(outputPath: String?,
-                cartfilePath: String?,
-                mintfilePath: String?,
-                podsPath: String?,
-                packagePaths: [String]?,
-                packageSourcesPath: String?,
-                xcworkspacePath: String?,
-                xcodeprojPath: String?,
+    public init(outputPath: URL?,
+                cartfilePath: URL?,
+                mintfilePath: URL?,
+                podsPath: URL?,
+                packagePaths: [URL]?,
+                packageSourcesPath: URL?,
+                xcworkspacePath: URL?,
+                xcodeprojPath: URL?,
                 prefix: String?,
                 gitHubToken: String?,
-                htmlPath: String?,
-                markdownPath: String?,
+                htmlPath: URL?,
+                markdownPath: URL?,
                 licenseFileNames: [String]?,
                 force: Bool?,
                 addVersionNumbers: Bool?,
@@ -114,19 +114,19 @@ extension GeneralOptions {
 }
 
 extension GeneralOptions {
-    public static func load(_ raw: [Yaml: Yaml]) -> GeneralOptions {
-        return GeneralOptions(outputPath: raw["outputPath"]?.string,
-                              cartfilePath: raw["cartfilePath"]?.string,
-                              mintfilePath: raw["mintfilePath"]?.string,
-                              podsPath: raw["podsPath"]?.string,
-                              packagePaths: raw["packagePaths"]?.array?.compactMap(\.string),
-                              packageSourcesPath: raw["packageSourcesPath"]?.string,
-                              xcworkspacePath: raw["xcworkspacePath"]?.string,
-                              xcodeprojPath: raw["xcodeprojPath"]?.string,
+    public static func load(_ raw: [Yaml: Yaml], configBasePath: URL) -> GeneralOptions {
+        return GeneralOptions(outputPath: raw["outputPath"]?.string.asPathURL(in: configBasePath),
+                              cartfilePath: raw["cartfilePath"]?.string.asPathURL(in: configBasePath),
+                              mintfilePath: raw["mintfilePath"]?.string.asPathURL(in: configBasePath),
+                              podsPath: raw["podsPath"]?.string.asPathURL(in: configBasePath),
+                              packagePaths: raw["packagePaths"]?.array?.compactMap { $0.string.asPathURL(in: configBasePath) },
+                              packageSourcesPath: raw["packageSourcesPath"]?.string.asPathURL(in: configBasePath, isDirectory: true),
+                              xcworkspacePath: raw["xcworkspacePath"]?.string.asPathURL(in: configBasePath),
+                              xcodeprojPath: raw["xcodeprojPath"]?.string.asPathURL(in: configBasePath),
                               prefix: raw["prefix"]?.string,
                               gitHubToken: raw["gitHubToken"]?.string,
-                              htmlPath: raw["htmlPath"]?.string,
-                              markdownPath: raw["markdownPath"]?.string,
+                              htmlPath: raw["htmlPath"]?.string.asPathURL(in: configBasePath),
+                              markdownPath: raw["markdownPath"]?.string.asPathURL(in: configBasePath),
                               licenseFileNames: raw["licenseFileNames"]?.array?.compactMap(\.string),
                               force: raw["force"]?.bool,
                               addVersionNumbers: raw["addVersionNumbers"]?.bool,

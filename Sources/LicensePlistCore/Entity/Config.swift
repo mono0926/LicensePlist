@@ -48,7 +48,7 @@ public struct Config {
                           version: dictionary["version"]?.string)
             }.compactMap { $0 } ?? []
         let options: GeneralOptions = value["options"].dictionary.map {
-            GeneralOptions.load($0)
+            GeneralOptions.load($0, configBasePath: configBasePath)
         } ?? .empty
         self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames, options: options)
     }
