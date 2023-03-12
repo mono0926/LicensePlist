@@ -258,7 +258,7 @@ fi
 
 ### Integrate into build - build tool plugin
 
-LicensePlist build tool plugins requires [Swift package installation](#xcode-project---spm).
+_LicensePlist build tool plugins requires [Swift package installation](#xcode-project---spm)._
 
 ![Choose package plugins](Screenshots/choose_plugin.png)
 
@@ -302,6 +302,26 @@ For unattended use (e.g. on CI), you can disable the package validation dialog b
 
 _Note: This implicitly trusts all Xcode package plugins and bypasses Xcode's package validation
        dialogs, which has security implications._
+
+### Contextual menu command
+
+_LicensePlist command requires [Swift package installation](#xcode-project---spm)._
+
+In the project contextual menu click "GenerateAcknowledgementsCommand".
+
+![Generate Acknowledgements menu command in Xcode](Screenshots/generate_acknowledgements_menu.png)
+
+The command dialog allows to specify [command line arguments](#options). Since Xcode doesn't save the arguments for future use, it's recommended to use a [configuration file](#configuration).
+
+Click "Run" to run LicensePlist.
+
+![Generate Acknowledgements command dialog in Xcode](Screenshots/generate_acknowledgements_command.png)
+
+Click "Allow Command to Change files". This action provides LicensePlist write access to your project directory.
+
+"Don't ask again" option prevents showing this dialog in the future.
+
+![Allow command to change files dialog in Xcode](Screenshots/allow_command_to_change_files.png)
 
 ## Configuration
 
