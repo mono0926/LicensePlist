@@ -270,9 +270,15 @@ In case of build tool plugin, define all the settings in `license_plist.yml` in 
 `license_plist.yml` example:
 ```yml
 options:
+  xcworkspacePath: "*.xcworkspace"
   prefix: Acknowledgements
   singlePage: true
 ```
+
+**Important**: to process Swift Package licenses, the config must include one of the following parameters:
+- `xcworkspacePath`,
+- `xcodeprojPath`,
+- `packagePaths`.
 
 See the [configuration](#configuration) section for more information.
 
