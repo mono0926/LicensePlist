@@ -1,12 +1,6 @@
 import Foundation
 import PackagePlugin
 
-enum LicensePlistBuildToolError: Error {
-    case workspaceNotFound
-    case packageResolvedFileNotFound
-    case configFileNotFound
-}
-
 @main
 struct LicensePlistBuildTool: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
@@ -26,7 +20,8 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         // Checks LicensePlist config
         let configPath = context.xcodeProject.directory.appending(subpath: "license_plist.yml")
         guard fileManager.fileExists(atPath: configPath.string) else {
-            throw LicensePlistBuildToolError.configFileNotFound
+            Diagnostics.error("Can't find 'license_plist.yml' file")
+            return []
         }
         
         // The folder with checked out package sources
@@ -44,7 +39,8 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         // Gets the workspace path in the project folder
         let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
         guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
-            throw LicensePlistBuildToolError.workspaceNotFound
+            Diagnostics.error("Can't find '.xcworkspace' file")
+            return []
         }
         
         // Package.resolved file path inside the workspace
@@ -52,7 +48,8 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
             .appending(subpath: workspacePath)
             .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
         guard fileManager.fileExists(atPath: packageResolvedPath.string) else {
-            throw LicensePlistBuildToolError.packageResolvedFileNotFound
+            Diagnostics.error("Can't find 'Package.resolved' file")
+            return []
         }
         
         // Output directory inside build output directory
