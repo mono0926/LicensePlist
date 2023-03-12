@@ -14,7 +14,7 @@ import XcodeProjectPlugin
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {        
         let licensePlist = try context.tool(named: "license-plist")
-        var arguments = externalArgs.skip(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path", "--config-path"])
+        var arguments = externalArgs.removing(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path", "--config-path"])
         do {
             let packageSources = try packageSourcesPath(context: context, arguments: externalArgs)
             arguments += ["--sandbox-mode", "--package-sources-path", packageSources]
@@ -94,7 +94,7 @@ private extension Array where Element == String {
     /// - Returns: array of arguments.
     ///
     /// The method assumes that the specified argument precedes its value.
-    func skip(arguments skippedArgumentNames: [String]) -> [String] {
+    func removing(arguments skippedArgumentNames: [String]) -> [String] {
         var argumentIndex = 0
         var resultArguments = [String]()
         while argumentIndex < count {
