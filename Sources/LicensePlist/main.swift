@@ -84,7 +84,7 @@ struct LicensePlist: ParsableCommand {
 
     @Flag(name: .long, inversion: .prefixedNo)
     var failIfMissingLicense: Bool?
-    
+
     @Flag(name: .long, inversion: .prefixedNo)
     var sandboxMode: Bool?
 
@@ -117,7 +117,7 @@ struct LicensePlist: ParsableCommand {
         let packageSourcesPath = packageSourcesPath.asPathURL(other: config.options.packageSourcesPath, isDirectory: true)
         let xcworkspacePath = xcworkspacePath.asPathURL(other: config.options.xcworkspacePath, default: Consts.xcworkspacePath)
         let xcodeprojPath = xcodeprojPath.asPathURL(other: config.options.xcodeprojPath, default: Consts.xcodeprojPath)
-        let outputPath = outputPath.asPathURL(other: config.options.outputPath, default: Consts.outputPath) 
+        let outputPath = outputPath.asPathURL(other: config.options.outputPath, default: Consts.outputPath)
         let githubToken = githubToken ?? config.options.gitHubToken ?? Environment.shared[.githubToken]
         let prefix = prefix ?? config.options.prefix ?? Consts.prefix
         let htmlPath = htmlPath.asPathURL(other: config.options.htmlPath)

@@ -44,7 +44,7 @@ struct PlistInfo {
 
     mutating func loadSwiftPackageLibraries(packageFiles: [String]) {
         Log.info("Swift Package Manager License collect start")
-        
+
         checkSandboxMode()
 
         let packages = packageFiles.flatMap { SwiftPackage.loadPackages($0) }
@@ -189,7 +189,7 @@ struct PlistInfo {
                                                     checkoutPath: checkoutPath,
                                                     licenseFileNames: options.licenseFileNames)
     }
-    
+
     private func checkSandboxMode() {
         if options.config.sandboxMode && options.packageSourcesPath == nil {
             fatalError("'--package-sources-path' must be specified when using '--sandbox-mode'")

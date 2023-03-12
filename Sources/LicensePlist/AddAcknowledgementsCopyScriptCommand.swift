@@ -30,14 +30,14 @@ extension LicensePlist {
                     Log.info("Target \(target.name) skipped")
                     continue
                 }
-                
+
                 guard !target.buildPhases.hasScript(named: Self.scriptName) else {
                     Log.warning("\(target.name) already has \"\(Self.scriptName)\" build phase")
                     continue
                 }
-                
+
                 Log.info("Processing \(target.name)...")
-                
+
                 let script = try file.createShellScript(name: Self.scriptName, shellScript: Self.script)
                 let reference = file.addReference(value: script) as Reference<PBXBuildPhase>
                 target.insertBuildPhase(reference, at: target.buildPhases.count)
@@ -45,9 +45,9 @@ extension LicensePlist {
 
             try file.write(to: url)
         }
-        
+
         private static let scriptName = "Copy Acknowledgements"
-        
+
         private static let script: String = """
 echo "Will copy acknowledgements"
 
