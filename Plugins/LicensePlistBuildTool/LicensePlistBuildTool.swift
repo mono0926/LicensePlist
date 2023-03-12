@@ -35,22 +35,25 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         let yamlData = fileManager.contents(atPath: configPath.string) ?? Data()
         let yaml = String(data: yamlData, encoding: .utf8) ?? ""
         let packageSourcesPath = try parse(stringParameter: "packageSourcesPath", in: yaml) ?? defaultPackageSourcesPath.string
-        
-        // Gets the workspace path in the project folder
-        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
-        guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
-            Diagnostics.error("Can't find '.xcworkspace' file")
-            return []
-        }
+
+//        // Gets the workspace path in the project folder
+//        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
+//        let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") })
+////        guard let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) else {
+////            Diagnostics.error("Can't find '.xcworkspace' file")
+////            return []
+////        }
+//
+//        let xcodeProjectPath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcodeproj") })
         
         // Package.resolved file path inside the workspace
-        let packageResolvedPath = Path(fileManager.currentDirectoryPath)
-            .appending(subpath: workspacePath)
-            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
-        guard fileManager.fileExists(atPath: packageResolvedPath.string) else {
-            Diagnostics.error("Can't find 'Package.resolved' file")
-            return []
-        }
+//        let packageResolvedPath = Path(fileManager.currentDirectoryPath)
+//            .appending(subpath: workspacePath)
+//            .appending(subpath: "xcshareddata/swiftpm/Package.resolved")
+//        guard fileManager.fileExists(atPath: packageResolvedPath.string) else {
+//            Diagnostics.error("Can't find 'Package.resolved' file")
+//            return []
+//        }
         
         // Output directory inside build output directory
         let outputDirectoryName = "com.mono0926.LicensePlist.Output"
@@ -62,7 +65,7 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
                              executable: licensePlist.path,
                              arguments: ["--sandbox-mode",
                                          "--config-path", configPath,
-                                         "--package-path", packageResolvedPath,
+//                                         "--package-path", packageResolvedPath,
                                          "--package-sources-path", packageSourcesPath,
                                          "--output-path", outputDirectoryPath],
                              outputFilesDirectory: context.pluginWorkDirectory)
