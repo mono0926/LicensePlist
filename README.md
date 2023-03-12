@@ -265,7 +265,7 @@ Select your target, on the tab "Build Phases", in the section "Run Build Tool Pl
 
 ![Run build tool plug-ins](Screenshots/run_build_tool_plugins.png)
 
-In case of build tool plugin, define all the settings in `license_plist.yml` in the root of your project.
+In the case of using the build tool plugin, define all the settings in `license_plist.yml` at the root of your project.
 
 `license_plist.yml` example:
 ```yml
@@ -279,6 +279,8 @@ options:
 - `xcworkspacePath`,
 - `xcodeprojPath`,
 - `packagePaths`.
+
+_Note: `outputPath` and `packageSourcesPath` config parameters are ignored by the build tool plugin._
 
 See the [configuration](#configuration) section for more information.
 

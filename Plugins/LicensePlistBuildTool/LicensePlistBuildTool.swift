@@ -25,16 +25,11 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         }
         
         // The folder with checked out package sources
-        let defaultPackageSourcesPath = context.pluginWorkDirectory
+        let packageSourcesPath = context.pluginWorkDirectory
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
             .removingLastComponent()
-        
-        // Parses package sources path from config
-        let yamlData = fileManager.contents(atPath: configPath.string) ?? Data()
-        let yaml = String(data: yamlData, encoding: .utf8) ?? ""
-        let packageSourcesPath = try parse(stringParameter: "packageSourcesPath", in: yaml) ?? defaultPackageSourcesPath.string
         
         // Output directory inside build output directory
         let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "com.mono0926.LicensePlist.Output")
@@ -53,23 +48,3 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 }
 
 #endif
-
-/// Looks up for a string parameter in YAML.
-/// - Parameters:
-///   - name: name of the parameter.
-///   - yaml: markup string.
-/// - Returns: parsed value or nil if the parameter wasn't found.
-private func parse(stringParameter name: String, in yaml: String) throws -> String? {
-    let regex = try NSRegularExpression(pattern: "^\\s+\(name):(.*)")
-    let range = NSRange(yaml.startIndex..<yaml.endIndex, in: yaml)
-    let matches = regex.matches(in: yaml, options: [], range:range)
-    
-    if let match = matches.first {
-        let range = match.range(at: 1)
-        if let swiftRange = Range(range, in: yaml) {
-            return String(yaml[swiftRange])
-        }
-    }
-    
-    return nil
-}
