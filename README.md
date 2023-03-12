@@ -286,7 +286,7 @@ cp -r ${ACKNOWLEDGEMENTS_DIR}/* ${DESTINATION_PATH}
 rm -rf ${ACKNOWLEDGEMENTS_DIR}
 ```
 
-or in project contextual menu click "AddAcknowledgementsCopyScriptCommand" and select application target to create the build phase automatically.
+Or in project contextual menu click "AddAcknowledgementsCopyScriptCommand" and select application target to create the build phase automatically.
 
 ![AddAcknowledgementsCopyScriptCommand](Screenshots/copy_script_command.png)
 
