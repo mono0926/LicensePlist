@@ -37,29 +37,16 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         let packageSourcesPath = try parse(stringParameter: "packageSourcesPath", in: yaml) ?? defaultPackageSourcesPath.string
         
         // Output directory inside build output directory
-        let outputDirectoryName = "com.mono0926.LicensePlist.Output"
-        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: outputDirectoryName)
+        let outputDirectoryPath = context.pluginWorkDirectory.appending(subpath: "com.mono0926.LicensePlist.Output")
         try fileManager.createDirectory(atPath: outputDirectoryPath.string, withIntermediateDirectories: true)
-        
-        var arguments: [String] = ["--sandbox-mode",
-                                   "--config-path", configPath.string,
-                                   "--package-sources-path", packageSourcesPath,
-                                   "--output-path", outputDirectoryPath.string]
-
-        // Gets the workspace path in the project folder
-        let projectDirectoryItems = try fileManager.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
-        if let workspacePath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcworkspace") }) {
-            arguments += ["--xcworkspace-path", context.xcodeProject.directory.appending(subpath: workspacePath).string]
-        }
-
-        if let xcodeProjectPath = projectDirectoryItems.first(where: { $0.hasSuffix(".xcodeproj") }) {
-            arguments += ["--xcodeproj-path", context.xcodeProject.directory.appending(subpath: xcodeProjectPath).string]
-        }
         
         return [
             .prebuildCommand(displayName: "LicensePlist is processing licenses...",
                              executable: licensePlist.path,
-                             arguments: arguments,
+                             arguments: ["--sandbox-mode",
+                                         "--config-path", configPath.string,
+                                         "--package-sources-path", packageSourcesPath,
+                                         "--output-path", outputDirectoryPath.string],
                              outputFilesDirectory: context.pluginWorkDirectory)
         ]
     }
