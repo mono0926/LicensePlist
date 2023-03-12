@@ -330,6 +330,8 @@ Click "Allow Command to Change files". This action provides LicensePlist write a
 
 ![Allow command to change files dialog in Xcode](Screenshots/allow_command_to_change_files.png)
 
+_Note: `--package-sources-path` option and `packageSourcesPath` config parameter are ignored by the command plugin._
+
 ## Configuration
 
 ### General options

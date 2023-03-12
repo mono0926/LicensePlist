@@ -14,81 +14,32 @@ import XcodeProjectPlugin
 extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     func performCommand(context: XcodePluginContext, arguments externalArgs: [String]) throws {        
         let licensePlist = try context.tool(named: "license-plist")
-        var arguments = externalArgs.removing(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path", "--config-path"])
+        let arguments = arguments(context: context, externalArgs: externalArgs)
         do {
-            let packageSources = try packageSourcesPath(context: context, arguments: externalArgs)
-            arguments += ["--sandbox-mode", "--package-sources-path", packageSources]
             try licensePlist.run(arguments: arguments)
         } catch let error as RunError {
             Diagnostics.error(error.description)
         }
     }
     
-    private func packageSourcesPath(context: XcodePluginContext, arguments: [String]) throws -> String {
-        // Check external arguments
-        let argumentNames = ["--swift-package-sources-path", "--package-sources-path"]
-        for argumentName in argumentNames {
-            if let path = arguments.value(of: argumentName) {
-                return context.xcodeProject.directory.appending(subpath: path).string
-            }
-        }
-        
-        // Check configuration file
-        if let configPath = try configPath(context: context, arguments: arguments) {
-            let yamlData = FileManager.default.contents(atPath: configPath.string) ?? Data()
-            let yaml = String(data: yamlData, encoding: .utf8) ?? ""
-            if let path = try parse(stringParameter: "packageSourcesPath", in: yaml) {
-                return path
-            }
-        }
-        
-        // Return default folder with checked out package sources
+    private func arguments(context: XcodePluginContext, externalArgs: [String]) -> [String] {
+        var arguments = ["--sandbox-mode"]
+        arguments += ["--package-sources-path", packageSourcesPath(context: context)]
+        arguments += externalArgs.removing(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path"])
+        return arguments
+    }
+    
+    // Returns default folder with checked out package sources
+    private func packageSourcesPath(context: XcodePluginContext) -> String {
         return context.pluginWorkDirectory
             .removingLastComponent()
             .removingLastComponent()
             .string
     }
-    
-    private func configPath(context: XcodePluginContext, arguments: [String]) throws -> Path? {
-        let fileManager = FileManager.default
-        
-        // Check external arguments
-        if let localPath = arguments.value(of: "--config-path") {
-            let configPath = context.xcodeProject.directory.appending(subpath: localPath)
-            if !fileManager.fileExists(atPath: configPath.string) {
-                throw RunError(description: "Configuration file not found")
-            }
-            return configPath
-        }
-        
-        // Check default configuration path
-        let defaultConfigPath = context.xcodeProject.directory.appending(subpath: "license_plist.yml")
-        if fileManager.fileExists(atPath: defaultConfigPath.string) {
-            return defaultConfigPath
-        }
-        
-        return nil
-    }
 }
 #endif
 
-private extension Array where Element == String {
-    /// Filter out specified argument with its value.
-    /// - Parameter argumentName: name of the argument, for example `--target`.
-    /// - Returns: array of arguments.
-    ///
-    /// The method assumes that the specified argument precedes its value.
-    func value(of argumentName: String) -> String? {
-        var argumentIndex = 0
-        while argumentIndex < count - 1 {
-            if self[argumentIndex] == argumentName {
-                return self[argumentIndex + 1]
-            }
-            argumentIndex += 1
-        }
-        return nil
-    }
-    
+private extension Array where Element == String {    
     /// Filter out specified argument with its value.
     /// - Parameter skippedArgumentNames: names of the arguments, for example `["--target"]`.
     /// - Returns: array of arguments.
@@ -139,24 +90,4 @@ private extension PluginContext.Tool {
             throw RunError(description: "\(name) invocation failed: \(problem)")
         }
     }
-}
-
-/// Looks up for a string parameter in YAML.
-/// - Parameters:
-///   - name: name of the parameter.
-///   - yaml: markup string.
-/// - Returns: parsed value or nil if the parameter wasn't found.
-private func parse(stringParameter name: String, in yaml: String) throws -> String? {
-    let regex = try NSRegularExpression(pattern: "^\\s+\(name):(.*)")
-    let range = NSRange(yaml.startIndex..<yaml.endIndex, in: yaml)
-    let matches = regex.matches(in: yaml, options: [], range:range)
-    
-    if let match = matches.first {
-        let range = match.range(at: 1)
-        if let swiftRange = Range(range, in: yaml) {
-            return String(yaml[swiftRange])
-        }
-    }
-    
-    return nil
 }
