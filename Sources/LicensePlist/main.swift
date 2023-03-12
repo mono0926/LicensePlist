@@ -98,8 +98,7 @@ struct LicensePlist: ParsableCommand {
     var color: Bool?
 
     func run() throws {
-        Logger.configure(logLevel: logLevel,
-                         colorCommandLineFlag: color)
+        Logger.configure(logLevel: logLevel, colorCommandLineFlag: color)
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force ?? config.options.force ?? false
