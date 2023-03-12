@@ -266,10 +266,6 @@ Select your target, on the tab "Build Phases", in the section "Run Build Tool Pl
 
 ![Run build tool plug-ins](Screenshots/run_build_tool_plugins.png)
 
-Build the app. At the first run, Xcode asks a permission to run the plugin. Click "Trust & Enable All"
-
-![Trust & Enable All](Screenshots/trust_and_enable.png)
-
 In case of build tool plugin, define all the settings in `license_plist.yml` in the root of your project.
 
 `license_plist.yml` example:
@@ -280,6 +276,32 @@ options:
 ```
 
 See the [configuration](#configuration) section for more information.
+
+If you need to put license files to `Settings.bundle` or any other specific place add the following script to build phases:
+```bash
+echo "Will copy acknowledgements"
+ACKNOWLEDGEMENTS_DIR=${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/com.mono0926.LicensePlist.Output
+DESTINATION_PATH=${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Settings.bundle/
+cp -r ${ACKNOWLEDGEMENTS_DIR}/* ${DESTINATION_PATH}
+rm -rf ${ACKNOWLEDGEMENTS_DIR}
+```
+
+or in project contextual menu click "AddAcknowledgementsCopyScriptCommand" and select application target to create the build phase automatically.
+
+![AddAcknowledgementsCopyScriptCommand](Screenshots/copy_script_command.png)
+
+Build the app. At the first run, Xcode asks a permission to run the plugin. Click "Trust & Enable All"
+
+![Trust & Enable All](Screenshots/trust_and_enable.png)
+
+For unattended use (e.g. on CI), you can disable the package validation dialog by
+
+* individually passing `-skipPackagePluginValidation` to `xcodebuild` or
+* globally setting `defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES` 
+  for that user.
+
+_Note: This implicitly trusts all Xcode package plugins and bypasses Xcode's package validation
+       dialogs, which has security implications._
 
 ## Configuration
 
