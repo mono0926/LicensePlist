@@ -42,6 +42,12 @@ brew install licenseplist
 mint run mono0926/LicensePlist
 ```
 
+### Xcode project - SPM
+
+In Project Settings, on the tab "Package Dependencies", click "+" and add `https://github.com/mono0926/LicensePlist`.
+
+Click "Add Package" without selecting any package products.
+
 ### Download the executable binary from [Releases](https://github.com/mono0926/LicensePlist/releases)
 
 Download from [Releases](https://github.com/mono0926/LicensePlist/releases), then copy to `/usr/local/bin/license-plist` etc.
@@ -195,6 +201,7 @@ You can see options by `license-plist --help`.
 
 - Default: false
 - Only when the files are created or updated, the terminal or the finder opens. By adding `--suppress-opening-directory` flag, this behavior is suppressed.
+- Automatically enabled if `--sandbox-mode` is specified.
 
 #### `--single-page`
 
@@ -221,8 +228,14 @@ You can see options by `license-plist --help`.
 - If neither option is specified, LicensePlist will look for the `NO_COLOR` environment variable. If you set the `NO_COLOR` environment variable to `"1"`, LicensePlist runs without colors.
 - Default: auto - LicensePlist decides its color mode depending on the terminal type.
 
+#### `--sandbox-mode` / `--no-sandbox-mode`
 
-### Integrate into build
+- Default: false
+- Enables or disables the "sandbox" mode.
+- In the sandbox mode, LicensePlist avoids network requests. That means Swift package licenses can not be fetched with GitHub API. To parse Swift package licenses `--package-sources-path` must be specified.
+
+
+### Integrate into build - run script
 
 Add a `Run Script Phase` to `Build Phases`:
 
@@ -241,6 +254,83 @@ if [ $CONFIGURATION = "Debug" ]; then
 ${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN
 fi
 ```
+
+### Integrate into build - build tool plugin
+
+_LicensePlist build tool plugins requires [Swift package installation](#xcode-project---spm)._
+
+![Choose package plugins](Screenshots/choose_plugin.png)
+
+Select your target, on the tab "Build Phases", in the section "Run Build Tool Plug-ins", click "+" and add `LicensePlistBuildTool`.
+
+![Run build tool plug-ins](Screenshots/run_build_tool_plugins.png)
+
+In the case of using the build tool plugin, define all the settings in `license_plist.yml` at the root of your project.
+
+`license_plist.yml` example:
+```yml
+options:
+  xcworkspacePath: "*.xcworkspace"
+  prefix: Acknowledgements
+  singlePage: true
+```
+
+**Important**: to process Swift Package licenses, the config must include one of the following parameters:
+- `xcworkspacePath`,
+- `xcodeprojPath`,
+- `packagePaths`.
+
+_Note: `outputPath` and `packageSourcesPath` config parameters are ignored by the build tool plugin._
+
+See the [configuration](#configuration) section for more information.
+
+If you need to put license files to `Settings.bundle` or any other specific place add the following script to build phases:
+```bash
+echo "Will copy acknowledgements"
+ACKNOWLEDGEMENTS_DIR=${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/com.mono0926.LicensePlist.Output
+DESTINATION_PATH=${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Settings.bundle/
+cp -r ${ACKNOWLEDGEMENTS_DIR}/* ${DESTINATION_PATH}
+rm -rf ${ACKNOWLEDGEMENTS_DIR}
+```
+
+Or in project contextual menu click "AddAcknowledgementsCopyScriptCommand" and select application target to create the build phase automatically.
+
+![AddAcknowledgementsCopyScriptCommand](Screenshots/copy_script_command.png)
+
+Build the app. At the first run, Xcode asks a permission to run the plugin. Click "Trust & Enable All"
+
+![Trust & Enable All](Screenshots/trust_and_enable.png)
+
+For unattended use (e.g. on CI), you can disable the package validation dialog by
+
+* individually passing `-skipPackagePluginValidation` to `xcodebuild` or
+* globally setting `defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES` 
+  for that user.
+
+_Note: This implicitly trusts all Xcode package plugins and bypasses Xcode's package validation
+       dialogs, which has security implications._
+
+### Contextual menu command
+
+_LicensePlist command requires [Swift package installation](#xcode-project---spm)._
+
+In the project contextual menu click "GenerateAcknowledgementsCommand".
+
+![Generate Acknowledgements menu command in Xcode](Screenshots/generate_acknowledgements_menu.png)
+
+The command dialog allows to specify [command line arguments](#options). Since Xcode doesn't save the arguments for future use, it's recommended to use a [configuration file](#configuration).
+
+Click "Run" to run LicensePlist.
+
+![Generate Acknowledgements command dialog in Xcode](Screenshots/generate_acknowledgements_command.png)
+
+Click "Allow Command to Change files". This action provides LicensePlist write access to your project directory.
+
+"Don't ask again" option prevents showing this dialog in the future.
+
+![Allow command to change files dialog in Xcode](Screenshots/allow_command_to_change_files.png)
+
+_Note: `--package-sources-path` option and `packageSourcesPath` config parameter are ignored by the command plugin._
 
 ## Configuration
 
@@ -278,6 +368,7 @@ options:
   singlePage: false
   failIfMissingLicense: false
   addSources: false
+  sandboxMode: false
 ```
 
 ### Manual GitHub source

@@ -14,6 +14,7 @@ public struct Config {
     public var suppressOpeningDirectory = false
     public var singlePage = false
     public var failIfMissingLicense = false
+    public var sandboxMode = false
 
     public static let empty = Config(githubs: [], manuals: [], excludes: [Exclude](), renames: [:], options: .empty)
 
@@ -47,7 +48,7 @@ public struct Config {
                           version: dictionary["version"]?.string)
             }.compactMap { $0 } ?? []
         let options: GeneralOptions = value["options"].dictionary.map {
-            GeneralOptions.load($0)
+            GeneralOptions.load($0, configBasePath: configBasePath)
         } ?? .empty
         self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames, options: options)
     }

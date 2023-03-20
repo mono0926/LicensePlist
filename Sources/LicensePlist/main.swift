@@ -22,7 +22,8 @@ extension LogLevel: EnumerableFlag {
 
 // Typename used for usage in help command
 struct LicensePlist: ParsableCommand {
-    static let configuration = CommandConfiguration(version: Consts.version)
+    static let configuration = CommandConfiguration(version: Consts.version,
+                                                    subcommands: [AddAcknowledgementsCopyScript.self])
 
     @Option(name: .long, completion: .file())
     var cartfilePath: String?
@@ -84,6 +85,9 @@ struct LicensePlist: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo)
     var failIfMissingLicense: Bool?
 
+    @Flag(name: .long, inversion: .prefixedNo)
+    var sandboxMode: Bool?
+
     @Flag(exclusivity: .chooseLast)
     var logLevel: LogLevel = .normalLogLevel
 
@@ -94,43 +98,43 @@ struct LicensePlist: ParsableCommand {
     var color: Bool?
 
     func run() throws {
-        Logger.configure(logLevel: logLevel,
-                         colorCommandLineFlag: color)
+        Logger.configure(logLevel: logLevel, colorCommandLineFlag: color)
 
         var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
         config.force = force ?? config.options.force ?? false
         config.addVersionNumbers = addVersionNumbers ?? config.options.addVersionNumbers ?? false
-        config.suppressOpeningDirectory = suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false
+        config.sandboxMode = sandboxMode ?? config.options.sandboxMode ?? false
+        config.suppressOpeningDirectory = (suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false) || config.sandboxMode
         config.singlePage = singlePage ?? config.options.singlePage ?? false
         config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
         config.addSources = addSources ?? config.options.addSources ?? false
-        let cartfilePath = cartfilePath ?? config.options.cartfilePath ?? Consts.cartfileName
-        let mintfilePath = mintfilePath ?? config.options.mintfilePath ?? Consts.mintfileName
-        let podsPath = podsPath ?? config.options.podsPath ?? Consts.podsDirectoryName
-        let configPackagePaths = config.options.packagePaths ?? [Consts.packageName]
-        let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths
-        let packageSourcesPath = packageSourcesPath ?? config.options.packageSourcesPath
-        let xcworkspacePath = xcworkspacePath ?? config.options.xcworkspacePath ?? Consts.xcworkspacePath
-        let xcodeprojPath = xcodeprojPath ?? config.options.xcodeprojPath ?? Consts.xcodeprojPath
-        let outputPath = outputPath ?? config.options.outputPath ?? Consts.outputPath
+        let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName)
+        let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName)
+        let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName)
+        let configPackagePaths = config.options.packagePaths ?? [URL(fileURLWithPath: Consts.packageName)]
+        let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths.map { URL(fileURLWithPath: $0) }
+        let packageSourcesPath = packageSourcesPath.asPathURL(other: config.options.packageSourcesPath, isDirectory: true)
+        let xcworkspacePath = xcworkspacePath.asPathURL(other: config.options.xcworkspacePath, default: Consts.xcworkspacePath)
+        let xcodeprojPath = xcodeprojPath.asPathURL(other: config.options.xcodeprojPath, default: Consts.xcodeprojPath)
+        let outputPath = outputPath.asPathURL(other: config.options.outputPath, default: Consts.outputPath)
         let githubToken = githubToken ?? config.options.gitHubToken ?? Environment.shared[.githubToken]
         let prefix = prefix ?? config.options.prefix ?? Consts.prefix
-        let htmlPath = htmlPath ?? config.options.htmlPath
-        let markdownPath = markdownPath ?? config.options.markdownPath
+        let htmlPath = htmlPath.asPathURL(other: config.options.htmlPath)
+        let markdownPath = markdownPath.asPathURL(other: config.options.markdownPath)
         let configLicenseFileNames = config.options.licenseFileNames ?? Consts.licenseFileNames
         let licenseFileNames = licenseFileNames.isEmpty ? configLicenseFileNames : licenseFileNames
-        let options = Options(outputPath: URL(fileURLWithPath: outputPath),
-                              cartfilePath: URL(fileURLWithPath: cartfilePath),
-                              mintfilePath: URL(fileURLWithPath: mintfilePath),
-                              podsPath: URL(fileURLWithPath: podsPath),
-                              packagePaths: packagePaths.map { URL(fileURLWithPath: $0) },
-                              packageSourcesPath: packageSourcesPath.map { URL(fileURLWithPath: $0, isDirectory: true) },
-                              xcworkspacePath: URL(fileURLWithPath: xcworkspacePath),
-                              xcodeprojPath: URL(fileURLWithPath: xcodeprojPath),
+        let options = Options(outputPath: outputPath,
+                              cartfilePath: cartfilePath,
+                              mintfilePath: mintfilePath,
+                              podsPath: podsPath,
+                              packagePaths: packagePaths,
+                              packageSourcesPath: packageSourcesPath,
+                              xcworkspacePath: xcworkspacePath,
+                              xcodeprojPath: xcodeprojPath,
                               prefix: prefix,
                               gitHubToken: githubToken,
-                              htmlPath: htmlPath.map { return URL(fileURLWithPath: $0) },
-                              markdownPath: markdownPath.map { return URL(fileURLWithPath: $0) },
+                              htmlPath: htmlPath,
+                              markdownPath: markdownPath,
                               licenseFileNames: licenseFileNames,
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
