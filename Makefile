@@ -37,9 +37,9 @@ portable_zip: build_portable
 	(cd $(TEMPORARY_FOLDER); zip -r - LICENSE license-plist) > "./portable_licenseplist.zip"
 	rm -r "$(TEMPORARY_FOLDER)"
 
-spm_artifactbundle_macos: build
+spm_artifactbundle_macos: build_portable
 	mkdir -p "$(ARTIFACT_BUNDLE_PATH)/license-plist-$(VERSION_STRING)-macos/bin"
 	sed 's/__VERSION__/$(VERSION_STRING)/g' Tools/info-macos.json.template > "$(ARTIFACT_BUNDLE_PATH)/info.json"
-	cp -f ".build/release/license-plist" "$(ARTIFACT_BUNDLE_PATH)/license-plist-$(VERSION_STRING)-macos/bin"
+	cp -f ".build/apple/Products/Release/license-plist" "$(ARTIFACT_BUNDLE_PATH)/license-plist-$(VERSION_STRING)-macos/bin"
 	cp -f "$(LICENSE_PATH)" "$(ARTIFACT_BUNDLE_PATH)"
 	(cd "$(TEMPORARY_FOLDER)"; zip -yr - "LicensePlistBinary.artifactbundle") > "./LicensePlistBinary-macos.artifactbundle.zip"
