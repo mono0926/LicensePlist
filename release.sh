@@ -6,9 +6,6 @@ if [ $# -eq 1 ]; then
     exit 1
 fi
 
-# build
-make build
-
 lib_name="license-plist"
 tag=$1
 token=$2
@@ -17,6 +14,10 @@ echo "Tag: '${tag}'"
 echo "Token: '${token}'"
 filename="${tag}.tar.gz"
 echo "Filename: '${filename}'"
+
+# build
+make build
+zip -j $lib_name.zip ./.build/release/$lib_name
 
 # Prepare artifact bundle
 binary_artifact="LicensePlistBinary-macos.artifactbundle.zip"
@@ -59,7 +60,6 @@ curl -i -X PUT $formula_url \
 }"
 
 brew upgrade licenseplist
-zip -j $lib_name.zip ./.build/release/$lib_name
 
 # GitHub Release
 github-release release \
@@ -99,5 +99,5 @@ rm $portable_zip_name
 
 podspec_name="LicensePlist.podspec"
 cat "$podspec_name.tmp" | sed s/LATEST_RELEASE_VERSION_NUMBER/$tag/ > "$podspec_name"
-pod trunk push $podspec_name
+pod trunk push $podspec_name --allow-warnings
 rm $podspec_name
