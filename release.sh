@@ -59,8 +59,6 @@ curl -i -X PUT $formula_url \
   \"message\":\"$commit_message\"
 }"
 
-brew upgrade licenseplist
-
 # GitHub Release
 github-release release \
     --user mono0926 \
