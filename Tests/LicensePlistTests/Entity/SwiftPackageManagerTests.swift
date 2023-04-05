@@ -178,20 +178,20 @@ class SwiftPackageManagerTests: XCTestCase {
         let packages = SwiftPackage.loadPackages(content)
 
         XCTAssertFalse(packages.isEmpty)
-        XCTAssertEqual(packages.count, 10)
+        XCTAssertEqual(packages.count, 11)
 
         let packageFirst = try XCTUnwrap(packages.first)
-        XCTAssertEqual(packageFirst, SwiftPackage(package: "APIKit",
+        XCTAssertEqual(packageFirst, SwiftPackage(package: "apikit",
                                                   repositoryURL: "https://github.com/ishkawa/APIKit.git",
                                                   revision: "4e7f42d93afb787b0bc502171f9b5c12cf49d0ca",
                                                   version: "5.3.0",
-                                                  packageDefinitionVersion: 1))
+                                                  packageDefinitionVersion: 2))
         let packageLast = try XCTUnwrap(packages.last)
-        XCTAssertEqual(packageLast, SwiftPackage(package: "Yaml",
+        XCTAssertEqual(packageLast, SwiftPackage(package: "yamlswift",
                                                  repositoryURL: "https://github.com/behrang/YamlSwift.git",
                                                  revision: "287f5cab7da0d92eb947b5fd8151b203ae04a9a3",
                                                  version: "3.4.4",
-                                                 packageDefinitionVersion: 1))
+                                                 packageDefinitionVersion: 2))
 
     }
 
