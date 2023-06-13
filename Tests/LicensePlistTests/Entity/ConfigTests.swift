@@ -17,6 +17,10 @@ class ConfigTests: XCTestCase {
                                                source: "https://webrtc.googlesource.com/src",
                                                nameSpecified: "Web RTC",
                                                version: "M61"),
+                                        Manual(name: "Firebase",
+                                               source: "https://github.com/firebase/firebase-ios-sdk",
+                                               nameSpecified: nil,
+                                               version: "4.0.0"),
                                         Manual(name: "Dummy License File", source: nil, nameSpecified: nil, version: nil)],
                               excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
                               renames: ["LicensePlist": "License Plist", "WebRTC": "Web RTC"],
@@ -197,5 +201,22 @@ class ConfigTests: XCTestCase {
         let result = config.applyManual(manuals: [shouldBeIncluded, Manual(name: "lib2", source: nil, nameSpecified: nil, version: nil)])
         XCTAssertEqual(result, [manual1, shouldBeIncluded])
     }
-
+    
+    func test_mulitnewlineYaml() throws {
+        let yaml = """
+            manual:
+              - body: |2
+        
+                                        New Line
+                                            new line
+                    endline.
+                name: name
+                source: source
+                version: 2.0.0
+        """
+        XCTAssertEqual(
+            "\n                      New Line\n                          new line\n  endline.\n",
+            Config(yaml: yaml, configBasePath: URL(string: "/LicensePlist")!).manuals[0].body
+        )
+    }
 }

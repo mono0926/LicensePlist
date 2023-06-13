@@ -1,6 +1,6 @@
 import Foundation
 import LoggerAPI
-import Yaml
+import Yams
 
 public struct Config {
     let githubs: [GitHub]
@@ -19,38 +19,35 @@ public struct Config {
     public static let empty = Config(githubs: [], manuals: [], excludes: [Exclude](), renames: [:], options: .empty)
 
     public init(yaml: String, configBasePath: URL) {
-        let value = try! Yaml.load(yaml)
-        let excludes = value["exclude"].array?.compactMap({ Exclude(from: $0) }) ?? []
-        let renames = value["rename"].dictionary?.reduce([String: String]()) { sum, e in
+        let value = try! Yams.compose(yaml: yaml)?.mapping ?? Node.Mapping([])
+        let excludes = value["exclude"]?.sequence?.compactMap({ Exclude(from: $0) }) ?? []
+        let renames = value["rename"]?.mapping?.reduce([String: String]()) { sum, e in
             guard let from = e.key.string, let to = e.value.string else { return sum }
             var sum = sum
             sum[from] = to
             return sum
-            } ?? [:]
-        let manuals = value["manual"].array ?? []
-        let manualList = Manual.load(manuals, renames: renames, configBasePath: configBasePath)
-        let githubs = value["github"].array?.compactMap { $0.string }.compactMap { $0 } ?? []
-        let gitHubList = githubs.map { GitHub.load(.licensePlist(content: $0), renames: renames) }.flatMap { $0 }
-        gitHubList.forEach {
+        } ?? [:]
+        let manuals = Manual.load(value["manual"]?.sequence ?? Node.Sequence(), renames: renames, configBasePath: configBasePath)
+        let nonVersion = (value["github"]?.sequence ?? Node.Sequence())
+            .compactMap { $0.string }
+            .flatMap { GitHub.load(.licensePlist(content: $0), renames: renames)}
+        nonVersion.forEach {
             Log.warning("\($0.name) is specified by the depricated format. It will be removed at Version 2." +
                 "See: https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml .")
         }
-        let githubsVersion: [GitHub] = value["github"].array?.map {
-            guard let dictionary = $0.dictionary else {
-                return nil
+        let versioned: [GitHub] = (value["github"]?.sequence ?? Node.Sequence())
+            .map {
+                if let map = $0.mapping, let owner = map["owner"]?.string, let name = map["name"]?.string {
+                    GitHub(name: name, nameSpecified: renames[name], owner: owner, version: map["version"]?.string)
+                } else {
+                    nil
+                }
             }
-            guard let owner = dictionary["owner"]?.string, let name = dictionary["name"]?.string else {
-                return nil
-            }
-            return GitHub(name: name,
-                          nameSpecified: renames[name],
-                          owner: owner,
-                          version: dictionary["version"]?.string)
-            }.compactMap { $0 } ?? []
-        let options: GeneralOptions = value["options"].dictionary.map {
+            .compactMap { $0 }
+        let options: GeneralOptions = (value["options"]?.mapping ?? Node.Mapping()).map {
             GeneralOptions.load($0, configBasePath: configBasePath)
         } ?? .empty
-        self = Config(githubs: githubsVersion + gitHubList, manuals: manualList, excludes: excludes, renames: renames, options: options)
+        self = Config(githubs: versioned + nonVersion, manuals: manuals, excludes: excludes, renames: renames, options: options)
     }
 
     public init(githubs: [GitHub], manuals: [Manual], excludes: [String], renames: [String: String], options: GeneralOptions) {

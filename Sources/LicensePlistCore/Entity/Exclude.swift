@@ -1,5 +1,5 @@
 import Foundation
-import Yaml
+import Yams
 import LoggerAPI
 
 public struct Exclude {
@@ -15,13 +15,12 @@ public struct Exclude {
         self.licenseType = licenseType
     }
 
-    public init?(from yaml: Yaml) {
+    public init?(from yaml: Node) {
         if let name = yaml.string {
             self.init(name: name, owner: nil, source: nil, licenseType: nil)
             return
         }
-
-        guard let dictionary = yaml.dictionary else {
+        guard let dictionary = yaml.mapping else {
             Log.warning("Attempt to load exclude failed. Supported YAML types are String and Dictionary.")
             return nil
         }

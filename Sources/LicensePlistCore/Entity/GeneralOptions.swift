@@ -1,6 +1,6 @@
 import Foundation
 import LoggerAPI
-import Yaml
+import Yams
 
 public struct GeneralOptions {
     public let outputPath: URL?
@@ -114,26 +114,27 @@ extension GeneralOptions {
 }
 
 extension GeneralOptions {
-    public static func load(_ raw: [Yaml: Yaml], configBasePath: URL) -> GeneralOptions {
-        return GeneralOptions(outputPath: raw["outputPath"]?.string.asPathURL(in: configBasePath),
-                              cartfilePath: raw["cartfilePath"]?.string.asPathURL(in: configBasePath),
-                              mintfilePath: raw["mintfilePath"]?.string.asPathURL(in: configBasePath),
-                              podsPath: raw["podsPath"]?.string.asPathURL(in: configBasePath),
-                              packagePaths: raw["packagePaths"]?.array?.compactMap { $0.string.asPathURL(in: configBasePath) },
-                              packageSourcesPath: raw["packageSourcesPath"]?.string.asPathURL(in: configBasePath, isDirectory: true),
-                              xcworkspacePath: raw["xcworkspacePath"]?.string.asPathURL(in: configBasePath),
-                              xcodeprojPath: raw["xcodeprojPath"]?.string.asPathURL(in: configBasePath),
-                              prefix: raw["prefix"]?.string,
-                              gitHubToken: raw["gitHubToken"]?.string,
-                              htmlPath: raw["htmlPath"]?.string.asPathURL(in: configBasePath),
-                              markdownPath: raw["markdownPath"]?.string.asPathURL(in: configBasePath),
-                              licenseFileNames: raw["licenseFileNames"]?.array?.compactMap(\.string),
-                              force: raw["force"]?.bool,
-                              addVersionNumbers: raw["addVersionNumbers"]?.bool,
-                              suppressOpeningDirectory: raw["suppressOpeningDirectory"]?.bool,
-                              singlePage: raw["singlePage"]?.bool,
-                              failIfMissingLicense: raw["failIfMissingLicense"]?.bool,
-                              addSources: raw["addSources"]?.bool,
-                              sandboxMode: raw["sandboxMode"]?.bool)
+    public static func load(_ raw: Node.Mapping, configBasePath: URL) -> GeneralOptions {
+        return GeneralOptions(
+            outputPath: raw["outputPath"]?.string.asPathURL(in: configBasePath),
+            cartfilePath: raw["cartfilePath"]?.string.asPathURL(in: configBasePath),
+            mintfilePath: raw["mintfilePath"]?.string.asPathURL(in: configBasePath),
+            podsPath: raw["podsPath"]?.string.asPathURL(in: configBasePath),
+            packagePaths: raw["packagePaths"]?.sequence?.compactMap { $0.string.asPathURL(in: configBasePath) },
+            packageSourcesPath: raw["packageSourcesPath"]?.string.asPathURL(in: configBasePath, isDirectory: true),
+            xcworkspacePath: raw["xcworkspacePath"]?.string.asPathURL(in: configBasePath),
+            xcodeprojPath: raw["xcodeprojPath"]?.string.asPathURL(in: configBasePath),
+            prefix: raw["prefix"]?.string,
+            gitHubToken: raw["gitHubToken"]?.string,
+            htmlPath: raw["htmlPath"]?.string.asPathURL(in: configBasePath),
+            markdownPath: raw["markdownPath"]?.string.asPathURL(in: configBasePath),
+            licenseFileNames: raw["licenseFileNames"]?.sequence?.compactMap { $0.string },
+            force: raw["force"]?.bool,
+            addVersionNumbers: raw["addVersionNumbers"]?.bool,
+            suppressOpeningDirectory: raw["suppressOpeningDirectory"]?.bool,
+            singlePage: raw["singlePage"]?.bool,
+            failIfMissingLicense: raw["failIfMissingLicense"]?.bool,
+            addSources: raw["addSources"]?.bool,
+            sandboxMode: raw["sandboxMode"]?.bool)
     }
 }

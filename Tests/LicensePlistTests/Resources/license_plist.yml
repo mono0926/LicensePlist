@@ -65,6 +65,15 @@ manual:
       (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
       OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+  - source: https://github.com/firebase/firebase-ios-sdk
+    name: Firebase
+    version: 4.0.0
+    body: |2
+                                      Apache License
+                                Version 2.0, January 2004
+                              http://www.apache.org/licenses/
+        TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
 # Specify license files manually
   - name: "Dummy License File"
     file: "dummy_license.txt"
