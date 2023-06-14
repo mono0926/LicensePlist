@@ -37,11 +37,11 @@ public struct Config {
         }
         let versioned: [GitHub] = (value["github"]?.sequence ?? Node.Sequence())
             .map {
+                var gitHub: GitHub? = nil
                 if let map = $0.mapping, let owner = map["owner"]?.string, let name = map["name"]?.string {
-                    GitHub(name: name, nameSpecified: renames[name], owner: owner, version: map["version"]?.string)
-                } else {
-                    nil
+                    gitHub = GitHub(name: name, nameSpecified: renames[name], owner: owner, version: map["version"]?.string)
                 }
+                return gitHub
             }
             .compactMap { $0 }
         let options: GeneralOptions = (value["options"]?.mapping ?? Node.Mapping()).map {
