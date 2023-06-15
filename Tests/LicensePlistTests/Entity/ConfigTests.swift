@@ -201,12 +201,12 @@ class ConfigTests: XCTestCase {
         let result = config.applyManual(manuals: [shouldBeIncluded, Manual(name: "lib2", source: nil, nameSpecified: nil, version: nil)])
         XCTAssertEqual(result, [manual1, shouldBeIncluded])
     }
-    
+
     func test_mulitnewlineYaml() throws {
         let yaml = """
             manual:
               - body: |2
-        
+
                                         New Line
                                             new line
                     endline.
