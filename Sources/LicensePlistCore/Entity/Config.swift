@@ -36,14 +36,12 @@ public struct Config {
                 "See: https://github.com/mono0926/LicensePlist/blob/master/Tests/LicensePlistTests/Resources/license_plist.yml .")
         }
         let versioned: [GitHub] = (value["github"]?.sequence ?? Node.Sequence())
-            .map {
-                var gitHub: GitHub? = nil
-                if let map = $0.mapping, let owner = map["owner"]?.string, let name = map["name"]?.string {
-                    gitHub = GitHub(name: name, nameSpecified: renames[name], owner: owner, version: map["version"]?.string)
+            .compactMap {
+                guard let map = $0.mapping, let owner = map["owner"]?.string, let name = map["name"]?.string else {
+                    return nil
                 }
-                return gitHub
+                return GitHub(name: name, nameSpecified: renames[name], owner: owner, version: map["version"]?.string)
             }
-            .compactMap { $0 }
         let options: GeneralOptions = (value["options"]?.mapping ?? Node.Mapping()).map {
             GeneralOptions.load($0, configBasePath: configBasePath)
         } ?? .empty
