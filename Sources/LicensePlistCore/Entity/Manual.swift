@@ -42,17 +42,17 @@ extension Manual {
             let name = mapping["name"]?.string ?? ""
             let version = mapping["version"]?.string
             let source = mapping["source"]?.string
-            
+
             var body: String?
             if let raw = mapping["body"]?.string {
                 body = raw
             }
-            
+
             if let file = mapping["file"]?.string {
                 let url = configBasePath.appendingPathComponent(file)
                 body = try! String(contentsOf: url)
             }
-            
+
             let manual = Manual(name: name, source: source, nameSpecified: renames[name], version: version)
             manual.body = body  // This is so that we do not have to store a body at all ( for testing purposes mostly )
             return manual
