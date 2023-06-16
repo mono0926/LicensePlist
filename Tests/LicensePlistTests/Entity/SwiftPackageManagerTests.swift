@@ -187,12 +187,11 @@ class SwiftPackageManagerTests: XCTestCase {
                                                   version: "5.3.0",
                                                   packageDefinitionVersion: 2))
         let packageLast = try XCTUnwrap(packages.last)
-        XCTAssertEqual(packageLast, SwiftPackage(package: "yamlswift",
-                                                 repositoryURL: "https://github.com/behrang/YamlSwift.git",
-                                                 revision: "287f5cab7da0d92eb947b5fd8151b203ae04a9a3",
-                                                 version: "3.4.4",
+        XCTAssertEqual(packageLast, SwiftPackage(package: "yams",
+                                                 repositoryURL: "https://github.com/jpsim/Yams.git",
+                                                 revision: "f47ba4838c30dbd59998a4e4c87ab620ff959e8a",
+                                                 version: "5.0.5",
                                                  packageDefinitionVersion: 2))
-
     }
 
     // MARK: - SPM v2

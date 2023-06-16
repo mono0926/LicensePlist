@@ -18,14 +18,14 @@ let package = Package(
                  from: "5.3.0"),
         .package(url: "https://github.com/Kitura/HeliumLogger.git",
                  from: "2.0.0"),
-        .package(url: "https://github.com/behrang/YamlSwift.git",
-                 from: "3.4.4"),
         .package(url: "https://github.com/Kitura/swift-html-entities.git",
                  from: "4.0.1"),
         .package(url: "https://github.com/YusukeHosonuma/SwiftParamTest",
                  .upToNextMajor(from: "2.0.0")),
         .package(url: "https://github.com/tomlokhorst/XcodeEdit.git",
-                 from: "2.9.0")
+                 from: "2.9.0"),
+        .package(url: "https://github.com/jpsim/Yams.git",
+                 from: "5.0.5")
     ],
     targets: [
         .executableTarget(
@@ -43,7 +43,7 @@ let package = Package(
                 "APIKit",
                 "HeliumLogger",
                 .product(name: "HTMLEntities", package: "swift-html-entities"),
-                .product(name: "Yaml", package: "YamlSwift")
+                .product(name: "Yams", package: "Yams")
             ]
         ),
         .testTarget(

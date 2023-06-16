@@ -1,7 +1,7 @@
 import Foundation
 import APIKit
 import LoggerAPI
-import Yaml
+import Yams
 
 public class Manual: Library {
     public let name: String
@@ -36,33 +36,26 @@ extension Manual: CustomStringConvertible {
 }
 
 extension Manual {
-    public static func load(_ raw: [Yaml],
-                            renames: [String: String], configBasePath: URL) -> [Manual] {
-        return raw.map { (manualEntry) -> Manual in
-            var name = ""
+    public static func load(_ raw: Node.Sequence, renames: [String: String], configBasePath: URL) -> [Manual] {
+        return raw.compactMap({
+            let mapping = $0.mapping ?? Node.Mapping()
+            let name = mapping["name"]?.string ?? ""
+            let version = mapping["version"]?.string
+            let source = mapping["source"]?.string
+
             var body: String?
-            var source: String?
-            var version: String?
-            for valuePair in manualEntry.dictionary ?? [:] {
-                switch valuePair.key.string ?? "" {
-                case "source":
-                    source = valuePair.value.string
-                case "name":
-                    name = valuePair.value.string ?? ""
-                case "version":
-                    version = valuePair.value.string
-                case "body":
-                    body = valuePair.value.string
-                case "file":
-                    let url = configBasePath.appendingPathComponent(valuePair.value.string!)
-                    body = try! String(contentsOf: url)
-                default:
-                    Log.warning("Tried to parse an unknown YAML key")
-                }
+            if let raw = mapping["body"]?.string {
+                body = raw
             }
+
+            if let file = mapping["file"]?.string {
+                let url = configBasePath.appendingPathComponent(file)
+                body = try! String(contentsOf: url)
+            }
+
             let manual = Manual(name: name, source: source, nameSpecified: renames[name], version: version)
             manual.body = body  // This is so that we do not have to store a body at all ( for testing purposes mostly )
             return manual
-        }
+        })
     }
 }
