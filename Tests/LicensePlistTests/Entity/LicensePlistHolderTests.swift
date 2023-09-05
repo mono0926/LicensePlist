@@ -97,7 +97,7 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(rootItems1["Title"], "name")
         XCTAssertEqual(rootItems1["FooterText"], "'<body>")
         XCTAssertEqual(rootItems1["Source"], "https://cocoapods.org/pods/name")
-        
+
         let rootItems2 = try XCTUnwrap(rootItems.last)
         XCTAssertEqual(rootItems2["Type"], "PSGroupSpecifier")
         XCTAssertEqual(rootItems2["Title"], "name")
