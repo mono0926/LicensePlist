@@ -29,9 +29,12 @@ struct LicensePlistHolder {
                             }
                             .joined(separator: [String(repeating: "-", count: 40)])
                             .map { (paragraph) -> [String: String] in
-                                return ["Type": "PSGroupSpecifier",
-                                        "FooterText": paragraph,
-                                        "License": license.licenseType.rawValue]
+                                return [
+                                    "Type": "PSGroupSpecifier",
+                                    "FooterText": paragraph,
+                                    "License": license.licenseType.rawValue,
+                                    "Source": options.config.addSources ? license.source : nil
+                                ].compactMapValues { $0 }
                             }
             ]
 
@@ -52,8 +55,9 @@ struct LicensePlistHolder {
                     return ["Type": "PSGroupSpecifier",
                             "Title": license.name(withVersion: options.config.addVersionNumbers),
                             "FooterText": license.body,
-                            "License": license.licenseType.rawValue
-                            ]
+                            "License": license.licenseType.rawValue,
+                            "Source": options.config.addSources ? license.source : nil
+                    ].compactMapValues { $0 }
                 }
             return body
         }()

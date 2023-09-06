@@ -76,4 +76,53 @@ class LicensePlistHolderTests: XCTestCase {
         XCTAssertEqual(item1_4["Type"], "PSGroupSpecifier")
         XCTAssertEqual(item1_4["FooterText"], thirdPart)
     }
+    func testLoad_addSources() throws {
+        let github = GitHub(name: "name", nameSpecified: nil, owner: "owner", version: nil)
+        let githubLicense = GitHubLicense(library: github, body: "'<body>", githubResponse: nil)
+        let pods = CocoaPods(name: "name", nameSpecified: nil, version: nil)
+        let podsLicense = CocoaPodsLicense(library: pods, body: "'<body>")
+        var config: Config = .empty
+        config.addSources = true
+        let result = LicensePlistHolder.loadAllToRoot(
+            licenses: [podsLicense, githubLicense],
+            options: .emptyOptions(with: config)
+        )
+        let (root, items) = result.deserialized()
+        let rootItems = try XCTUnwrap(root["PreferenceSpecifiers"])
+        XCTAssertEqual(rootItems.count, 2)
+        XCTAssertEqual(items.count, 0)
+
+        let rootItems1 = try XCTUnwrap(rootItems.first)
+        XCTAssertEqual(rootItems1["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(rootItems1["Title"], "name")
+        XCTAssertEqual(rootItems1["FooterText"], "'<body>")
+        XCTAssertEqual(rootItems1["Source"], "https://cocoapods.org/pods/name")
+
+        let rootItems2 = try XCTUnwrap(rootItems.last)
+        XCTAssertEqual(rootItems2["Type"], "PSGroupSpecifier")
+        XCTAssertEqual(rootItems2["Title"], "name")
+        XCTAssertEqual(rootItems2["FooterText"], "'<body>")
+        XCTAssertEqual(rootItems2["Source"], "https://github.com/owner/name")
+    }
+}
+
+extension Options {
+    static func emptyOptions(with config: Config) -> Self {
+        .init(
+            outputPath: .init(fileURLWithPath: ""),
+            cartfilePath: .init(fileURLWithPath: ""),
+            mintfilePath: .init(fileURLWithPath: ""),
+            podsPath: .init(fileURLWithPath: ""),
+            packagePaths: [],
+            packageSourcesPath: nil,
+            xcworkspacePath: .init(fileURLWithPath: ""),
+            xcodeprojPath: .init(fileURLWithPath: ""),
+            prefix: Consts.prefix,
+            gitHubToken: nil,
+            htmlPath: nil,
+            markdownPath: nil,
+            licenseFileNames: [],
+            config: config
+        )
+    }
 }
