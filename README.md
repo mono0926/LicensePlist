@@ -169,6 +169,12 @@ You can see options by `license-plist --help`.
 - If this path is specified, a markdown acknowledgements file will be generated.
   - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.md)
 
+#### `--csv-path`
+
+- Default: None.
+- If this path is specified, a csv acknowledgements file will be generated.
+  - [Example is here](https://github.com/mono0926/LicensePlist/blob/master/Assets/acknowledgements.csv)
+
 #### `--license-file-names`
 
 - Default: `LICENSE, LICENSE.*`.
