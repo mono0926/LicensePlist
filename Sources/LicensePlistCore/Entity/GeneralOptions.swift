@@ -15,6 +15,7 @@ public struct GeneralOptions {
     public let gitHubToken: String?
     public let htmlPath: URL?
     public let markdownPath: URL?
+    public let csvPath: URL?
     public let licenseFileNames: [String]?
     public let force: Bool?
     public let addVersionNumbers: Bool?
@@ -36,6 +37,7 @@ public struct GeneralOptions {
                                              gitHubToken: nil,
                                              htmlPath: nil,
                                              markdownPath: nil,
+                                             csvPath: nil,
                                              licenseFileNames: nil,
                                              force: nil,
                                              addVersionNumbers: nil,
@@ -57,6 +59,7 @@ public struct GeneralOptions {
                 gitHubToken: String?,
                 htmlPath: URL?,
                 markdownPath: URL?,
+                csvPath: URL?,
                 licenseFileNames: [String]?,
                 force: Bool?,
                 addVersionNumbers: Bool?,
@@ -77,6 +80,7 @@ public struct GeneralOptions {
         self.gitHubToken = gitHubToken
         self.htmlPath = htmlPath
         self.markdownPath = markdownPath
+        self.csvPath = csvPath
         self.licenseFileNames = licenseFileNames
         self.force = force
         self.addVersionNumbers = addVersionNumbers
@@ -128,6 +132,7 @@ extension GeneralOptions {
             gitHubToken: raw["gitHubToken"]?.string,
             htmlPath: raw["htmlPath"]?.string.asPathURL(in: configBasePath),
             markdownPath: raw["markdownPath"]?.string.asPathURL(in: configBasePath),
+            csvPath: raw["csvPath"]?.string.asPathURL(in: configBasePath),
             licenseFileNames: raw["licenseFileNames"]?.sequence?.compactMap { $0.string },
             force: raw["force"]?.bool,
             addVersionNumbers: raw["addVersionNumbers"]?.bool,

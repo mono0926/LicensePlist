@@ -13,6 +13,7 @@ public struct Options {
     public let gitHubToken: String?
     public let htmlPath: URL?
     public let markdownPath: URL?
+    public let csvPath: URL?
     public let licenseFileNames: [String]
     public let config: Config
 
@@ -28,6 +29,7 @@ public struct Options {
                                       gitHubToken: nil,
                                       htmlPath: nil,
                                       markdownPath: nil,
+                                      csvPath: nil,
                                       licenseFileNames: [],
                                       config: Config.empty)
 
@@ -43,6 +45,7 @@ public struct Options {
                 gitHubToken: String?,
                 htmlPath: URL?,
                 markdownPath: URL?,
+                csvPath: URL?,
                 licenseFileNames: [String],
                 config: Config) {
         self.outputPath = outputPath
@@ -57,6 +60,7 @@ public struct Options {
         self.gitHubToken = gitHubToken
         self.htmlPath = htmlPath
         self.markdownPath = markdownPath
+        self.csvPath = csvPath
         self.licenseFileNames = licenseFileNames
         self.config = config
     }

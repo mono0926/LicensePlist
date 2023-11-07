@@ -64,6 +64,9 @@ struct LicensePlist: ParsableCommand {
     @Option(name: .long, completion: .file())
     var markdownPath: String?
 
+    @Option(name: .long, completion: .file())
+    var csvPath: String?
+
     @Option(name: .long, parsing: .upToNextOption, completion: .empty)
     var licenseFileNames = [String]()
 
@@ -121,6 +124,7 @@ struct LicensePlist: ParsableCommand {
         let prefix = prefix ?? config.options.prefix ?? Consts.prefix
         let htmlPath = htmlPath.asPathURL(other: config.options.htmlPath)
         let markdownPath = markdownPath.asPathURL(other: config.options.markdownPath)
+        let csvPath = csvPath.asPathURL(other: config.options.csvPath)
         let configLicenseFileNames = config.options.licenseFileNames ?? Consts.licenseFileNames
         let licenseFileNames = licenseFileNames.isEmpty ? configLicenseFileNames : licenseFileNames
         let options = Options(outputPath: outputPath,
@@ -135,6 +139,7 @@ struct LicensePlist: ParsableCommand {
                               gitHubToken: githubToken,
                               htmlPath: htmlPath,
                               markdownPath: markdownPath,
+                              csvPath: csvPath,
                               licenseFileNames: licenseFileNames,
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
