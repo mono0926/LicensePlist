@@ -103,14 +103,7 @@ struct LicensePlist: ParsableCommand {
     func run() throws {
         Logger.configure(logLevel: logLevel, colorCommandLineFlag: color)
 
-        var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
-        config.force = force ?? config.options.force ?? false
-        config.addVersionNumbers = addVersionNumbers ?? config.options.addVersionNumbers ?? false
-        config.sandboxMode = sandboxMode ?? config.options.sandboxMode ?? false
-        config.suppressOpeningDirectory = (suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false) || config.sandboxMode
-        config.singlePage = singlePage ?? config.options.singlePage ?? false
-        config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
-        config.addSources = addSources ?? config.options.addSources ?? false
+        let config = getConfig()
         let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName)
         let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName)
         let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName)
@@ -144,6 +137,19 @@ struct LicensePlist: ParsableCommand {
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
+    }
+
+    /// Provided cli config options. Defaults to Yaml config file.
+    private func getConfig() -> Config {
+        var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
+        config.force = force ?? config.options.force ?? false
+        config.addVersionNumbers = addVersionNumbers ?? config.options.addVersionNumbers ?? false
+        config.sandboxMode = sandboxMode ?? config.options.sandboxMode ?? false
+        config.suppressOpeningDirectory = (suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false) || config.sandboxMode
+        config.singlePage = singlePage ?? config.options.singlePage ?? false
+        config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
+        config.addSources = addSources ?? config.options.addSources ?? false
+        return config
     }
 }
 
