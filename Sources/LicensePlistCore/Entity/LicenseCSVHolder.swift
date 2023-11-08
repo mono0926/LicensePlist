@@ -8,7 +8,7 @@ struct LicenseCSVHolder {
             "Component",
             "License",
             options.config.addSources ? "Origin" : nil,
-            "Copyright",
+            "Copyright"
         ]
         .compactMap { $0 }
         .joined(separator: .delemiter) + .newLine
@@ -22,13 +22,13 @@ struct LicenseCSVHolder {
                     component,
                     licenseType,
                     source,
-                    copyright,
+                    copyright
                 ].joined(separator: .delemiter)
             } else {
                 csv += [
                     component,
                     licenseType,
-                    copyright,
+                    copyright
                 ].joined(separator: .delemiter)
             }
             csv += .newLine
