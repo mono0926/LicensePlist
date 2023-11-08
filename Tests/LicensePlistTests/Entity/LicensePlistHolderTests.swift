@@ -121,6 +121,7 @@ extension Options {
             gitHubToken: nil,
             htmlPath: nil,
             markdownPath: nil,
+            csvPath: nil,
             licenseFileNames: [],
             config: config
         )

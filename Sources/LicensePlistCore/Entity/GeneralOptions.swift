@@ -106,6 +106,7 @@ extension GeneralOptions {
             lhs.gitHubToken == rhs.gitHubToken &&
             lhs.htmlPath == rhs.htmlPath &&
             lhs.markdownPath == rhs.markdownPath &&
+            lhs.csvPath == rhs.csvPath &&
             lhs.licenseFileNames == rhs.licenseFileNames &&
             lhs.force == rhs.force &&
             lhs.addVersionNumbers == rhs.addVersionNumbers &&
