@@ -36,6 +36,7 @@ class ConfigTests: XCTestCase {
                                                       gitHubToken: "YOUR_GITHUB_TOKEN",
                                                       htmlPath: URL(fileURLWithPath: "acknowledgements.html", relativeTo: configBasePath),
                                                       markdownPath: URL(fileURLWithPath: "acknowledgements.md", relativeTo: configBasePath),
+                                                      csvPath: nil,
                                                       licenseFileNames: ["LICENSE", "LICENSE.*"],
                                                       force: false,
                                                       addVersionNumbers: false,

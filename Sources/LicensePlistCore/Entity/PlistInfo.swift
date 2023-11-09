@@ -129,6 +129,11 @@ struct PlistInfo {
             markdownHolder.write(to: markdownPath)
         }
 
+        if let csvPath = options.csvPath {
+            let csvHolder = LicenseCSVHolder.load(licenses: licenses, options: options)
+            csvHolder.write(to: csvPath)
+        }
+
         if let htmlPath = options.htmlPath {
             let htmlHolder = LicenseHTMLHolder.load(licenses: licenses, options: options)
             htmlHolder.write(to: htmlPath)

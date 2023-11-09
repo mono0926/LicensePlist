@@ -64,6 +64,9 @@ struct LicensePlist: ParsableCommand {
     @Option(name: .long, completion: .file())
     var markdownPath: String?
 
+    @Option(name: .long, completion: .file())
+    var csvPath: String?
+
     @Option(name: .long, parsing: .upToNextOption, completion: .empty)
     var licenseFileNames = [String]()
 
@@ -100,14 +103,7 @@ struct LicensePlist: ParsableCommand {
     func run() throws {
         Logger.configure(logLevel: logLevel, colorCommandLineFlag: color)
 
-        var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
-        config.force = force ?? config.options.force ?? false
-        config.addVersionNumbers = addVersionNumbers ?? config.options.addVersionNumbers ?? false
-        config.sandboxMode = sandboxMode ?? config.options.sandboxMode ?? false
-        config.suppressOpeningDirectory = (suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false) || config.sandboxMode
-        config.singlePage = singlePage ?? config.options.singlePage ?? false
-        config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
-        config.addSources = addSources ?? config.options.addSources ?? false
+        let config = getConfig()
         let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName)
         let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName)
         let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName)
@@ -121,6 +117,7 @@ struct LicensePlist: ParsableCommand {
         let prefix = prefix ?? config.options.prefix ?? Consts.prefix
         let htmlPath = htmlPath.asPathURL(other: config.options.htmlPath)
         let markdownPath = markdownPath.asPathURL(other: config.options.markdownPath)
+        let csvPath = csvPath.asPathURL(other: config.options.csvPath)
         let configLicenseFileNames = config.options.licenseFileNames ?? Consts.licenseFileNames
         let licenseFileNames = licenseFileNames.isEmpty ? configLicenseFileNames : licenseFileNames
         let options = Options(outputPath: outputPath,
@@ -135,10 +132,24 @@ struct LicensePlist: ParsableCommand {
                               gitHubToken: githubToken,
                               htmlPath: htmlPath,
                               markdownPath: markdownPath,
+                              csvPath: csvPath,
                               licenseFileNames: licenseFileNames,
                               config: config)
         let tool = LicensePlistCore.LicensePlist()
         tool.process(options: options)
+    }
+
+    /// Provided cli config options. Defaults to Yaml config file.
+    private func getConfig() -> Config {
+        var config = loadConfig(configPath: URL(fileURLWithPath: configPath))
+        config.force = force ?? config.options.force ?? false
+        config.addVersionNumbers = addVersionNumbers ?? config.options.addVersionNumbers ?? false
+        config.sandboxMode = sandboxMode ?? config.options.sandboxMode ?? false
+        config.suppressOpeningDirectory = (suppressOpeningDirectory ?? config.options.suppressOpeningDirectory ?? false) || config.sandboxMode
+        config.singlePage = singlePage ?? config.options.singlePage ?? false
+        config.failIfMissingLicense = failIfMissingLicense ?? config.options.failIfMissingLicense ?? false
+        config.addSources = addSources ?? config.options.addSources ?? false
+        return config
     }
 }
 

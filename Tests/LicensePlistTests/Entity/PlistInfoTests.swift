@@ -21,6 +21,7 @@ class PlistInfoTests: XCTestCase {
                                   gitHubToken: nil,
                                   htmlPath: nil,
                                   markdownPath: nil,
+                                  csvPath: nil,
                                   licenseFileNames: [],
                                   config: Config(githubs: [GitHub(name: "facebook-ios-sdk",
                                                                   nameSpecified: nil,

@@ -1,0 +1,6 @@
+Component,License,Origin,Copyright
+SwiftDate,MIT,https://github.com/malcommac/SwiftDate,"Copyright (c) 2018 Daniele Margutti"
+leveldb,BSD-3-Clause,https://github.com/firebase/leveldb,"Copyright (c) 2011 The LevelDB Authors. All rights reserved."
+swift-composable-architecture,MIT,https://github.com/pointfreeco/swift-composable-architecture,"Copyright (c) 2020 Point-Free, Inc."
+GoogleUtilities,Apache-2.0,https://github.com/google/GoogleUtilities,"Copyright (c) 2017 Landon J. Fuller <landon@landonf.org>"
+MSAL,MIT,https://github.com/AzureAD/microsoft-authentication-library-for-objc,"Copyright (c) Microsoft Corporation"

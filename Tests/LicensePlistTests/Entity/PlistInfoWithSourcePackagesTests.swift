@@ -68,6 +68,7 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
                        gitHubToken: nil,
                        htmlPath: nil,
                        markdownPath: nil,
+                       csvPath: nil,
                        licenseFileNames: licenseFileNames,
                        config: .empty)
     }
