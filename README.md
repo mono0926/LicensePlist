@@ -295,8 +295,8 @@ If you need to put license files to `Settings.bundle` or any other specific plac
 echo "Will copy acknowledgements"
 ACKNOWLEDGEMENTS_DIR=${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/com.mono0926.LicensePlist.Output
 DESTINATION_PATH=${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Settings.bundle/
-cp -r ${ACKNOWLEDGEMENTS_DIR}/* ${DESTINATION_PATH}
-rm -rf ${ACKNOWLEDGEMENTS_DIR}
+cp -r "${ACKNOWLEDGEMENTS_DIR}"/* "${DESTINATION_PATH}"
+rm -rf "${ACKNOWLEDGEMENTS_DIR}"
 ```
 
 Or in project contextual menu click "AddAcknowledgementsCopyScriptCommand" and select application target to create the build phase automatically.
