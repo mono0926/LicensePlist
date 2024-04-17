@@ -101,13 +101,19 @@ struct PlistInfo {
             let githubLicenses = githubLicenses,
             let manualLicenses = manualLicenses else { preconditionFailure() }
 
-        licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (githubLicenses as [LicenseInfo]) + (manualLicenses as [LicenseInfo]))
+        let licenseInfos: [LicenseInfo] = cocoaPodsLicenses + githubLicenses + manualLicenses
+
+        licenses = licenseInfos
             .reduce([String: LicenseInfo]()) { sum, e in
                 var sum = sum
                 sum[e.name] = e
                 return sum
             }.values
             .sorted { $0.name.lowercased() < $1.name.lowercased() }
+
+        summary = makeSummary(
+            licenseDescriptions: licenseInfos.map { String(describing: $0) }
+        )
     }
 
     func outputPlist() {
