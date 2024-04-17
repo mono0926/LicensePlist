@@ -200,4 +200,12 @@ struct PlistInfo {
             fatalError("'--package-sources-path' must be specified when using '--sandbox-mode'")
         }
     }
+
+    private func makeSummary(licenseDescriptions: [String]) -> String {
+        let additionalInfos: [String] = [
+            "add-version-numbers: \(options.config.addVersionNumbers)",
+            "LicensePlist Version: \(Consts.version)"
+        ]
+        return (licenseDescriptions + additionalInfos).joined(separator: "\n\n")
+    }
 }
