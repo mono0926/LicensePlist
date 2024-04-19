@@ -124,12 +124,12 @@ class PlistInfoTests: XCTestCase {
         target.githubLicenses = [githubLicense]
         let expectedSummary = """
         name: LicensePlist, nameSpecified: LicensePlist, owner: mono0926, version: 0.0.1, source: https://github.com/mono0926/LicensePlist
-        
+
         name: FooBar, nameSpecified: FooBar, version: 0.0.1
         body: body…
-        
+
         add-version-numbers: false
-        
+
         LicensePlist Version: 3.25.1
         """
 
