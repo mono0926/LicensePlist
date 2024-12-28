@@ -25,7 +25,7 @@ extension AddAcknowledgementsCopyScriptCommand: XcodeCommandPlugin {
     }
     
     private func findXcodeprojPath(context: XcodePluginContext) throws -> String {
-        let projectDirectoryItems = try? FileManager.default.contentsOfDirectory(atPath: context.xcodeProject.directory.string)
+        let projectDirectoryItems = try? FileManager.default.contentsOfDirectory(atPath: context.xcodeProject.directoryURL.path)
         let xcodeprojFiles = projectDirectoryItems?.filter { $0.hasSuffix(".xcodeproj") }
         
         guard let xcodeprojFiles = xcodeprojFiles, !xcodeprojFiles.isEmpty else {
@@ -49,7 +49,7 @@ private extension PluginContext.Tool {
     func run(arguments: [String]) throws {
         let pipe = Pipe()
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: path.string)
+        process.executableURL = URL(fileURLWithPath: url.path)
         process.arguments = arguments
         process.standardError = pipe
 
