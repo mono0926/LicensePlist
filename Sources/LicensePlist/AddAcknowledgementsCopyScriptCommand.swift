@@ -4,6 +4,9 @@ import LicensePlistCore
 import LoggerAPI
 import XcodeEdit
 
+// CommandConfiguration comforms Sendable since [v1.3.1](https://github.com/apple/swift-argument-parser/releases/tag/1.3.1)
+extension CommandConfiguration: @retroactive @unchecked Sendable {}
+
 extension LicensePlist {
     /// Parses and modifies specified Xcode project file.
     ///
@@ -11,7 +14,7 @@ extension LicensePlist {
     /// Skips targets that already have "Copy Acknowledgements" phase.
     /// Used by `AddAcknowledgementsCopyScriptCommand`.
     struct AddAcknowledgementsCopyScript: ParsableCommand {
-        static var configuration = CommandConfiguration(abstract: "Modifies Xcode project to fix package reference for plugins")
+        static let configuration = CommandConfiguration(abstract: "Modifies Xcode project to fix package reference for plugins")
 
         @Option(help: "Path to xcodeproj file")
         var xcodeproj: String

@@ -16,7 +16,7 @@ class TestUtil {
     }
 
     static var sourceDir: URL {
-        return URL(string: #file)!
+        return URL(string: #filePath)!
             .deletingLastPathComponent()
             .deletingLastPathComponent()
             .deletingLastPathComponent()

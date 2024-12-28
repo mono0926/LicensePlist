@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Options {
+public struct Options: Sendable {
     public let outputPath: URL
     public let cartfilePath: URL
     public let mintfilePath: URL

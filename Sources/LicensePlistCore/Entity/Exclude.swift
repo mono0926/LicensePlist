@@ -2,7 +2,7 @@ import Foundation
 import Yams
 import LoggerAPI
 
-public struct Exclude {
+public struct Exclude: Sendable {
     public let name: String?
     public let owner: String?
     public let source: String?

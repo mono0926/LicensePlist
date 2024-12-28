@@ -2,7 +2,7 @@ import Foundation
 import LoggerAPI
 import Yams
 
-public struct GeneralOptions {
+public struct GeneralOptions: Sendable {
     public let outputPath: URL?
     public let cartfilePath: URL?
     public let mintfilePath: URL?

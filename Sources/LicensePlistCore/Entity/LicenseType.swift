@@ -1,6 +1,6 @@
 import Foundation
 
-public enum LicenseType: String, CaseIterable {
+public enum LicenseType: String, Sendable, CaseIterable {
     case agpl = "AGPL-3.0"
     case apache = "Apache-2.0"
     case bsd2 = "BSD-2-Clause"

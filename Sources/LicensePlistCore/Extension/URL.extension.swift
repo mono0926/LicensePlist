@@ -16,8 +16,8 @@ extension LicensePlistExtension where Base == URL {
     }
 }
 
-private let fm = FileManager.default
 extension LicensePlistExtension where Base == URL {
+    var fm: FileManager { .default }
 
     public var isExists: Bool { return fm.fileExists(atPath: base.path) }
 

@@ -1,4 +1,4 @@
-import ArgumentParser
+@preconcurrency import ArgumentParser
 import Foundation
 import LicensePlistCore
 import LoggerAPI
@@ -16,9 +16,7 @@ extension CompletionKind {
     }
 }
 
-extension LogLevel: EnumerableFlag {
-    public static var allCases: [LogLevel] = [.silenceMode, .normalLogLevel, .verbose]
-}
+extension LogLevel: EnumerableFlag {}
 
 // Typename used for usage in help command
 struct LicensePlist: ParsableCommand {
