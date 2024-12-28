@@ -7,10 +7,10 @@ on:
 
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
-      - uses: actions/checkout@v3
-      - uses: Cyberbeni/install-swift-tool@v2
+      - uses: actions/checkout@v4
+      - uses: Cyberbeni/install-swift-tool@v3
         with:
           url: https://github.com/tuist/xcbeautify
           version: '*'
