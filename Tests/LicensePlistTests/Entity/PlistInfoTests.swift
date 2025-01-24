@@ -88,8 +88,6 @@ class PlistInfoTests: XCTestCase {
         XCTAssertNil(target.summaryPath)
         target.compareWithLatestSummary()
 
-        XCTAssertEqual(target.summary,
-                       "add-version-numbers: false\n\nLicensePlist Version: 3.25.1")
         XCTAssertNotNil(target.summaryPath)
     }
 
@@ -111,7 +109,7 @@ class PlistInfoTests: XCTestCase {
 
     func testCollectLicenseInfos() throws {
         var target = PlistInfo(options: options)
-        let github = GitHub(name: "LicensePlist", nameSpecified: nil, owner: "mono0926", version: nil)
+        let github = GitHub(name: "LicensePlist", nameSpecified: "LicensePlist", owner: "mono0926", version: "0.0.1")
         let githubLicense = GitHubLicense(library: github,
                                           body: "body",
                                           githubResponse: LicenseResponse(content: "",
@@ -119,11 +117,21 @@ class PlistInfoTests: XCTestCase {
                                                                           kind: LicenseKindResponse(name: "name",
                                                                                                     spdxId: nil)))
         target.cocoaPodsLicenses = []
-        let manual = Manual(name: "FooBar", source: "https://foo.bar", nameSpecified: nil, version: nil)
+        let manual = Manual(name: "FooBar", source: "https://foo.bar", nameSpecified: "FooBar", version: "0.0.1")
         let manualLicense = ManualLicense(library: manual,
                                           body: "body")
         target.manualLicenses = [manualLicense]
         target.githubLicenses = [githubLicense]
+        let expectedSummary = """
+        name: LicensePlist, nameSpecified: LicensePlist, owner: mono0926, version: 0.0.1, source: https://github.com/mono0926/LicensePlist
+
+        name: FooBar, nameSpecified: FooBar, version: 0.0.1
+        body: body…
+
+        add-version-numbers: false
+
+        LicensePlist Version: 3.25.1
+        """
 
         XCTAssertNil(target.licenses)
         target.collectLicenseInfos()
@@ -131,6 +139,7 @@ class PlistInfoTests: XCTestCase {
         XCTAssertEqual(licenses.count, 2)
         let license = licenses.last
         XCTAssertEqual(license?.name, "LicensePlist")
+        XCTAssertEqual(target.summary, expectedSummary)
     }
 
     // MEMO: No result assertions

@@ -13,6 +13,10 @@ public struct GitHubLicense: License, Equatable {
     }
 }
 
+extension GitHubLicense: CustomStringConvertible {
+    public var description: String { library.description }
+}
+
 extension GitHubLicense {
 
     public enum DownloadError: Error {

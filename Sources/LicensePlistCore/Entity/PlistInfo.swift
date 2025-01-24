@@ -72,17 +72,18 @@ struct PlistInfo {
 
         let config = options.config
 
-        let contents = (cocoaPodsLicenses.map { String(describing: $0) } +
-            githubLibraries.map { String(describing: $0) } +
-            manualLicenses.map { String(describing: $0) } +
-            ["add-version-numbers: \(options.config.addVersionNumbers)", "LicensePlist Version: \(Consts.version)"])
-            .joined(separator: "\n\n")
+        let potential = makeSummary(
+            licenseDescriptions: (
+                cocoaPodsLicenses.map { String(describing: $0) } +
+                githubLibraries.map { String(describing: $0) } +
+                manualLicenses.map { String(describing: $0) }
+            )
+        )
         let savePath = options.outputPath.appendingPathComponent("\(options.prefix).latest_result.txt")
-        if let previous = savePath.lp.read(), previous == contents, !config.force {
+        if let previous = savePath.lp.read(), previous == potential, !config.force {
             Log.warning("Completed because no diff. You can execute force by `--force` flag.")
             exit(0)
         }
-        summary = contents
         summaryPath = savePath
     }
 
@@ -100,13 +101,19 @@ struct PlistInfo {
             let githubLicenses = githubLicenses,
             let manualLicenses = manualLicenses else { preconditionFailure() }
 
-        licenses = ((cocoaPodsLicenses as [LicenseInfo]) + (githubLicenses as [LicenseInfo]) + (manualLicenses as [LicenseInfo]))
+        let licenseInfos: [LicenseInfo] = cocoaPodsLicenses + githubLicenses + manualLicenses
+
+        licenses = licenseInfos
             .reduce([String: LicenseInfo]()) { sum, e in
                 var sum = sum
                 sum[e.name] = e
                 return sum
             }.values
             .sorted { $0.name.lowercased() < $1.name.lowercased() }
+
+        summary = makeSummary(
+            licenseDescriptions: licenseInfos.map { String(describing: $0) }
+        )
     }
 
     func outputPlist() {
@@ -199,5 +206,13 @@ struct PlistInfo {
         if options.config.sandboxMode && options.packageSourcesPath == nil {
             fatalError("'--package-sources-path' must be specified when using '--sandbox-mode'")
         }
+    }
+
+    private func makeSummary(licenseDescriptions: [String]) -> String {
+        let additionalInfos: [String] = [
+            "add-version-numbers: \(options.config.addVersionNumbers)",
+            "LicensePlist Version: \(Consts.version)"
+        ]
+        return (licenseDescriptions + additionalInfos).joined(separator: "\n\n")
     }
 }

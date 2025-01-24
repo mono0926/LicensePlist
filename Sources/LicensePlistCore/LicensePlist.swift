@@ -47,7 +47,7 @@ public final class LicensePlist {
         }
     }
 
-    /// Gets the result of attempting to read the `Package.resolved` from ether a Xcode Workspace or Xcode project.
+    /// Gets the result of attempting to read the `Package.resolved` from either a Xcode Workspace or Xcode project.
     /// - note: If an Xcode workspace is found it is preferred over a Xcode project.
     private func xcodeFileReadResult(xcworkspacePath: URL, xcodeprojPath: URL) throws -> String? {
 
