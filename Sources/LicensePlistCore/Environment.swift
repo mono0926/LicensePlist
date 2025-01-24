@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Environment {
+public struct Environment: Sendable {
     public enum Keys: String, CustomStringConvertible {
         public var description: String {
             return rawValue

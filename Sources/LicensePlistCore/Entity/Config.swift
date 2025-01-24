@@ -2,7 +2,7 @@ import Foundation
 import LoggerAPI
 import Yams
 
-public struct Config {
+public struct Config: Sendable {
     let githubs: [GitHub]
     let manuals: [Manual]
     let excludes: [Exclude]

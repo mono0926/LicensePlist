@@ -2,7 +2,7 @@ import Foundation
 import APIKit
 import LoggerAPI
 
-public struct GitHub: Library {
+public struct GitHub: Sendable, Library {
     public let name: String
     public let nameSpecified: String?
     var owner: String

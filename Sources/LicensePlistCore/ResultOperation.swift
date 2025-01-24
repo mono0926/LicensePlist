@@ -1,7 +1,7 @@
 import Foundation
 import LoggerAPI
 
-public class ResultOperation<T, E: Error>: Operation {
+public class ResultOperation<T, E: Error>: Operation, @unchecked Sendable {
     typealias ResultType = Result<T, E>
     var result: ResultType?
     let closure: ((ResultOperation) -> ResultType)

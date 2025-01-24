@@ -31,10 +31,10 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     
     // Returns default folder with checked out package sources
     private func packageSourcesPath(context: XcodePluginContext) -> String {
-        return context.pluginWorkDirectory
-            .removingLastComponent()
-            .removingLastComponent()
-            .string
+        return context.pluginWorkDirectoryURL
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .path
     }
 }
 #endif
@@ -69,7 +69,7 @@ private extension PluginContext.Tool {
     func run(arguments: [String]) throws {
         let pipe = Pipe()
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: path.string)
+        process.executableURL = URL(fileURLWithPath: url.path)
         process.arguments = arguments
         process.standardError = pipe
 

@@ -5,7 +5,7 @@ protocol GitHubRequest: Request {}
 
 class GitHubAuthorization {
     private init() {}
-    static let shared = GitHubAuthorization()
+    nonisolated(unsafe) static let shared = GitHubAuthorization()
     var token: String?
 }
 

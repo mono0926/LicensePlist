@@ -3,16 +3,17 @@ import APIKit
 import LoggerAPI
 import Yams
 
-public class Manual: Library {
+public struct Manual: Sendable, Library {
     public let name: String
-    public var body: String?    // Used as a container between YAML and ManualLicence
-    public var source: String?
+    public let body: String?    // Used as a container between YAML and ManualLicence
+    public let source: String?
     public var nameSpecified: String?
     public var version: String?
     public let licenseType: LicenseType
 
-    public init(name n: String, source: String?, nameSpecified: String?, version: String?, licenseType: LicenseType = .unknown) {
+    public init(name n: String, body: String? = nil, source: String?, nameSpecified: String?, version: String?, licenseType: LicenseType = .unknown) {
         self.name = n
+        self.body = body
         self.source = source
         self.nameSpecified = nameSpecified
         self.version = version
@@ -53,9 +54,7 @@ extension Manual {
                 body = try! String(contentsOf: url)
             }
 
-            let manual = Manual(name: name, source: source, nameSpecified: renames[name], version: version)
-            manual.body = body  // This is so that we do not have to store a body at all ( for testing purposes mostly )
-            return manual
+            return Manual(name: name, body: body, source: source, nameSpecified: renames[name], version: version)
         })
     }
 }

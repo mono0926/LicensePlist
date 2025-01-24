@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-import SwiftParamTest
+@preconcurrency import SwiftParamTest
 @testable import LicensePlistCore
 
 class AutoColorModeTests: XCTestCase {

@@ -54,7 +54,7 @@ extension UsedColorMode {
     }
 }
 
-public enum LogLevel {
+public enum LogLevel: CaseIterable, Equatable {
     case silenceMode
     case normalLogLevel
     case verbose
