@@ -3,13 +3,17 @@ disabled_rules:
   - force_try
   - force_cast
   - function_parameter_count
+  - blanket_disable_command
+  - opening_brace
+  - trailing_comma
 
 included:
   - Sources
   - Tests
-  
+
 excluded:
   - Tests/LicensePlistTests/XcodeProjects
+  - Tests/LicensePlistTests/Resources
 
 line_length: 250
 nesting:
