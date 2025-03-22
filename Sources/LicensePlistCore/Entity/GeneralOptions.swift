@@ -6,6 +6,7 @@ public struct GeneralOptions: Sendable {
   public let outputPath: URL?
   public let cartfilePath: URL?
   public let mintfilePath: URL?
+  public let nestfilePath: URL?
   public let podsPath: URL?
   public let packagePaths: [URL]?
   public let packageSourcesPath: URL?
@@ -29,6 +30,7 @@ public struct GeneralOptions: Sendable {
     outputPath: nil,
     cartfilePath: nil,
     mintfilePath: nil,
+    nestfilePath: nil,
     podsPath: nil,
     packagePaths: nil,
     packageSourcesPath: nil,
@@ -52,6 +54,7 @@ public struct GeneralOptions: Sendable {
     outputPath: URL?,
     cartfilePath: URL?,
     mintfilePath: URL?,
+    nestfilePath: URL?,
     podsPath: URL?,
     packagePaths: [URL]?,
     packageSourcesPath: URL?,
@@ -74,6 +77,7 @@ public struct GeneralOptions: Sendable {
     self.outputPath = outputPath
     self.cartfilePath = cartfilePath
     self.mintfilePath = mintfilePath
+    self.nestfilePath = nestfilePath
     self.podsPath = podsPath
     self.packagePaths = packagePaths
     self.packageSourcesPath = packageSourcesPath
@@ -98,14 +102,14 @@ public struct GeneralOptions: Sendable {
 extension GeneralOptions {
   public static func == (lhs: GeneralOptions, rhs: GeneralOptions) -> Bool {
     return lhs.outputPath == rhs.outputPath && lhs.cartfilePath == rhs.cartfilePath
-      && lhs.mintfilePath == rhs.mintfilePath && lhs.podsPath == rhs.podsPath
-      && lhs.packagePaths == rhs.packagePaths && lhs.packageSourcesPath == rhs.packageSourcesPath
-      && lhs.xcworkspacePath == rhs.xcworkspacePath && lhs.xcodeprojPath == rhs.xcodeprojPath
-      && lhs.prefix == rhs.prefix && lhs.gitHubToken == rhs.gitHubToken
-      && lhs.htmlPath == rhs.htmlPath && lhs.markdownPath == rhs.markdownPath
-      && lhs.csvPath == rhs.csvPath && lhs.licenseFileNames == rhs.licenseFileNames
-      && lhs.force == rhs.force && lhs.addVersionNumbers == rhs.addVersionNumbers
-      && lhs.suppressOpeningDirectory == rhs.suppressOpeningDirectory
+      && lhs.mintfilePath == rhs.mintfilePath && lhs.nestfilePath == rhs.nestfilePath
+      && lhs.podsPath == rhs.podsPath && lhs.packagePaths == rhs.packagePaths
+      && lhs.packageSourcesPath == rhs.packageSourcesPath && lhs.xcworkspacePath == rhs.xcworkspacePath
+      && lhs.xcodeprojPath == rhs.xcodeprojPath && lhs.prefix == rhs.prefix
+      && lhs.gitHubToken == rhs.gitHubToken && lhs.htmlPath == rhs.htmlPath
+      && lhs.markdownPath == rhs.markdownPath && lhs.csvPath == rhs.csvPath
+      && lhs.licenseFileNames == rhs.licenseFileNames && lhs.force == rhs.force
+      && lhs.addVersionNumbers == rhs.addVersionNumbers && lhs.suppressOpeningDirectory == rhs.suppressOpeningDirectory
       && lhs.singlePage == rhs.singlePage && lhs.failIfMissingLicense == rhs.failIfMissingLicense
       && lhs.addSources == rhs.addSources && lhs.sandboxMode == rhs.sandboxMode
   }
@@ -117,6 +121,7 @@ extension GeneralOptions {
       outputPath: raw["outputPath"]?.string.asPathURL(in: configBasePath),
       cartfilePath: raw["cartfilePath"]?.string.asPathURL(in: configBasePath),
       mintfilePath: raw["mintfilePath"]?.string.asPathURL(in: configBasePath),
+      nestfilePath: raw["nestfilePath"]?.string.asPathURL(in: configBasePath),
       podsPath: raw["podsPath"]?.string.asPathURL(in: configBasePath),
       packagePaths: raw["packagePaths"]?.sequence?.compactMap {
         $0.string.asPathURL(in: configBasePath)

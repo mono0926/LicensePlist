@@ -18,6 +18,13 @@ class GitHubLibraryConfigFileTypeTests: XCTestCase {
             XCTAssertEqual(type.regexString(version: true), "([\\w\\.\\-]+)/([\\w\\.\\-]+)@([\\w\\.\\-]+)")
         }
 
+        // nest
+        do {
+            let type = GitHubLibraryConfigFileType.nest
+            XCTAssertEqual(type.regexString(version: false), "reference: ([\\w\\.\\-]+)/([\\w\\.\\-]+)")
+            XCTAssertEqual(type.regexString(version: true), "reference: ([\\w\\.\\-]+)/([\\w\\.\\-]+)(?:(?:[^-]*?\\n\\s*version: ([\\w\\.\\-]+))?)")
+        }
+
         // licensePlist
         do {
             let type = GitHubLibraryConfigFileType.licensePlist

@@ -34,6 +34,8 @@ struct PlistInfo {
             Log.info("Carthage License collect start")
         case .mint:
             Log.info("Mint License collect start")
+        case .nest:
+            Log.info("nest License collect start")
         case .licensePlist:
             // should not reach here
             preconditionFailure()

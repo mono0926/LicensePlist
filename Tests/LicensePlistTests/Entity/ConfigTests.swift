@@ -27,6 +27,7 @@ class ConfigTests: XCTestCase {
                               options: GeneralOptions(outputPath: URL(fileURLWithPath: "./com.mono0926.LicensePlist.Output", relativeTo: configBasePath),
                                                       cartfilePath: URL(fileURLWithPath: "Cartfile", relativeTo: configBasePath),
                                                       mintfilePath: URL(fileURLWithPath: "Mintfile", relativeTo: configBasePath),
+                                                      nestfilePath: URL(fileURLWithPath: "nestfile.yaml", relativeTo: configBasePath),
                                                       podsPath: URL(fileURLWithPath: "Pods", relativeTo: configBasePath),
                                                       packagePaths: [URL(fileURLWithPath: "Package.swift", relativeTo: configBasePath)],
                                                       packageSourcesPath: URL(fileURLWithPath: "./SourcePackages", isDirectory: true, relativeTo: configBasePath),

@@ -29,6 +29,9 @@ struct LicensePlist: ParsableCommand {
     @Option(name: .long, completion: .file())
     var mintfilePath: String?
 
+    @Option(name: .long, completion: .file())
+    var nestfilePath: String?
+
     @Option(name: .long, completion: .directory)
     var podsPath: String?
 
@@ -104,6 +107,7 @@ struct LicensePlist: ParsableCommand {
         let config = getConfig()
         let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName)
         let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName)
+        let nestfilePath = nestfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.nestfileName)
         let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName)
         let configPackagePaths = config.options.packagePaths ?? [URL(fileURLWithPath: Consts.packageName)]
         let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths.map { URL(fileURLWithPath: $0) }
@@ -121,6 +125,7 @@ struct LicensePlist: ParsableCommand {
         let options = Options(outputPath: outputPath,
                               cartfilePath: cartfilePath,
                               mintfilePath: mintfilePath,
+                              nestfilePath: nestfilePath,
                               podsPath: podsPath,
                               packagePaths: packagePaths,
                               packageSourcesPath: packageSourcesPath,

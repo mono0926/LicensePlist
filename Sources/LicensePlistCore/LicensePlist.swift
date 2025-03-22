@@ -12,6 +12,7 @@ public final class LicensePlist {
         info.loadCocoaPodsLicense(acknowledgements: readPodsAcknowledgements(path: options.podsPath))
         info.loadGitHubLibraries(file: readCartfile(path: options.cartfilePath))
         info.loadGitHubLibraries(file: readMintfile(path: options.mintfilePath))
+        info.loadGitHubLibraries(file: readNestfile(path: options.nestfilePath))
 
         do {
             let swiftPackageFileReadResults = try options.packagePaths.compactMap { packagePath in
@@ -79,6 +80,13 @@ private func readMintfile(path: URL) -> GitHubLibraryConfigFile {
         fatalError("Invalid MintFile name: \(path.lastPathComponent)")
     }
     return .mint(content: path.lp.read())
+}
+
+private func readNestfile(path: URL) -> GitHubLibraryConfigFile {
+    if path.lastPathComponent != Consts.nestfileName {
+        fatalError("Invalid nestfile name: \(path.lastPathComponent)")
+    }
+    return .nest(content: path.lp.read())
 }
 
 private func readPodsAcknowledgements(path: URL) -> [String] {
