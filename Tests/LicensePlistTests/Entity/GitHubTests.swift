@@ -66,4 +66,55 @@ class GitHubTests: XCTestCase {
         let result = results.first
         XCTAssertEqual(result, GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: "e64dcc6"))
     }
+
+    func testParse_nest_one() {
+        let results = GitHub.load(
+            .nest(
+                content: """
+                targets:
+                    - reference: mtj0928/nest
+                      version: 0.1.0
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        XCTAssertEqual(result, GitHub(name: "nest", nameSpecified: nil, owner: "mtj0928", version: "0.1.0"))
+    }
+
+    func testParse_nest_multiple() {
+        let results = GitHub.load(
+            .nest(
+                content: """
+                targets:
+                    - reference: mtj0928/nest
+                      version: 0.1.0
+                    - reference: mono0926/NativePopup
+                      version: v1.8.4
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 2)
+        let result1 = results[0]
+        XCTAssertEqual(result1, GitHub(name: "nest", nameSpecified: nil, owner: "mtj0928", version: "0.1.0"))
+        let result2 = results[1]
+        XCTAssertEqual(result2, GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: "v1.8.4"))
+    }
+
+    func testParse_nest_no_version() {
+        let results = GitHub.load(
+            .nest(
+                content: """
+                targets:
+                    - reference: mtj0928/nest
+                    - reference: mono0926/NativePopup
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 2)
+        let result1 = results[0]
+        XCTAssertEqual(result1, GitHub(name: "nest", nameSpecified: nil, owner: "mtj0928", version: nil))
+        let result2 = results[1]
+        XCTAssertEqual(result2, GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: nil))
+    }
 }
