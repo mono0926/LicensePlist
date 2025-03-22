@@ -107,7 +107,7 @@ struct LicensePlist: ParsableCommand {
         let config = getConfig()
         let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName)
         let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName)
-        let nestfilePath = nestfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.nestfileName)
+        let nestfilePath = nestfilePath.asPathURL(other: config.options.nestfilePath, default: Consts.nestfileName)
         let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName)
         let configPackagePaths = config.options.packagePaths ?? [URL(fileURLWithPath: Consts.packageName)]
         let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths.map { URL(fileURLWithPath: $0) }
