@@ -63,16 +63,15 @@ extension GitHubLicense {
           }
         }
       case .success(let response):
-        let license = GitHubLicense(
-          library: GitHub(
-            name: library.name,
-            nameSpecified: library.nameSpecified,
-            owner: library.owner,
-            version: library.version,
-            licenseType: LicenseType(id: response.kind.spdxId)),
-          body: response.contentDecoded,
-          githubResponse: response)
-        return Result.success(license)
+          return Result.success(GitHubLicense(
+            library: GitHub(
+                name: library.name,
+                nameSpecified: library.nameSpecified,
+                owner: library.owner,
+                version: library.version,
+                licenseType: LicenseType(id: response.kind.spdxId)),
+            body: response.contentDecoded,
+            githubResponse: response))
       }
     }
   }
