@@ -3,6 +3,7 @@ import Foundation
 public struct Consts {
     public static let cartfileName = "Cartfile"
     public static let mintfileName = "Mintfile"
+    public static let nestfileName = "nestfile.yaml"
     public static let podsDirectoryName = "Pods"
     public static let packageName = "Package.swift"
     public static let xcworkspaceExtension = "xcworkspace"

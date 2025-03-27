@@ -101,6 +101,10 @@ You can see options by `license-plist --help`.
 
 - Default: `Mintfile`
 
+#### `--nestfile-path`
+
+- Default: `nestfile.yaml`
+
 #### `--pods-path`
 
 - Default: `Pods`
@@ -356,6 +360,7 @@ options:
   outputPath: "./com.mono0926.LicensePlist.Output"
   cartfilePath: Cartfile
   mintfilePath: Mintfile
+  nestfilePath: nestfile.yaml
   podsPath: Pods
   packagePaths:
     - Package.swift

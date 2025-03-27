@@ -59,6 +59,7 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
         return Options(outputPath: URL(fileURLWithPath: "test_result_dir"),
                        cartfilePath: URL(fileURLWithPath: "test_result_dir"),
                        mintfilePath: URL(fileURLWithPath: "test_result_dir"),
+                       nestfilePath: URL(fileURLWithPath: "test_result_dir"),
                        podsPath: URL(fileURLWithPath: "test_result_dir"),
                        packagePaths: [URL(fileURLWithPath: "test_result_dir")],
                        packageSourcesPath: sourcePackagesPath,
