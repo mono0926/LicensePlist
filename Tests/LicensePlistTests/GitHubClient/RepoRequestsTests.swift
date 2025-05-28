@@ -10,7 +10,7 @@ class RepoRequestsTests: XCTestCase {
     }
     func testLicense() {
         let request = RepoRequests.License(owner: "mono0926", repo: "NativePopup")
-        let result = Session.shared.lp.sendSync(request)
+        let result = Session.lp.gitHub.lp.sendSync(request)
         switch result {
         case .success(let response):
             XCTAssertTrue(response.contentDecoded.hasPrefix("MIT License"))
@@ -20,7 +20,7 @@ class RepoRequestsTests: XCTestCase {
     }
     func testGet_parent() {
         let request = RepoRequests.Get(owner: "gram30", repo: "ios_sdk")
-        let result = Session.shared.lp.sendSync(request)
+        let result = Session.lp.gitHub.lp.sendSync(request)
         switch result {
         case .success(let response):
             XCTAssertEqual(
@@ -33,8 +33,8 @@ class RepoRequestsTests: XCTestCase {
     func testLicense_multiple() throws {
         let request1 = RepoRequests.License(owner: "mono0926", repo: "NativePopup")
         let request2 = RepoRequests.License(owner: "ReactiveX", repo: "RxSwift")
-        let o1 = Session.shared.lp.send(request1)
-        let o2 = Session.shared.lp.send(request2)
+        let o1 = Session.lp.gitHub.lp.send(request1)
+        let o2 = Session.lp.gitHub.lp.send(request2)
         let queue = OperationQueue()
         queue.addOperations([o1, o2], waitUntilFinished: true)
         let result = try [XCTUnwrap(o1.result).get(), XCTUnwrap(o2.result).get()]
