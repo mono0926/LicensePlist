@@ -145,8 +145,8 @@ You can see options by `license-plist --help`.
 
 - Default: None.
 - LicensePlist uses GitHub API, so sometimes API limit errors occur. You can avoid those errors by specifying a GitHub token.
-- [You can generate a token here](https://github.com/settings/tokens/new)
-    - `repo` scope is needed.
+- [You can generate a token here](https://github.com/settings/personal-access-tokens/new)
+    - Repository access for `Public repositories` is needed.
 - You can also pass the GitHub token via the `LICENSE_PLIST_GITHUB_TOKEN` environment variable.
 
 #### `--config-path`
