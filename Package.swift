@@ -25,7 +25,7 @@ let package = Package(
         .package(url: "https://github.com/tomlokhorst/XcodeEdit.git",
                  from: "2.9.0"),
         .package(url: "https://github.com/jpsim/Yams.git",
-                 from: "5.0.5")
+                 from: "6.0.2")
     ],
     targets: [
         .executableTarget(
