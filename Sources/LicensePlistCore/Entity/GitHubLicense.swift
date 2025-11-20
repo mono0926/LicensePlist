@@ -30,25 +30,23 @@ extension GitHubLicense {
     let name = library.name
     Log.info("license download start(owner: \(owner), name: \(name))")
     return ResultOperation<GitHubLicense, DownloadError> { _ in
-      let result = Session.shared.lp.sendSync(RepoRequests.License(owner: owner, repo: name))
+      let result = Session.lp.gitHub.lp.sendSync(RepoRequests.License(owner: owner, repo: name))
       switch result {
       case .failure(let error):
         let statusCode = self.statusCode(from: error)
         if statusCode != 404 {
           assert(false, String(describing: error))
-          if statusCode == 403 {
-            Log.warning(
-              "Failed to download \(name).\nYou can try `--github-token YOUR_REPO_SCOPE_TOKEN` option"
-            )
-          } else {
-            Log.warning("Failed to download \(name).\nError: \(error)")
+          switch (statusCode, GitHubAuthorization.shared.token) {
+          case (403, .some), (429, .some): Log.warning("Failed to download \(name).\nGitHub token expired or rate limit exceeded.\nError: \(error)")
+          case (403, .none), (429, .none): Log.warning("Failed to download \(name).\nError: \(error).\nYou can try `--github-token YOUR_REPO_SCOPE_TOKEN` option")
+          default: Log.warning("Failed to download \(name).\nError: \(error)")
           }
           return Result.failure(DownloadError.unexpected(error))
         }
         Log.warning(
           "404 error, license download failed(owner: \(owner), name: \(name)), so finding parent..."
         )
-        let result = Session.shared.lp.sendSync(RepoRequests.Get(owner: owner, repo: name))
+        let result = Session.lp.gitHub.lp.sendSync(RepoRequests.Get(owner: owner, repo: name))
         switch result {
         case .failure(let error):
           return Result.failure(DownloadError.unexpected(error))
