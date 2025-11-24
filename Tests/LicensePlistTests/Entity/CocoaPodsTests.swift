@@ -11,7 +11,7 @@ class CocoaPodsTests: XCTestCase {
 
     func testParse() throws {
         let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/acknowledgements.plist"
-        let content = try String(contentsOf: XCTUnwrap(URL(string: path)))
+        let content = try String(contentsOf: XCTUnwrap(URL(string: path)), encoding: .utf8)
         let results = CocoaPodsLicense.load(content,
                                             versionInfo: VersionInfo(dictionary: ["Firebase": "1.2.3"]),
                                             config: Config(githubs: [], manuals: [], excludes: [Exclude](), renames: ["Firebase": "Firebase2"], options: .empty))

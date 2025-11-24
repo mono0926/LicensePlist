@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "LicensePlist",
+    platforms: [.macOS(.v15)],
     products: [
         .executable(name: "license-plist", targets: ["LicensePlist"]),
         .library(name: "LicensePlistCore", targets: ["LicensePlistCore"]),

@@ -8,7 +8,7 @@ extension LicensePlistExtension where Base == URL {
         let operation = ResultOperation<String, Error> { _ in
             do {
                 return Result(catching: {
-                    try String(contentsOf: self.base)
+                    try String(contentsOf: self.base, encoding: .utf8)
                 })
             }
         }

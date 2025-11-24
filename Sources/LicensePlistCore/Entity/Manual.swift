@@ -55,7 +55,7 @@ extension Manual {
 
       if let file = mapping["file"]?.string {
         let url = configBasePath.appendingPathComponent(file)
-        body = try! String(contentsOf: url)
+        body = try! String(contentsOf: url, encoding: .utf8)
       }
 
       return Manual(

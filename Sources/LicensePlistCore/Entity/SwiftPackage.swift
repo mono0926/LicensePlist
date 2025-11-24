@@ -111,13 +111,13 @@ extension SwiftPackage {
 
     private func readPackageDefinition(name: String, checkoutPath: URL) -> String? {
         let url = checkoutPath.appendingPathComponent(name).appendingPathComponent("Package.swift")
-        return try? String(contentsOf: url)
+        return try? String(contentsOf: url, encoding: .utf8)
     }
 
     private func loadPackageDefinitionFromGithub(for owner: String, name: String) -> String? {
         guard let version = version else { return nil }
         guard let packageDefinitionURL = URL(string: "https://raw.githubusercontent.com/\(owner)/\(name)/\(version)/Package.swift") else { return nil }
-        return try? String(contentsOf: packageDefinitionURL)
+        return try? String(contentsOf: packageDefinitionURL, encoding: .utf8)
     }
 
     private func fallbackName(using githubName: String) -> String {

@@ -49,7 +49,7 @@ class PlistInfoTests: XCTestCase {
     XCTAssertNil(target.cocoaPodsLicenses)
     let path =
       "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Tests/LicensePlistTests/Resources/acknowledgements.plist"
-    let content = try String(contentsOf: XCTUnwrap(URL(string: path)))
+    let content = try String(contentsOf: XCTUnwrap(URL(string: path)), encoding: .utf8)
     target.loadCocoaPodsLicense(acknowledgements: [content])
     let licenses = try XCTUnwrap(target.cocoaPodsLicenses)
     XCTAssertEqual(licenses.count, 11)

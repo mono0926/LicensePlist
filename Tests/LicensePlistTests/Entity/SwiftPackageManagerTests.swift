@@ -200,7 +200,7 @@ class SwiftPackageManagerTests: XCTestCase {
 
   func testParse() throws {
     let path = "https://raw.githubusercontent.com/mono0926/LicensePlist/master/Package.resolved"
-    let content = try String(contentsOf: XCTUnwrap(URL(string: path)))
+    let content = try String(contentsOf: XCTUnwrap(URL(string: path)), encoding: .utf8)
     let packages = SwiftPackage.loadPackages(content)
 
     XCTAssertFalse(packages.isEmpty)
