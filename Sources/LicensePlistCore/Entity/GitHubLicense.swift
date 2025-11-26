@@ -91,7 +91,7 @@ extension GitHubLicense {
           continue
         }
         do {
-          let content = try String(contentsOf: url)
+          let content = try String(contentsOf: url, encoding: .utf8)
           // Return the content of the first matched file
           return GitHubLicense(library: library, body: content, githubResponse: nil)
         } catch {
