@@ -1,4 +1,5 @@
 #!/bin/sh
+set -euo pipefail
 
 # Check arguments
 if [ $# -eq 1 ]; then
@@ -64,6 +65,8 @@ github-release release \
     --user mono0926 \
     --repo LicensePlist \
     --tag $tag
+
+sleep 5
 
 github-release upload \
     --user mono0926 \
