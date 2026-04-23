@@ -5,8 +5,12 @@ import LoggerAPI
 class TestUtil {
 
     static func setGitHubToken() {
+        if let token = ProcessInfo.processInfo.environment["GITHUB_TOKEN"], !token.isEmpty {
+            GitHubAuthorization.shared.token = token
+            return
+        }
         // Specify your `github_token.txt` location
-        let url = URL(fileURLWithPath: "/Users/mono/Git/LicensePlist/Tests/LicensePlistTests/Resources/github_token.txt")
+        let url = testResourceDir.appendingPathComponent("github_token.txt")
         do {
             GitHubAuthorization.shared.token = try String(contentsOf: url,
                                                            encoding: String.Encoding.utf8)
