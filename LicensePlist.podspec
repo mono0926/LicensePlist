@@ -1,0 +1,15 @@
+Pod::Spec.new do |s|
+  s.name        = 'LicensePlist'
+  s.version     = '3.27.5'
+  s.summary     = 'A license list generator of all your dependencies for iOS applications'
+  s.homepage    = 'https://github.com/mono0926/LicensePlist'
+  s.license     = { :type => 'MIT', :file => 'LICENSE' }
+  s.author      = 'Masayuki Ono'
+  s.source      = { :http => "#{s.homepage}/releases/download/#{s.version}/portable_licenseplist.zip" }
+  s.preserve_paths = '*'
+  s.exclude_files  = '**/file.zip'
+  s.osx.deployment_target = '10.13'
+  s.ios.deployment_target = '11.0'
+  s.watchos.deployment_target = '4.0'
+  s.tvos.deployment_target = '9.0'
+end
