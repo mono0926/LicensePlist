@@ -221,8 +221,8 @@ class SwiftPackageManagerTests: XCTestCase {
       SwiftPackage(
         package: "yams",
         repositoryURL: "https://github.com/jpsim/Yams.git",
-        revision: "f47ba4838c30dbd59998a4e4c87ab620ff959e8a",
-        version: "5.0.5",
+        revision: "d41ba4e7164c0838c6d48351f7575f7f762151fe",
+        version: "6.1.0",
         packageDefinitionVersion: 2))
   }
 
