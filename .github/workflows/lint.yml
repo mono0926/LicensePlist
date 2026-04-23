@@ -8,15 +8,11 @@ on:
 
 jobs:
   lint:
-    # Follow https://github.com/Cyberbeni/install-swift-tool/blob/master/.github/workflows/test.yml#L9
-    runs-on: ubuntu-latest
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v4
       - name: Install SwiftLint
-        uses: Cyberbeni/install-swift-tool@v2
-        with:
-          url: https://github.com/realm/SwiftLint
-          version: "0.62.2" # Workaround for https://github.com/realm/SwiftLint/issues/4031
+        run: brew install swiftlint
       - name: Lint (strict)
         run: swiftlint lint --strict .
