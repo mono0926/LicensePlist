@@ -7,13 +7,9 @@ on:
 
 jobs:
   test:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
-      - uses: Cyberbeni/install-swift-tool@v3
-        with:
-          url: https://github.com/tuist/xcbeautify
-          version: '*'
       - run: |
           set -o pipefail
-          swift test 2>&1 | xcbeautify
+          swift test
