@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     # Follow https://github.com/Cyberbeni/install-swift-tool/blob/master/.github/workflows/test.yml#L9
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -17,6 +17,6 @@ jobs:
         uses: Cyberbeni/install-swift-tool@v2
         with:
           url: https://github.com/realm/SwiftLint
-          version: '0.46.5' # Workaround for https://github.com/realm/SwiftLint/issues/4031
+          version: "0.62.2" # Workaround for https://github.com/realm/SwiftLint/issues/4031
       - name: Lint (strict)
         run: swiftlint lint --strict .
