@@ -30,10 +30,13 @@ portable_zip_name="portable_licenseplist.zip"
 # Prepare artifact bundle
 binary_artifact="LicensePlistBinary-macos.artifactbundle.zip"
 make spm_artifactbundle_macos
-./Tools/update-artifact-bundle.sh "${tag}"
+# Update Package.swift in a copy to prevent IDE from resolving 404 URL before release
+cp Package.swift Package.swift.release
+./Tools/update-artifact-bundle.sh "${tag}" Package.swift.release
 
 # Push updated binary target definition
-git add Package.swift
+hash=$(git hash-object -w Package.swift.release)
+git update-index --cacheinfo 100644 $hash Package.swift
 git commit -m "release ${tag}"
 git push origin HEAD
 
@@ -73,6 +76,9 @@ gh release create "$tag" \
     --repo mono0926/LicensePlist \
     --title "$tag" \
     --notes "Release $tag"
+
+# Now that release is created, update working directory Package.swift so IDE resolves successfully
+mv Package.swift.release Package.swift
 
 # Cleanup local assets
 rm $lib_name.zip

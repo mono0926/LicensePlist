@@ -2,11 +2,11 @@
     "schemaVersion": "1.0",
     "artifacts": {
         "license-plist": {
-            "version": "3.27.3",
+            "version": "3.27.6",
             "type": "executable",
             "variants": [
                 {
-                    "path": "license-plist-3.27.3-macos/bin/license-plist",
+                    "path": "license-plist-3.27.6-macos/bin/license-plist",
                     "supportedTriples": ["x86_64-apple-macosx", "arm64-apple-macosx"]
                 }
             ]
