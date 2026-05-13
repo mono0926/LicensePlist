@@ -29,12 +29,26 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
         return arguments
     }
     
-    // Returns default folder with checked out package sources
+    // Returns default folder with checked out package sources.
+    //
+    // Starting from Xcode 16.3, `pluginWorkDirectoryURL` no longer points to a
+    // directory under `SourcePackages` but instead to:
+    //   `Build/Intermediates.noindex/.../GenerateAcknowledgementsCommand/`
+    //
+    // See https://github.com/mono0926/LicensePlist/issues/251 for details.
     private func packageSourcesPath(context: XcodePluginContext) -> String {
-        return context.pluginWorkDirectoryURL
+        var packageSourcesPath = context.pluginWorkDirectoryURL
             .deletingLastPathComponent()
             .deletingLastPathComponent()
-            .path
+
+        if packageSourcesPath.lastPathComponent != "SourcePackages" {
+            packageSourcesPath = packageSourcesPath
+                .deletingLastPathComponent()
+                .deletingLastPathComponent()
+                .appendingPathComponent("SourcePackages")
+        }
+
+        return packageSourcesPath.path
     }
 }
 #endif

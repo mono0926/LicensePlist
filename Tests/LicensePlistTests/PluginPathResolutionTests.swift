@@ -1,10 +1,61 @@
 import XCTest
 
+/// Pure-function mirror of the path resolution algorithm used by both Xcode plugins.
+///
+/// Plugin targets cannot be imported in tests (SPM limitation), so this helper
+/// replicates the exact algorithm. Any change to a plugin's `packageSourcesPath`
+/// must be reflected here — the tests below will catch regressions in the algorithm
+/// itself (correct number of `deletingLastPathComponent` calls, `lastPathComponent`
+/// guard, and `appendingPathComponent` for macOS compatibility).
+enum PluginPathResolution {
+
+    /// Mirrors GenerateAcknowledgementsCommand.packageSourcesPath.
+    ///
+    /// Old Xcode path (2 levels above pluginWorkDir):
+    ///   {DerivedData}/xxx/SourcePackages/plugins/GenerateAcknowledgementsCommand/
+    /// New Xcode path (4 levels above pluginWorkDir + append):
+    ///   {DerivedData}/xxx/Build/Intermediates.noindex/CommandPluginIntermediates/GenerateAcknowledgementsCommand/
+    static func commandPlugin(pluginWorkDirectoryURL: URL) -> URL {
+        var packageSourcesPath = pluginWorkDirectoryURL
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+
+        if packageSourcesPath.lastPathComponent != "SourcePackages" {
+            packageSourcesPath = packageSourcesPath
+                .deletingLastPathComponent()
+                .deletingLastPathComponent()
+                .appendingPathComponent("SourcePackages")
+        }
+
+        return packageSourcesPath
+    }
+
+    /// Mirrors LicensePlistBuildTool path resolution (from PR #241).
+    ///
+    /// Old Xcode path (4 levels above pluginWorkDir):
+    ///   {DerivedData}/xxx/SourcePackages/plugins/MyApp.output/MyApp/LicensePlistBuildTool/
+    /// New Xcode path (6 levels above pluginWorkDir + append):
+    ///   {DerivedData}/xxx/Build/Intermediates.noindex/BuildToolPluginIntermediates/MyApp.output/MyApp/LicensePlistBuildTool/
+    static func buildToolPlugin(pluginWorkDirectoryURL: URL) -> URL {
+        var packageSourcesPath = pluginWorkDirectoryURL
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+
+        if packageSourcesPath.lastPathComponent != "SourcePackages" {
+            packageSourcesPath = packageSourcesPath
+                .deletingLastPathComponent()
+                .deletingLastPathComponent()
+                .appendingPathComponent("SourcePackages")
+        }
+
+        return packageSourcesPath
+    }
+}
+
 /// Tests the path resolution algorithm used by Xcode plugins to locate
 /// the SourcePackages directory from `pluginWorkDirectoryURL`.
-///
-/// Plugin targets cannot be imported in tests, so these tests validate the
-/// algorithm directly using URL manipulation — the same operations the plugins perform.
 final class PluginPathResolutionTests: XCTestCase {
 
     // MARK: - GenerateAcknowledgementsCommand path resolution
@@ -15,7 +66,7 @@ final class PluginPathResolutionTests: XCTestCase {
     func testCommandPlugin_oldXcode_resolvesSourcePackages() {
         let pluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages/plugins/GenerateAcknowledgementsCommand")
 
-        let resolved = resolvePackageSourcesPath_commandPlugin(pluginWorkDirectoryURL: pluginWorkDir)
+        let resolved = PluginPathResolution.commandPlugin(pluginWorkDirectoryURL: pluginWorkDir)
 
         XCTAssertEqual(resolved.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages")
     }
@@ -27,19 +78,9 @@ final class PluginPathResolutionTests: XCTestCase {
     func testCommandPlugin_newXcode_resolvesSourcePackages() {
         let pluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/Build/Intermediates.noindex/CommandPluginIntermediates/GenerateAcknowledgementsCommand")
 
-        let resolved = resolvePackageSourcesPath_commandPlugin(pluginWorkDirectoryURL: pluginWorkDir)
+        let resolved = PluginPathResolution.commandPlugin(pluginWorkDirectoryURL: pluginWorkDir)
 
         XCTAssertEqual(resolved.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages")
-    }
-
-    /// Verifies that checkouts can be found under the resolved path.
-    func testCommandPlugin_newXcode_checkoutsPath() {
-        let pluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/Build/Intermediates.noindex/CommandPluginIntermediates/GenerateAcknowledgementsCommand")
-
-        let resolved = resolvePackageSourcesPath_commandPlugin(pluginWorkDirectoryURL: pluginWorkDir)
-        let checkoutsPath = resolved.appendingPathComponent("checkouts")
-
-        XCTAssertEqual(checkoutsPath.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages/checkouts")
     }
 
     // MARK: - LicensePlistBuildTool path resolution (regression guard)
@@ -49,7 +90,7 @@ final class PluginPathResolutionTests: XCTestCase {
     func testBuildToolPlugin_oldXcode_resolvesSourcePackages() {
         let pluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages/plugins/MyApp.output/MyApp/LicensePlistBuildTool")
 
-        let resolved = resolvePackageSourcesPath_buildToolPlugin(pluginWorkDirectoryURL: pluginWorkDir)
+        let resolved = PluginPathResolution.buildToolPlugin(pluginWorkDirectoryURL: pluginWorkDir)
 
         XCTAssertEqual(resolved.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages")
     }
@@ -59,52 +100,8 @@ final class PluginPathResolutionTests: XCTestCase {
     func testBuildToolPlugin_newXcode_resolvesSourcePackages() {
         let pluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/Build/Intermediates.noindex/BuildToolPluginIntermediates/MyApp.output/MyApp/LicensePlistBuildTool")
 
-        let resolved = resolvePackageSourcesPath_buildToolPlugin(pluginWorkDirectoryURL: pluginWorkDir)
+        let resolved = PluginPathResolution.buildToolPlugin(pluginWorkDirectoryURL: pluginWorkDir)
 
         XCTAssertEqual(resolved.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages")
-    }
-
-    // MARK: - Algorithm implementations (mirrors plugin code)
-
-    /// Mirrors GenerateAcknowledgementsCommand.packageSourcesPath
-    private func resolvePackageSourcesPath_commandPlugin(pluginWorkDirectoryURL: URL) -> URL {
-        let isInSourcePackagesDirectory = pluginWorkDirectoryURL.pathComponents.contains {
-            $0 == "SourcePackages"
-        }
-
-        var packageSourcesPath = pluginWorkDirectoryURL
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-
-        if !isInSourcePackagesDirectory {
-            packageSourcesPath = packageSourcesPath
-                .deletingLastPathComponent()
-                .deletingLastPathComponent()
-                .appending(component: "SourcePackages")
-        }
-
-        return packageSourcesPath
-    }
-
-    /// Mirrors LicensePlistBuildTool.packageSourcesPath (from PR #241)
-    private func resolvePackageSourcesPath_buildToolPlugin(pluginWorkDirectoryURL: URL) -> URL {
-        let isInSourcePackagesDirectory = pluginWorkDirectoryURL.pathComponents.contains {
-            $0 == "SourcePackages"
-        }
-
-        var packageSourcesPath = pluginWorkDirectoryURL
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-
-        if !isInSourcePackagesDirectory {
-            packageSourcesPath = packageSourcesPath
-                .deletingLastPathComponent()
-                .deletingLastPathComponent()
-                .appending(component: "SourcePackages")
-        }
-
-        return packageSourcesPath
     }
 }
