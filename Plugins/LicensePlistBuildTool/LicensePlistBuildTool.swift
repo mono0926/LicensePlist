@@ -30,10 +30,6 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
         // `Build/Intermediates.noindex/BuildToolPluginIntermediates/MyApp.output/...`
         //
         // See https://github.com/mono0926/LicensePlist/issues/240 for more details.
-        let isInSourcePackagesDirectory = context.pluginWorkDirectoryURL.pathComponents.contains {
-            $0 == "SourcePackages"
-        }
-
         var packageSourcesPath = context.pluginWorkDirectoryURL
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -42,11 +38,11 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
 
         // If we are not in a SourcePackages directory, we need to go up two more levels and
         // then append SourcePackages to the path.
-        if !isInSourcePackagesDirectory {
+        if packageSourcesPath.lastPathComponent != "SourcePackages" {
             packageSourcesPath = packageSourcesPath
                 .deletingLastPathComponent()
                 .deletingLastPathComponent()
-                .appending(component: "SourcePackages")
+                .appendingPathComponent("SourcePackages")
         }
 
         // Output directory inside build output directory
