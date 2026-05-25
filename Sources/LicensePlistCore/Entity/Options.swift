@@ -1,6 +1,7 @@
 import Foundation
 
 public struct Options: Sendable {
+    public let rootPath: URL?
     public let outputPath: URL
     public let cartfilePath: URL
     public let mintfilePath: URL
@@ -18,7 +19,8 @@ public struct Options: Sendable {
     public let licenseFileNames: [String]
     public let config: Config
 
-    public static let empty = Options(outputPath: URL(fileURLWithPath: ""),
+    public static let empty = Options(rootPath: nil,
+                                      outputPath: URL(fileURLWithPath: ""),
                                       cartfilePath: URL(fileURLWithPath: ""),
                                       mintfilePath: URL(fileURLWithPath: ""),
                                       nestfilePath: URL(fileURLWithPath: ""),
@@ -35,7 +37,8 @@ public struct Options: Sendable {
                                       licenseFileNames: [],
                                       config: Config.empty)
 
-    public init(outputPath: URL,
+    public init(rootPath: URL?,
+                outputPath: URL,
                 cartfilePath: URL,
                 mintfilePath: URL,
                 nestfilePath: URL,
@@ -51,6 +54,7 @@ public struct Options: Sendable {
                 csvPath: URL?,
                 licenseFileNames: [String],
                 config: Config) {
+        self.rootPath = rootPath
         self.outputPath = outputPath
         self.cartfilePath = cartfilePath
         self.mintfilePath = mintfilePath

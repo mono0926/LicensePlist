@@ -23,6 +23,9 @@ struct LicensePlist: ParsableCommand {
     static let configuration = CommandConfiguration(version: Consts.version,
                                                     subcommands: [AddAcknowledgementsCopyScript.self])
 
+    @Option(name: .long, completion: .directory)
+    var rootPath: String?
+    
     @Option(name: .long, completion: .file())
     var cartfilePath: String?
 
@@ -105,24 +108,27 @@ struct LicensePlist: ParsableCommand {
         Logger.configure(logLevel: logLevel, colorCommandLineFlag: color)
 
         let config = getConfig()
-        let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName)
-        let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName)
-        let nestfilePath = nestfilePath.asPathURL(other: config.options.nestfilePath, default: Consts.nestfileName)
-        let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName)
+        let rootPath = rootPath.asPathURL()
+        
+        let cartfilePath = cartfilePath.asPathURL(other: config.options.cartfilePath, default: Consts.cartfileName, relativeTo: rootPath)
+        let mintfilePath = mintfilePath.asPathURL(other: config.options.mintfilePath, default: Consts.mintfileName, relativeTo: rootPath)
+        let nestfilePath = nestfilePath.asPathURL(other: config.options.nestfilePath, default: Consts.nestfileName, relativeTo: rootPath)
+        let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName, relativeTo: rootPath)
         let configPackagePaths = config.options.packagePaths ?? [URL(fileURLWithPath: Consts.packageName)]
         let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths.map { URL(fileURLWithPath: $0) }
-        let packageSourcesPath = packageSourcesPath.asPathURL(other: config.options.packageSourcesPath, isDirectory: true)
-        let xcworkspacePath = xcworkspacePath.asPathURL(other: config.options.xcworkspacePath, default: Consts.xcworkspacePath)
-        let xcodeprojPath = xcodeprojPath.asPathURL(other: config.options.xcodeprojPath, default: Consts.xcodeprojPath)
-        let outputPath = outputPath.asPathURL(other: config.options.outputPath, default: Consts.outputPath)
+        let packageSourcesPath = packageSourcesPath.asPathURL(other: config.options.packageSourcesPath, isDirectory: true, relativeTo: rootPath)
+        let xcworkspacePath = xcworkspacePath.asPathURL(other: config.options.xcworkspacePath, default: Consts.xcworkspacePath, relativeTo: rootPath)
+        let xcodeprojPath = xcodeprojPath.asPathURL(other: config.options.xcodeprojPath, default: Consts.xcodeprojPath, relativeTo: rootPath)
+        let outputPath = outputPath.asPathURL(other: config.options.outputPath, default: Consts.outputPath, relativeTo: rootPath)
         let githubToken = githubToken ?? config.options.gitHubToken ?? Environment.shared[.githubToken]
         let prefix = prefix ?? config.options.prefix ?? Consts.prefix
-        let htmlPath = htmlPath.asPathURL(other: config.options.htmlPath)
-        let markdownPath = markdownPath.asPathURL(other: config.options.markdownPath)
-        let csvPath = csvPath.asPathURL(other: config.options.csvPath)
+        let htmlPath = htmlPath.asPathURL(other: config.options.htmlPath, relativeTo: rootPath)
+        let markdownPath = markdownPath.asPathURL(other: config.options.markdownPath, relativeTo: rootPath)
+        let csvPath = csvPath.asPathURL(other: config.options.csvPath, relativeTo: rootPath)
         let configLicenseFileNames = config.options.licenseFileNames ?? Consts.licenseFileNames
         let licenseFileNames = licenseFileNames.isEmpty ? configLicenseFileNames : licenseFileNames
-        let options = Options(outputPath: outputPath,
+        let options = Options(rootPath: rootPath,
+                              outputPath: outputPath,
                               cartfilePath: cartfilePath,
                               mintfilePath: mintfilePath,
                               nestfilePath: nestfilePath,
