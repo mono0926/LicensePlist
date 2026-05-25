@@ -425,6 +425,8 @@ manual:
     file: "dummy_license.txt"
 ```
 
+Each entry can optionally include a `licenseType` (an SPDX identifier such as `Apache-2.0` or `MIT`), which is reflected in the generated Plist/CSV output. See [LicenseType.swift](Sources/LicensePlistCore/Entity/LicenseType.swift) for the full list of recognized identifiers.
+
 ### Excludes
 
 Excludes can be defined to exclude matching libraries from the final output.

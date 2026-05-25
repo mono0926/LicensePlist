@@ -47,6 +47,7 @@ extension Manual {
       let name = mapping["name"]?.string ?? ""
       let version = mapping["version"]?.string
       let source = mapping["source"]?.string
+      let licenseType = LicenseType(id: mapping["licenseType"]?.string)
 
       var body: String?
       if let raw = mapping["body"]?.string {
@@ -59,7 +60,8 @@ extension Manual {
       }
 
       return Manual(
-        name: name, body: body, source: source, nameSpecified: renames[name], version: version)
+        name: name, body: body, source: source, nameSpecified: renames[name], version: version,
+        licenseType: licenseType)
     })
   }
 }
