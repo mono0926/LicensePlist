@@ -68,6 +68,7 @@ manual:
   - source: https://github.com/firebase/firebase-ios-sdk
     name: Firebase
     version: 4.0.0
+    licenseType: Apache-2.0
     body: |2
                                       Apache License
                                 Version 2.0, January 2004

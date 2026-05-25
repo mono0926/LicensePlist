@@ -20,7 +20,8 @@ class ConfigTests: XCTestCase {
                                         Manual(name: "Firebase",
                                                source: "https://github.com/firebase/firebase-ios-sdk",
                                                nameSpecified: nil,
-                                               version: "4.0.0"),
+                                               version: "4.0.0",
+                                               licenseType: .apache),
                                         Manual(name: "Dummy License File", source: nil, nameSpecified: nil, version: nil)],
                               excludes: ["RxSwift", "ios-license-generator", "/^Core.*$/"],
                               renames: ["LicensePlist": "License Plist", "WebRTC": "Web RTC"],
@@ -46,6 +47,28 @@ class ConfigTests: XCTestCase {
                                                       failIfMissingLicense: false,
                                                       addSources: false,
                                                       sandboxMode: false)))
+    }
+
+    func testManual_licenseType() {
+        let yaml = """
+            manual:
+              - name: WithType
+                licenseType: Apache-2.0
+                body: "body1"
+              - name: WithSpacedType
+                licenseType: Apache 2.0
+                body: "body2"
+              - name: UnknownType
+                licenseType: NotARealLicense
+                body: "body3"
+              - name: NoType
+                body: "body4"
+        """
+        let manuals = Config(yaml: yaml, configBasePath: URL(string: "/LicensePlist")!).manuals
+        XCTAssertEqual(manuals[0].licenseType, .apache)
+        XCTAssertEqual(manuals[1].licenseType, .apache)
+        XCTAssertEqual(manuals[2].licenseType, .unknown)
+        XCTAssertEqual(manuals[3].licenseType, .unknown)
     }
 
     func testExcludedGithubByName() {
