@@ -105,6 +105,11 @@ You can see options by `license-plist --help`.
 
 - Default: `nestfile.yaml`
 
+#### `--mise-path`
+
+- Default: `mise.toml`
+- Collects GitHub-hosted tools declared in mise's `[tools]` table via the `github:`, `ubi:`, and `aqua:` backends (e.g. `"github:SwiftGen/SwiftGen" = "6.6.3"`, `[tools."ubi:BurntSushi/ripgrep"]`). Other backends and plain tool names (e.g. `node`) are ignored since they don't map to a GitHub owner/repo.
+
 #### `--pods-path`
 
 - Default: `Pods`
@@ -361,6 +366,7 @@ options:
   cartfilePath: Cartfile
   mintfilePath: Mintfile
   nestfilePath: nestfile.yaml
+  misePath: mise.toml
   podsPath: Pods
   packagePaths:
     - Package.swift
