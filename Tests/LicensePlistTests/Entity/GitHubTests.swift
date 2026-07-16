@@ -117,4 +117,77 @@ class GitHubTests: XCTestCase {
         let result2 = results[1]
         XCTAssertEqual(result2, GitHub(name: "NativePopup", nameSpecified: nil, owner: "mono0926", version: nil))
     }
+
+    func testParse_mise_string() {
+        let results = GitHub.load(
+            .mise(
+                content: """
+                [tools]
+                "ubi:BurntSushi/ripgrep" = "14.1.0"
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        XCTAssertEqual(result, GitHub(name: "ripgrep", nameSpecified: nil, owner: "BurntSushi", version: "14.1.0"))
+    }
+
+    func testParse_mise_inlineTable() {
+        let results = GitHub.load(
+            .mise(
+                content: """
+                [tools]
+                "github:SwiftGen/SwiftGen" = { version = "6.6.3", os = ["macos"] }
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        XCTAssertEqual(result, GitHub(name: "SwiftGen", nameSpecified: nil, owner: "SwiftGen", version: "6.6.3"))
+    }
+
+    func testParse_mise_tableHeader() {
+        let results = GitHub.load(
+            .mise(
+                content: """
+                [tools."aqua:cli/cli"]
+                version = "2.40.0"
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        XCTAssertEqual(result, GitHub(name: "cli", nameSpecified: nil, owner: "cli", version: "2.40.0"))
+    }
+
+    func testParse_mise_skipsUnsupportedBackend() {
+        let results = GitHub.load(
+            .mise(
+                content: """
+                [tools]
+                node = "20.11.0"
+                "npm:eslint" = "9.0.0"
+                "github:realm/SwiftLint" = "0.55.1"
+                """
+            )
+        )
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        XCTAssertEqual(result, GitHub(name: "SwiftLint", nameSpecified: nil, owner: "realm", version: "0.55.1"))
+    }
+
+    func testParse_mise_rename() {
+        let results = GitHub.load(
+            .mise(
+                content: """
+                [tools]
+                "ubi:BurntSushi/ripgrep" = "14.1.0"
+                """
+            ),
+            renames: ["ripgrep": "ripgrep2"]
+        )
+        XCTAssertTrue(results.count == 1)
+        let result = results.first
+        XCTAssertEqual(result, GitHub(name: "ripgrep", nameSpecified: "ripgrep2", owner: "BurntSushi", version: "14.1.0"))
+    }
 }

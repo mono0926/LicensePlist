@@ -40,6 +40,9 @@ extension GitHub {
   public static func load(_ file: GitHubLibraryConfigFile, renames: [String: String] = [:])
     -> [GitHub]
   {
+    if file.type == .mise {
+      return Mise.load(content: file.content, renames: renames)
+    }
     let r = load(file, renames: renames, version: true)
     if !r.isEmpty {
       return r

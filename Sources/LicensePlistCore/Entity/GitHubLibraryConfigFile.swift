@@ -7,6 +7,7 @@ extension GitHubLibraryConfigFile {
     static func carthage(content: String?) -> GitHubLibraryConfigFile { return .init(type: .carthage, content: content) }
     static func mint(content: String?) -> GitHubLibraryConfigFile { return .init(type: .mint, content: content) }
     static func nest(content: String?) -> GitHubLibraryConfigFile { return .init(type: .nest, content: content) }
+    static func mise(content: String?) -> GitHubLibraryConfigFile { return .init(type: .mise, content: content) }
     static func licensePlist(content: String?) -> GitHubLibraryConfigFile { return .init(type: .licensePlist, content: content) }
 }
 
@@ -14,6 +15,7 @@ public enum GitHubLibraryConfigFileType: Int, CaseIterable {
     case carthage
     case mint
     case nest
+    case mise
     case licensePlist
 }
 
@@ -28,6 +30,8 @@ extension GitHubLibraryConfigFileType {
             return "(\(pattern))/(\(pattern))" + (version ? "@(\(pattern))" : "")
         case .nest:
             return "reference: (\(pattern))/(\(pattern))" + (version ? "(?:[^-]*?\\n\\s*version: (\(pattern)))" : "")
+        case .mise:
+            preconditionFailure("mise.toml is parsed by Mise.load, not the regex pipeline")
         case .licensePlist:
             return "(\(pattern))/(\(pattern))" + (version ? " (\(pattern))" : "")
         }
