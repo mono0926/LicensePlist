@@ -15,7 +15,7 @@ class SwiftPackageFileReaderTests: XCTestCase {
     var packageResolvedText: String {
         return #"""
         {
-          "originHash" : "fb60288400d91fed9489a94ce0682963f0d0e5afd6a97bd6d8e2e2d11a3228a6",
+          "originHash" : "60f849e26dbce5153b6a73059f18d72118114c712b019d88a6c7ee089feaf220",
           "pins" : [
             {
               "identity" : "apikit",
@@ -96,6 +96,15 @@ class SwiftPackageFileReaderTests: XCTestCase {
               "state" : {
                 "revision" : "f513e1dbbdd86e2ca2b672537f4bcb4417f94c27",
                 "version" : "2.2.1"
+              }
+            },
+            {
+              "identity" : "tomlkit",
+              "kind" : "remoteSourceControl",
+              "location" : "https://github.com/LebJe/TOMLKit.git",
+              "state" : {
+                "revision" : "ec6198d37d495efc6acd4dffbd262cdca7ff9b3f",
+                "version" : "0.6.0"
               }
             },
             {

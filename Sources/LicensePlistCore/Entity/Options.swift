@@ -5,6 +5,7 @@ public struct Options: Sendable {
     public let cartfilePath: URL
     public let mintfilePath: URL
     public let nestfilePath: URL
+    public let misePath: URL
     public let podsPath: URL
     public let packagePaths: [URL]
     public let packageSourcesPath: URL?
@@ -22,6 +23,7 @@ public struct Options: Sendable {
                                       cartfilePath: URL(fileURLWithPath: ""),
                                       mintfilePath: URL(fileURLWithPath: ""),
                                       nestfilePath: URL(fileURLWithPath: ""),
+                                      misePath: URL(fileURLWithPath: ""),
                                       podsPath: URL(fileURLWithPath: ""),
                                       packagePaths: [],
                                       packageSourcesPath: nil,
@@ -39,6 +41,7 @@ public struct Options: Sendable {
                 cartfilePath: URL,
                 mintfilePath: URL,
                 nestfilePath: URL,
+                misePath: URL,
                 podsPath: URL,
                 packagePaths: [URL],
                 packageSourcesPath: URL?,
@@ -55,6 +58,7 @@ public struct Options: Sendable {
         self.cartfilePath = cartfilePath
         self.mintfilePath = mintfilePath
         self.nestfilePath = nestfilePath
+        self.misePath = misePath
         self.podsPath = podsPath
         self.packagePaths = packagePaths
         self.packageSourcesPath = packageSourcesPath
