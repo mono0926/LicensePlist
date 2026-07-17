@@ -1,24 +1,19 @@
-import Foundation
 import TOMLKit
 
 enum Mise {
-  private static let toolKeyRegex = try! NSRegularExpression(
-    pattern: "^(?:github|ubi|aqua):([\\w\\.\\-]+)/([\\w\\.\\-]+)$", options: [])
+  nonisolated(unsafe) private static let toolKeyRegex = /(?:github|ubi|aqua):([\w.-]+)\/([\w.-]+)/
 
   static func load(content: String?, renames: [String: String]) -> [GitHub] {
-    guard let content = content, let table = try? TOMLTable(string: content) else { return [] }
+    guard let content, let table = try? TOMLTable(string: content) else { return [] }
     guard let tools = table["tools"]?.table else { return [] }
 
     return tools.compactMap { key, value -> GitHub? in
-      let nsKey = key as NSString
-      guard
-        let match = toolKeyRegex.firstMatch(
-          in: key, options: [], range: NSRange(location: 0, length: nsKey.length))
-      else { return nil }
-      let owner = nsKey.substring(with: match.range(at: 1))
-      let name = nsKey.substring(with: match.range(at: 2))
+      guard let match = try? toolKeyRegex.wholeMatch(in: key) else { return nil }
+      let (_, owner, name) = match.output
       let version = value.string ?? value.table?["version"]?.string
-      return GitHub(name: name, nameSpecified: renames[name], owner: owner, version: version)
+      return GitHub(
+        name: String(name), nameSpecified: renames[String(name)], owner: String(owner),
+        version: version)
     }
   }
 }
