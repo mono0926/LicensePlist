@@ -91,8 +91,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "LicensePlistBinary",
-            url: "https://github.com/mono0926/LicensePlist/releases/download/3.27.9/LicensePlistBinary-macos.artifactbundle.zip",
-            checksum: "b3d121f3b247d3644341d4743f7fa862ffd1184928f60b24b1ff017d8f80f8aa"
+            url: "https://github.com/mono0926/LicensePlist/releases/download/3.28.0/LicensePlistBinary-macos.artifactbundle.zip",
+            checksum: "3e970cead9c34f5536ae5d455d91e924d8b9d7e33e5bcbf64b33b52cc29b7097"
         )
     ]
 )
