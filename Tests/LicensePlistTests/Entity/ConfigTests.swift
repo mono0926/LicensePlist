@@ -29,6 +29,7 @@ class ConfigTests: XCTestCase {
                                                       cartfilePath: URL(fileURLWithPath: "Cartfile", relativeTo: configBasePath),
                                                       mintfilePath: URL(fileURLWithPath: "Mintfile", relativeTo: configBasePath),
                                                       nestfilePath: nil,
+                                                      misePath: nil,
                                                       podsPath: URL(fileURLWithPath: "Pods", relativeTo: configBasePath),
                                                       packagePaths: [URL(fileURLWithPath: "Package.swift", relativeTo: configBasePath)],
                                                       packageSourcesPath: URL(fileURLWithPath: "./SourcePackages", isDirectory: true, relativeTo: configBasePath),

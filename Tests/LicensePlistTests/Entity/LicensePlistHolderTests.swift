@@ -113,6 +113,7 @@ extension Options {
             cartfilePath: .init(fileURLWithPath: ""),
             mintfilePath: .init(fileURLWithPath: ""),
             nestfilePath: .init(fileURLWithPath: ""),
+            misePath: .init(fileURLWithPath: ""),
             podsPath: .init(fileURLWithPath: ""),
             packagePaths: [],
             packageSourcesPath: nil,

@@ -26,7 +26,9 @@ let package = Package(
         .package(url: "https://github.com/tomlokhorst/XcodeEdit.git",
                  from: "2.9.0"),
         .package(url: "https://github.com/jpsim/Yams.git",
-                 from: "6.0.2")
+                 from: "6.0.2"),
+        .package(url: "https://github.com/LebJe/TOMLKit.git",
+                 from: "0.6.0")
     ],
     targets: [
         .executableTarget(
@@ -44,7 +46,8 @@ let package = Package(
                 "APIKit",
                 "HeliumLogger",
                 .product(name: "HTMLEntities", package: "swift-html-entities"),
-                .product(name: "Yams", package: "Yams")
+                .product(name: "Yams", package: "Yams"),
+                .product(name: "TOMLKit", package: "TOMLKit")
             ]
         ),
         .testTarget(

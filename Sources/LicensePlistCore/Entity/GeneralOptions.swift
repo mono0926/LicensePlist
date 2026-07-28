@@ -7,6 +7,7 @@ public struct GeneralOptions: Sendable {
   public let cartfilePath: URL?
   public let mintfilePath: URL?
   public let nestfilePath: URL?
+  public let misePath: URL?
   public let podsPath: URL?
   public let packagePaths: [URL]?
   public let packageSourcesPath: URL?
@@ -31,6 +32,7 @@ public struct GeneralOptions: Sendable {
     cartfilePath: nil,
     mintfilePath: nil,
     nestfilePath: nil,
+    misePath: nil,
     podsPath: nil,
     packagePaths: nil,
     packageSourcesPath: nil,
@@ -55,6 +57,7 @@ public struct GeneralOptions: Sendable {
     cartfilePath: URL?,
     mintfilePath: URL?,
     nestfilePath: URL?,
+    misePath: URL?,
     podsPath: URL?,
     packagePaths: [URL]?,
     packageSourcesPath: URL?,
@@ -78,6 +81,7 @@ public struct GeneralOptions: Sendable {
     self.cartfilePath = cartfilePath
     self.mintfilePath = mintfilePath
     self.nestfilePath = nestfilePath
+    self.misePath = misePath
     self.podsPath = podsPath
     self.packagePaths = packagePaths
     self.packageSourcesPath = packageSourcesPath
@@ -103,6 +107,7 @@ extension GeneralOptions {
   public static func == (lhs: GeneralOptions, rhs: GeneralOptions) -> Bool {
     return lhs.outputPath == rhs.outputPath && lhs.cartfilePath == rhs.cartfilePath
       && lhs.mintfilePath == rhs.mintfilePath && lhs.nestfilePath == rhs.nestfilePath
+      && lhs.misePath == rhs.misePath
       && lhs.podsPath == rhs.podsPath && lhs.packagePaths == rhs.packagePaths
       && lhs.packageSourcesPath == rhs.packageSourcesPath && lhs.xcworkspacePath == rhs.xcworkspacePath
       && lhs.xcodeprojPath == rhs.xcodeprojPath && lhs.prefix == rhs.prefix
@@ -122,6 +127,7 @@ extension GeneralOptions {
       cartfilePath: raw["cartfilePath"]?.string.asPathURL(in: configBasePath),
       mintfilePath: raw["mintfilePath"]?.string.asPathURL(in: configBasePath),
       nestfilePath: raw["nestfilePath"]?.string.asPathURL(in: configBasePath),
+      misePath: raw["misePath"]?.string.asPathURL(in: configBasePath),
       podsPath: raw["podsPath"]?.string.asPathURL(in: configBasePath),
       packagePaths: raw["packagePaths"]?.sequence?.compactMap {
         $0.string.asPathURL(in: configBasePath)
