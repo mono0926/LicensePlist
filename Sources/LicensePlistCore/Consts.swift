@@ -14,7 +14,7 @@ public struct Consts {
   public static let prefix = "com.mono0926.LicensePlist"
   public static let outputPath = "\(prefix).Output"
   public static let configPath = "license_plist.yml"
-  public static let version = "3.27.9"
+  public static let version = "3.28.0"
   public static let encoding = String.Encoding.utf8
   public static let licenseFileNames = ["LICENSE", "LICENSE.*"]
 }
