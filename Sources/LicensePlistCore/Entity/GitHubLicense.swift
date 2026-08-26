@@ -82,7 +82,9 @@ extension GitHubLicense {
       let name = library.name
       Log.info("license reading from disk start(owner: \(owner), name: \(name))")
 
-      let libraryUrl = checkoutPath.appendingPathComponent(name)
+      let libraryUrl = checkoutPath
+        .appendingPathComponent(name)
+        .resolvingSymlinksInPath()
       let libraryFileUrls = libraryUrl.lp.listDir().filter { !$0.lp.isDirectory }
 
       // Check several variants of license file name

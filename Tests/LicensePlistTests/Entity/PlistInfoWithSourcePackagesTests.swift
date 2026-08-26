@@ -19,6 +19,37 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
         XCTAssertNil(license?.githubResponse)
     }
 
+    func testReadLicenseFromSymlinkedCheckout() throws {
+        let fileManager = FileManager.default
+        let temporaryDirectory = fileManager.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let sourceDirectory = temporaryDirectory.appendingPathComponent("source", isDirectory: true)
+        let checkoutDirectory = temporaryDirectory
+            .appendingPathComponent("checkouts", isDirectory: true)
+        let sourcePackageDirectory = sourceDirectory.appendingPathComponent("R.swift", isDirectory: true)
+        let checkoutPackageDirectory = checkoutDirectory
+            .appendingPathComponent("R.swift", isDirectory: true)
+
+        defer {
+            try? fileManager.removeItem(at: temporaryDirectory)
+        }
+
+        try fileManager.createDirectory(at: sourcePackageDirectory, withIntermediateDirectories: true)
+        try "license text".write(
+            to: sourcePackageDirectory.appendingPathComponent("LICENSE"),
+            atomically: true,
+            encoding: .utf8
+        )
+        try fileManager.createDirectory(at: checkoutDirectory, withIntermediateDirectories: true)
+        try fileManager.createSymbolicLink(at: checkoutPackageDirectory, withDestinationURL: sourcePackageDirectory)
+
+        var target = plistInfo(sourcePackagesPath: temporaryDirectory)
+        target.loadGitHubLicenses()
+
+        let license = try XCTUnwrap(target.githubLicenses?.first)
+        XCTAssertEqual(license.body, "license text")
+    }
+
     func testReadLicenseMDFromDisk() throws {
         var target = plistInfo(licenseFileNames: ["LICENSE.md"])
 
@@ -38,7 +69,12 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
     }
 
     func testReadMissedLicenseFromDisk() throws {
-        var target = PlistInfo(options: options(licenseFileNames: ["Not-a-license"]))
+        var target = PlistInfo(
+            options: options(
+                licenseFileNames: ["Not-a-license"],
+                sourcePackagesPath: sourcePackagesPath
+            )
+        )
         target.githubLibraries = [github]
 
         target.loadGitHubLicenses()
@@ -49,13 +85,21 @@ final class PlistInfoWithSourcePackagesTests: XCTestCase {
 
     // MARK: Helpers
 
-    private func plistInfo(licenseFileNames: [String] = ["LICENSE"]) -> PlistInfo {
-        var target = PlistInfo(options: options(licenseFileNames: licenseFileNames))
+    private func plistInfo(
+        licenseFileNames: [String] = ["LICENSE"],
+        sourcePackagesPath: URL? = nil
+    ) -> PlistInfo {
+        var target = PlistInfo(
+            options: options(
+                licenseFileNames: licenseFileNames,
+                sourcePackagesPath: sourcePackagesPath ?? self.sourcePackagesPath
+            )
+        )
         target.githubLibraries = [github]
         return target
     }
 
-    private func options(licenseFileNames: [String]) -> Options {
+    private func options(licenseFileNames: [String], sourcePackagesPath: URL) -> Options {
         return Options(outputPath: URL(fileURLWithPath: "test_result_dir"),
                        cartfilePath: URL(fileURLWithPath: "test_result_dir"),
                        mintfilePath: URL(fileURLWithPath: "test_result_dir"),
