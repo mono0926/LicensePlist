@@ -82,7 +82,7 @@ public struct Config: Sendable {
   func excluded(github: GitHub) -> Bool {
     for exclude in excludes {
       if matches(testString: github.name, matchString: exclude.name)
-        && matches(testString: github.owner, matchString: exclude.owner)
+        && matches(testString: github.owner, matchString: exclude.owner, caseInsensitive: true)
         && matches(testString: github.source, matchString: exclude.source)
         && matches(testString: github.licenseType.rawValue, matchString: exclude.licenseType)
       {
@@ -124,9 +124,14 @@ public struct Config: Sendable {
     return false
   }
 
-  private func matches(testString: String?, matchString: String?) -> Bool {
+  private func matches(testString: String?, matchString: String?, caseInsensitive: Bool = false) -> Bool {
     // If it's an exact match, short-circuit
     if testString == matchString {
+      return true
+    }
+    if caseInsensitive, let testString, let matchString,
+      testString.caseInsensitiveCompare(matchString) == .orderedSame
+    {
       return true
     }
 
@@ -142,7 +147,7 @@ public struct Config: Sendable {
 
     // If it wasn't an exact match, then try regular expression.
     guard let pattern = type(of: self).extractRegex(matchString),
-      let regex = try? NSRegularExpression(pattern: pattern, options: [])
+      let regex = try? NSRegularExpression(pattern: pattern, options: caseInsensitive ? [.caseInsensitive] : [])
     else {
       return false
     }
