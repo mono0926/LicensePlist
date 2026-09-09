@@ -23,9 +23,9 @@ struct LicensePlist: ParsableCommand {
     static let configuration = CommandConfiguration(version: Consts.version,
                                                     subcommands: [AddAcknowledgementsCopyScript.self])
 
-    @Option(name: .long, completion: .directory)
+    @Option(name: .long, help: "Root directory path used as the base for relative paths.", completion: .directory)
     var rootPath: String?
-    
+
     @Option(name: .long, completion: .file())
     var cartfilePath: String?
 
@@ -118,8 +118,8 @@ struct LicensePlist: ParsableCommand {
         let nestfilePath = nestfilePath.asPathURL(other: config.options.nestfilePath, default: Consts.nestfileName, relativeTo: rootPath)
         let misePath = misePath.asPathURL(other: config.options.misePath, default: Consts.misefileName, relativeTo: rootPath)
         let podsPath = podsPath.asPathURL(other: config.options.podsPath, default: Consts.podsDirectoryName, relativeTo: rootPath)
-        let configPackagePaths = config.options.packagePaths ?? [URL(fileURLWithPath: Consts.packageName)]
-        let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths.map { URL(fileURLWithPath: $0) }
+        let configPackagePaths = config.options.packagePaths ?? [URL(fileURLWithPath: Consts.packageName, relativeTo: rootPath)]
+        let packagePaths = packagePaths.isEmpty ? configPackagePaths : packagePaths.map { URL(fileURLWithPath: $0, relativeTo: rootPath) }
         let packageSourcesPath = packageSourcesPath.asPathURL(other: config.options.packageSourcesPath, isDirectory: true, relativeTo: rootPath)
         let xcworkspacePath = xcworkspacePath.asPathURL(other: config.options.xcworkspacePath, default: Consts.xcworkspacePath, relativeTo: rootPath)
         let xcodeprojPath = xcodeprojPath.asPathURL(other: config.options.xcodeprojPath, default: Consts.xcodeprojPath, relativeTo: rootPath)
@@ -131,8 +131,7 @@ struct LicensePlist: ParsableCommand {
         let csvPath = csvPath.asPathURL(other: config.options.csvPath, relativeTo: rootPath)
         let configLicenseFileNames = config.options.licenseFileNames ?? Consts.licenseFileNames
         let licenseFileNames = licenseFileNames.isEmpty ? configLicenseFileNames : licenseFileNames
-        let options = Options(rootPath: rootPath,
-                              outputPath: outputPath,
+        let options = Options(outputPath: outputPath,
                               cartfilePath: cartfilePath,
                               mintfilePath: mintfilePath,
                               nestfilePath: nestfilePath,

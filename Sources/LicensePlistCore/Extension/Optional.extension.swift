@@ -7,7 +7,7 @@ public extension Optional where Wrapped == String {
         }
         return nil
     }
-    
+
     func asPathURL(in relativeURL: URL?, isDirectory: Bool = false) -> URL? {
         return map { URL(fileURLWithPath: $0, isDirectory: isDirectory, relativeTo: relativeURL) }
     }

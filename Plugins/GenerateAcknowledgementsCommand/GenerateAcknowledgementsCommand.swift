@@ -24,6 +24,7 @@ extension GenerateAcknowledgementsCommand: XcodeCommandPlugin {
     
     private func arguments(context: XcodePluginContext, externalArgs: [String]) -> [String] {
         var arguments = ["--sandbox-mode"]
+        arguments += ["--root-path", context.xcodeProject.directoryURL.path]
         arguments += ["--package-sources-path", packageSourcesPath(context: context)]
         arguments += externalArgs.removing(arguments: ["--target", "--swift-package-sources-path", "--package-sources-path"])
         return arguments
