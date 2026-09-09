@@ -204,7 +204,7 @@ class SwiftPackageManagerTests: XCTestCase {
     let packages = SwiftPackage.loadPackages(content)
 
     XCTAssertFalse(packages.isEmpty)
-    XCTAssertEqual(packages.count, 11)
+    XCTAssertEqual(packages.count, 12)
 
     let packageFirst = try XCTUnwrap(packages.first)
     XCTAssertEqual(
