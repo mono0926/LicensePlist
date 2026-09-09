@@ -131,6 +131,17 @@ class ConfigTests: XCTestCase {
         XCTAssertFalse(target.excluded(github: github3))
     }
 
+    func testExcluded_dict_owner_isCaseInsensitive() {
+        let yaml = """
+            exclude:
+              - owner: MyCompany
+            """
+        let target = Config(yaml: yaml, configBasePath: URL(fileURLWithPath: ""))
+        let github = GitHub(name: "library", nameSpecified: nil, owner: "mycompany", version: nil)
+
+        XCTAssertTrue(target.excluded(github: github))
+    }
+
     func testExcluded_dict_owner_regex() {
         let github1 = GitHub(name: "lib1", nameSpecified: nil, owner: "mono0926", version: nil)
         let github2 = GitHub(name: "lib2", nameSpecified: nil, owner: "mono9999", version: nil)

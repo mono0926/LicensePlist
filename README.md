@@ -473,6 +473,8 @@ exclude:
   - owner: mycompany
 ```
 
+Owner matching is case insensitive, so `MyCompany` also matches an owner reported as `mycompany`.
+
 Exclude packages from a specific github owner containing matching licenses:
 
 ```yml
