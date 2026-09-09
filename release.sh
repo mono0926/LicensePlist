@@ -9,10 +9,14 @@ fi
 
 lib_name="license-plist"
 tag=$1
-# Token is optional now, will use GITHUB_TOKEN env var if present, or fallback to gh auth
+# Token is optional: uses 2nd arg, GITHUB_TOKEN env var, or falls back to gh auth token
 token=${2:-""}
 if [ -n "$token" ]; then
     export GITHUB_TOKEN=$token
+elif [ -z "${GITHUB_TOKEN:-}" ]; then
+    if command -v gh >/dev/null 2>&1; then
+        export GITHUB_TOKEN=$(env -u GITHUB_TOKEN -u GH_TOKEN gh auth token 2>/dev/null || true)
+    fi
 fi
 
 echo "Tag: '${tag}'"
