@@ -93,6 +93,11 @@ Settings.bundle
 
 You can see options by `license-plist --help`.
 
+#### `--root-path`
+
+- Default: None (resolves relative to the current working directory)
+- Root directory path used as the base for relative paths. Useful when running from plugins or arbitrary working directories.
+
 #### `--cartfile-path`
 
 - Default: `Cartfile`
