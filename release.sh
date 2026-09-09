@@ -79,7 +79,7 @@ gh release create "$tag" \
     "$portable_zip_name" \
     --repo mono0926/LicensePlist \
     --title "$tag" \
-    --notes "Release $tag"
+    --generate-notes
 
 # Now that release is created, update working directory Package.swift so IDE resolves successfully
 mv Package.swift.release Package.swift

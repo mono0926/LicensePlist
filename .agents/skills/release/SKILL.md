@@ -121,7 +121,7 @@ Run `./release.sh` with the release version:
 6. Creates and pushes git tag `<x.y.z>`
 7. Computes release archive checksum
 8. Updates Homebrew formula in `mono0926/homebrew-license-plist` via GitHub API
-9. Creates GitHub Release (`gh release create`) attaching:
+9. Creates GitHub Release (`gh release create ... --generate-notes`) automatically generating notes (What's Changed, Contributors, Full Changelog) and attaching:
    - `license-plist.zip`
    - `LicensePlistBinary-macos.artifactbundle.zip`
    - `portable_licenseplist.zip`
@@ -174,3 +174,9 @@ If `gh api` fails when updating `homebrew-license-plist`:
    ```
 2. Verify repo access permissions to `mono0926/homebrew-license-plist`.
 3. If necessary, manually trigger the Homebrew formula update section from `release.sh`.
+
+### D. Regenerating Release Notes
+If release notes need to be re-generated or updated after the release has been published:
+```bash
+env -u GITHUB_TOKEN -u GH_TOKEN gh release edit "<x.y.z>" --generate-notes
+```
