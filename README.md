@@ -303,6 +303,11 @@ options:
 
 _Note: `outputPath` and `packageSourcesPath` config parameters are ignored by the build tool plugin._
 
+If package sources are not in the derived data directory (e.g. `xcodebuild -clonedSourcePackagesDirPath`), set their path with the `LICENSE_PLIST_PACKAGE_SOURCES_PATH` environment variable. A relative path is resolved against the project directory.
+```sh
+LICENSE_PLIST_PACKAGE_SOURCES_PATH=/path/to/SourcePackages xcodebuild -clonedSourcePackagesDirPath /path/to/SourcePackages ...
+```
+
 See the [configuration](#configuration) section for more information.
 
 If you need to put license files to `Settings.bundle` or any other specific place add the following script to build phases:
