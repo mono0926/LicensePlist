@@ -156,7 +156,7 @@ class PlistInfoTests: XCTestCase {
 
       add-version-numbers: false
 
-      LicensePlist Version: 3.28.2
+      LicensePlist Version: 3.28.3
       """
 
     XCTAssertNil(target.licenses)
