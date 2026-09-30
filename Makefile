@@ -32,7 +32,8 @@ install: build
 
 portable_zip: build_portable
 	mkdir -p "$(TEMPORARY_FOLDER)"
-	cp -f ".build/apple/Products/Release/license-plist" "$(TEMPORARY_FOLDER)/license-plist"
+	bin_path=$$(test -f ".build/apple/Products/Release/license-plist" && echo ".build/apple/Products/Release/license-plist" || echo ".build/release/license-plist"); \
+	cp -f "$$bin_path" "$(TEMPORARY_FOLDER)/license-plist"
 	cp -f "LICENSE" "$(TEMPORARY_FOLDER)"
 	(cd $(TEMPORARY_FOLDER); zip -r - LICENSE license-plist) > "./portable_licenseplist.zip"
 	rm -r "$(TEMPORARY_FOLDER)"
@@ -40,6 +41,7 @@ portable_zip: build_portable
 spm_artifactbundle_macos: build_portable
 	mkdir -p "$(ARTIFACT_BUNDLE_PATH)/license-plist-$(VERSION_STRING)-macos/bin"
 	sed 's/__VERSION__/$(VERSION_STRING)/g' Tools/info-macos.json.template > "$(ARTIFACT_BUNDLE_PATH)/info.json"
-	cp -f ".build/apple/Products/Release/license-plist" "$(ARTIFACT_BUNDLE_PATH)/license-plist-$(VERSION_STRING)-macos/bin"
+	bin_path=$$(test -f ".build/apple/Products/Release/license-plist" && echo ".build/apple/Products/Release/license-plist" || echo ".build/release/license-plist"); \
+	cp -f "$$bin_path" "$(ARTIFACT_BUNDLE_PATH)/license-plist-$(VERSION_STRING)-macos/bin"
 	cp -f "$(LICENSE_PATH)" "$(ARTIFACT_BUNDLE_PATH)"
 	(cd "$(TEMPORARY_FOLDER)"; zip -yr - "LicensePlistBinary.artifactbundle") > "./LicensePlistBinary-macos.artifactbundle.zip"
