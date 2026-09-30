@@ -36,7 +36,9 @@ enum PluginPathResolution {
     ///   {DerivedData}/xxx/SourcePackages/plugins/MyApp.output/MyApp/LicensePlistBuildTool/
     /// New Xcode path (6 levels above pluginWorkDir + append):
     ///   {DerivedData}/xxx/Build/Intermediates.noindex/BuildToolPluginIntermediates/MyApp.output/MyApp/LicensePlistBuildTool/
-    static func buildToolPlugin(pluginWorkDirectoryURL: URL) -> URL {
+    static func buildToolPlugin(pluginWorkDirectoryURL: URL,
+                                projectDirectoryURL: URL = URL(fileURLWithPath: "/"),
+                                environment: [String: String] = [:]) -> URL {
         var packageSourcesPath = pluginWorkDirectoryURL
             .deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -48,6 +50,12 @@ enum PluginPathResolution {
                 .deletingLastPathComponent()
                 .deletingLastPathComponent()
                 .appendingPathComponent("SourcePackages")
+        }
+
+        if let path = environment["LICENSE_PLIST_PACKAGE_SOURCES_PATH"], !path.isEmpty {
+            packageSourcesPath = path.hasPrefix("/")
+                ? URL(fileURLWithPath: path)
+                : projectDirectoryURL.appending(path: path)
         }
 
         return packageSourcesPath
@@ -101,6 +109,35 @@ final class PluginPathResolutionTests: XCTestCase {
         let pluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/Build/Intermediates.noindex/BuildToolPluginIntermediates/MyApp.output/MyApp/LicensePlistBuildTool")
 
         let resolved = PluginPathResolution.buildToolPlugin(pluginWorkDirectoryURL: pluginWorkDir)
+
+        XCTAssertEqual(resolved.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages")
+    }
+
+    // MARK: - LicensePlistBuildTool LICENSE_PLIST_PACKAGE_SOURCES_PATH
+
+    private let newXcodeBuildToolPluginWorkDir = URL(fileURLWithPath: "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/Build/Intermediates.noindex/BuildToolPluginIntermediates/MyApp.output/MyApp/LicensePlistBuildTool")
+    private let projectDir = URL(fileURLWithPath: "/Users/user/MyApp")
+
+    func testBuildToolPlugin_absoluteEnvironmentPath() {
+        let resolved = PluginPathResolution.buildToolPlugin(pluginWorkDirectoryURL: newXcodeBuildToolPluginWorkDir,
+                                                            projectDirectoryURL: projectDir,
+                                                            environment: ["LICENSE_PLIST_PACKAGE_SOURCES_PATH": "/tmp/ci/SourcePackages/"])
+
+        XCTAssertEqual(resolved.path, "/tmp/ci/SourcePackages")
+    }
+
+    func testBuildToolPlugin_relativeEnvironmentPath() {
+        let resolved = PluginPathResolution.buildToolPlugin(pluginWorkDirectoryURL: newXcodeBuildToolPluginWorkDir,
+                                                            projectDirectoryURL: projectDir,
+                                                            environment: ["LICENSE_PLIST_PACKAGE_SOURCES_PATH": "SourcePackages"])
+
+        XCTAssertEqual(resolved.path, "/Users/user/MyApp/SourcePackages")
+    }
+
+    func testBuildToolPlugin_emptyEnvironmentPath() {
+        let resolved = PluginPathResolution.buildToolPlugin(pluginWorkDirectoryURL: newXcodeBuildToolPluginWorkDir,
+                                                            projectDirectoryURL: projectDir,
+                                                            environment: ["LICENSE_PLIST_PACKAGE_SOURCES_PATH": ""])
 
         XCTAssertEqual(resolved.path, "/Users/user/Library/Developer/Xcode/DerivedData/MyApp-abc/SourcePackages")
     }

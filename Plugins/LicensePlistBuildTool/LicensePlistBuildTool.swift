@@ -45,6 +45,17 @@ extension LicensePlistBuildTool: XcodeBuildToolPlugin {
                 .appendingPathComponent("SourcePackages")
         }
 
+        // Allows overriding the path, e.g. when using `xcodebuild -clonedSourcePackagesDirPath`.
+        if let path = ProcessInfo.processInfo.environment["LICENSE_PLIST_PACKAGE_SOURCES_PATH"], !path.isEmpty {
+            packageSourcesPath = path.hasPrefix("/")
+                ? URL(fileURLWithPath: path)
+                : context.xcodeProject.directoryURL.appending(path: path)
+        }
+
+        if !fileManager.fileExists(atPath: packageSourcesPath.path) {
+            Diagnostics.warning("SourcePackages directory not found at '\(packageSourcesPath.path)'. Set LICENSE_PLIST_PACKAGE_SOURCES_PATH to specify it.")
+        }
+
         // Output directory inside build output directory
         let outputDirectoryPath = context.pluginWorkDirectoryURL.appending(component: "com.mono0926.LicensePlist.Output")
         try fileManager.createDirectory(atPath: outputDirectoryPath.path, withIntermediateDirectories: true)
